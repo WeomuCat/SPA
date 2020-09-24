@@ -14,7 +14,7 @@ import sys
 AUTOTESTER_DIRECTORIES = [".", "../Code01/Debug"]
 AUTOTESTER_FILE_NAME = "AutoTester.exe"
 OUTPUT_DIRECTORY = "./RunTestsOutput"
-PUBLISH_OUTPUT_DIRECTORY = os.path.join(OUTPUT_DIRECTORY, "Tests01")
+PUBLISH_OUTPUT_DIRECTORY = os.path.join(OUTPUT_DIRECTORY, "Publish")
 
 QUERIES_EXTENSION = "qry"
 SOURCE_EXTENSION = "src"
@@ -583,7 +583,7 @@ def publish():
         with open(output_qry_full_path, "w") as q:
             q.write("\n".join(qry_lines))
 
-    printinfo("All tests published! :) Please check '{}' directory for all AutoTester outputs!".format(os.path.relpath(PUBLISH_OUTPUT_DIRECTORY)))
+    printinfo("All tests published! :) Please check '{}' directory for all published files!".format(os.path.relpath(PUBLISH_OUTPUT_DIRECTORY)))
 
 # Tests all .src files using AutoTester
 def run():
