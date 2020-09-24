@@ -50,9 +50,10 @@ NODE_PROCEDURE = 1
 NODE_STATEMENT_LIST = 2
 NODE_STATEMENT_READ = 3
 NODE_STATEMENT_PRINT = 4
-NODE_STATEMENT_WHILE = 5
-NODE_STATEMENT_IF = 6
-NODE_STATEMENT_ASSIGN = 7
+NODE_STATEMENT_CALL = 5
+NODE_STATEMENT_WHILE = 6
+NODE_STATEMENT_IF = 7
+NODE_STATEMENT_ASSIGN = 8
 
 TOKENS_PATTERN = {
     "[A-Za-z][A-Za-z\d]*": TOKEN_NAME,
@@ -205,13 +206,21 @@ def lookahead(function, tokens):
     tokens.extend(tokens_copy)
     return o
 
+# program: procedure+
 def parse_program(tokens):
     children = []
-    children.append(not_none(parse_procedure(tokens), "Expected 'PROCEDURE'!"))
+    while True:
+        c = parse_procedure(tokens)
+        if c is None:
+            break
+        children.append(c)
+    if len(children) < 1:
+        raise Exception("Expected 'PROCEDURE'!")
     if not tokens[0][0] == TOKEN_EOF:
         raise Exception("Expected 'EOF' after 'PROCEDURE'!")
     return (NODE_PROGRAM, children)
 
+# procedure: `procedure` proc_name `{` stmtLst `}`
 def parse_procedure(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "procedure"):
         return None
@@ -228,6 +237,7 @@ def parse_procedure(tokens):
         raise Exception("Expected '}}' after 'procedure {} {{ STATEMENT_LIST'!".format(children[0]))
     return (NODE_PROCEDURE, children)
 
+# stmtLst: stmt+
 def parse_statement_list(tokens):
     children = []
     while True:
@@ -239,13 +249,15 @@ def parse_statement_list(tokens):
         return None
     return (NODE_STATEMENT_LIST, children)
 
+# stmt: read | print | call | while | if | assign
 def parse_statement(tokens):
-    for f in [parse_assign, parse_read, parse_print, parse_while, parse_if]:
+    for f in [parse_assign, parse_read, parse_print, parse_call, parse_while, parse_if]:
         o = f(tokens)
         if not o is None:
             return o
     return None
 
+# read: `read` var_name `;`
 def parse_read(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "read"):
         return None
@@ -259,6 +271,7 @@ def parse_read(tokens):
         raise Exception("Expected ';' after 'read {}'!".format(children[0]))
     return (NODE_STATEMENT_READ, children)
 
+# print: `print` var_name `;`
 def parse_print(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "print"):
         return None
@@ -272,6 +285,21 @@ def parse_print(tokens):
         raise Exception("Expected ';' after 'print {}'!".format(children[0]))
     return (NODE_STATEMENT_PRINT, children)
 
+# call: `call` proc_name `;`
+def parse_call(tokens):
+    if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "call"):
+        return None
+    children = []
+    tokens.popleft()
+    token = tokens.popleft()
+    if not token[0] == TOKEN_NAME:
+        raise Exception("Expected 'NAME' after 'call'!")
+    children.append(token[1])
+    if not tokens.popleft()[0] == TOKEN_SEMICOLON:
+        raise Exception("Expected ';' after 'call {}'!".format(children[0]))
+    return (NODE_STATEMENT_CALL, children)
+
+# while: `while` `(` cond_expr `)` `{` stmtLst `}`
 def parse_while(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "while"):
         return None
@@ -289,6 +317,7 @@ def parse_while(tokens):
         raise Exception("Expected '}}' after 'while ({}) {{ STATEMENT_LIST'!".format(children[0]))
     return (NODE_STATEMENT_WHILE, children)
 
+# if: `if` `(` cond_expr `)` `then` `{` stmtLst `}` `else` `{` stmtLst `}`
 def parse_if(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "if"):
         return None
@@ -317,6 +346,7 @@ def parse_if(tokens):
         raise Exception("Expected '}}' after 'if ({}) then {{ STATEMENT_LIST }} else {{ STATEMENT_LIST'!".format(children[0]))
     return (NODE_STATEMENT_IF, children)
 
+# assign: var_name `=` expr `;`
 def parse_assign(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[1][0] == TOKEN_EQUALS):
         return None
@@ -328,6 +358,7 @@ def parse_assign(tokens):
         raise Exception("Expected ';' after '{} = {}'!".format(children[0], children[1]))
     return (NODE_STATEMENT_ASSIGN, children)
 
+# cond_expr: rel_expr | `!` `(` cond_expr `)` | `(` cond_expr `)` `&&` `(` cond_expr `)` | `(` cond_expr `)` `||` `(` cond_expr `)`
 def parse_cond_expr(tokens):
     o = lookahead(parse_rel_expr, tokens)
     if not o is None:
@@ -368,6 +399,7 @@ def parse_cond_expr(tokens):
         o += token[1]
         return o
 
+# rel_expr: rel_factor `>` rel_factor | rel_factor `>=` rel_factor | rel_factor `<` rel_factor | rel_factor `<=` rel_factor | rel_factor `==` rel_factor | rel_factor `!=` rel_factor
 def parse_rel_expr(tokens):
     o = parse_rel_factor(tokens)
     if o is None:
@@ -378,6 +410,7 @@ def parse_rel_expr(tokens):
     o += not_none(parse_rel_factor(tokens), "Expected 'REL_FACTOR' after '{}'!".format(o))
     return o
 
+# rel_factor: var_name | const_value | expr
 def parse_rel_factor(tokens):
     o = parse_expr(tokens)
     if not o is None:
@@ -386,6 +419,7 @@ def parse_rel_factor(tokens):
         return tokens.popleft()[1]
     return None
 
+# expr: expr `+` term | expr `-` term | term
 def parse_expr(tokens):
     o = parse_term(tokens)
     if o is None:
@@ -396,6 +430,7 @@ def parse_expr(tokens):
     o += parse_expr(tokens)
     return o
 
+# term: term `*` factor | term `/` factor | term `%` factor | factor
 def parse_term(tokens):
     o = parse_factor(tokens)
     if o is None:
@@ -406,6 +441,7 @@ def parse_term(tokens):
     o += parse_term(tokens)
     return o
 
+# factor: var_name | const_value | `(` expr `)`
 def parse_factor(tokens):
     if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER:
         return tokens.popleft()[1]
@@ -450,7 +486,7 @@ def check():
 
         printinfo("Valid grammar :)")
 
-    printinfo("All done! :)")
+    printinfo("All checking done! :)")
 
 # Generate .lab files from existing .src files
 def label():
@@ -490,14 +526,14 @@ def label():
             indent = LABEL_INDENTATION * i
             if b:
                 n += 1
-                lines.append("{:03d} {}{}\n".format(n, indent, v))
+                lines.append("{:03d} {}{}".format(n, indent, v))
             else:
-                lines.append("--- {}{}\n".format(indent, v))
+                lines.append("--- {}{}".format(indent, v))
 
-        with open(label_full_path, "w") as f:
-            f.writelines(lines)
+        with open(label_full_path, "w") as l:
+            l.write("\n".join(lines) + "\n")
 
-    printinfo("All done! :)")
+    printinfo("All labelling done! :)")
 
 def label_statements(statement_list, indent):
     result = []
@@ -507,6 +543,9 @@ def label_statements(statement_list, indent):
             result.append((True, indent, v))
         elif s[0] == NODE_STATEMENT_PRINT:
             v = "print {};".format(s[1][0])
+            result.append((True, indent, v))
+        elif s[0] == NODE_STATEMENT_CALL:
+            v = "call {};".format(s[1][0])
             result.append((True, indent, v))
         elif s[0] == NODE_STATEMENT_WHILE:
             v = "while ({}) {{".format(s[1][0])
@@ -581,7 +620,7 @@ def publish():
             s.write(src_content)
 
         with open(output_qry_full_path, "w") as q:
-            q.write("\n".join(qry_lines))
+            q.write("\n".join(qry_lines) + "\n")
 
     printinfo("All tests published! :) Please check '{}' directory for all published files!".format(os.path.relpath(PUBLISH_OUTPUT_DIRECTORY)))
 
