@@ -189,6 +189,12 @@ def tokenize_source(content):
         if length == len(content):
             raise Exception("Failed to tokenize! :(")
 
+def parse_source(content):
+    tokens = tokenize_source(content)
+    ast = parse_program(tokens)
+    validate_program(ast)
+    return ast
+
 def not_none(n, error):
     if n is None:
         raise Exception(error)
@@ -455,6 +461,13 @@ def parse_factor(tokens):
         return o
     return None
 
+# Two procedures with the same name is considered an error.
+# Call to a non-existing procedure produces an error.
+# Recursive and cyclic calls are not allowed. For example, procedure A calls procedure B, procedure B calls C, and C calls A should not be accepted in a correct SIMPLE code.
+def validate_program(ast):
+    for p in ast[1]:
+        pass
+
 
 
 # Summarize 'coverage' of all .qry and .src files
@@ -479,7 +492,7 @@ def check():
         printinfo("Checking ({}/{}): '{}'".format(index+1, len(source_paths), path))
 
         try:
-            parse_program(tokenize_source(content))
+            ast = parse_source(content)
         except Exception as err:
             printwarn("Invalid grammar!\nError Message: {}".format(err))
             continue
@@ -504,8 +517,7 @@ def label():
             content = f.read()
 
         try:
-            tokens = tokenize_source(content)
-            ast = parse_program(tokens)
+            ast = parse_source(content)
         except:
             continue
 
