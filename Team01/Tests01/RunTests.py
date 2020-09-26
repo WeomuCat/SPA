@@ -739,9 +739,14 @@ def summarize():
 
 
 
-# Ensure python is 3.0.0 or higher
-if not sys.version_info.major >= 3:
-    printerr("Please run this script with python 3.0.0 or higher!")
+### Main
+
+# Fixes colors not showing on cmd
+os.system("color")
+
+# Ensure python is 3.5.0 or higher
+if not (sys.version_info.major >= 3 and sys.version_info.minor >= 5):
+    printerr("Please run this script with python 3.5.0 or higher!")
 
 # Parse command arguments
 parser = argparse.ArgumentParser()
