@@ -470,10 +470,6 @@ def validate_program(ast):
 
 
 
-# Summarize 'coverage' of all .qry and .src files
-def analyse():
-    printerr("This function is not implemented yet :)")
-
 # Check that all .src files contain valid grammar
 def check():
     source_paths = get_source_paths()
@@ -677,6 +673,10 @@ def run():
 
     printinfo("All tests done! :) Please check '{}' directory for all AutoTester outputs!".format(os.path.relpath(OUTPUT_DIRECTORY)))
 
+# Summarize 'coverage' of all .qry and .src files
+def summarize():
+    printerr("This function is not implemented yet :)")
+
 
 
 # Ensure python is 3.0.0 or higher
@@ -685,17 +685,17 @@ if not sys.version_info.major >= 3:
 
 # Parse command arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("-a", "--analyse", action="store_true", help="Summarize 'coverage' of all .qry and .src files")
 parser.add_argument("-c", "--check", action="store_true", help="Check that all .src files contain valid grammar")
 parser.add_argument("-l", "--label", action="store_true", help="Generate .lab files from existing .src files")
 parser.add_argument("-p", "--publish", action="store_true", help="Creates compiled system test files for submission!")
 parser.add_argument("-r", "--run", action="store_true", help="Tests all .src files using AutoTester")
+parser.add_argument("-s", "--summarize", action="store_true", help="Summarize 'coverage' of all .qry and .src files")
 parser.add_argument("tests_dir_path", help="Path of directory containing tests")
 parser.add_argument("-d", "--depth", type=int, default=-1, help="Maximum folder depth of source files to include.")
 args = parser.parse_args()
 
 # If no options are selected, run by default
-if not (args.analyse or args.check or args.label or args.publish or args.run):
+if not (args.check or args.label or args.publish or args.run or args.summarize):
     args.run = True
 
 # Check tests_path
@@ -714,9 +714,6 @@ if not os.path.isdir(OUTPUT_DIRECTORY):
     printerr("{} is not a directory! Please delete it.".format(OUTPUT_DIRECTORY))
 
 # Run options
-if args.analyse:
-    analyse()
-
 if args.check:
     check()
 
@@ -728,3 +725,6 @@ if args.publish:
 
 if args.run:
     run()
+
+if args.summarize:
+    summarize()
