@@ -483,9 +483,7 @@ def validate_program(ast):
         path[p_name] = 0
         node = (p_name, path)
         data = (procedure_calls, visited)
-        cycle = validate_program_cycle(node, data)
-        if not cycle == None:
-            raise Exception("A cyclic procedure call was found! {}".format(" -> ".join(cycle)))
+        validate_program_cycle(node, data)
 
     # Constants are sequences of digits. If more than one digit, the first digit cannot be 0
     # TODO: Upgrade parser
@@ -511,22 +509,19 @@ def validate_program_cycle(node, data):
     procedure_calls = data[0]
     visited = data[1]
     if p_name in visited:
-        return None
+        return
     for c_name in procedure_calls[p_name]:
         # Cycle detected in path!
         if c_name in path:
             index = path[c_name]
             cycle = list(path.keys())[index:]
             cycle.append(c_name)
-            return cycle
+            raise Exception("A cyclic procedure call was found! {}".format(" -> ".join(cycle)))
         new_path = collections.OrderedDict(path)
         new_path[c_name] = len(new_path)
         new_node = (c_name, new_path)
-        cycle = validate_program_cycle(new_node, data)
-        if not cycle == None:
-            return cycle
+        validate_program_cycle(new_node, data)
     visited.add(p_name)
-    return None
 
 
 
