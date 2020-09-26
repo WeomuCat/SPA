@@ -461,12 +461,72 @@ def parse_factor(tokens):
         return o
     return None
 
-# Two procedures with the same name is considered an error.
-# Call to a non-existing procedure produces an error.
-# Recursive and cyclic calls are not allowed. For example, procedure A calls procedure B, procedure B calls C, and C calls A should not be accepted in a correct SIMPLE code.
 def validate_program(ast):
-    for p in ast[1]:
-        pass
+    # Two procedures with the same name is considered an error.
+    procedure_calls = {}
+    for procedure in ast[1]:
+        name = procedure[1][0]
+        if name in procedure_calls:
+            raise Exception("There are two procedures with the same name '{}'!".format(name))
+        procedure_calls[name] = set()
+
+    # Call to a non-existing procedure produces an error.
+    for procedure in ast[1]:
+        p_name = procedure[1][0]
+        data = (procedure_calls, p_name)
+        validate_program_calls(procedure[1][1][1], data)
+
+    # Recursive and cyclic calls are not allowed. For example, procedure A calls procedure B, procedure B calls C, and C calls A should not be accepted in a correct SIMPLE code.
+    visited = set()
+    for p_name in procedure_calls.keys():
+        path = collections.OrderedDict()
+        path[p_name] = 0
+        node = (p_name, path)
+        data = (procedure_calls, visited)
+        cycle = validate_program_cycle(node, data)
+        if not cycle == None:
+            raise Exception("A cyclic procedure call was found! {}".format(" -> ".join(cycle)))
+
+    # Constants are sequences of digits. If more than one digit, the first digit cannot be 0
+    # TODO: Upgrade parser
+
+def validate_program_calls(statement_list, data):
+    procedure_calls = data[0]
+    p_name = data[1]
+    for s in statement_list:
+        if s[0] == NODE_STATEMENT_CALL:
+            c_name = s[1][0]
+            if c_name not in procedure_calls:
+                raise Exception("Calling a non-existent procedure '{}'!".format(c_name))
+            procedure_calls[p_name].add(c_name)
+        elif s[0] == NODE_STATEMENT_IF:
+            validate_program_calls(s[1][1][1], data)
+            validate_program_calls(s[1][2][1], data)
+        elif s[0] == NODE_STATEMENT_WHILE:
+            validate_program_calls(s[1][1][1], data)
+
+def validate_program_cycle(node, data):
+    p_name = node[0]
+    path = node[1]
+    procedure_calls = data[0]
+    visited = data[1]
+    if p_name in visited:
+        return None
+    for c_name in procedure_calls[p_name]:
+        # Cycle detected in path!
+        if c_name in path:
+            index = path[c_name]
+            cycle = list(path.keys())[index:]
+            cycle.append(c_name)
+            return cycle
+        new_path = collections.OrderedDict(path)
+        new_path[c_name] = len(new_path)
+        new_node = (c_name, new_path)
+        cycle = validate_program_cycle(new_node, data)
+        if not cycle == None:
+            return cycle
+    visited.add(p_name)
+    return None
 
 
 
