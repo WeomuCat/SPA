@@ -3,7 +3,7 @@ procedure aProc {
     ccc = bbb;
     call bProc;
     call cProc;
-    if ((aaa == bbb) && !(aaa == ccc)) then {
+    if ((aaa == bbb) && (!(aaa == ccc))) then {
         ddd = eee;
         print eee;
         call cProc;
@@ -46,7 +46,7 @@ procedure aProc {
     call bProc;
     while (ddd == eee) {
         ccc = fff;
-        if ((eee >= aaa) && (bbb < ddd))) then {
+        if ((eee >= aaa) && (bbb < ddd)) then {
             hhh = ggg;
             print ggg;
         } else {
@@ -60,12 +60,12 @@ procedure aProc {
 }
 
 procedure bProc {
-    call aProc;
+    call dProc;
     aaa = bbb;
     if (aaa == bbb) then {
         bbb = fff + ccc - ggg;
         read aaa;
-        call aProc;
+        call dProc;
     } else {
         ddd = eee;
         read ggg;
@@ -80,7 +80,7 @@ procedure bProc {
         read fff;
         print aaa;
         call cProc;
-        call aProc;
+        call dProc;
         call cProc;
     }
     read hhh;
@@ -88,14 +88,14 @@ procedure bProc {
 
 procedure cProc {
     aaa = bbb;
-    call bProc;
+    call dProc;
     while (bbb >= eee) {
         while (bbb <= eee) {
             if (aaa == ggg) then {
-                if (aaa != ggg) {
-                    call aProc;
+                if (aaa != ggg) then {
+                    call dProc;
                 } else {
-                    call aProc;
+                    call dProc;
                 }
             } else {
                 while (ddd <= hhh) {
@@ -109,5 +109,11 @@ procedure cProc {
     print ccc;
     read ddd;
     read eee;
-    call aProc;
+    call dProc;
+}
+
+procedure dProc {
+    aaa = bbb + ccc;
+    read ddd;
+    print eee;
 }

@@ -14,7 +14,7 @@ import sys
 AUTOTESTER_DIRECTORIES = [".", "../Code01/Debug"]
 AUTOTESTER_FILE_NAME = "AutoTester.exe"
 OUTPUT_DIRECTORY = "./RunTestsOutput"
-PUBLISH_OUTPUT_DIRECTORY = os.path.join(OUTPUT_DIRECTORY, "Tests01")
+PUBLISH_OUTPUT_DIRECTORY = os.path.join(OUTPUT_DIRECTORY, "Publish")
 
 QUERIES_EXTENSION = "qry"
 SOURCE_EXTENSION = "src"
@@ -50,9 +50,10 @@ NODE_PROCEDURE = 1
 NODE_STATEMENT_LIST = 2
 NODE_STATEMENT_READ = 3
 NODE_STATEMENT_PRINT = 4
-NODE_STATEMENT_WHILE = 5
-NODE_STATEMENT_IF = 6
-NODE_STATEMENT_ASSIGN = 7
+NODE_STATEMENT_CALL = 5
+NODE_STATEMENT_WHILE = 6
+NODE_STATEMENT_IF = 7
+NODE_STATEMENT_ASSIGN = 8
 
 TOKENS_PATTERN = {
     "[A-Za-z][A-Za-z\d]*": TOKEN_NAME,
@@ -188,6 +189,12 @@ def tokenize_source(content):
         if length == len(content):
             raise Exception("Failed to tokenize! :(")
 
+def parse_source(content):
+    tokens = tokenize_source(content)
+    ast = parse_program(tokens)
+    validate_program(ast)
+    return ast
+
 def not_none(n, error):
     if n is None:
         raise Exception(error)
@@ -205,13 +212,21 @@ def lookahead(function, tokens):
     tokens.extend(tokens_copy)
     return o
 
+# program: procedure+
 def parse_program(tokens):
     children = []
-    children.append(not_none(parse_procedure(tokens), "Expected 'PROCEDURE'!"))
+    while True:
+        c = parse_procedure(tokens)
+        if c is None:
+            break
+        children.append(c)
+    if len(children) < 1:
+        raise Exception("Expected 'PROCEDURE'!")
     if not tokens[0][0] == TOKEN_EOF:
         raise Exception("Expected 'EOF' after 'PROCEDURE'!")
     return (NODE_PROGRAM, children)
 
+# procedure: `procedure` proc_name `{` stmtLst `}`
 def parse_procedure(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "procedure"):
         return None
@@ -228,6 +243,7 @@ def parse_procedure(tokens):
         raise Exception("Expected '}}' after 'procedure {} {{ STATEMENT_LIST'!".format(children[0]))
     return (NODE_PROCEDURE, children)
 
+# stmtLst: stmt+
 def parse_statement_list(tokens):
     children = []
     while True:
@@ -239,13 +255,15 @@ def parse_statement_list(tokens):
         return None
     return (NODE_STATEMENT_LIST, children)
 
+# stmt: read | print | call | while | if | assign
 def parse_statement(tokens):
-    for f in [parse_assign, parse_read, parse_print, parse_while, parse_if]:
+    for f in [parse_assign, parse_read, parse_print, parse_call, parse_while, parse_if]:
         o = f(tokens)
         if not o is None:
             return o
     return None
 
+# read: `read` var_name `;`
 def parse_read(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "read"):
         return None
@@ -259,6 +277,7 @@ def parse_read(tokens):
         raise Exception("Expected ';' after 'read {}'!".format(children[0]))
     return (NODE_STATEMENT_READ, children)
 
+# print: `print` var_name `;`
 def parse_print(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "print"):
         return None
@@ -272,6 +291,21 @@ def parse_print(tokens):
         raise Exception("Expected ';' after 'print {}'!".format(children[0]))
     return (NODE_STATEMENT_PRINT, children)
 
+# call: `call` proc_name `;`
+def parse_call(tokens):
+    if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "call"):
+        return None
+    children = []
+    tokens.popleft()
+    token = tokens.popleft()
+    if not token[0] == TOKEN_NAME:
+        raise Exception("Expected 'NAME' after 'call'!")
+    children.append(token[1])
+    if not tokens.popleft()[0] == TOKEN_SEMICOLON:
+        raise Exception("Expected ';' after 'call {}'!".format(children[0]))
+    return (NODE_STATEMENT_CALL, children)
+
+# while: `while` `(` cond_expr `)` `{` stmtLst `}`
 def parse_while(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "while"):
         return None
@@ -289,6 +323,7 @@ def parse_while(tokens):
         raise Exception("Expected '}}' after 'while ({}) {{ STATEMENT_LIST'!".format(children[0]))
     return (NODE_STATEMENT_WHILE, children)
 
+# if: `if` `(` cond_expr `)` `then` `{` stmtLst `}` `else` `{` stmtLst `}`
 def parse_if(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[0][1] == "if"):
         return None
@@ -317,6 +352,7 @@ def parse_if(tokens):
         raise Exception("Expected '}}' after 'if ({}) then {{ STATEMENT_LIST }} else {{ STATEMENT_LIST'!".format(children[0]))
     return (NODE_STATEMENT_IF, children)
 
+# assign: var_name `=` expr `;`
 def parse_assign(tokens):
     if not (tokens[0][0] == TOKEN_NAME and tokens[1][0] == TOKEN_EQUALS):
         return None
@@ -328,6 +364,7 @@ def parse_assign(tokens):
         raise Exception("Expected ';' after '{} = {}'!".format(children[0], children[1]))
     return (NODE_STATEMENT_ASSIGN, children)
 
+# cond_expr: rel_expr | `!` `(` cond_expr `)` | `(` cond_expr `)` `&&` `(` cond_expr `)` | `(` cond_expr `)` `||` `(` cond_expr `)`
 def parse_cond_expr(tokens):
     o = lookahead(parse_rel_expr, tokens)
     if not o is None:
@@ -368,6 +405,7 @@ def parse_cond_expr(tokens):
         o += token[1]
         return o
 
+# rel_expr: rel_factor `>` rel_factor | rel_factor `>=` rel_factor | rel_factor `<` rel_factor | rel_factor `<=` rel_factor | rel_factor `==` rel_factor | rel_factor `!=` rel_factor
 def parse_rel_expr(tokens):
     o = parse_rel_factor(tokens)
     if o is None:
@@ -378,6 +416,7 @@ def parse_rel_expr(tokens):
     o += not_none(parse_rel_factor(tokens), "Expected 'REL_FACTOR' after '{}'!".format(o))
     return o
 
+# rel_factor: var_name | const_value | expr
 def parse_rel_factor(tokens):
     o = parse_expr(tokens)
     if not o is None:
@@ -386,6 +425,7 @@ def parse_rel_factor(tokens):
         return tokens.popleft()[1]
     return None
 
+# expr: expr `+` term | expr `-` term | term
 def parse_expr(tokens):
     o = parse_term(tokens)
     if o is None:
@@ -396,6 +436,7 @@ def parse_expr(tokens):
     o += parse_expr(tokens)
     return o
 
+# term: term `*` factor | term `/` factor | term `%` factor | factor
 def parse_term(tokens):
     o = parse_factor(tokens)
     if o is None:
@@ -406,6 +447,7 @@ def parse_term(tokens):
     o += parse_term(tokens)
     return o
 
+# factor: var_name | const_value | `(` expr `)`
 def parse_factor(tokens):
     if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER:
         return tokens.popleft()[1]
@@ -419,11 +461,69 @@ def parse_factor(tokens):
         return o
     return None
 
+def validate_program(ast):
+    # Two procedures with the same name is considered an error.
+    procedure_calls = {}
+    for procedure in ast[1]:
+        name = procedure[1][0]
+        if name in procedure_calls:
+            raise Exception("There are two procedures with the same name '{}'!".format(name))
+        procedure_calls[name] = set()
+
+    # Call to a non-existing procedure produces an error.
+    for procedure in ast[1]:
+        p_name = procedure[1][0]
+        data = (procedure_calls, p_name)
+        validate_program_calls(procedure[1][1][1], data)
+
+    # Recursive and cyclic calls are not allowed. For example, procedure A calls procedure B, procedure B calls C, and C calls A should not be accepted in a correct SIMPLE code.
+    visited = set()
+    for p_name in procedure_calls.keys():
+        path = collections.OrderedDict()
+        path[p_name] = 0
+        node = (p_name, path)
+        data = (procedure_calls, visited)
+        validate_program_cycle(node, data)
+
+    # Constants are sequences of digits. If more than one digit, the first digit cannot be 0
+    # TODO: Upgrade parser
+
+def validate_program_calls(statement_list, data):
+    procedure_calls = data[0]
+    p_name = data[1]
+    for s in statement_list:
+        if s[0] == NODE_STATEMENT_CALL:
+            c_name = s[1][0]
+            if c_name not in procedure_calls:
+                raise Exception("Calling a non-existent procedure '{}'!".format(c_name))
+            procedure_calls[p_name].add(c_name)
+        elif s[0] == NODE_STATEMENT_IF:
+            validate_program_calls(s[1][1][1], data)
+            validate_program_calls(s[1][2][1], data)
+        elif s[0] == NODE_STATEMENT_WHILE:
+            validate_program_calls(s[1][1][1], data)
+
+def validate_program_cycle(node, data):
+    p_name = node[0]
+    path = node[1]
+    procedure_calls = data[0]
+    visited = data[1]
+    if p_name in visited:
+        return
+    for c_name in procedure_calls[p_name]:
+        # Cycle detected in path!
+        if c_name in path:
+            index = path[c_name]
+            cycle = list(path.keys())[index:]
+            cycle.append(c_name)
+            raise Exception("A cyclic procedure call was found! {}".format(" -> ".join(cycle)))
+        new_path = collections.OrderedDict(path)
+        new_path[c_name] = len(new_path)
+        new_node = (c_name, new_path)
+        validate_program_cycle(new_node, data)
+    visited.add(p_name)
 
 
-# Summarize 'coverage' of all .qry and .src files
-def analyse():
-    printerr("This function is not implemented yet :)")
 
 # Check that all .src files contain valid grammar
 def check():
@@ -443,14 +543,14 @@ def check():
         printinfo("Checking ({}/{}): '{}'".format(index+1, len(source_paths), path))
 
         try:
-            parse_program(tokenize_source(content))
+            ast = parse_source(content)
         except Exception as err:
             printwarn("Invalid grammar!\nError Message: {}".format(err))
             continue
 
         printinfo("Valid grammar :)")
 
-    printinfo("All done! :)")
+    printinfo("All checking done! :)")
 
 # Generate .lab files from existing .src files
 def label():
@@ -468,8 +568,7 @@ def label():
             content = f.read()
 
         try:
-            tokens = tokenize_source(content)
-            ast = parse_program(tokens)
+            ast = parse_source(content)
         except:
             continue
 
@@ -490,14 +589,14 @@ def label():
             indent = LABEL_INDENTATION * i
             if b:
                 n += 1
-                lines.append("{:03d} {}{}\n".format(n, indent, v))
+                lines.append("{:03d} {}{}".format(n, indent, v))
             else:
-                lines.append("--- {}{}\n".format(indent, v))
+                lines.append("--- {}{}".format(indent, v))
 
-        with open(label_full_path, "w") as f:
-            f.writelines(lines)
+        with open(label_full_path, "w") as l:
+            l.write("\n".join(lines) + "\n")
 
-    printinfo("All done! :)")
+    printinfo("All labelling done! :)")
 
 def label_statements(statement_list, indent):
     result = []
@@ -507,6 +606,9 @@ def label_statements(statement_list, indent):
             result.append((True, indent, v))
         elif s[0] == NODE_STATEMENT_PRINT:
             v = "print {};".format(s[1][0])
+            result.append((True, indent, v))
+        elif s[0] == NODE_STATEMENT_CALL:
+            v = "call {};".format(s[1][0])
             result.append((True, indent, v))
         elif s[0] == NODE_STATEMENT_WHILE:
             v = "while ({}) {{".format(s[1][0])
@@ -581,9 +683,9 @@ def publish():
             s.write(src_content)
 
         with open(output_qry_full_path, "w") as q:
-            q.write("\n".join(qry_lines))
+            q.write("\n".join(qry_lines) + "\n")
 
-    printinfo("All tests published! :) Please check '{}' directory for all AutoTester outputs!".format(os.path.relpath(PUBLISH_OUTPUT_DIRECTORY)))
+    printinfo("All tests published! :) Please check '{}' directory for all published files!".format(os.path.relpath(PUBLISH_OUTPUT_DIRECTORY)))
 
 # Tests all .src files using AutoTester
 def run():
@@ -626,25 +728,34 @@ def run():
 
     printinfo("All tests done! :) Please check '{}' directory for all AutoTester outputs!".format(os.path.relpath(OUTPUT_DIRECTORY)))
 
+# Summarize 'coverage' of all .qry and .src files
+def summarize():
+    printerr("This function is not implemented yet :)")
 
 
-# Ensure python is 3.0.0 or higher
-if not sys.version_info.major >= 3:
-    printerr("Please run this script with python 3.0.0 or higher!")
+
+### Main
+
+# Fixes colors not showing on cmd
+os.system("color")
+
+# Ensure python is 3.5.0 or higher
+if not (sys.version_info.major >= 3 and sys.version_info.minor >= 5):
+    printerr("Please run this script with python 3.5.0 or higher!")
 
 # Parse command arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("-a", "--analyse", action="store_true", help="Summarize 'coverage' of all .qry and .src files")
 parser.add_argument("-c", "--check", action="store_true", help="Check that all .src files contain valid grammar")
 parser.add_argument("-l", "--label", action="store_true", help="Generate .lab files from existing .src files")
 parser.add_argument("-p", "--publish", action="store_true", help="Creates compiled system test files for submission!")
 parser.add_argument("-r", "--run", action="store_true", help="Tests all .src files using AutoTester")
+parser.add_argument("-s", "--summarize", action="store_true", help="Summarize 'coverage' of all .qry and .src files")
 parser.add_argument("tests_dir_path", help="Path of directory containing tests")
 parser.add_argument("-d", "--depth", type=int, default=-1, help="Maximum folder depth of source files to include.")
 args = parser.parse_args()
 
 # If no options are selected, run by default
-if not (args.analyse or args.check or args.label or args.publish or args.run):
+if not (args.check or args.label or args.publish or args.run or args.summarize):
     args.run = True
 
 # Check tests_path
@@ -663,9 +774,6 @@ if not os.path.isdir(OUTPUT_DIRECTORY):
     printerr("{} is not a directory! Please delete it.".format(OUTPUT_DIRECTORY))
 
 # Run options
-if args.analyse:
-    analyse()
-
 if args.check:
     check()
 
@@ -677,3 +785,6 @@ if args.publish:
 
 if args.run:
     run()
+
+if args.summarize:
+    summarize()
