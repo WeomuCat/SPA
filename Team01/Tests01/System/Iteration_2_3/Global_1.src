@@ -1,0 +1,113 @@
+procedure aProc {
+    aaa = 1;
+    ccc = bbb;
+    call bProc;
+    call cProc;
+    if ((aaa == bbb) && !(aaa == ccc)) then {
+        ddd = eee;
+        print eee;
+        call cProc;
+        while (fff != ggg) {
+            hhh = (1 * (ggg / (ccc % ddd) + eee) - 2) + hhh / aaa;
+            read ddd;
+            call cProc;
+        }
+        print hhh;
+        aaa = 2;
+    } else {
+        read eee;
+        while ((eee == eee) || (eee == eee)) {
+            call bProc;
+            if (bbb != ccc) then {
+                aaa = ccc;
+                bbb = ddd;
+                call cProc;
+                read eee;
+            } else {
+                while (hhh != aaa) {
+                    read aaa;
+                    aaa = aaa + bbb - ccc * ddd / eee % fff * (ggg + hhh);
+                    print aaa;
+                }
+                read aaa;
+                print bbb;
+                call cProc;
+            }
+            read aaa;
+            fff = fff / fff;
+            ggg = hhh % hhh;
+        }
+        eee = fff;
+        call bProc;
+    }
+    bbb = ccc / ((ddd + eee) * (fff % ggg - hhh));
+    read aaa;
+    print eee;
+    call bProc;
+    while (ddd == eee) {
+        ccc = fff;
+        if ((eee >= aaa) && (bbb < ddd))) then {
+            hhh = ggg;
+            print ggg;
+        } else {
+            eee = aaa * hhh;
+            read fff;
+        }
+        call bProc;
+    }
+    read e;
+    call cProc;
+}
+
+procedure bProc {
+    call aProc;
+    aaa = bbb;
+    if (aaa == bbb) then {
+        bbb = fff + ccc - ggg;
+        read aaa;
+        call aProc;
+    } else {
+        ddd = eee;
+        read ggg;
+        call cProc;
+    }
+    if (hhh > ggg) then {
+        print ggg;
+    } else {
+        read ggg;
+    }
+    while (aaa <= ggg) {
+        read fff;
+        print aaa;
+        call cProc;
+        call aProc;
+        call cProc;
+    }
+    read hhh;
+}
+
+procedure cProc {
+    aaa = bbb;
+    call bProc;
+    while (bbb >= eee) {
+        while (bbb <= eee) {
+            if (aaa == ggg) then {
+                if (aaa != ggg) {
+                    call aProc;
+                } else {
+                    call aProc;
+                }
+            } else {
+                while (ddd <= hhh) {
+                    fff = ggg;
+                }
+            }
+        }
+    }
+    print aaa;
+    print bbb;
+    print ccc;
+    read ddd;
+    read eee;
+    call aProc;
+}
