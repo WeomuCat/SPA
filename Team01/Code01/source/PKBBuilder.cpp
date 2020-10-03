@@ -44,6 +44,52 @@ INDEX PKBBuilder::addStatementNode(STMT_NODE_PTR stmt_node_ptr) {
     return stmt_table_.addStatementNode(stmt_node_ptr);
 }
 
+/* ==== Return Nodes ==== */
+ASSIGN_NODE_PTR_LIST PKBBuilder::getAssigns() {
+    return assign_table_.getAssignNodeList();
+}
+
+CALL_NODE_PTR_LIST PKBBuilder::getCalls() {
+    return call_table_.getCallNodeList();
+}
+
+CONSTANT_NODE_PTR_LIST PKBBuilder::getConstants() {
+    return constant_table_.getConstantNodeList();
+}
+
+IF_NODE_PTR_LIST PKBBuilder::getIfs() {
+    return if_table_.getIfNodeList();
+}
+
+PRINT_NODE_PTR_LIST PKBBuilder::getPrints() {
+    return print_table_.getPrintNodeList();
+}
+
+PROC_NODE_PTR_LIST PKBBuilder::getProcedures() {
+    return proc_table_.getProcedureNodeList();
+}
+
+READ_NODE_PTR_LIST PKBBuilder::getReads() {
+    return read_table_.getReadNodeList();
+}
+
+WHILE_NODE_PTR_LIST PKBBuilder::getWhiles() {
+    return while_table_.getWhileNodeList();
+}
+
+STMT_LIST_NODE_PTR_LIST PKBBuilder::getStatementLists() {
+    return stmt_list_table_.getStatementListNodeList();
+}
+
+VAR_NODE_PTR_LIST PKBBuilder::getVariables() {
+    return var_table_.getVariableNodeList();
+}
+
+STMT_NODE_PTR_LIST PKBBuilder::getStatements() {
+    return stmt_table_.getStatementNodeList();
+}
+
+
 void PKBBuilder::addFollows(STMT_NUM s1, STMT_NUM s2) {
     follows_table_.addFollows(s1, s2);
 }

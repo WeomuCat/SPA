@@ -115,6 +115,63 @@ public:
                      Returns the INDEX of the STMT_NODE_PTR in the STATEMENT_TABLE.
         */
 
+    /*==== Return Nodes ====*/
+    ASSIGN_NODE_PTR_LIST getAssigns();
+        /*
+        Description: Returns the list of stored ASSIGN_NODE_PTR in the ASSIGN_TABLE
+        */
+
+    CALL_NODE_PTR_LIST getCalls();
+        /*
+        Description: Returns the list of stored CALL_NODE_PTR in the CALL_TABLE
+        */
+
+    CONSTANT_NODE_PTR_LIST getConstants();
+        /*
+        Description: Returns the list of stored CONSTANT_NODE_PTR in the CONSTANT_TABLE
+        */
+
+    IF_NODE_PTR_LIST getIfs();
+        /*
+        Description: Returns the list of stored IF_NODE_PTR in the IF_TABLE
+        */
+
+    PRINT_NODE_PTR_LIST getPrints();
+        /*
+        Description: Returns the list of stored PRINT_NODE_PTR in the PRINT_TABLE
+        */
+
+    PROC_NODE_PTR_LIST getProcedures();
+        /*
+        Description: Returns the list of stored PROC_NODE_PTR in the PROC_TABLE
+        */
+
+    READ_NODE_PTR_LIST getReads();
+        /*
+        Description: Returns the list of stored READ_NODE_PTR in the READ_TABLE
+        */
+
+    STMT_LIST_NODE_PTR_LIST getStatementLists();
+        /*
+        Description: Returns the list of stored STMT_LIST_NODE_PTR in the STMT_LIST_TABLE
+        */
+
+    WHILE_NODE_PTR_LIST getWhiles();
+        /*
+        Description: Returns the list of stored WHILE_NODE_PTR in the WHILE_TABLE
+        */
+
+    VAR_NODE_PTR_LIST getVariables();
+        /*
+        Description: Returns the list of stored VAR_NODE_PTR in the VAR_TABLE
+        */
+
+    STMT_NODE_PTR_LIST getStatements();
+        /*
+        Description: Returns the list of stored STMT_NODE_PTR in the STMT_TABLE
+        */
+
+
     /*==== Relationships ====*/
     void addFollows(STMT_NUM s1, STMT_NUM s2);
         /*
