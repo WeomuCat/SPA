@@ -149,16 +149,52 @@ Select BOOLEAN such that Modifies (25, "aaa") and Next ("aProc", "bProc")
 TRUE
 5000
 31 - Uses and Uses
+
+Select BOOLEAN such that Uses (37, "fff") and Uses (45, "eee")
+TRUE
+5000
 32 - Uses and Calls
+
+Select BOOLEAN such that Uses (37, "fff") and Calls ("aProc", "bProc")
+TRUE
+5000
 33 - Uses and Next
 
+Select BOOLEAN such that Uses (37, "fff") and Next (56, 47)
+TRUE
+5000
 34 - Calls and Calls
+
+Select BOOLEAN such that Calls ("bProc", "dProc") and Calls ("cProc", "dProc")
+TRUE
+5000
 35 - Calls and Calls*
+
+Select BOOLEAN such that Calls ("bProc", "dProc") and Calls* ("aProc", "dProc")
+TRUE
+5000
 36 - Calls* and Calls*
 
+Select BOOLEAN such that Calls* ("aProc", "dProc") and Calls* ("dProc", "aProc")
+FALSE
+5000
 37 - Next and Next
+
+Select BOOLEAN such that Next (79, 80) and Next (84, 79)
+TRUE
+5000
 38 - Next and Next*
+
+Select BOOLEAN such that Next (79, 80) and Next* (84, 85)
+FALSE
+5000
 39 - Next* and Next*
 
+Select BOOLEAN such that Next* (63, 86) and Next* (102, 96)
+TRUE
+5000
+40 - All in One
 
-
+Select BOOLEAN such that Follows (90, 91) and Follows* (90, 107) and Parent (93, 94) and Parent* (92, 96) and Modifies (102, "fff") and Uses (98, "ccc") and Calls ("cProc", "dProc") and Calls* ("aProc", "dProc") and Next (74, 75) and Next* (7, 12)
+TRUE
+5000

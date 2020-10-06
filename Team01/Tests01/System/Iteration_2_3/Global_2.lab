@@ -113,7 +113,7 @@
 --- }
 --- 
 --- procedure dProc {
-084     hhh = bbb + ccc;
+084     aaa = bbb + ccc;
 085     read ddd;
 086     print eee;
 --- }
