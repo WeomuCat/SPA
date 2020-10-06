@@ -31,19 +31,20 @@ LABEL_INDENTATION = "    "
 
 TOKEN_NAME = 0
 TOKEN_INTEGER = 1
-TOKEN_OPEN_BRACKET = 2
-TOKEN_CLOSE_BRACKET = 3
-TOKEN_OPEN_BRACE = 4
-TOKEN_CLOSE_BRACE = 5
-TOKEN_SEMICOLON = 6
-TOKEN_EXPR = 7
-TOKEN_TERM = 8
-TOKEN_REL_EXPR = 9
-TOKEN_NOT = 10
-TOKEN_AND = 11
-TOKEN_OR = 12
-TOKEN_EQUALS = 13
-TOKEN_EOF = 14
+TOKEN_ZERO = 2
+TOKEN_OPEN_BRACKET = 3
+TOKEN_CLOSE_BRACKET = 4
+TOKEN_OPEN_BRACE = 5
+TOKEN_CLOSE_BRACE = 6
+TOKEN_SEMICOLON = 7
+TOKEN_EXPR = 8
+TOKEN_TERM = 9
+TOKEN_REL_EXPR = 10
+TOKEN_NOT = 11
+TOKEN_AND = 12
+TOKEN_OR = 13
+TOKEN_EQUALS = 14
+TOKEN_EOF = 15
 
 NODE_PROGRAM = 0
 NODE_PROCEDURE = 1
@@ -57,7 +58,8 @@ NODE_STATEMENT_ASSIGN = 8
 
 TOKENS_PATTERN = {
     "[A-Za-z][A-Za-z\d]*": TOKEN_NAME,
-    "\d+": TOKEN_INTEGER,
+    "[1-9]\d*": TOKEN_INTEGER,
+    "0": TOKEN_ZERO,
     "\(": TOKEN_OPEN_BRACKET,
     "\)": TOKEN_CLOSE_BRACKET,
     "{": TOKEN_OPEN_BRACE,
@@ -421,7 +423,8 @@ def parse_rel_factor(tokens):
     o = parse_expr(tokens)
     if not o is None:
         return o
-    if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER:
+    # Constants are sequences of digits. If more than one digit, the first digit cannot be 0
+    if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER or tokens[0][0] == TOKEN_ZERO:
         return tokens.popleft()[1]
     return None
 
@@ -449,7 +452,8 @@ def parse_term(tokens):
 
 # factor: var_name | const_value | `(` expr `)`
 def parse_factor(tokens):
-    if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER:
+    # Constants are sequences of digits. If more than one digit, the first digit cannot be 0
+    if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER or tokens[0][0] == TOKEN_ZERO:
         return tokens.popleft()[1]
     if tokens[0][0] == TOKEN_OPEN_BRACKET:
         o = tokens.popleft()[1]
@@ -484,9 +488,6 @@ def validate_program(ast):
         node = (p_name, path)
         data = (procedure_calls, visited)
         validate_program_cycle(node, data)
-
-    # Constants are sequences of digits. If more than one digit, the first digit cannot be 0
-    # TODO: Upgrade parser
 
 def validate_program_calls(statement_list, data):
     procedure_calls = data[0]
@@ -598,6 +599,7 @@ def label():
 
     printinfo("All labelling done! :)")
 
+# TODO: Refactor to label_ast
 def label_statements(statement_list, indent):
     result = []
     for s in statement_list:
