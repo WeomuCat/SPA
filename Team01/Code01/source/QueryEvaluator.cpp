@@ -257,6 +257,10 @@ void QueryEvaluator::getFollowsResult(QueryNode child1, QueryNode child2, bool &
 	QueryNodeType child1_type = child1.getNodeType();
 	QueryNodeType child2_type = child2.getNodeType();
 
+	if (isSameSynonymName(child1, child2)) {
+		return;
+	}
+
 	std::vector<int> list1;
 	std::vector<int> list2;
 
@@ -323,6 +327,10 @@ void QueryEvaluator::getFollowsTResult(QueryNode child1, QueryNode child2, bool&
 	QueryNodeType child1_type = child1.getNodeType();
 	QueryNodeType child2_type = child2.getNodeType();
 
+	if (isSameSynonymName(child1, child2)) {
+		return;
+	}
+
 	std::vector<int> list1 = getStmtList(child1);
 	std::vector<int> list2 = getStmtList(child2);
 
@@ -379,6 +387,9 @@ void QueryEvaluator::getParentResult(QueryNode child1, QueryNode child2, bool& c
 	QueryNodeType child1_type = child1.getNodeType();
 	QueryNodeType child2_type = child2.getNodeType();
 
+	if (isSameSynonymName(child1, child2)) {
+		return;
+	}
 
 	std::vector<int> list1 = getStmtList(child1);
 	std::vector<int> list2 = getStmtList(child2);
@@ -435,6 +446,10 @@ void QueryEvaluator::getParentResult(QueryNode child1, QueryNode child2, bool& c
 void QueryEvaluator::getParentTResult(QueryNode child1, QueryNode child2, bool& clause_bool, ResultList& clause_result_list) {
 	QueryNodeType child1_type = child1.getNodeType();
 	QueryNodeType child2_type = child2.getNodeType();
+
+	if (isSameSynonymName(child1, child2)) {
+		return;
+	}
 
 	std::vector<int> list1 = getStmtList(child1);
 	std::vector<int> list2 = getStmtList(child2);
@@ -919,4 +934,18 @@ bool QueryEvaluator::findPartialPattern(AST_NODE_PTR ast, std::string search_nam
 	}
 
 	return false;
+}
+
+bool QueryEvaluator::isSameSynonymName(QueryNode child1, QueryNode child2) {
+	bool same = false;
+	STRING child1_synonym_name = child1.getString();
+	STRING child2_synonym_name = child2.getString();
+	bool child1_is_synonym = (child1.getNodeType() == QueryNodeType::synonym);
+	bool child2_is_synonym = (child2.getNodeType() == QueryNodeType::synonym);
+
+	if (child1_is_synonym && child2_is_synonym && (child1_synonym_name.compare(child2_synonym_name) == 0)) {
+		same = true;
+	}
+
+	return same;
 }

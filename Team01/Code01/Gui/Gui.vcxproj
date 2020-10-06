@@ -62,7 +62,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>D:\Kyzure\NUS\Current\CS3203\project\team01-win-spa-20s1\Team01\Code01\Debug;D:\Users\Dan\OneDrive\Documents\School\CS3203\Project Code\Team01\Code01\Debug;C:\Users\George Lucas\source\repos\team01-win-spa-20s1\Team01\Code01\Debug;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\yuhui\Documents\School Stuff\Year 3 Sem 1\CS3203\Project\SPA Project\Team01\Code01\Debug;D:\Users\Dan\OneDrive\Documents\School\CS3203\Project Code\Team01\Code01\Debug;C:\Users\George Lucas\source\repos\team01-win-spa-20s1\Team01\Code01\Debug;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SPA.lib;SPA.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -138,7 +138,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties lreleaseOptions="" lupdateOnBuild="0" lupdateOptions="" MocDir=".\GeneratedFiles\$(ConfigurationName)" MocOptions="" Qt5Version_x0020_Win32="5.14.2" RccDir=".\GeneratedFiles" UicDir=".\GeneratedFiles" />
+      <UserProperties lreleaseOptions="" lupdateOnBuild="0" lupdateOptions="" MocDir=".\GeneratedFiles\$(ConfigurationName)" MocOptions="" Qt5Version_x0020_Win32="msvc2017" RccDir=".\GeneratedFiles" UicDir=".\GeneratedFiles" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
