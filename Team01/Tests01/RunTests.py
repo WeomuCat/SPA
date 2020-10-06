@@ -6,6 +6,7 @@ import argparse
 import collections
 import os
 import re
+import signal
 import subprocess
 import sys
 
@@ -23,6 +24,7 @@ LABEL_EXTENSION = "lab"
 PUBLISH_QRY_EXTENSION = "_queries.txt"
 PUBLISH_SRC_EXTENSION = "_source.txt"
 
+INFO_ACCENT_COLOR = "\033[36m"
 WARNING_COLOR = "\033[93m"
 ERROR_COLOR = "\033[91m"
 END_COLOR = "\033[0m"
@@ -56,6 +58,9 @@ NODE_STATEMENT_WHILE = 6
 NODE_STATEMENT_IF = 7
 NODE_STATEMENT_ASSIGN = 8
 
+SUMMARY_STATEMENT = 9
+SUMMARY_CONTAINER = 10
+
 TOKENS_PATTERN = {
     "[A-Za-z][A-Za-z\d]*": TOKEN_NAME,
     "[1-9]\d*": TOKEN_INTEGER,
@@ -80,6 +85,9 @@ TOKENS_PATTERN = {
 
 def printinfo(s):
     print("Info: {}".format(s))
+
+def printinfoaccent(s):
+    print("{}Info: {}{}".format(INFO_ACCENT_COLOR, s, END_COLOR))
 
 def printerr(s):
     print("{}Error: {}{}".format(ERROR_COLOR, s, END_COLOR))
@@ -541,7 +549,7 @@ def check():
             content = f.read()
 
         path = os.path.relpath(source_full_path)
-        printinfo("Checking ({}/{}): '{}'".format(index+1, len(source_paths), path))
+        printinfoaccent("Checking ({}/{}): '{}'".format(index+1, len(source_paths), path))
 
         try:
             ast = parse_source(content)
@@ -549,7 +557,7 @@ def check():
             printwarn("Invalid grammar!\nError Message: {}".format(err))
             continue
 
-        printinfo("Valid grammar :)")
+        printinfo("Valid grammar :)\n")
 
     printinfo("All checking done! :)")
 
@@ -574,7 +582,7 @@ def label():
             continue
 
         path = os.path.relpath(label_full_path)
-        printinfo("Labelling ({}/{}): '{}'".format(index+1, len(source_paths), path))
+        printinfoaccent("Labelling ({}/{}): '{}'".format(index+1, len(source_paths), path))
         statements = []
         for i, p in enumerate(ast[1]):
             if i != 0:
@@ -677,7 +685,7 @@ def publish():
         output_src_full_path = os.path.join(PUBLISH_OUTPUT_DIRECTORY, output_src_full_path)
         output_src_full_path = os.path.abspath(output_src_full_path)
 
-        printinfo("Publishing test ({}/{}): {}".format(index+1, len(deps), output_name))
+        printinfoaccent("Publishing test ({}/{}): {}".format(index+1, len(deps), output_name))
         with open(source_full_path) as s:
             src_content = s.read()
 
@@ -721,7 +729,7 @@ def run():
         output_full_path = os.path.abspath(output_full_path)
 
         # Run AutoTester
-        printinfo("Running test ({}/{}): {} ({})".format(index+1, len(tests), s_name, q_name))
+        printinfoaccent("Running test ({}/{}): {} ({})".format(index+1, len(tests), s_name, q_name))
         process = subprocess.run([autotester_path, source_full_path, queries_full_path, output_full_path], stdout=subprocess.DEVNULL)
 
         if not process.returncode == 0:
@@ -732,11 +740,100 @@ def run():
 
 # Summarize 'coverage' of all .qry and .src files
 def summarize():
-    printerr("This function is not implemented yet :)")
+    source_paths = get_source_paths()
+    if len(source_paths) == 0:
+        printwarn("No source files were found!")
+        return
+
+    printinfo("Summarizing .src files...")
+    for index, source_path in enumerate(source_paths):
+        source_full_path = "{}.{}".format(source_path, SOURCE_EXTENSION)
+
+        with open(source_full_path) as f:
+            content = f.read()
+
+        path = os.path.relpath(source_full_path)
+        printinfoaccent("Summarizing ({}/{}): '{}'".format(index+1, len(source_paths), path))
+
+        try:
+            ast = parse_source(content)
+        except:
+            continue
+
+        # Summarize AST
+        summary = summarize_ast(ast)
+
+        # Format and print outputs :)
+        infos = []
+        abstracts = {
+            NODE_PROCEDURE : "Procedure",
+            SUMMARY_STATEMENT : "Statement",
+            SUMMARY_CONTAINER : "Container"
+        }
+        for k, v in abstracts.items():
+            count = summary[k]
+            infos.append("{}(s): {}".format(v, count))
+        printinfo("{}".format(", ".join(infos)))
+
+        infos = []
+        statements = {
+            NODE_STATEMENT_READ : "Read",
+            NODE_STATEMENT_PRINT : "Print",
+            NODE_STATEMENT_CALL : "Call",
+            NODE_STATEMENT_WHILE : "While",
+            NODE_STATEMENT_IF : "If",
+            NODE_STATEMENT_ASSIGN : "Assign",
+        }
+        for k, v in statements.items():
+            count = summary[k]
+            infos.append("{}(s): {}".format(v, count))
+        printinfo("{}\n".format(", ".join(infos)))
+
+    printinfo("All summarizing done! :)")
+
+def summarize_ast(ast):
+    result = collections.Counter()
+    if ast[0] == NODE_PROGRAM:
+        for c in ast[1]:
+            result.update(summarize_ast(c))
+    elif ast[0] == NODE_PROCEDURE:
+        result[NODE_PROCEDURE] += 1
+        result.update(summarize_ast(ast[1][1]))
+    elif ast[0] == NODE_STATEMENT_LIST:
+        for c in ast[1]:
+            result.update(summarize_ast(c))
+    elif ast[0] == NODE_STATEMENT_READ:
+        result[SUMMARY_STATEMENT] += 1
+        result[NODE_STATEMENT_READ] += 1
+    elif ast[0] == NODE_STATEMENT_PRINT:
+        result[SUMMARY_STATEMENT] += 1
+        result[NODE_STATEMENT_PRINT] += 1
+    elif ast[0] == NODE_STATEMENT_CALL:
+        result[SUMMARY_STATEMENT] += 1
+        result[NODE_STATEMENT_CALL] += 1
+    elif ast[0] == NODE_STATEMENT_WHILE:
+        result[SUMMARY_STATEMENT] += 1
+        result[SUMMARY_CONTAINER] += 1
+        result[NODE_STATEMENT_WHILE] += 1
+        result.update(summarize_ast(ast[1][1]))
+    elif ast[0] == NODE_STATEMENT_IF:
+        result[SUMMARY_STATEMENT] += 1
+        result[SUMMARY_CONTAINER] += 1
+        result[NODE_STATEMENT_IF] += 1
+        result.update(summarize_ast(ast[1][1]))
+        result.update(summarize_ast(ast[1][2]))
+    elif ast[0] == NODE_STATEMENT_ASSIGN:
+        result[SUMMARY_STATEMENT] += 1
+        result[NODE_STATEMENT_ASSIGN] += 1
+    return result
 
 
 
 ### Main
+def sigint_handler(s, f):
+    printinfo("SIGINT caught, exiting! :)")
+    sys.exit()
+signal.signal(signal.SIGINT, sigint_handler)
 
 # Fixes colors not showing on cmd
 os.system("color")
