@@ -11,9 +11,6 @@ NODE_TYPE ASTNode::getNodeType() {
 
 BOOLEAN_TYPE ASTNode::setParentNode(AST_NODE_PTR parent_node_ptr) {
 	try {
-		if (parent_node_ptr == nullptr) {
-			return false;
-		}
 		parent_node_ptr_ = parent_node_ptr;
 	} catch (int e) {
 		(void)e;
@@ -24,9 +21,6 @@ BOOLEAN_TYPE ASTNode::setParentNode(AST_NODE_PTR parent_node_ptr) {
 
 BOOLEAN_TYPE ASTNode::addChildNode(AST_NODE_PTR child_node_ptr) {
 	try {
-		if (child_node_ptr == nullptr) {
-			return false;
-		}
 		children_node_ptr_.push_back(child_node_ptr);
 	} catch (int e) {
 		(void)e;

@@ -39,6 +39,7 @@ public:
 
 private:
 	friend class AssignNode;
+	friend class CallNode;
 	friend class ConditionNode;
 	friend class ConstantNode;
 	friend class ExpressionNode;
