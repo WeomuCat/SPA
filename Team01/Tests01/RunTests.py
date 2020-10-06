@@ -583,59 +583,59 @@ def label():
 
         path = os.path.relpath(label_full_path)
         printinfoaccent("Labelling ({}/{}): '{}'".format(index+1, len(source_paths), path))
-        statements = []
-        for i, p in enumerate(ast[1]):
-            if i != 0:
-                statements.append((False, 0, ""))
-            v = "procedure {} {{".format(p[1][0])
-            statements.append((False, 0, v))
-            statements.extend(label_statements(p[1][1][1], 1))
-            statements.append((False, 0, "}"))
 
-        lines = []
-        n = 0
-        for b, i, v in statements:
-            indent = LABEL_INDENTATION * i
-            if b:
-                n += 1
-                lines.append("{:03d} {}{}".format(n, indent, v))
-            else:
-                lines.append("--- {}{}".format(indent, v))
-
+        label_string = ast_to_label(ast)
         with open(label_full_path, "w") as l:
-            l.write("\n".join(lines) + "\n")
+            l.write("{}\n".format(label_string))
 
     printinfo("All labelling done! :)")
 
-# TODO: Refactor to label_ast
-def label_statements(statement_list, indent):
+def ast_to_lines(ast, indent=0):
     result = []
-    for s in statement_list:
-        if s[0] == NODE_STATEMENT_READ:
-            v = "read {};".format(s[1][0])
-            result.append((True, indent, v))
-        elif s[0] == NODE_STATEMENT_PRINT:
-            v = "print {};".format(s[1][0])
-            result.append((True, indent, v))
-        elif s[0] == NODE_STATEMENT_CALL:
-            v = "call {};".format(s[1][0])
-            result.append((True, indent, v))
-        elif s[0] == NODE_STATEMENT_WHILE:
-            v = "while ({}) {{".format(s[1][0])
-            result.append((True, indent, v))
-            result.extend(label_statements(s[1][1][1], indent + 1))
-            result.append((False, indent, "}"))
-        elif s[0] == NODE_STATEMENT_IF:
-            v = "if ({}) then {{".format(s[1][0])
-            result.append((True, indent, v))
-            result.extend(label_statements(s[1][1][1], indent + 1))
-            result.append((False, indent, "} else {"))
-            result.extend(label_statements(s[1][2][1], indent + 1))
-            result.append((False, indent, "}"))
-        elif s[0] == NODE_STATEMENT_ASSIGN:
-            v = "{} = {};".format(s[1][0], s[1][1])
-            result.append((True, indent, v))
+    if ast[0] == NODE_PROGRAM:
+        for i, c in enumerate(ast[1]):
+            if i != 0:
+                result.append((False, 0, ""))
+            result.extend(ast_to_lines(c, indent))
+    elif ast[0] == NODE_PROCEDURE:
+        result.append((False, 0, "procedure {} {{".format(ast[1][0])))
+        result.extend(ast_to_lines(ast[1][1], indent+1))
+        result.append((False, 0, "}"))
+    elif ast[0] == NODE_STATEMENT_LIST:
+        for c in ast[1]:
+            result.extend(ast_to_lines(c, indent))
+    elif ast[0] == NODE_STATEMENT_READ:
+        result.append((True, indent, "read {};".format(ast[1][0])))
+    elif ast[0] == NODE_STATEMENT_PRINT:
+        result.append((True, indent, "print {};".format(ast[1][0])))
+    elif ast[0] == NODE_STATEMENT_CALL:
+        result.append((True, indent, "call {};".format(ast[1][0])))
+    elif ast[0] == NODE_STATEMENT_WHILE:
+        result.append((True, indent, "while ({}) {{".format(ast[1][0])))
+        result.extend(ast_to_lines(ast[1][1], indent + 1))
+        result.append((False, indent, "}"))
+    elif ast[0] == NODE_STATEMENT_IF:
+        result.append((True, indent, "if ({}) then {{".format(ast[1][0])))
+        result.extend(ast_to_lines(ast[1][1], indent + 1))
+        result.append((False, indent, "} else {"))
+        result.extend(ast_to_lines(ast[1][2], indent + 1))
+        result.append((False, indent, "}"))
+    elif ast[0] == NODE_STATEMENT_ASSIGN:
+        result.append((True, indent, "{} = {};".format(ast[1][0], ast[1][1])))
     return result
+
+def ast_to_label(ast):
+    lines = ast_to_lines(ast)
+    result = []
+    n = 0
+    for b, i, v in lines:
+        indent = LABEL_INDENTATION * i
+        if b:
+            n += 1
+            result.append("{:03d} {}{}".format(n, indent, v))
+        else:
+            result.append("--- {}{}".format(indent, v))
+    return "\n".join(result)
 
 # Creates compiled system test files for submission!
 def publish():
@@ -673,6 +673,7 @@ def publish():
             line = re.sub(r"^\d+(.*)", r"\1", line)
             qry_lines[i] = "{}{}".format(count, line)
             count += 1
+        qry_string = "\n".join(qry_lines)
 
         # Write files to PUBLISH_OUTPUT_DIRECTORY
         output_name = os.path.relpath(source_path, tests_dir_path)
@@ -693,7 +694,7 @@ def publish():
             s.write(src_content)
 
         with open(output_qry_full_path, "w") as q:
-            q.write("\n".join(qry_lines) + "\n")
+            q.write("{}\n".format(qry_string))
 
     printinfo("All tests published! :) Please check '{}' directory for all published files!".format(os.path.relpath(PUBLISH_OUTPUT_DIRECTORY)))
 
