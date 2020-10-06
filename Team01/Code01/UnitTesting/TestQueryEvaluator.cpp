@@ -831,7 +831,7 @@ namespace IntegrationTesting
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::such_that });
 
-			// followsT
+			// parent
 			QueryNode child_child1 = QueryNode();
 			child_child1.setNodeType({ QueryNodeType::parent });
 
@@ -930,7 +930,7 @@ namespace IntegrationTesting
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::such_that });
 
-			// followsT
+			// parentT
 			QueryNode child_child1 = QueryNode();
 			child_child1.setNodeType({ QueryNodeType::parentT });
 
