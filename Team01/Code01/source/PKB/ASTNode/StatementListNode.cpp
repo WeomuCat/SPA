@@ -6,9 +6,6 @@ StatementListNode::StatementListNode() {
 
 BOOLEAN_TYPE StatementListNode::addStatementNode(STMT_NODE_PTR stmt_node_ptr) {
     try {
-        if (stmt_node_ptr == nullptr) {
-            return false;
-        }
         addChildNode(stmt_node_ptr);
         stmt_node_ptr->setParentNode(shared_from_this());
         stmt_node_ptr_list_.push_back(stmt_node_ptr);

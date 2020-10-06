@@ -2,6 +2,7 @@
 
 enum class NodeTypeEnum { 
     assignNode, 
+    callNode,
     conditionNode, 
     constantNode, 
     expressionNode, 

@@ -1,100 +1,116 @@
 #include "PKB.h"
 
 PKB::PKB(PKB_BUILDER builder) {
-    stmt_table_ = builder.stmt_table_;
-    stmt_list_table_ = builder.stmt_list_table_;
-    read_table_ = builder.read_table_;
-    print_table_ = builder.print_table_;
-    while_table_ = builder.while_table_;
-    if_table_ = builder.if_table_;
     assign_table_ = builder.assign_table_;
+    call_table_ = builder.call_table_;
     constant_table_ = builder.constant_table_;
-    var_table_ = builder.var_table_;
+    if_table_ = builder.if_table_;
+    print_table_ = builder.print_table_;
     proc_table_ = builder.proc_table_;
+    read_table_ = builder.read_table_;
+    stmt_list_table_ = builder.stmt_list_table_;
+    var_table_ = builder.var_table_;
+    while_table_ = builder.while_table_;
+    stmt_table_ = builder.stmt_table_;
+
     follows_table_ = builder.follows_table_;
     parent_table_ = builder.parent_table_;
     uses_table_ = builder.uses_table_;
     modifies_table_ = builder.modifies_table_;
+    calls_table_ = builder.calls_table_;
+    next_table_ = builder.next_table_;
+
     program_node_ptr_ = builder.program_node_ptr_;
 }
 
 /*==== Design Entities (Nodes) ====*/
-STMT_NODE_PTR_LIST PKB::getStatements() {
-    return stmt_table_.getStatementNodeList();
-}
-
-STMT_LIST_NODE_PTR_LIST PKB::getStatementLists() {
-    return stmt_list_table_.getStatementListNodeList();
-}
-
-READ_NODE_PTR_LIST PKB::getReads() {
-    return read_table_.getReadNodeList();
-}
-
-PRINT_NODE_PTR_LIST PKB::getPrints() {
-    return print_table_.getPrintNodeList();
-}
-
-WHILE_NODE_PTR_LIST PKB::getWhiles() {
-    return while_table_.getWhileNodeList();
-}
-
-IF_NODE_PTR_LIST PKB::getIfs() {
-    return if_table_.getIfNodeList();
-}
-
 ASSIGN_NODE_PTR_LIST PKB::getAssigns() {
     return assign_table_.getAssignNodeList();
+}
+
+CALL_NODE_PTR_LIST PKB::getCalls() {
+    return call_table_.getCallNodeList();
 }
 
 CONSTANT_NODE_PTR_LIST PKB::getConstants() {
     return constant_table_.getConstantNodeList();
 }
 
-VAR_NODE_PTR_LIST PKB::getVariables() {
-    return var_table_.getVariableNodeList();
+IF_NODE_PTR_LIST PKB::getIfs() {
+    return if_table_.getIfNodeList();
+}
+
+PRINT_NODE_PTR_LIST PKB::getPrints() {
+    return print_table_.getPrintNodeList();
 }
 
 PROC_NODE_PTR_LIST PKB::getProcedures() {
     return proc_table_.getProcedureNodeList();
 }
 
+READ_NODE_PTR_LIST PKB::getReads() {
+    return read_table_.getReadNodeList();
+}
+
+WHILE_NODE_PTR_LIST PKB::getWhiles() {
+    return while_table_.getWhileNodeList();
+}
+
+STMT_LIST_NODE_PTR_LIST PKB::getStatementLists() {
+    return stmt_list_table_.getStatementListNodeList();
+}
+
+VAR_NODE_PTR_LIST PKB::getVariables() {
+    return var_table_.getVariableNodeList();
+}
+
+STMT_NODE_PTR_LIST PKB::getStatements() {
+    return stmt_table_.getStatementNodeList();
+}
+
+
+
 /*==== Design Entities (Values) ====*/
-STMT_NUM_LIST PKB::getStatementNumList() {
-    return stmt_table_.getStatementNumList();
+STMT_NUM_LIST PKB::getAssignNumList() {
+    return assign_table_.getAssignNumList();
 }
 
-STMT_NUM_LIST PKB::getReadNumList() {
-    return read_table_.getReadNumList();
-}
-
-STMT_NUM_LIST PKB::getPrintNumList() {
-    return print_table_.getPrintNumList();
-}
-
-STMT_NUM_LIST PKB::getWhileNumList() {
-    return while_table_.getWhileNumList();
+STMT_NUM_LIST PKB::getCallNumList() {
+    return call_table_.getCallNumList();
 }
 
 STMT_NUM_LIST PKB::getIfNumList() {
     return if_table_.getIfNumList();
 }
 
-STMT_NUM_LIST PKB::getAssignNumList() {
-    return assign_table_.getAssignNumList();
+STMT_NUM_LIST PKB::getPrintNumList() {
+    return print_table_.getPrintNumList();
+}
+
+STMT_NUM_LIST PKB::getReadNumList() {
+    return read_table_.getReadNumList();
+}
+
+STMT_NUM_LIST PKB::getWhileNumList() {
+    return while_table_.getWhileNumList();
+}
+
+STMT_NUM_LIST PKB::getStatementNumList() {
+    return stmt_table_.getStatementNumList();
 }
 
 CONSTANT_VALUE_LIST PKB::getConstantValueList() {
     return constant_table_.getConstantValueList();
 }
 
+PROC_NAME_LIST PKB::getProcedureNameList() {
+    return proc_table_.getProcedureNameList();
+}
+
 VAR_NAME_LIST PKB::getVariableNameList() {
     return var_table_.getVariableNameList();
 }
 
-PROC_NAME_LIST PKB::getProcedureNameList() {
-    return proc_table_.getProcedureNameList();
-}
 
 /*==== Relationships ====*/
 BOOLEAN_TYPE PKB::isFollows(STMT_NUM s1, STMT_NUM s2) {
@@ -127,6 +143,22 @@ BOOLEAN_TYPE PKB::isModifies(STMT_NUM s, VAR_NAME v) {
 
 BOOLEAN_TYPE PKB::isModifies(PROC_NAME p, VAR_NAME v) {
     return modifies_table_.isModifies(p, v);
+}
+
+BOOLEAN_TYPE PKB::isCalls(PROC_NAME p1, PROC_NAME p2) {
+    return calls_table_.isCalls(p1, p2);
+}
+
+BOOLEAN_TYPE PKB::isCallsTransitive(PROC_NAME p1, PROC_NAME p2) {
+    return calls_table_.isCallsTransitive(p1, p2);
+}
+
+BOOLEAN_TYPE PKB::isNext(STMT_NUM s1, STMT_NUM s2) {
+    return next_table_.isNext(s1, s2);
+}
+
+BOOLEAN_TYPE PKB::isNextTransitive(STMT_NUM s1, STMT_NUM s2) {
+    return next_table_.isNextTransitive(s1, s2);
 }
 
 PROGRAM_NODE_PTR PKB::getProgramNode() {

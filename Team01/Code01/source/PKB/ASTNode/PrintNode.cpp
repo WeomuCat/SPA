@@ -7,9 +7,6 @@ PrintNode::PrintNode() {
 
 BOOLEAN_TYPE PrintNode::setVariableNode(VAR_NODE_PTR var_node_ptr) {
 	try {
-		if (var_node_ptr == nullptr) {
-			return false;
-		}
 		addChildNode(var_node_ptr);
 		var_node_ptr->setParentNode(shared_from_this());
 		var_node_ptr_ = var_node_ptr;
