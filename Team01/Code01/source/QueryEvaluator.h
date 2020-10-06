@@ -43,6 +43,7 @@ private:
 	//ResultList QueryEvaluator::getModifiesSResult(QueryNode child1, QueryNode child2);
 	//ResultList QueryEvaluator::getModifiesPResult(QueryNode child1, QueryNode child2);
 	bool findPartialPattern(AST_NODE_PTR ast, std::string search_name);
+	bool isSameSynonymName(QueryNode child1, QueryNode child2);
 
 public:
 	QueryEvaluator(PKB pkb);

@@ -461,7 +461,7 @@ namespace IntegrationTesting
 
 		TEST_METHOD(evaluateQuery_SelectPnFollows2_4_ReturnsEmpty)
 		{
-			// Query: "print pn; Select pn such that Follows(2,3)"
+			// Query: "print pn; Select pn such that Follows(2,4)"
 			// Get processed_synonyms and processed clauses
 			QueryNode print_node = QueryNode();
 			print_node.setSynonymNode({ QuerySynonymType::print }, "pn");
@@ -493,6 +493,124 @@ namespace IntegrationTesting
 			QueryEvaluator qe = QueryEvaluator(*pkb);
 			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
 			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			STRING_RESULT correct_result = "";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectSFollowsS_S_ReturnsEmpty)
+		{
+			// Query: "stmt s; Select s such that Follows(s,s)"
+			// Get processed_synonyms and processed clauses
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"s", stmt_node} };
+
+			// Select: s
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+			
+			// follows
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::follows });
+			
+			// arg 1: s
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			
+			// arg 2: s
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			
+			// set children, make tree
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage("Evaluate exception caught");
+			}
+			STRING_RESULT correct_result = "";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectSFollowsTS_S_ReturnsEmpty)
+		{
+			// Query: "stmt s; Select s such that FollowsT(s,s)"
+			// Get processed_synonyms and processed clauses
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"s", stmt_node} };
+
+			// Select: s
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::stmt }, "s");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// followsT
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::followsT });
+
+			// arg 1: s
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::stmt }, "s");
+
+			// arg 2: s
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+
+			// set children, make tree
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage("Evaluate exception caught");
+			}
 			STRING_RESULT correct_result = "";
 
 			Logger::WriteMessage(result_string.c_str());
@@ -697,6 +815,65 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		TEST_METHOD(evaluateQuery_SelectSParentS_S_ReturnsEmpty)
+		{
+			// Query: "stmt s; Select s such that Parent(s,s)"
+			// Get processed_synonyms and processed clauses
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"s", stmt_node} };
+
+			// Select: s
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::stmt }, "s");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// parent
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::parent });
+
+			// arg 1: s
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::stmt }, "s");
+
+			// arg 2: s
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+
+			// set children, make tree
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage("Evaluate exception caught");
+			}
+			STRING_RESULT correct_result = "";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
 		TEST_METHOD(evaluateQuery_SelectSParent1_2_ReturnsEmpty)
 		{
 			// Query: "stmt s; Select s such that Parent(1,2)"
@@ -731,6 +908,65 @@ namespace IntegrationTesting
 			QueryEvaluator qe = QueryEvaluator(*pkb);
 			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
 			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			STRING_RESULT correct_result = "";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectSParentTS_S_ReturnsEmpty)
+		{
+			// Query: "stmt s; Select s such that ParentT(s,s)"
+			// Get processed_synonyms and processed clauses
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"s", stmt_node} };
+
+			// Select: s
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::stmt }, "s");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// parentT
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::parentT });
+
+			// arg 1: s
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::stmt }, "s");
+
+			// arg 2: s
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+
+			// set children, make tree
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage("Evaluate exception caught");
+			}
 			STRING_RESULT correct_result = "";
 
 			Logger::WriteMessage(result_string.c_str());
