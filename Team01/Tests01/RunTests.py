@@ -753,13 +753,13 @@ def summarize():
         with open(source_full_path) as f:
             content = f.read()
 
-        path = os.path.relpath(source_full_path)
-        printinfoaccent("Summarizing ({}/{}): '{}'".format(index+1, len(source_paths), path))
-
         try:
             ast = parse_source(content)
         except:
             continue
+
+        path = os.path.relpath(source_full_path)
+        printinfoaccent("Summarizing ({}/{}): '{}'".format(index+1, len(source_paths), path))
 
         # Summarize AST
         summary = summarize_ast(ast)
