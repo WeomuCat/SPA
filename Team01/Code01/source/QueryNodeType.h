@@ -3,6 +3,8 @@
 enum class QueryNodeType {
 	unassigned,
 	select,
+	boolean,
+	tuple,
 	synonym,
 	integer,
 	ident,
@@ -15,5 +17,9 @@ enum class QueryNodeType {
 	followsT,
 	usesS,
 	modifiesS,
+	calls,
+	callsT,
+	next,
+	nextT,
 	pattern
 };

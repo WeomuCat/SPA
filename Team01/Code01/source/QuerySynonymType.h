@@ -11,5 +11,6 @@ enum class QuerySynonymType {
 	assign,
 	variable,
 	constant,
+	prog_line,
 	procedure
 };
