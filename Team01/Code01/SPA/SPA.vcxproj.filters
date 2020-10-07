@@ -118,9 +118,6 @@
     <ClCompile Include="..\source\ResultList.cpp">
       <Filter>Source\QP</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\PKBStub.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\DesignExtractor.cpp">
       <Filter>Source\PKB</Filter>
     </ClCompile>
