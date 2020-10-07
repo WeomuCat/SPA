@@ -87,8 +87,16 @@ STMT_NUM_LIST PKB::getPrintNumList() {
     return print_table_.getPrintNumList();
 }
 
+VAR_NAME_LIST PKB::getPrintVarNameList() {
+    return print_table_.getPrintVarNameList();
+}
+
 STMT_NUM_LIST PKB::getReadNumList() {
     return read_table_.getReadNumList();
+}
+
+VAR_NAME_LIST PKB::getReadVarNameList() {
+    return read_table_.getReadVarNameList();
 }
 
 STMT_NUM_LIST PKB::getWhileNumList() {
@@ -161,6 +169,15 @@ BOOLEAN_TYPE PKB::isNextTransitive(STMT_NUM s1, STMT_NUM s2) {
     return next_table_.isNextTransitive(s1, s2);
 }
 
+/*==== AST ====*/
 PROGRAM_NODE_PTR PKB::getProgramNode() {
     return program_node_ptr_;
+}
+
+/*==== Miscellaneous ====*/
+void PKB::clearCache() {
+    follows_table_.clearCache();
+    parent_table_.clearCache();
+    next_table_.clearCache();
+    calls_table_.clearCache();
 }

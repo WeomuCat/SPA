@@ -52,6 +52,7 @@
     <ClInclude Include="..\source\PKB\Relationships\ModifiesTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\NextTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\ParentTable.h" />
+    <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\UsesTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryNode.h" />
@@ -102,6 +103,7 @@
     <ClCompile Include="..\source\PKB\Relationships\ModifiesTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\NextTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\ParentTable.cpp" />
+    <ClCompile Include="..\source\PKB\Relationships\RelationshipTransitiveTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\UsesTable.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryNode.cpp" />

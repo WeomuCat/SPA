@@ -124,7 +124,7 @@ namespace UnitTesting {
 
 		/*
 		- procedure main {
-		1   while (x > 0) then {
+		1   while (x > 0) {
 		2     if (y > 0) then {
 		3       read x;
 		4       read y;
@@ -175,6 +175,41 @@ namespace UnitTesting {
 		*/
 		std::shared_ptr<PKB> pkb4;
 
+		// Calls & CallsT only
+		/*
+		procedure a { call b, c }
+		procedure b { call c, d, f }
+		procedure c { }
+		procedure d { }
+		procedure e { call f }
+		procedure f { call g }
+		procedure g { call h, i, j }
+		procedure h { }
+		procedure i { }
+		procedure j { }
+		*/
+		std::shared_ptr<PKB> pkb5;
+
+		// NextT only
+		/*
+		- procedure {
+		1   while {
+		2     if {
+		3       while {
+		4         stmt
+		-       }
+		-     } else {
+		5       while {
+		6         stmt
+		-       }
+		-     }
+		7     stmt
+		-   }
+		8   stmt
+		- }
+		*/
+		std::shared_ptr<PKB> pkb6;
+
 		TEST_METHOD_INITIALIZE(PKBInitialize) {
 			PKBBuilder b1;
 			b1.addFollows(1, 2);
@@ -214,6 +249,13 @@ namespace UnitTesting {
 			b2.addModifies(4, "y");
 			b2.addModifies(5, "z");
 			b2.addModifies(6, "y");
+			b2.addNext(1, 2);
+			b2.addNext(2, 3);
+			b2.addNext(2, 5);
+			b2.addNext(3, 4);
+			b2.addNext(4, 1);
+			b2.addNext(5, 6);
+			b2.addNext(6, 1);
 			pkb2 = std::make_shared<PKB>(b2.build());
 
 			PKBBuilder b3;
@@ -236,6 +278,33 @@ namespace UnitTesting {
 			b4.addParent(7, 8);
 			b4.addParent(7, 9);
 			pkb4 = std::make_shared<PKB>(b4.build());
+
+			PKBBuilder b5;
+			b5.addCalls("a", "b");
+			b5.addCalls("a", "c");
+			b5.addCalls("b", "c");
+			b5.addCalls("b", "d");
+			b5.addCalls("b", "f");
+			b5.addCalls("e", "f");
+			b5.addCalls("f", "g");
+			b5.addCalls("g", "h");
+			b5.addCalls("g", "i");
+			b5.addCalls("g", "j");
+			pkb5 = std::make_shared<PKB>(b5.build());
+
+			PKBBuilder b6;
+			b6.addNext(1, 2);
+			b6.addNext(1, 8);
+			b6.addNext(2, 3);
+			b6.addNext(2, 5);
+			b6.addNext(3, 4);
+			b6.addNext(3, 7);
+			b6.addNext(4, 3);
+			b6.addNext(5, 6);
+			b6.addNext(5, 7);
+			b6.addNext(6, 5);
+			b6.addNext(7, 1);
+			pkb6 = std::make_shared<PKB>(b6.build());
 		}
 
 		/* isFollows */
@@ -418,6 +487,144 @@ namespace UnitTesting {
 		TEST_METHOD(isModifies_InvalidArgs_False) {
 			Assert::IsFalse(pkb1->isModifies(0, ""));
 			Assert::IsFalse(pkb1->isModifies("", "a"));
+		}
+
+		/* isCalls */
+		TEST_METHOD(isCalls_Stored_True) {
+			Assert::IsTrue(pkb5->isCalls("a", "b"));
+			Assert::IsTrue(pkb5->isCalls("a", "c"));
+			Assert::IsTrue(pkb5->isCalls("b", "c"));
+			Assert::IsTrue(pkb5->isCalls("b", "d"));
+			Assert::IsTrue(pkb5->isCalls("b", "f"));
+			Assert::IsTrue(pkb5->isCalls("e", "f"));
+			Assert::IsTrue(pkb5->isCalls("f", "g"));
+			Assert::IsTrue(pkb5->isCalls("g", "h"));
+			Assert::IsTrue(pkb5->isCalls("g", "i"));
+			Assert::IsTrue(pkb5->isCalls("g", "j"));
+		}
+
+		TEST_METHOD(isCalls_Transitive_False) {
+			Assert::IsFalse(pkb5->isCalls("a", "h"));
+			Assert::IsFalse(pkb5->isCalls("a", "i"));
+			Assert::IsFalse(pkb5->isCalls("a", "j"));
+			Assert::IsFalse(pkb5->isCalls("a", "d"));
+			Assert::IsFalse(pkb5->isCalls("e", "h"));
+			Assert::IsFalse(pkb5->isCalls("e", "i"));
+			Assert::IsFalse(pkb5->isCalls("e", "j"));
+		}
+
+		TEST_METHOD(isCalls_InvalidProcName_False) {
+			Assert::IsFalse(pkb5->isCalls("", ""));
+			Assert::IsFalse(pkb5->isCalls("k", "l"));
+		}
+
+		/* isCallsTransitive */
+		TEST_METHOD(isCallsT_Stored_True) {
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "b"));
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "c"));
+			Assert::IsTrue(pkb5->isCallsTransitive("b", "c"));
+			Assert::IsTrue(pkb5->isCallsTransitive("b", "d"));
+			Assert::IsTrue(pkb5->isCallsTransitive("b", "f"));
+			Assert::IsTrue(pkb5->isCallsTransitive("e", "f"));
+			Assert::IsTrue(pkb5->isCallsTransitive("f", "g"));
+			Assert::IsTrue(pkb5->isCallsTransitive("g", "h"));
+			Assert::IsTrue(pkb5->isCallsTransitive("g", "i"));
+			Assert::IsTrue(pkb5->isCallsTransitive("g", "j"));
+		}
+
+		TEST_METHOD(isCallsT_Transitive_True) {
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "h"));
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "i"));
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "j"));
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "d"));
+			Assert::IsTrue(pkb5->isCallsTransitive("e", "h"));
+			Assert::IsTrue(pkb5->isCallsTransitive("e", "i"));
+			Assert::IsTrue(pkb5->isCallsTransitive("e", "j"));
+		}
+
+		TEST_METHOD(isCallsT_InvalidProcName_False) {
+			Assert::IsFalse(pkb5->isCallsTransitive("", ""));
+			Assert::IsFalse(pkb5->isCallsTransitive("k", "l"));
+		}
+
+		/* isNext */
+		TEST_METHOD(isNext_Stored_True) {
+			Assert::IsTrue(pkb2->isNext(1, 2));
+			Assert::IsTrue(pkb2->isNext(2, 3));
+			Assert::IsTrue(pkb2->isNext(2, 5));
+			Assert::IsTrue(pkb2->isNext(3, 4));
+			Assert::IsTrue(pkb2->isNext(4, 1));
+			Assert::IsTrue(pkb2->isNext(5, 6));
+			Assert::IsTrue(pkb2->isNext(6, 1));
+		}
+
+		TEST_METHOD(isNext_Transitive_False) {
+			Assert::IsFalse(pkb2->isNext(1, 1));
+			Assert::IsFalse(pkb2->isNext(2, 2));
+			Assert::IsFalse(pkb2->isNext(3, 3));
+			Assert::IsFalse(pkb2->isNext(4, 4));
+			Assert::IsFalse(pkb2->isNext(5, 5));
+			Assert::IsFalse(pkb2->isNext(6, 6));
+
+			Assert::IsFalse(pkb2->isNext(2, 1));
+			Assert::IsFalse(pkb2->isNext(6, 4));
+		}
+
+		TEST_METHOD(isNext_InvalidStmtNum_False) {
+			Assert::IsFalse(pkb2->isNext(0, 1));
+			Assert::IsFalse(pkb2->isNext(6, 7));
+		}
+
+		/* isNextTransitive */
+		TEST_METHOD(isNextT_Stored_True) {
+			Assert::IsTrue(pkb2->isNextTransitive(1, 2));
+			Assert::IsTrue(pkb2->isNextTransitive(2, 3));
+			Assert::IsTrue(pkb2->isNextTransitive(2, 5));
+			Assert::IsTrue(pkb2->isNextTransitive(3, 4));
+			Assert::IsTrue(pkb2->isNextTransitive(4, 1));
+			Assert::IsTrue(pkb2->isNextTransitive(5, 6));
+			Assert::IsTrue(pkb2->isNextTransitive(6, 1));
+
+			Assert::IsTrue(pkb6->isNextTransitive(1, 2));
+			Assert::IsTrue(pkb6->isNextTransitive(1, 8));
+			Assert::IsTrue(pkb6->isNextTransitive(2, 3));
+			Assert::IsTrue(pkb6->isNextTransitive(2, 5));
+			Assert::IsTrue(pkb6->isNextTransitive(3, 4));
+			Assert::IsTrue(pkb6->isNextTransitive(3, 7));
+			Assert::IsTrue(pkb6->isNextTransitive(4, 3));
+			Assert::IsTrue(pkb6->isNextTransitive(5, 6));
+			Assert::IsTrue(pkb6->isNextTransitive(5, 7));
+			Assert::IsTrue(pkb6->isNextTransitive(6, 5));
+			Assert::IsTrue(pkb6->isNextTransitive(7, 1));
+		}
+
+		TEST_METHOD(isNextT_Transitive_True) {
+			Assert::IsTrue(pkb2->isNextTransitive(1, 1));
+			Assert::IsTrue(pkb2->isNextTransitive(2, 2));
+			Assert::IsTrue(pkb2->isNextTransitive(3, 3));
+			Assert::IsTrue(pkb2->isNextTransitive(4, 4));
+			Assert::IsTrue(pkb2->isNextTransitive(5, 5));
+			Assert::IsTrue(pkb2->isNextTransitive(6, 6));
+
+			Assert::IsTrue(pkb2->isNextTransitive(2, 1));
+			Assert::IsTrue(pkb2->isNextTransitive(6, 4));
+
+			Assert::IsTrue(pkb6->isNextTransitive(1, 1));
+			Assert::IsTrue(pkb6->isNextTransitive(2, 2));
+			Assert::IsTrue(pkb6->isNextTransitive(3, 3));
+			Assert::IsTrue(pkb6->isNextTransitive(4, 4));
+			Assert::IsTrue(pkb6->isNextTransitive(5, 5));
+			Assert::IsTrue(pkb6->isNextTransitive(6, 6));
+			Assert::IsTrue(pkb6->isNextTransitive(7, 7));
+
+			Assert::IsTrue(pkb6->isNextTransitive(4, 7));
+			Assert::IsTrue(pkb6->isNextTransitive(3, 1));
+			Assert::IsTrue(pkb6->isNextTransitive(7, 6));
+		}
+
+		TEST_METHOD(isNextT_InvalidStmtNum_False) {
+			Assert::IsFalse(pkb2->isNextTransitive(0, 1));
+			Assert::IsFalse(pkb2->isNextTransitive(6, 7));
 		}
 	};
 }

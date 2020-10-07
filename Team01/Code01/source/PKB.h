@@ -163,11 +163,25 @@ public:
                      STMT_NUM_LIST.
         */
 
+    VAR_NAME_LIST getPrintVarNameList();
+        /*
+        Description: Returns the VAR_NAME_LIST stored in PRINT_TABLE.
+                     If there are no elements in the collection, returns an empty
+                     VAR_NAME_LIST.
+        */
+
     STMT_NUM_LIST getReadNumList();
         /*
         Description: Returns the STMT_NUM_LIST stored in READ_TABLE.
                      If there are no elements in the collection, returns an empty
                      STMT_NUM_LIST.
+        */
+
+    VAR_NAME_LIST getReadVarNameList();
+        /*
+        Description: Returns the VAR_NAME_LIST stored in READ_TABLE.
+                     If there are no elements in the collection, returns an empty
+                     VAR_NAME_LIST.
         */
 
     STMT_NUM_LIST getWhileNumList();
@@ -282,6 +296,12 @@ public:
     PROGRAM_NODE_PTR getProgramNode();
         /*
         Description: Returns the source program's AST.
+        */
+
+    /*==== Miscellaneous ====*/
+    void clearCache();
+        /*
+        Description: Clears the cache of the PKB.
         */
 
 private:
