@@ -12,14 +12,14 @@ namespace UnitTesting {
 		VAR_NODE_PTR var = std::make_shared<VariableNode>();
 		PRINT_NODE_PTR print = std::make_shared<PrintNode>();
 
-		TEST_METHOD(GetParent_WithNodes_True) {
+		TEST_METHOD(getParent_withNodes_true) {
 			Assert::IsTrue(var->getParentNode() == nullptr);
 			print->setVariableNode(var);
 			AST_NODE_PTR parent = var->getParentNode();
 			Assert::IsTrue(std::addressof(*print) == std::addressof(*parent));
 		}
 
-		TEST_METHOD(GetChildren_WithNodes_True) {
+		TEST_METHOD(getChildren_withNodes_true) {
 			Assert::IsTrue(var->getChildrenNode().size() == 0);
 			print->setVariableNode(var);
 			AST_NODE_PTR child = print->getChildrenNode().at(0);
@@ -32,14 +32,14 @@ namespace UnitTesting {
 		STMT_LIST_NODE_PTR stmt_list = std::make_shared<StatementListNode>();
 		READ_NODE_PTR read = std::make_shared<ReadNode>();
 
-		TEST_METHOD(SetStatementNumber_GetStatementNumber_True) {
+		TEST_METHOD(setStatementNumber_getStatementNumber_true) {
 			Assert::IsTrue(read->getStatementNumber() == NULL);
 			int stmt_num = 5;
 			read->setStatementNumber(stmt_num);
 			Assert::IsTrue(stmt_num == read->getStatementNumber());
 		}
 
-		TEST_METHOD(SetStatementListNode_GetStatementListNode_True) {
+		TEST_METHOD(setStatementListNode_getStatementListNode_true) {
 			Assert::IsTrue(read->getParentStatementListNode() == nullptr);
 			read->setStatementListNode(stmt_list);
 			STMT_LIST_NODE_PTR parent = read->getParentStatementListNode();
@@ -53,7 +53,7 @@ namespace UnitTesting {
 		EXPR_NODE_PTR expr = std::make_shared<ExpressionNode>();
 		VAR_NODE_PTR var = std::make_shared<VariableNode>();
 
-		TEST_METHOD(SetVariableNode_GetVariableNode_True) {
+		TEST_METHOD(setVariableNode_getVariableNode_true) {
 			Assert::IsTrue(assign->getVariableNode() == nullptr);
 			assign->setVariableNode(var);
 			VAR_NODE_PTR child = assign->getVariableNode();
@@ -61,11 +61,38 @@ namespace UnitTesting {
 			
 		}
 
-		TEST_METHOD(SetExpressionNode_GetExpressionNode_True) {
+		TEST_METHOD(setExpressionNode_getExpressionNode_true) {
 			Assert::IsTrue(assign->getExpressionNode() == nullptr);
 			assign->setExpressionNode(expr);
 			EXPR_NODE_PTR child = assign->getExpressionNode();
 			Assert::IsTrue(std::addressof(*expr) == std::addressof(*child));
+		}
+	};
+
+	TEST_CLASS(CallNodeTest) {
+	public:
+		CALL_NODE_PTR call = std::make_shared<CallNode>();
+		PROC_NODE_PTR callee = std::make_shared<ProcedureNode>();
+
+		TEST_METHOD(setCalleeProcedureName_getCalleeProcedureName_true) {
+			Assert::IsTrue(call->getCalleeProcedureName() == "");
+			std::string value = "callee";
+			call->setCalleeProcedureName(value);
+			Assert::IsTrue(value == call->getCalleeProcedureName());
+		}
+
+		TEST_METHOD(setCallerProcedureName_getCallerProcedureName_true) {
+			Assert::IsTrue(call->getCallerProcedureName() == "");
+			std::string value = "caller";
+			call->setCallerProcedureName(value);
+			Assert::IsTrue(value == call->getCallerProcedureName());
+		}
+
+		TEST_METHOD(setProcedureNode_getProcedureNode_true) {
+			Assert::IsTrue(call->getProcedureNode() == nullptr);
+			call->setProcedureNode(callee);
+			PROC_NODE_PTR callee_procedure = call->getProcedureNode();
+			Assert::IsTrue(std::addressof(*callee) == std::addressof(*callee_procedure));
 		}
 	};
 
@@ -75,14 +102,14 @@ namespace UnitTesting {
 		CONDITION_NODE_PTR cond_2 = std::make_shared<ConditionNode>();
 		RELATION_NODE_PTR relation = std::make_shared<RelationNode>();
 
-		TEST_METHOD(SetConditionType_GetConditionType_True) {
+		TEST_METHOD(setConditionType_getConditionType_true) {
 			Assert::IsTrue(CONDITION_TYPE::undefined == cond->getConditionType());
 			cond->setConditionType(CONDITION_TYPE::and);
 			Assert::IsTrue(CONDITION_TYPE::and == cond->getConditionType());
 
 		}
 
-		TEST_METHOD(SetLeftstNode_GetLeftAstNode_True) {
+		TEST_METHOD(setLeftstNode_getLeftAstNode_true) {
 			Assert::IsTrue(cond->getLeftAstNode() == nullptr);
 			cond->setLeftAstNode(relation);
 			AST_NODE_PTR child = cond->getLeftAstNode();
@@ -90,7 +117,7 @@ namespace UnitTesting {
 		}
 
 
-		TEST_METHOD(SetRightAstNode_GetRightAstNode_True) {
+		TEST_METHOD(setRightAstNode_getRightAstNode_true) {
 			auto func = [this] {cond->getRightAstNode() == nullptr;};
 			Assert::ExpectException<std::exception>(func);
 			cond->setRightAstNode(cond_2);
@@ -103,7 +130,7 @@ namespace UnitTesting {
 	public:
 		CONSTANT_NODE_PTR constant = std::make_shared<ConstantNode>();
 
-		TEST_METHOD(SetValue_GetValue_True) {
+		TEST_METHOD(setValue_getValue_true) {
 			Assert::IsTrue(constant->getValue() == "");
 			std::string value = "5";
 			constant->setValue(value);
@@ -117,20 +144,20 @@ namespace UnitTesting {
 		VAR_NODE_PTR var = std::make_shared<VariableNode>();
 		CONSTANT_NODE_PTR constant = std::make_shared<ConstantNode>();
 
-		TEST_METHOD(SetExpressionType_GetExpressionType_True) {
+		TEST_METHOD(setExpressionType_getExpressionType_true) {
 			Assert::IsTrue(EXPR_TYPE::undefined == expr->getExpressionType());
 			expr->setExpressionType(EXPR_TYPE::div);
 			Assert::IsTrue(EXPR_TYPE::div == expr->getExpressionType());
 		}
 
-		TEST_METHOD(SetLeftAstNode_GetLeftAstNode_True) {
+		TEST_METHOD(setLeftAstNode_getLeftAstNode_true) {
 			Assert::IsTrue(expr->getLeftAstNode() == nullptr);
 			expr->setLeftAstNode(var);
 			AST_NODE_PTR child = expr->getLeftAstNode();
 			Assert::IsTrue(std::addressof(*var) == std::addressof(*child));
 		}
 		
-		TEST_METHOD(SetRightAstNode_GetRightAstNode_True) {
+		TEST_METHOD(setRightAstNode_getRightAstNode_true) {
 			auto func = [this] {expr->getRightAstNode() == nullptr;};
 			Assert::ExpectException<std::exception>(func);
 			expr->setRightAstNode(constant);
@@ -146,21 +173,21 @@ namespace UnitTesting {
 		STMT_LIST_NODE_PTR stmt_list_1 = std::make_shared<StatementListNode>();
 		STMT_LIST_NODE_PTR stmt_list_2 = std::make_shared<StatementListNode>();
 
-		TEST_METHOD(SetConditionNode_GetConditionNode_True) {
+		TEST_METHOD(setConditionNode_getConditionNode_true) {
 			Assert::IsTrue(ifs->getConditionNode() == nullptr);
 			ifs->setConditionNode(cond);
 			CONDITION_NODE_PTR child = ifs->getConditionNode();
 			Assert::IsTrue(std::addressof(*cond) == std::addressof(*child));
 		}
 
-		TEST_METHOD(SetLeftAstNode_GetLeftAstNode_True) {
+		TEST_METHOD(setLeftAstNode_getLeftAstNode_true) {
 			Assert::IsTrue(ifs->getThenStatementListNode() == nullptr);
 			ifs->setThenStatementListNode(stmt_list_1);
 			STMT_LIST_NODE_PTR child = ifs->getThenStatementListNode();
 			Assert::IsTrue(std::addressof(*stmt_list_1) == std::addressof(*child));
 		}
 
-		TEST_METHOD(SetRightAstNode_GetRightAstNode_True) {
+		TEST_METHOD(setRightAstNode_getRightAstNode_true) {
 			Assert::IsTrue(ifs->getElseStatementListNode() == nullptr);
 			ifs->setElseStatementListNode(stmt_list_2);
 			STMT_LIST_NODE_PTR child = ifs->getElseStatementListNode();
@@ -173,7 +200,7 @@ namespace UnitTesting {
 		PRINT_NODE_PTR print = std::make_shared<PrintNode>();
 		VAR_NODE_PTR var = std::make_shared<VariableNode>();
 
-		TEST_METHOD(SetVariableName_GetVariableName_True) {
+		TEST_METHOD(setVariableName_getVariableName_true) {
 			Assert::IsTrue(print->getVariableNode() == nullptr);
 			print->setVariableNode(var);
 			VAR_NODE_PTR child = print->getVariableNode();
@@ -186,14 +213,14 @@ namespace UnitTesting {
 		PROC_NODE_PTR proc = std::make_shared<ProcedureNode>();
 		STMT_LIST_NODE_PTR stmt_list = std::make_shared<StatementListNode>();
 
-		TEST_METHOD(SetProcedureName_GetVariableName_True) {
+		TEST_METHOD(setProcedureName_getVariableName_true) {
 			Assert::IsTrue(proc->getProcedureName() == "");
 			std::string name = "procName";
 			proc->setProcedureName(name);
 			Assert::IsTrue(name == proc->getProcedureName());
 		}
 
-		TEST_METHOD(SetProcedureStatementListNode_GetProcedureStatementListNode_True) {
+		TEST_METHOD(setProcedureStatementListNode_getProcedureStatementListNode_true) {
 			Assert::IsTrue(proc->getProcedureStatementListNode() == nullptr);
 			proc->setProcedureStatementListNode(stmt_list);
 			STMT_LIST_NODE_PTR child = proc->getProcedureStatementListNode();
@@ -206,7 +233,7 @@ namespace UnitTesting {
 		PROGRAM_NODE_PTR program = std::make_shared<ProgramNode>();
 		PROC_NODE_PTR proc = std::make_shared<ProcedureNode>();
 
-		TEST_METHOD(AddProcedureNode_GetProcedureNodeList_True) {
+		TEST_METHOD(AddProcedureNode_getProcedureNodeList_true) {
 			Assert::IsTrue(program->getProcedureNodeList().size() == 0);
 			program->addProcedureNode(proc);
 			PROC_NODE_PTR child = program->getProcedureNodeList().at(0);
@@ -219,7 +246,7 @@ namespace UnitTesting {
 		READ_NODE_PTR read = std::make_shared<ReadNode>();
 		VAR_NODE_PTR var = std::make_shared<VariableNode>();
 
-		TEST_METHOD(SetVariableName_GetVariableName_True) {
+		TEST_METHOD(setVariableName_getVariableName_true) {
 			Assert::IsTrue(read->getVariableNode() == nullptr);
 			read->setVariableNode(var);
 			VAR_NODE_PTR child = read->getVariableNode();
@@ -233,20 +260,20 @@ namespace UnitTesting {
 		VAR_NODE_PTR var = std::make_shared<VariableNode>();
 		CONSTANT_NODE_PTR constant = std::make_shared<ConstantNode>();
 
-		TEST_METHOD(SetRelationType_GetRelationType_True) {
+		TEST_METHOD(setRelationType_getRelationType_true) {
 			Assert::IsTrue(RELATION_TYPE::undefined == relation->getRelationType());
 			relation->setRelationType(RELATION_TYPE::eq);
 			Assert::IsTrue(RELATION_TYPE::eq == relation->getRelationType());
 		}
 
-		TEST_METHOD(SetLeftAstNode_GetLeftAstNode_True) {
+		TEST_METHOD(setLeftAstNode_getLeftAstNode_true) {
 			Assert::IsTrue(relation->getLeftAstNode() == nullptr);
 			relation->setLeftAstNode(var);
 			AST_NODE_PTR child = relation->getLeftAstNode();
 			Assert::IsTrue(std::addressof(*var) == std::addressof(*child));
 		}
 
-		TEST_METHOD(SetRightAstNode_GetRightAstNode_True) {
+		TEST_METHOD(setRightAstNode_getRightAstNode_true) {
 			Assert::IsTrue(relation->getRightAstNode() == nullptr);
 			relation->setRightAstNode(constant);
 			AST_NODE_PTR child = relation->getRightAstNode();
@@ -259,7 +286,7 @@ namespace UnitTesting {
 		STMT_LIST_NODE_PTR stmt_list = std::make_shared<StatementListNode>();
 		ASSIGN_NODE_PTR assign = std::make_shared<AssignNode>();
 
-		TEST_METHOD(AddStatementNode_GetStatementNodeList_True) {
+		TEST_METHOD(AddStatementNode_getStatementNodeList_true) {
 			Assert::IsTrue(stmt_list->getStatementNodeList().size() == 0);
 			stmt_list->addStatementNode(assign);
 			STMT_NODE_PTR child = stmt_list->getStatementNodeList().at(0);
@@ -271,7 +298,7 @@ namespace UnitTesting {
 	public:
 		VAR_NODE_PTR var = std::make_shared<VariableNode>();
 
-		TEST_METHOD(SetVariableName_GetVariableName_True) {
+		TEST_METHOD(setVariableName_getVariableName_true) {
 			Assert::IsTrue(var->getVariableName() == "");
 			std::string value = "x";
 			var->setVariableName(value);
@@ -285,14 +312,14 @@ namespace UnitTesting {
 		CONDITION_NODE_PTR cond = std::make_shared<ConditionNode>();
 		STMT_LIST_NODE_PTR stmt_list = std::make_shared<StatementListNode>();
 
-		TEST_METHOD(SetConditionNode_GetConditionNode_True) {
+		TEST_METHOD(setConditionNode_getConditionNode_true) {
 			Assert::IsTrue(whiles->getConditionNode() == nullptr);
 			whiles->setConditionNode(cond);
 			CONDITION_NODE_PTR child = whiles->getConditionNode();
 			Assert::IsTrue(std::addressof(*cond) == std::addressof(*child));
 		}
 
-		TEST_METHOD(SetWhileStatementListNode_GetWhileStatementListNode_True) {
+		TEST_METHOD(setWhileStatementListNode_getWhileStatementListNode_true) {
 			Assert::IsTrue(whiles->getWhileStatementListNode() == nullptr);
 			whiles->setWhileStatementListNode(stmt_list);
 			STMT_LIST_NODE_PTR child = whiles->getWhileStatementListNode();
