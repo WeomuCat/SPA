@@ -302,12 +302,12 @@ void Relationship::getUsesSResult(PKB pkb, bool& clause_bool, ResultList& clause
 	entRef: synonym | _ | IDENT (synonym can only be v, wildcard is just all v)
 
 	Possible Combinations:
-	1. Uses(synonym, synonym)
-	2. Uses(INTEGER, synonym)
-	3. Uses(synonym, IDENT)
-	4. Uses(synonym, _)
-	5. Uses(INTEGER, IDENT)
-	6. Uses(INTEGER, _)
+	1. Uses(synonym, synonym)		-> eg UsesS(pn, v)
+	2. Uses(INTEGER, synonym)		-> eg UsesS(5, v)
+	3. Uses(synonym, IDENT)			-> eg UsesS(w, "woof")
+	4. Uses(synonym, _)				-> eg UsesS(ifs, _)
+	5. Uses(INTEGER, IDENT)			-> eg UsesS(5, "woof")
+	6. Uses(INTEGER, _)				-> eg UsesS(5, _)
 	*/
 
 	QueryNodeType child1_type = child1.getNodeType();
@@ -339,7 +339,7 @@ void Relationship::getUsesSResult(PKB pkb, bool& clause_bool, ResultList& clause
 		list2 = pkb.getVariableNameList();
 	}
 	else {
-		throw "QE: Second argument of Uses should be SYNONYM or IDENT";
+		throw "QE: Second argument of UsesS should be SYNONYM or IDENT or WILDCARD";
 	}
 
 	// create all possible pairs of list1 and list2 values
@@ -392,15 +392,36 @@ void Relationship::getUsesSResult(PKB pkb, bool& clause_bool, ResultList& clause
 }
 
 void Relationship::getUsesPResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: UsesP( entRef1, entRef2)
+
+	entRef1: synonym | IDENT  (semantically invalid to have ‘_’ as the first argument for Modifies and Uses: unclear whether ‘_’ stands for a statement or a procedure.)
+	entRef2: synonym | _ | IDENT (synonym can only be v, wildcard is just all v)
+
+	Possible Combinations:
+	1. UsesP(synonym, synonym)		-> eg UsesP(p1, v)
+	2. UsesP(synonym, _)			-> eg UsesP(p1, _)
+	3. UsesP(synonym, IDENT)		-> eg UsesP(p1, "woof")
+	4. UsesP(IDENT, synonym)		-> eg UsesP("main", v)
+	5. UsesP(IDENT, _)				-> eg UsesP("main", _)
+	6. UsesP(IDENT, IDENT)			-> eg UsesP("main", "woof")
+	*/
+
 	QueryNodeType child1_type = child1.getNodeType();
 	QueryNodeType child2_type = child2.getNodeType();
 
-	// Iteration 1: procedure list only have 1 procedure
-	// Approach: get all the stmts of that procedure, ignore all other procedures
-	// Check isUses(stmt, v) as per normal
 
 	// Populate list1 with child1 values
-	std::vector<PROC_NAME> list1 = getProcList(pkb, child1);
+	std::vector<PROC_NAME> list1;
+	if (child1_type == QueryNodeType::ident) {
+		list1.push_back(child1.getString());
+	}
+	else if (child1_type == QueryNodeType::synonym) {
+		list1 = getProcList(pkb, child1);
+	}
+	else {
+		throw "QE: First argument of UsesP should be SYNONYM or IDENT";
+	}
 
 	// Populate list2 with child2 values
 	std::vector<VAR_NAME> list2;
@@ -414,7 +435,7 @@ void Relationship::getUsesPResult(PKB pkb, bool& clause_bool, ResultList& clause
 		list2 = pkb.getVariableNameList();
 	}
 	else {
-		throw "QE: Second argument of Uses should be SYNONYM or IDENT";
+		throw "QE: Second argument of UsesP should be SYNONYM or IDENT or WILDCARD";
 	}
 
 	// create all possible pairs of list1 and list2 values
@@ -511,7 +532,7 @@ void Relationship::getModifiesSResult(PKB pkb, bool& clause_bool, ResultList& cl
 		list2 = pkb.getVariableNameList();
 	}
 	else {
-		throw "QE: Second argument of Uses should be SYNONYM or IDENT";
+		throw "QE: Second argument of ModifiesS should be SYNONYM or IDENT or WILDCARD";
 	}
 
 	// create all possible pairs of list1 and list2 values
@@ -564,11 +585,35 @@ void Relationship::getModifiesSResult(PKB pkb, bool& clause_bool, ResultList& cl
 }
 
 void Relationship::getModifiesPResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: ModifiesP ( entRef1, entRef2)
+
+	entRef1: synonym | IDENT  (semantically invalid to have ‘_’ as the first argument for Modifies and Uses: unclear whether ‘_’ stands for a statement or a procedure.)
+	entRef2: synonym | _ | IDENT (synonym can only be v, wildcard is just all v)
+
+	Possible Combinations:
+	1. ModifiesP(synonym, synonym)		-> eg ModifiesP(p1, v)
+	2. ModifiesP(synonym, _)			-> eg ModifiesP(p1, _)
+	3. ModifiesP(synonym, IDENT)		-> eg ModifiesP(p1, "woof")
+	4. ModifiesP(IDENT, synonym)		-> eg ModifiesP("main", v)
+	5. ModifiesP(IDENT, _)				-> eg ModifiesP("main", _)
+	6. ModifiesP(IDENT, IDENT)			-> eg ModifiesP("main", "woof")
+	*/
+
 	QueryNodeType child1_type = child1.getNodeType();
 	QueryNodeType child2_type = child2.getNodeType();
 
 	// Populate list1 with child1 values
-	std::vector<PROC_NAME> list1 = getProcList(pkb, child1);
+	std::vector<PROC_NAME> list1;
+	if (child1_type == QueryNodeType::ident) {
+		list1.push_back(child1.getString());
+	}
+	else if (child1_type == QueryNodeType::synonym) {
+		list1 = getProcList(pkb, child1);
+	}
+	else {
+		throw "QE: First argument of ModifiesP should be SYNONYM or IDENT";
+	}
 
 	// Populate list2 with child2 values
 	std::vector<VAR_NAME> list2;
@@ -582,7 +627,7 @@ void Relationship::getModifiesPResult(PKB pkb, bool& clause_bool, ResultList& cl
 		list2 = pkb.getVariableNameList();
 	}
 	else {
-		throw "QE: Second argument of Uses should be SYNONYM or IDENT";
+		throw "QE: Second argument of ModifesP should be SYNONYM or IDENT or WILDCARD";
 	}
 
 	// create all possible pairs of list1 and list2 values
