@@ -29,7 +29,7 @@ void ClauseQueue::sortClauses() {
     */
     int rank = 0;
     while (listHasNext()) {
-        RANKED_CLAUSE ranked_clause = std::make_pair(rank, getNextClauseFromList());
+        RANKED_CLAUSE ranked_clause(rank, getNextClauseFromList());
         clause_queue.push(ranked_clause);
         rank = rank + 1;
     }

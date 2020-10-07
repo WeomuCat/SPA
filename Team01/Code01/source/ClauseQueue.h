@@ -2,11 +2,20 @@
 
 #include "QueryNode.h"
 #include <queue>
+#include <utility>
 
 typedef QueryNode CLAUSE;
 typedef std::pair<int, CLAUSE> RANKED_CLAUSE;
 typedef std::vector<CLAUSE> CLAUSE_LIST;
-typedef std::priority_queue <RANKED_CLAUSE, std::vector<RANKED_CLAUSE>, std::greater<RANKED_CLAUSE>> RANKED_CLAUSE_QUEUE; //min heap
+
+// if c1's rank is larger, return true. Arrange from largest to smallest, min heap returns smallest. 
+struct CompareRankedClauses {
+	bool operator()(RANKED_CLAUSE const& c1, RANKED_CLAUSE const& c2) {
+		return c1.first > c2.first;
+	}
+};
+
+typedef std::priority_queue <RANKED_CLAUSE, std::vector<RANKED_CLAUSE>, CompareRankedClauses> RANKED_CLAUSE_QUEUE; //min heap
 
 class ClauseQueue {
 	/*Overview: Data structure that ranks clauses by order of evaluation*/

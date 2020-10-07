@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\ClauseQueue.h" />
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\ParserPrintTree.h" />
     <ClInclude Include="..\source\PKB.h" />
@@ -65,6 +66,7 @@
     <ClInclude Include="RelOperatorTypeEnum.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\ClauseQueue.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\ParserPrintTree.cpp" />
