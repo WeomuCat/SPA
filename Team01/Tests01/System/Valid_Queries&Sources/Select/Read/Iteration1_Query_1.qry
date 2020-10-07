@@ -1,5 +1,5 @@
 1 - Query One
 read r;
 Select r
-a, b, c
+1, 2, 3
 1000

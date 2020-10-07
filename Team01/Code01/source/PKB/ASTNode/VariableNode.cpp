@@ -5,7 +5,7 @@ VariableNode::VariableNode() {
 	var_name_ = "";
 }
 
-BOOLEAN_TYPE VariableNode::setVariableName(STRING var_name) {
+BOOLEAN_TYPE VariableNode::setVariableName(VAR_NAME var_name) {
 	try {
 		var_name_ = var_name;
 	} catch (int e) {
@@ -15,7 +15,7 @@ BOOLEAN_TYPE VariableNode::setVariableName(STRING var_name) {
 	return true;
 }
 
-STRING VariableNode::getVariableName() {
+VAR_NAME VariableNode::getVariableName() {
 	return var_name_;
 }
 

@@ -1,0 +1,11 @@
+procedure main {
+	while (w < 36) {
+		c1 = c2;
+		if (37 < x) then {
+			a1 = a2 + a1;
+			b1 = b2 + b3;
+		} else {
+			d1 = d2 * d3;
+		}
+	}
+}

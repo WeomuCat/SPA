@@ -1,0 +1,12 @@
+procedure main {
+	while (w < 36) {
+		while (x > 37) {
+			while (y > 37) {
+				print a;
+				print b;
+				print c;
+				print d;
+			}
+		}
+	}
+}

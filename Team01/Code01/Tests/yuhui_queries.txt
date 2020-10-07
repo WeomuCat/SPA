@@ -1,0 +1,75 @@
+1 - comment
+variable v;
+Select v
+a, b, c, d, e, f
+5000
+2 - comment
+print pn;
+Select pn
+1, 2, 3, 4, 5
+5000
+3 - comment
+stmt s1, s2; variable v;
+Select s1 such that Follows(s1,s2)
+1, 2, 3, 4, 5
+5000
+4 - comment
+assign a;
+Select a such that Follows(1,a)
+none
+5000
+5 - comment
+stmt s;
+Select s such that Follows(3,s)
+4
+5000
+6- comment
+print p;
+Select p such that FollowsT(2, p)
+3, 4, 5
+5000
+7- comment
+print p;
+Select p such that FollowsT(p, 5)
+1, 2, 3, 4
+5000
+8- comment
+print p;
+Select p such that Parent(2, p)
+none
+5000
+9- comment
+print p;
+Select p such that ParentT(2, 3)
+none
+5000
+10 - comment
+stmt s; variable v;
+Select s such that UsesS(s, v)
+1, 2, 3, 4, 5
+5000
+11 - comment
+print pn; variable v;
+Select pn such that UsesS(pn, v)
+1, 2, 3, 4, 5
+5000
+12 - comment
+while w; variable v;
+Select w such that UsesS(w, v)
+none
+5000
+13 - comment
+stmt s; variable v;
+Select s such that ModifiesS(s, v)
+6
+5000
+14 - comment
+if i; variable v; stmt s;
+Select s such that ModifiesS(i, v)
+none
+5000
+15 - comment
+stmt s; variable v;
+Select s such that ModifiesS(6, v)
+1, 2, 3, 4, 5, 6
+5000

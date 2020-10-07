@@ -21,12 +21,13 @@ public:
 	BOOLEAN_TYPE setExpressionType(EXPR_TYPE expr_type);
 		/*
 		Description: Returns True if able to set the EXPR_TYPE of this ExpressionNode, false otherwise.
+					 The AST_NODE_PTR must be of type: CONSTANT_NODE_PTR, VARIABLE_NODE_PTR, EXPR_NOPDE_PTR
 		*/
 
 	BOOLEAN_TYPE setLeftAstNode(AST_NODE_PTR left_node_ptr);
 		/*
-		Description: Returns True if able to set AST_NODE_PTR to be the left-hand side 
-		child of this Expression, false otherwise
+		Description: Returns True if able to set AST_NODE_PTR to be the left-hand side child of this Expression, false otherwise
+					 The AST_NODE_PTR must be of type: CONSTANT_NODE_PTR, VARIABLE_NODE_PTR, EXPR_NOPDE_PTR
 		*/
 
 

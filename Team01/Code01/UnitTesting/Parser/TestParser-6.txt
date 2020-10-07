@@ -1,0 +1,5 @@
+procedure complexCond {
+	while ((a<b) && (!(b==c))) || (d>e) {
+		read x;
+	}
+}

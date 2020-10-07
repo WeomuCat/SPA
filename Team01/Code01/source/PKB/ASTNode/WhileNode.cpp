@@ -8,9 +8,6 @@ WhileNode::WhileNode() {
 
 BOOLEAN_TYPE WhileNode::setConditionNode(CONDITION_NODE_PTR condition_node_ptr) {
 	try {
-		if (condition_node_ptr == nullptr) {
-			return false;
-		}
 		addChildNode(condition_node_ptr);
 		condition_node_ptr->setParentNode(shared_from_this());
 		condition_node_ptr_ = condition_node_ptr;
@@ -23,9 +20,6 @@ BOOLEAN_TYPE WhileNode::setConditionNode(CONDITION_NODE_PTR condition_node_ptr) 
 
 BOOLEAN_TYPE WhileNode::setWhileStatementListNode(STMT_LIST_NODE_PTR while_stmt_list_node_ptr) {
 	try {
-		if (while_stmt_list_node_ptr == nullptr) {
-			return false;
-		}
 		addChildNode(while_stmt_list_node_ptr);
 		while_stmt_list_node_ptr->setParentNode(shared_from_this());
 		while_stmt_list_node_ptr_ = while_stmt_list_node_ptr;

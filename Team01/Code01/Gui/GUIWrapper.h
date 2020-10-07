@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <list>
+#include "../../Code01/source/PKB.h"
 
 
 class GUIWrapper {
@@ -19,6 +20,10 @@ class GUIWrapper {
   
   // method for evaluating a query
   virtual void evaluate(std::string query, std::list<std::string>& results);
+
+private:
+	PKB pkb = PKBBuilder().build();
+	bool allow_query_eval_;
 };
 
 #endif

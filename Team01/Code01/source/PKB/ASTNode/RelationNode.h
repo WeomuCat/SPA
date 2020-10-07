@@ -27,11 +27,13 @@ public:
 	BOOLEAN_TYPE setLeftAstNode(AST_NODE_PTR left_node_ptr);
 		/*
 		Description: Returns True if able to set AST_NODE_PTR to be the left-hand side child of this Relation, false otherwise
+					 The AST_NODE_PTR must be of type: CONSTANT_NODE_PTR, VARIABLE_NODE_PTR
 		*/
 
 	BOOLEAN_TYPE setRightAstNode(AST_NODE_PTR right_node_ptr);
 		/*
 		Description: Returns True if able to set AST_NODE_PTR to be the right-hand side child of this Relation, false otherwise.
+					 The AST_NODE_PTR must be of type: CONSTANT_NODE_PTR, VARIABLE_NODE_PTR
 		*/
 
 	RELATION_TYPE getRelationType();

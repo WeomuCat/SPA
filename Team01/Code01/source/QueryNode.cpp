@@ -2,9 +2,11 @@
 
 #include "QueryNode.h"
 #include "QueryNodeType.h"
+#include <iterator>
 
 QueryNode::QueryNode() {
 	this->node_type = QueryNodeType::unassigned;
+	this->synonym_type = QuerySynonymType::unassigned;
 }
 
 void QueryNode::setNodeType(QUERY_NODE_TYPE node_type) {
@@ -27,19 +29,19 @@ void QueryNode::setNodeType(NODE_TYPE_STRING node_type_string) {
 	else if (std::regex_match(node_type_string, std::regex("Follows"))) {
 		this->node_type = QueryNodeType::follows;
 	}
-	else if (std::regex_match(node_type_string, std::regex("FollowsT"))) {
+	else if (std::regex_match(node_type_string, std::regex("Follows\\*"))) {
 		this->node_type = QueryNodeType::followsT;
 	}
 	else if (std::regex_match(node_type_string, std::regex("Parent"))) {
 		this->node_type = QueryNodeType::parent;
 	}
-	else if (std::regex_match(node_type_string, std::regex("ParentT"))) {
+	else if (std::regex_match(node_type_string, std::regex("Parent\\*"))) {
 		this->node_type = QueryNodeType::parentT;
 	}
-	else if (std::regex_match(node_type_string, std::regex("UsesS"))) {
+	else if (std::regex_match(node_type_string, std::regex("Uses"))) {
 		this->node_type = QueryNodeType::usesS;
 	}
-	else if (std::regex_match(node_type_string, std::regex("ModifiesS"))) {
+	else if (std::regex_match(node_type_string, std::regex("Modifies"))) {
 		this->node_type = QueryNodeType::modifiesS;
 	}
 }
@@ -62,6 +64,7 @@ INTEGER QueryNode::getInteger() {
 
 void QueryNode::setASTNode(AST_NODE astnode) {
 	this->node_type = { QueryNodeType::expression };
+
 	QueryNodeContent content = QueryNodeContent(astnode);
 	this->node_content = content;
 }
@@ -126,16 +129,15 @@ STRING QueryNode::getString() {
 	return node_content.getString();
 }
 
-
-void QueryNode::setChildren(QUERY_NODE_POINTERS children) {
-	this->children = children;
+void QueryNode::setChildren(QUERY_NODE_POINTERS children, int size) {
+	for (int i = 0; i < size; i++) {
+		this->children.push_back(children[i]);
+	}
 }
 
-QUERY_NODE_POINTERS QueryNode::getChildren() {
-	return children;
+QUERY_NODE_LIST QueryNode::getChildren() {
+	return QUERY_NODE_LIST(children);
 }
-
-
 
 QUERY_NODE_CONTENT QueryNode::getQueryNodeContent() {
 	return node_content;

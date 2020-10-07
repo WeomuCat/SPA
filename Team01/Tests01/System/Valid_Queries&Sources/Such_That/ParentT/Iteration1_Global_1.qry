@@ -1,0 +1,80 @@
+1 - Statement and Constant
+stmt s;
+Select s such that Parent* (s, 56)
+47, 48, 49, 50, 51, 52, 53, 54, 55
+1000
+2 - If and Constant
+if i;
+Select i such that Parent* (i, 97)
+93, 94, 95, 96
+1000
+3 - While and Constant
+while w;
+Select w such that Parent* (w, 33)
+12, 29
+1000
+4 - Constant and Assign
+assign a;
+Select a such that Parent* (29, a)
+31, 32, 33, 34, 35, 36, 37, 38
+1000
+5 - Constant and Print
+print p;
+Select p such that Parent* (73, p)
+84, 85
+1000
+6 - Constant and Read 
+read r;
+Select r such that Parent* (48, r)
+65, 66, 67, 68
+1000
+7 - If and If
+if i1, i2;
+Select i1 such that Parent* (i1, i2)
+3, 8, 93, 94, 95
+1000
+8 - If and Assign
+if i; assign a;
+Select a such that Parent* (i, a)
+13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 28, 31, 32, 33, 34, 35, 36, 37, 38, 60, 61, 62, 63, 64, 75, 76, 77, 78, 80, 81, 82, 83, 86, 87, 90, 97, 98, 99, 100, 101
+1000
+9 - If and Print
+if i; print p;
+Select p such that Parent* (i, p)
+39, 56, 57, 58, 59, 84, 85
+1000
+10 - If and Read
+if i; read r;
+Select r such that Parent* (i, r)
+4, 5, 6, 7, 9, 10, 11, 65, 66, 67, 68
+1000
+11 - While and While
+while w1, w2;
+Select w1 such that Parent* (w1, w2)
+12, 47, 48, 49, 51, 52, 53, 54, 73, 88, 105
+1000
+12 - While and Assign
+while w; assign a;
+Select a such that Parent* (w, a)
+13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 28, 31, 32, 33, 34, 35, 36, 37, 38, 60, 61, 62, 63, 64, 75, 76, 77, 78, 80, 81, 82, 83, 86, 87, 90, 97, 98, 99, 100, 101, 102, 103, 104
+1000
+13 - While and Print
+while w; print p;
+Select p such that Parent* (w, p)
+56, 57, 58, 59, 84, 85, 107, 108, 109
+1000
+14 - Wildcard and Print
+print p;
+Select p such that Parent* (_, p)
+39, 56, 57, 58, 59, 84, 85, 107, 108, 109
+1000
+15 - If and Wildcard
+if i;
+Select i such that Parent* (i, _)
+3, 8, 30, 50, 74, 93, 94, 95, 96
+1000
+16 - Wildcard and Wilcard, Select Randomly
+read r;
+Select r such that Parent* (_, _)
+1, 4, 5, 6, 7, 9, 10, 11, 65, 66, 67, 68, 69, 70, 71, 72, 91, 92
+1000

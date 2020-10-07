@@ -1,6 +1,7 @@
 #pragma once
 
 enum class QuerySynonymType {
+	unassigned,
 	stmt,
 	read,
 	print,

@@ -1,0 +1,45 @@
+1 - Constant and Assign, Select Assign
+assign a;
+Select a such that Parent (37, a) pattern a (_, _"sadness"_)
+38
+5000
+2 - Statement and Assign , Select Assign
+assign a; stmt s;
+Select a such that Parent (s, a) pattern a (_, _"5"_)
+17, 28, 87, 90, 91, 92
+5000
+3 - If and Assign , Select Assign
+assign a; if i;
+Select a such that Parent (i, a) pattern a (_, _"messages"_)
+52
+5000
+4 - While and Assign, Select Assign
+assign a; while w;
+Select a such that Parent (w, a) pattern a (_, _"10"_)
+39, 57, 84
+5000
+5 - Statement and Assign , Select Statement
+assign a; stmt s;
+Select s such that Parent (s, a) pattern a (_, _"tired"_)
+7, 53, 86
+5000
+6 - If and Assign, Select If
+assign a; if i;
+Select i such that Parent (i, a) pattern a (_, _"0"_)
+9, 18, 29, 40, 47, 58, 61, 63, 67, 86
+5000
+7 - While and Assign, Select While
+assign a; while w;
+Select w such that Parent (w, a) pattern a (_, _"boredom"_)
+53
+5000
+8 - Constant and Assign, Select Assign, No Assignment
+assign a;
+Select a such that Parent (58, a) pattern a (_, _"1"_)
+none
+5000
+9 - Wildcard and Assign
+assign a;
+Select a such that Parent (_, a) pattern a (_, _"24"_)
+5, 6
+5000

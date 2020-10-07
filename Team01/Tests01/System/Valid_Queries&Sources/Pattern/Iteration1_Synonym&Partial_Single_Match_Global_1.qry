@@ -1,0 +1,96 @@
+1 - Variable Synonym, Partial Match a
+assign a; variable v;
+Select a pattern a (v, _"a"_)
+15, 17, 20, 22, 24, 28, 40, 60, 61, 75
+1000
+2 - Variable Synonym, Partial Match b
+assign a; variable v;
+Select a pattern a (v, _"b"_)
+15, 17, 20, 28, 40, 60, 61, 62, 75, 76
+1000
+3 - Variable Synonym, Partial Match c
+assign a; variable v;
+Select a pattern a (v, _"c"_)
+15, 17, 20, 23, 28, 40, 60, 61, 75, 77
+1000
+4 - Variable Synonym, Partial Match d
+assign a; variable v;
+Select a pattern a (v, _"d"_)
+17, 18, 20, 28, 40, 60, 61, 62, 75, 78
+1000
+5 - Variable Synonym, Partial Match e
+assign a; variable v;
+Select a pattern a (v, _"e"_)
+80, 81, 82, 83, 97
+1000
+6 - Variable Synonym, Partial Match x
+assign a; variable v;
+Select a pattern a (v, _"x"_)
+104
+1000
+7 - Variable Synonym, Partial Match y
+assign a; variable v;
+Select a pattern a (v, _"y"_)
+104
+1000
+8 - Variable Synonym, Partial Match z
+assign a; variable v;
+Select a pattern a (v, _"z"_)
+none
+1000
+9 - Select v, Variable Synonym, Partial Match a
+assign a; variable v;
+Select v pattern a (v, _"a"_)
+d, cat, z, c, a, woof
+1000
+10 - Select v, Variable Synonym, Partial Match b
+assign a; variable v;
+Select v pattern a (v, _"b"_)
+d, cat, z, woof, a, c, b
+1000
+11 - Select v, Variable Synonym, Partial Match c
+assign a; variable v;
+Select v pattern a (v, _"c"_)
+d, cat, z, b, woof, a, c
+1000
+12 - Select v, Variable Synonym, Partial Match d
+assign a; variable v;
+Select v pattern a (v, _"d"_)
+cat, dog, z, woof, a, c, d
+1000
+13 - Select v, Variable Synonym, Partial Match e
+assign a; variable v;
+Select v pattern a (v, _"e"_)
+a, b, c, d, name
+1000
+14 - Select v, Variable Synonym, Partial Match x
+assign a; variable v;
+Select v pattern a (v, _"x"_)
+z
+1000
+15 - Select v, Variable Synonym, Partial Match y
+assign a; variable v;
+Select v pattern a (v, _"y"_)
+z
+1000
+16 - Select v, Variable Synonym, Partial Match z
+assign a; variable v;
+Select v pattern a (v, _"z"_)
+none
+1000
+17 - Variable Synonym, Non Existing Match
+assign a; variable v;
+Select v pattern a (v, _"main"_)
+none
+5000
+10 - Variable Synonym, Partial Match Existing Constant
+assign a; variable v;
+Select a pattern a (v, _"67890"_)
+103
+1000
+11 - Variable Synonym, Partial Match Non Existing Constant
+assign a; variable v;
+Select a pattern a (v, _"7"_)
+none
+1000
+

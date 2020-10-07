@@ -1,0 +1,4 @@
+procedure minimised {
+	print x;
+	x = a - 10 / b;
+	}

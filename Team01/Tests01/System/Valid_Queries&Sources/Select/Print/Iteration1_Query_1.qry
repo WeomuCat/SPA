@@ -1,5 +1,5 @@
 1 - Query One
 print p;
 Select p
-a, b, c
+1, 2, 3
 1000

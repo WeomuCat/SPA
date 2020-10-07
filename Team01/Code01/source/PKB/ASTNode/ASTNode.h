@@ -22,11 +22,14 @@ public:
 	AST_NODE_PTR getParentNode();
 		/*
 		Description: Returns the parent AST_NODE_PTR of this ASTNode
+					 The Parent AST_NODE_PTR is automatically set when setting this node as the child.
 		*/
 
 	AST_NODE_PTR_LIST getChildrenNode();
 		/*
 		Description: Returns the children AST_NODE_PTR_LIST of this ASTNode
+					 A child AST_NODE_PTR is automatically added when setting the child nodes of a respective NODE of a particular type.
+
 		*/
 
 	NODE_TYPE getNodeType();
@@ -36,6 +39,7 @@ public:
 
 private:
 	friend class AssignNode;
+	friend class CallNode;
 	friend class ConditionNode;
 	friend class ConstantNode;
 	friend class ExpressionNode;

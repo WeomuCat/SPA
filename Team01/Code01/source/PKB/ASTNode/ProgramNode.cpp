@@ -6,9 +6,6 @@ ProgramNode::ProgramNode() {
 
 BOOLEAN_TYPE ProgramNode::addProcedureNode(PROC_NODE_PTR proc_node_ptr) {
 	try {
-		if (proc_node_ptr == nullptr) {
-			return false;
-		}
 		addChildNode(proc_node_ptr);
 		proc_node_ptr->setParentNode(shared_from_this());
 		proc_node_ptr_list_.push_back(proc_node_ptr);

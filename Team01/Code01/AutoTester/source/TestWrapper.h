@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <list>
+#include "PKB.h"
 
 // include your other headers here
 #include "AbstractWrapper.h"
@@ -21,6 +22,10 @@ class TestWrapper : public AbstractWrapper {
   
   // method for evaluating a query
   virtual void evaluate(std::string query, std::list<std::string>& results);
+
+private:
+	PKB pkb = PKBBuilder().build();
+	bool allow_query_eval_ ;
 };
 
 #endif

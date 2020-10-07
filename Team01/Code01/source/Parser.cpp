@@ -11,18 +11,11 @@
 #include "PKB.h"
 #include "Parser.h"
 #include "PKB/ASTNode/NodeTypeEnum.h"
-
-//TODO: Ensure RelationNode.h is included in PKB
 #include "PKB/ASTNode/RelationNode.h"
 
-	int Parser::Parse() {
-
-		return 0;
-	}
 
 	PKB Parser::parseFile(STRING filename) {
 		//Construct program root node
-		//Will this be deleted after function exits?
 		this->program_node_ = (std::make_shared<ProgramNode>)();
 		this->pkb_builder_ = PKBBuilder();
 		this->pkb_builder_.setProgramNode(this->program_node_);
@@ -73,44 +66,44 @@
 				this->process_token_stream_.pop_front();
 				this->stmt_token_queue_.push_back("assign"); //Note that this was enqueued instead of '='
 				this->stmt_token_queue_.push_back(stmt_token); //This would be the variable name
-				parseAssign(&this->stmt_token_queue_, &this->process_token_stream_);
+				parseAssign();
 				continue;
 			}
 
 			//After checking first two tokens, call appropriate parse function
 			if (stmt_token == "procedure") {
 				this->stmt_token_queue_.push_back(stmt_token); //This is "procedure" token
-				parseProcedure(&this->stmt_token_queue_, &this->process_token_stream_);
+				parseProcedure();
 				continue;
 			}
 
 			if (stmt_token == "read") {
 				this->stmt_token_queue_.push_back(stmt_token); //This is "read" token
-				parseRead(&this->stmt_token_queue_, &this->process_token_stream_);
+				parseRead();
 				continue;
 			}
 
 			if (stmt_token == "print") {
 				this->stmt_token_queue_.push_back(stmt_token); //This is "print" token
-				parsePrint(&this->stmt_token_queue_, &this->process_token_stream_);
+				parsePrint();
 				continue;
 			}
 
 			if (stmt_token == "while") {
 				this->stmt_token_queue_.push_back(stmt_token); //This is "while" token
-				parseWhile(&this->stmt_token_queue_, &this->process_token_stream_);
+				parseWhile();
 				continue;
 			}
 
 			if (stmt_token == "if") {
 				this->stmt_token_queue_.push_back(stmt_token); //This is "if" token
-				parseIfThen(&this->stmt_token_queue_, &this->process_token_stream_);
+				parseIfThen();
 				continue;
 			}
 
 			if (stmt_token == "else") {
 				this->stmt_token_queue_.push_back(stmt_token); //This is "else" token
-				parseElse(&this->stmt_token_queue_, &this->process_token_stream_);
+				parseElse();
 				continue;
 			}
 
@@ -120,88 +113,15 @@
 			}
 
 			//Handler for all other tokens, prints them out
-			std::cout << "\nUnprocessed Token: " << stmt_token;
+			throw "Unexpected Token Encountered.";
 		}
 
 		PKB pkb = this->pkb_builder_.build();
 		
-		//Testing Functions
-		printTree(this->program_node_);
-
-
-		//Relationship Testing 1: Does not include vars in conditions in while or if
-		std::unordered_set<int> stmt_num_set = {1, 2, 3, 4, 5, 6};
-		std::unordered_set<STRING> var_name_set = { "c1", "c2", "c3"
-			, "a1", "a2", "a3"
-			, "b1", "b2", "b3", "b4"
-			, "d1", "d2", "d3", "d4", "d5", "d6" };
-		std::unordered_set<STRING> proc_name_set = { "main" };
-
-		std::cout << "\n\n\n==================== Testing Relationships ====================\n\n\n";
-
-		//Test Follows
-		std::cout << "\nTesting Follows Relationships:\n";
-		for (int s1 : stmt_num_set) {
-			for (int s2 : stmt_num_set) {
-				if (pkb.isFollows(s1, s2)) {
-					std::cout << "(" << s1 << "," << s2 << ") ";
-				}
-			}
-		}
-		std::cout << "\nFollows Relationships Test Complete:\n";
-
-		//Test Parent
-		std::cout << "\nTesting Parent Relationships:\n";
-		for (int s1 : stmt_num_set) {
-			for (int s2 : stmt_num_set) {
-				if (pkb.isParent(s1, s2)) {
-					std::cout << "(" << s1 << "," << s2 << ") ";
-				}
-			}
-		}
-		std::cout << "\nParent Relationships Test Complete:\n";
-
-		//Test Modifies
-		std::cout << "\nTesting Modifies Relationships:\n";
-		for (STRING v : var_name_set) {
-			std::cout << "\nTesting Variable " << v << ":\n";
-			for (int s1 : stmt_num_set) {
-				if (pkb.isModifies(s1, v)) {
-					std::cout << "(" << s1 << "," << v << ") ";
-				}
-			}
-
-			for (STRING p1 : proc_name_set) {
-				if (pkb.isModifies(p1, v)) {
-					std::cout << "ProcedureModifies(" << p1 << "," << v << ") ";
-				}
-			}
-		}
-		std::cout << "\nModifies Relationships Test Complete:\n";
-
-		//Test Uses
-		std::cout << "\nTesting Uses Relationships:\n";
-		for (STRING v : var_name_set) {
-			std::cout << "\nTesting Variable " << v << ":\n";
-			for (int s1 : stmt_num_set) {
-				if (pkb.isUses(s1, v)) {
-					std::cout << "(" << s1 << "," << v << ") ";
-				}
-			}
-
-			for (STRING p1 : proc_name_set) {
-				if (pkb.isUses(p1, v)) {
-					std::cout << "ProcedureUses(" << p1 << "," << v << ") ";
-				}
-			}
-		}
-		std::cout << "\nUses Relationships Test Complete:\n";
-
-		std::cout << "\n\n\n==================== End of Testing Relationships ====================\n\n\n";
 		return pkb;
 	}
 
-	STRING Parser::getNextToken(std::istreambuf_iterator<char>* iter, std::istreambuf_iterator<char> eos) {
+	STRING Parser::getNextToken(FILE_ITER_PTR iter, FILE_ITER eos) {
 		std::string curr_token;
 
 		//Skip past all whitespaces
@@ -341,78 +261,16 @@
 		return curr_token;
 	}
 
-	int Parser::parseText(LIST_OF_STRINGS str_list) {
-
-		// Not considered for now.
-		return 0;
-	}
-
-	/*Note: For 'read' / 'print' / 'procedure' / 'call' we are unsure if keyword<NAME> is valid.
-	However we assume they are not for now. (This has been confirmed)
-	For example
-	"readx"
-	"procedureabv"
-	"callmain"
-	*/
-
-	/*Note: We assume that the first 4 terminals of the while stmt must be on the same line
-	�while� �(� cond_expr �)� �{� stmtLst <----- Terminals must be on the same line, stmtLst could be on same or diff.
-
-	stmtLst �}� <---- Can be on a different line, we make no assumption if stmtLst & �}� must be on the same line
-	*/
-
-	/*Note: We assume that the first 4 terminals of the if stmt must be on the same line
-	�if� �(� cond_expr �)� �then� �{� stmtLst <----- Terminals must be on the same line, stmtLst could be on same or diff.
-
-	stmtLst �}� �else� �{� stmtLst �}� <- Can be on a different line,
-											we make no assumption if any of these terminals & non-terminals must be on the same line
-	*/
-
-	/*Note: We do not assume that a newline must follow '}' */
-
-	/*Note: (WRONG ASSUMPTION) We are assuming each statement cannot be spread out across multiple lines
-	For example, the following is invalid
-	a
-	=
-	3;
-	*/
-
-	/*Note: (WRONG ASSUMPTION) We are assuming each statement must end with a ; on the same line.
-	For example, the following is invalid
-	a=3;
-	*/
-
-
-	/*
-	For read, print, assign, call statements, the terminal ';' to indicate the end of the statement.
-
-	For procedure, while, if-then, else statement, the terminal '{' indicates the end of the opening segment of the container statement.
-
-	For statement lists, the terminal  '}' to indicate the end of the statement list.
-
-	Please note that for the above statements that the end of the statement, statement list, or opening segment
-	DOES NOT indicate the end of the line. There can be combinations of the aforementioned in a single line. (A 50 line program could be compressed to 1 line)
-	*/
-
-	/*
-	Due to the possibility of 'read', 'print', 'if', 'else', 'then', 'while', 'procedure', 'call' being variable names,
-	we must look ahead at least 1 token to see if it is an assign statement.
-	*/
-
-	/*
-	Note that for cond_expr, if a boolean operator is applied to it, the operand(s) cond_expr will each be encapsulated by the terminals '(', ')'
-	*/
-
-	int Parser::parseWhile(STMT_TOKEN_QUEUE stmt_tok_queue, PROCESS_TOKEN_QUEUE proc_tok_queue) {
+	void Parser::parseWhile() {
 
 		if (this->stmt_token_queue_.front() != "while") {
-			return -1;
+			throw "Error: Expected 'while' terminal but was not found.";
 		}
 		this->stmt_token_queue_.pop_front(); // Remove stmt type token
 		
 		//Check for '('
 		if (this->process_token_stream_.front() != "(") {
-			return -1;
+			throw "Error: Expected '(' terminal but was not found.";
 		}
 		//We no longer need to remove "(" terminal required because we parse this along with ')'
 		//this->process_token_stream_.pop_front(); // Remove stmt type token
@@ -432,24 +290,16 @@
 		//TODO: HANDLERS FOR EMPTY STACKS / UNEXCPECTED TOKENS
 		//Need to handle gracefully
 
-		while (!process_token_stream_.empty() && rhs_token != "{") {
+		while (!this->process_token_stream_.empty() && rhs_token != "{") {
 			//These tokens will populate this->stmt_token_queue_
 			this->stmt_token_queue_.push_back(rhs_token);
 			rhs_token = this->process_token_stream_.front();
 			this->process_token_stream_.pop_front(); // Remove var/const/operator/parentheses token for the next token
 		}
 
-		if (process_token_stream_.empty()) {
+		if (this->process_token_stream_.empty()) {
 			throw "Error: Expected '{' terminal but was not found.";
 		}
-		
-		//TODO:REMOVE DEBUGGING HERE
-		std::cout << "\nWhile Condition Tokens: \n";
-		for (STRING x : stmt_token_queue_) {
-			std::cout << x << ", ";
-		}
-
-		std::cout << "\nFront Token" << this->process_token_stream_.front() << "\n";
 
 		//They will form the expr that is assigned to new_expr_node
 		//Then they will be funneled through the shunting yard algo
@@ -460,7 +310,6 @@
 		while (!this->stmt_token_queue_.empty()) {
 			//Get & remove first token from stmt_token_queue_
 			temp_token = this->stmt_token_queue_.front();
-			std::cout << "\nFront Token: " << temp_token << "\n";
 			this->stmt_token_queue_.pop_front();
 
 			//if isalpha(first_char) 
@@ -955,7 +804,7 @@
 
 		//Once ';' is reached or stmt_token_queue_ is empty we should have only 1 expression node or VarNode/ConstNode in the output stack.
 		if (output_node_stack.size() != 1) {
-			return -1;
+			throw "Error: Expected 1 node left in output_node_stack after parsing all tokens.";
 		}
 		//Note that we must check if we need to encapsulate RelationNode to return a proper ConditionNode
 		std::shared_ptr<ASTNode> last_node = output_node_stack.back();
@@ -964,11 +813,11 @@
 		if (last_node->getNodeType() == NodeTypeEnum::variableNode
 			|| last_node->getNodeType() == NodeTypeEnum::constantNode) {
 
-			//TODO: Check if such node types are valid as condition.
+			//Check if such node types are valid as condition.
 			throw "Error: ConditionNode/RelationNode expected but VariableNode/ConstantNode found.";
 		}
 		else if (last_node->getNodeType() == NodeTypeEnum::expressionNode) {
-			//TODO: Check if such node types are valid as condition.
+			//Check if such node types are valid as condition.
 			throw "Error: ConditionNode/RelationNode expected but ExpressionNode found.";
 		}
 		else if (last_node->getNodeType() == NodeTypeEnum::relationNode) {
@@ -983,17 +832,6 @@
 			throw "Error: ConditionNode/RelationNode expected, unknown node type found.";
 		}
 
-		/* This is now covered earlier
-		//Check for '{'
-
-		if (this->process_token_stream_.front() != "{") {
-			std::string msg = "Error: Expected '{' but found '" + this->process_token_stream_.front() + "'";
-			throw msg;
-		}
-		this->process_token_stream_.pop_front(); // Pops out '{'
-		*/
-
-
 		//Construct new_stmt_list_node & new_procedure_node
 		std::shared_ptr<StatementListNode> new_stmt_list_node = std::make_shared<StatementListNode>();
 
@@ -1006,7 +844,7 @@
 		std::static_pointer_cast<StatementListNode>(this->current_parent_node_)->addStatementNode(new_while_node);
 		new_while_node->setStatementListNode(std::static_pointer_cast<StatementListNode>(this->current_parent_node_));		
 		
-		
+
 
 		//add Parent relationship if this->current_parent_node_->getParentNode() is not procedureNode
 		if (this->current_parent_node_->getParentNode()->getNodeType() != NodeTypeEnum::procedureNode) {
@@ -1067,33 +905,26 @@
 			}
 		}
 
-
 		//change parent tracker to stmtlistnode_ptr
 		this->current_parent_node_ = new_stmt_list_node;
 
 		//Need to add new_stmt_list_node & new_while_node to PKB tables
 		this->pkb_builder_.addWhileNode(new_while_node);
-
-		std::cout << "\n ParentNode Size: " << this->current_parent_node_->getChildrenNode().size();
-
-		//Debugging statement
-		std::cout << "\nCreated while node: " << new_while_node << "\n";
-
-
-		return 0;
+		this->pkb_builder_.addStatementNode(new_while_node);
+		this->pkb_builder_.addStatementListNode(new_stmt_list_node);
 	}
 
-	int Parser::parseIfThen(STMT_TOKEN_QUEUE stmt_tok_queue, PROCESS_TOKEN_QUEUE proc_tok_queue) {
+	void Parser::parseIfThen() {
 		//We assume that this opening segment will either terminate with '{' or ';' with the exception of whitespaces and newline?
 
 		if (this->stmt_token_queue_.front() != "if") {
-			return -1;
+			throw "Error: Expected \"if\" terminal but not found.";
 		}
 		this->stmt_token_queue_.pop_front(); // Remove stmt type token
 
 		//Check for '('
 		if (this->process_token_stream_.front() != "(") {
-			return -1;
+			throw "Error: Expected \"(\" terminal but not found.";
 		}
 		//We no longer need to remove "(" terminal required because we parse this along with ')'
 		//this->process_token_stream_.pop_front(); // Remove stmt type token
@@ -1113,14 +944,14 @@
 		//TODO: HANDLERS FOR EMPTY STACKS / UNEXCPECTED TOKENS
 		//Need to handle gracefully
 
-		while (!process_token_stream_.empty() && rhs_token != "then") {
+		while (!this->process_token_stream_.empty() && rhs_token != "then") {
 			//These tokens will populate this->stmt_token_queue_
 			this->stmt_token_queue_.push_back(rhs_token);
 			rhs_token = this->process_token_stream_.front();
 			this->process_token_stream_.pop_front(); // Remove var/const/operator/parentheses token for the next token
 		}
 
-		if (process_token_stream_.empty()) {
+		if (this->process_token_stream_.empty()) {
 			throw "Error: Expected 'then' terminal but was not found.";
 		}
 
@@ -1133,7 +964,6 @@
 		while (!this->stmt_token_queue_.empty()) {
 			//Get & remove first token from stmt_token_queue_
 			temp_token = this->stmt_token_queue_.front();
-			std::cout << "\nFront Token: " << temp_token << "\n";
 			this->stmt_token_queue_.pop_front();
 
 			//if isalpha(first_char) 
@@ -1183,7 +1013,7 @@
 				else if (temp_token == "==") {
 					op = RelOperatorTypeEnum::ropEq;
 				}
-				else if (temp_token == "!+") {
+				else if (temp_token == "!=") {
 					op = RelOperatorTypeEnum::ropNeq;
 				}
 				else if (temp_token == ">") {
@@ -1628,7 +1458,7 @@
 
 		//Once ';' is reached or stmt_token_queue_ is empty we should have only 1 expression node or VarNode/ConstNode in the output stack.
 		if (output_node_stack.size() != 1) {
-			return -1;
+			throw "Error: Expected 1 node left in output_node_stack after parsing all tokens.";
 		}
 		//Note that we must check if we need to encapsulate RelationNode to return a proper ConditionNode
 		std::shared_ptr<ASTNode> last_node = output_node_stack.back();
@@ -1637,11 +1467,11 @@
 		if (last_node->getNodeType() == NodeTypeEnum::variableNode
 			|| last_node->getNodeType() == NodeTypeEnum::constantNode) {
 
-			//TODO: Check if such node types are valid as condition.
+			//Check if such node types are valid as condition.
 			throw "Error: ConditionNode/RelationNode expected but VariableNode/ConstantNode found.";
 		}
 		else if (last_node->getNodeType() == NodeTypeEnum::expressionNode) {
-			//TODO: Check if such node types are valid as condition.
+			//Check if such node types are valid as condition.
 			throw "Error: ConditionNode/RelationNode expected but ExpressionNode found.";
 		}
 		else if (last_node->getNodeType() == NodeTypeEnum::relationNode) {
@@ -1656,100 +1486,8 @@
 			throw "Error: ConditionNode/RelationNode expected, unknown node type found.";
 		}
 
-		/*OLD
-		this->process_token_stream_.pop_front(); // Remove "(" type token
-
-
-
-		//Read in simple comparison (only 1 var/const on each side)	
-
-		//To read for simple comparison
-		STRING lhs_rel_token = this->process_token_stream_.front(); //Retrieves potential NAME/CONST token
-		this->process_token_stream_.pop_front(); // Pops out NAME/CONST token
-		std::shared_ptr<ASTNode> lhs_node;
-		//Create node & add to table
-		if (isalpha(lhs_rel_token.at(0))) {
-			lhs_node = std::make_shared<VariableNode>();
-			std::static_pointer_cast<VariableNode>(lhs_node)->setVariableName(lhs_rel_token);
-			this->pkb_builder_.addVariableNode(std::static_pointer_cast<VariableNode>(lhs_node));
-		}
-		else if (isdigit(lhs_rel_token.at(0))) {
-			lhs_node = std::make_shared<ConstantNode>();
-			std::static_pointer_cast<ConstantNode>(lhs_node)->setValue(lhs_rel_token);
-			this->pkb_builder_.addConstantNode(std::static_pointer_cast<ConstantNode>(lhs_node));
-		}
-		else {
-			return -1;
-		}
-
-		RelationTypeEnum rel_comp;
-		STRING rel_comp_token = this->process_token_stream_.front(); //Retrieves potential NAME/CONST token
-		this->process_token_stream_.pop_front(); // Pops out NAME/CONST token
-		if (rel_comp_token == "!=") {
-			rel_comp = RelationTypeEnum::neq;
-		}
-		else if (rel_comp_token == "==") {
-			rel_comp = RelationTypeEnum::eq;
-		}
-		else if (rel_comp_token == ">") {
-			rel_comp = RelationTypeEnum::gt;
-		}
-		else if (rel_comp_token == ">=") {
-			rel_comp = RelationTypeEnum::gte;
-		}
-		else if (rel_comp_token == "<=") {
-			rel_comp = RelationTypeEnum::lte;
-		}
-		else if (rel_comp_token == "<") {
-			rel_comp = RelationTypeEnum::lt;
-		}
-		else {
-			return -1;
-		}
-
-		STRING rhs_rel_token = this->process_token_stream_.front(); //Retrieves potential NAME/CONST token
-		this->process_token_stream_.pop_front(); // Pops out NAME/CONST token
-		std::shared_ptr<ASTNode> rhs_node;
-		//Create node & add to table
-		if (isalpha(rhs_rel_token.at(0))) {
-			rhs_node = std::make_shared<VariableNode>();
-			std::static_pointer_cast<VariableNode>(rhs_node)->setVariableName(rhs_rel_token);
-			this->pkb_builder_.addVariableNode(std::static_pointer_cast<VariableNode>(rhs_node));
-		}
-		else if (isdigit(rhs_rel_token.at(0))) {
-			rhs_node = std::make_shared<ConstantNode>();
-			std::static_pointer_cast<ConstantNode>(rhs_node)->setValue(rhs_rel_token);
-			this->pkb_builder_.addConstantNode(std::static_pointer_cast<ConstantNode>(rhs_node));
-		}
-		else {
-			return -1;
-		}
-
-		std::shared_ptr<RelationNode> relation_node = std::make_shared<RelationNode>();
-		relation_node->setRelationType(rel_comp);
-		relation_node->setLeftAstNode(lhs_node);
-		relation_node->setRightAstNode(rhs_node);
-
-		std::shared_ptr<ConditionNode> condition_node = std::make_shared<ConditionNode>();
-		condition_node->setConditionType(ConditionTypeEnum::none);
-		condition_node->setLeftAstNode(relation_node);
-
-		//Check for ')' , "then" , '{'
-		if (this->process_token_stream_.front() != ")") {
-			return -1;
-		}
-		this->process_token_stream_.pop_front(); // Pops out '{'
-		*/
-
-		/*No longer required as it has already been popped earlier
-		if (this->process_token_stream_.front() != "then") {
-			return -1;
-		}
-		this->process_token_stream_.pop_front(); // Pops out '{'
-		*/
-
 		if (this->process_token_stream_.front() != "{") {
-			return -1;
+			throw "Error: Expected \"{\" terminal but not found.";
 		}
 		this->process_token_stream_.pop_front(); // Pops out '{'
 
@@ -1827,50 +1565,39 @@
 			}
 		}
 
-
-
 		//change parent tracker to stmtlistnode_ptr
 		this->current_parent_node_ = if_stmt_list_node;
 
 		//Need to add new_stmt_list_node & new_if_node to PKB tables
 		this->pkb_builder_.addIfNode(new_if_node);
-
-		std::cout << "\n ParentNode Size: " << this->current_parent_node_->getChildrenNode().size();
-
-		//Debugging statement
-		std::cout << "\nCreated if node: " << new_if_node << "\n";
-
-
-		return 0;
+		this->pkb_builder_.addStatementNode(new_if_node);
+		this->pkb_builder_.addStatementListNode(if_stmt_list_node);
+		this->pkb_builder_.addStatementListNode(else_stmt_list_node);
 	}
 
-	int Parser::parseElse(STMT_TOKEN_QUEUE stmt_tok_queue, PROCESS_TOKEN_QUEUE proc_tok_queue) {
+	void Parser::parseElse() {
 		//We assume that '{' will follow 'else'
 
 		if (this->stmt_token_queue_.front() != "else") {
-			return -1;
+			throw "Error: Expected \"else\" terminal but not found.";
 		}
 		this->stmt_token_queue_.pop_front(); // Remove stmt type token
 
 		//Check for "{"
 		if (this->process_token_stream_.front() != "{") {
-			return -1;
+			throw "Error: Expected \"{\" terminal but not found.";
 		}
 		this->process_token_stream_.pop_front(); // Pops out '{'
 
 		//Due to parseStmtListClose changing current_parent_node_ there is no need change parent tracker to stmtlistnode_ptr
 		//This function exists just to remove the "else" & "{" tokens
-		//Debugging statement
-		std::cout << "\nParse else tokens\n";
-
-		return 0;
 	}
 
-	int Parser::parseAssign(STMT_TOKEN_QUEUE stmt_tok_queue, PROCESS_TOKEN_QUEUE proc_tok_queue) {
+	void Parser::parseAssign() {
 		//We assume that this statement will terminate with ';'
 		// First token is assign
 		if (this->stmt_token_queue_.front() != "assign") {
-			return -1;
+			throw "Error: Expected \"assign\" terminal but not found.";
 		}
 		this->stmt_token_queue_.pop_front(); // Remove stmt type token
 
@@ -1878,7 +1605,7 @@
 		STRING lhs_name_token = this->stmt_token_queue_.front();
 		this->stmt_token_queue_.pop_front(); // Remove varname token
 		if (!isalpha(lhs_name_token.at(0)) && !isdigit(lhs_name_token.at(0))) {
-			return -1;
+			throw "Error: Expected token of NAME or INTEGER format but not found.";
 		}
 
 
@@ -1898,11 +1625,15 @@
 		//TODO: HANDLERS FOR EMPTY STACKS / UNEXCPECTED TOKENS
 		//Need to handle gracefully
 
-		while (rhs_token != ";") {
+		while (!this->process_token_stream_.empty() && rhs_token != ";") {
 			//These tokens will populate this->stmt_token_queue_
 			this->stmt_token_queue_.push_back(rhs_token);
 			rhs_token = this->process_token_stream_.front();
 			this->process_token_stream_.pop_front(); // Remove rhs var/const/operator/parentheses token for the next token
+		}
+
+		if (this->process_token_stream_.empty()) {
+			throw "Error: Expected ';' terminal but not found.";
 		}
 
 		//They will form the expr that is assigned to new_expr_node
@@ -1962,7 +1693,7 @@
 				}
 				else {
 					//If not any of the above tokens, return an error.
-					return -1;
+					throw "Error: Expected arithmetic operator terminal but not found.";
 				}
 
 				//throw into operator stack
@@ -1986,12 +1717,12 @@
 						if (rhs_operand->getNodeType() != NodeTypeEnum::expressionNode
 							&& rhs_operand->getNodeType() != NodeTypeEnum::variableNode
 							&& rhs_operand->getNodeType() != NodeTypeEnum::constantNode) {
-							return -1;
+							throw "Error: Expected rhs operand node of type ExpressionNode, VariableNode or ConstantNode but not found.";
 						}
 						if (lhs_operand->getNodeType() != NodeTypeEnum::expressionNode
 							&& lhs_operand->getNodeType() != NodeTypeEnum::variableNode
 							&& lhs_operand->getNodeType() != NodeTypeEnum::constantNode) {
-							return -1;
+							throw "Error: Expected lhs operand node of type ExpressionNode, VariableNode or ConstantNode but not found.";
 						}
 
 						ExpressionTypeEnum expr_type = getExpressionType(temp_op);
@@ -2005,7 +1736,7 @@
 						output_node_stack.push_back(new_expr_node);
 					}
 					// If operator_stack.empty() that means there are mismatched parentheses
-					if (operator_stack.empty()) return -1;
+					if (operator_stack.empty()) throw "Error: Mismatched parantheses";
 					if (operator_stack.back() == OperatorTypeEnum::opLparen) {
 						operator_stack.pop_back();
 					}
@@ -2030,12 +1761,12 @@
 						if (rhs_operand->getNodeType() != NodeTypeEnum::expressionNode
 							&& rhs_operand->getNodeType() != NodeTypeEnum::variableNode
 							&& rhs_operand->getNodeType() != NodeTypeEnum::constantNode) {
-							return -1;
+							throw "Error: Expected rhs operand node of type ExpressionNode, VariableNode or ConstantNode but not found.";
 						}
 						if (lhs_operand->getNodeType() != NodeTypeEnum::expressionNode
 							&& lhs_operand->getNodeType() != NodeTypeEnum::variableNode
 							&& lhs_operand->getNodeType() != NodeTypeEnum::constantNode) {
-							return -1;
+							throw "Error: Expected lhs operand node of type ExpressionNode, VariableNode or ConstantNode but not found.";
 						}
 
 						ExpressionTypeEnum expr_type = getExpressionType(temp_op);
@@ -2058,7 +1789,7 @@
 		while (!operator_stack.empty()) {
 			if (operator_stack.back() == OperatorTypeEnum::opLparen || operator_stack.back() == OperatorTypeEnum::opRparen) {
 				//Presence of parenthesis indicates mismatched parenthesis as they should have all been discarded earlier.
-				return -1;
+				throw "Error: Mismatched parentheses.";
 			}
 			//When we want to place an operator into the output stack,we instead create a new ExpressionNode (top Node of Stack is rhs, 2nd top is lhs)
 			temp_op = operator_stack.back();
@@ -2074,12 +1805,12 @@
 			if (rhs_operand->getNodeType() != NodeTypeEnum::expressionNode
 				&& rhs_operand->getNodeType() != NodeTypeEnum::variableNode
 				&& rhs_operand->getNodeType() != NodeTypeEnum::constantNode) {
-				return -1;
+				throw "Error: Expected rhs operand node of type ExpressionNode, VariableNode or ConstantNode but not found.";
 			}
 			if (lhs_operand->getNodeType() != NodeTypeEnum::expressionNode
 				&& lhs_operand->getNodeType() != NodeTypeEnum::variableNode
 				&& lhs_operand->getNodeType() != NodeTypeEnum::constantNode) {
-				return -1;
+				throw "Error: Expected lhs operand node of type ExpressionNode, VariableNode or ConstantNode but not found.";
 			}
 
 			ExpressionTypeEnum expr_type = getExpressionType(temp_op);
@@ -2097,7 +1828,6 @@
 		//We maintain an operator stack as well with type OperatorEnum {Plus, Minus, Times, Divide, LParen, RParen}
 		//We need a precedence checker
 
-
 		//Converting tokens to nodes the moment we dequeue them from this->stmt_token_queue_
 		//We use shunting yard algo with modifications
 		//When we want to place an operator into the output stack,we instead create a new ExpressionNode (top Node of Stack is rhs, 2nd top is lhs)
@@ -2106,7 +1836,7 @@
 
 		//Once ';' is reached or stmt_token_queue_ is empty we should have only 1 expression node or VarNode/ConstNode in the output stack.
 		if (output_node_stack.size() != 1) {
-			return -1;
+			throw "Error: Expected 1 node left in output_node_stack after parsing all tokens.";
 		}
 		//Note that we must check if we need to encapsulate VarNode/ConstNode to return a proper ExpressionNode
 		//We then create the AssignNode similar to the code below.
@@ -2247,32 +1977,23 @@
 					, var_name);
 			}
 		}
-
-		std::cout << "New Assign Node created.";
-		//TODO: Remove Debugging statements.
-		//USE BFS HERE
-		//printTree(new_assign_node);
-
-		//TODO: Test for invalid assignment statement case. (Mismatch parentheses, missing operand, missing operator, no ';')
-		//REPLACEMENT END
-		return 0;
 	}
 
-	int Parser::parseRead(STMT_TOKEN_QUEUE stmt_tok_queue, PROCESS_TOKEN_QUEUE proc_tok_queue) {
+	void Parser::parseRead() {
 		//We take in two tokens, expecting a NAME and a ';'
 		if (this->stmt_token_queue_.front() != "read") {
-			return -1;
+			throw "Error: Expected 'read' terminal but was not found.";
 		}
 		this->stmt_token_queue_.pop_front(); // Remove stmt type token
 
 		STRING name_token = this->process_token_stream_.front(); //Retrieves potential name token
 		this->process_token_stream_.pop_front(); // Pops out NAME token
 		if (!isalpha(name_token.at(0))) {
-			return -1;
+			throw "Error: Expected NAME token but was not found.";
 		}
 
 		if (this->process_token_stream_.front() != ";") {
-			return -1;
+			throw "Error: Expected ';' terminal but was not found.";
 		}
 		this->process_token_stream_.pop_front(); // Pops out ';'
 
@@ -2286,14 +2007,6 @@
 		this->stmt_num_++;
 		new_read_node->setStatementNumber(this->stmt_num_);
 
-		/*
-		//Set child & parent pointers
-		new_read_node->setParentNode(this->current_parent_node_);
-		this->current_parent_node_->addChildNode(new_read_node);
-		
-		new_var_node->setParentNode(new_read_node);
-		new_read_node->addChildNode(new_var_node);
-		*/
 		std::static_pointer_cast<StatementListNode>(this->current_parent_node_)->addStatementNode(new_read_node);
 		new_read_node->setStatementListNode(std::static_pointer_cast<StatementListNode>(this->current_parent_node_));
 
@@ -2318,7 +2031,6 @@
 				, new_read_node->getStatementNumber());
 		}
 
-		//TODO: Set Modifies Relationship this is actually relative to constNode/varNode creation & operation on it
 		//Set Modifies Relationship for this statement
 		VAR_NAME var_name = new_var_node->getVariableName();
 		this->pkb_builder_.addModifies(new_read_node->getStatementNumber()
@@ -2360,28 +2072,23 @@
 			this->pkb_builder_.addModifies(std::static_pointer_cast<ProcedureNode>(curr_container)->getProcedureName()
 				, var_name);
 		}
-
-		//Debugging statement
-		std::cout << "\nCreated read node with var: " << new_var_node->getVariableName();
-
-		return 0;
 	}
 
-	int Parser::parsePrint(STMT_TOKEN_QUEUE stmt_tok_queue, PROCESS_TOKEN_QUEUE proc_tok_queue) {
+	void Parser::parsePrint() {
 		//We take in two tokens, expecting a NAME and a ';'
 		if (this->stmt_token_queue_.front() != "print") {
-			return -1;
+			throw "Error: Expected 'print' terminal but was not found.";
 		}
 		this->stmt_token_queue_.pop_front(); // Remove stmt type token
 
 		STRING name_token = this->process_token_stream_.front(); //Retrieves potential name token
 		this->process_token_stream_.pop_front(); // Pops out NAME token
 		if (!isalpha(name_token.at(0))) {
-			return -1;
+			throw "Error: Expected NAME token but was not found.";
 		}
 
 		if (this->process_token_stream_.front() != ";") {
-			return -1;
+			throw "Error: Expected ';' terminal but was not found.";
 		}
 		this->process_token_stream_.pop_front(); // Pops out ';'
 
@@ -2395,14 +2102,6 @@
 		this->stmt_num_++;
 		new_print_node->setStatementNumber(this->stmt_num_);
 
-		/*
-		//Set child & parent pointers
-		new_print_node->setParentNode(this->current_parent_node_);
-		this->current_parent_node_->addChildNode(new_print_node);
-
-		new_var_node->setParentNode(new_print_node);
-		new_print_node->addChildNode(new_var_node);
-		*/
 		std::static_pointer_cast<StatementListNode>(this->current_parent_node_)->addStatementNode(new_print_node);
 		new_print_node->setStatementListNode(std::static_pointer_cast<StatementListNode>(this->current_parent_node_));
 
@@ -2427,7 +2126,6 @@
 				, new_print_node->getStatementNumber());
 		}
 
-		//TODO: Set Uses Relationship this is actually relative to constNode/varNode creation & operation on it
 		//Set Uses Relationship for this statement
 		VAR_NAME var_name = new_var_node->getVariableName();
 		this->pkb_builder_.addUses(new_print_node->getStatementNumber()
@@ -2468,28 +2166,23 @@
 			this->pkb_builder_.addUses(std::static_pointer_cast<ProcedureNode>(curr_container)->getProcedureName()
 				, var_name);
 		}
-
-		//Debugging statement
-		std::cout << "\nCreated print node with var: " << new_var_node->getVariableName();
-
-		return 0;
 	}
 
-	int Parser::parseProcedure(STMT_TOKEN_QUEUE stmt_tok_queue, PROCESS_TOKEN_QUEUE proc_tok_queue) {
+	void Parser::parseProcedure() {
 		//We assume that this opening segment will either terminate with '{'
 		if (this->stmt_token_queue_.front() != "procedure") {
-			return -1;
+			throw "Error: Expected 'procedure' terminal but was not found.";
 		}
 		this->stmt_token_queue_.pop_front(); // Remove stmt type token
 
 		STRING name_token = this->process_token_stream_.front(); //Retrieves potential name token
 		this->process_token_stream_.pop_front(); // Pops out NAME token
 		if (!isalpha(name_token.at(0))) {
-			return -1;
+			throw "Error: Expected NAME token but was not found.";
 		}
 		
 		if (this->process_token_stream_.front() != "{") {
-			return -1;
+			throw "Error: Expected '{' terminal but was not found.";
 		}
 		this->process_token_stream_.pop_front(); // Pops out '{'
 
@@ -2499,21 +2192,11 @@
 		new_procedure_node->setProcedureName(name_token);
 		new_procedure_node->setProcedureStatementListNode(new_stmt_list_node);
 
-		/*
-		//Set child & parent pointers
-		new_stmt_list_node->setParentNode(new_procedure_node);
-		new_procedure_node->addChildNode(new_stmt_list_node);
-		new_procedure_node->setParentNode(this->current_parent_node_);
-		*/
-
 		//Check that we are actually adding this new procedure to programNode
 		if (this->current_parent_node_->getNodeType() != NodeTypeEnum::programNode) {
-			return -1;
+			throw "Error: Expected current_parent_node to be ProgramNode but not found.";
 		}
-		
-		/*
-		this->current_parent_node_->addChildNode(new_procedure_node);
-		*/
+
 		std::static_pointer_cast<ProgramNode>(this->current_parent_node_)->addProcedureNode(new_procedure_node);
 
 		//change parent tracker to stmtlistnode_ptr
@@ -2521,51 +2204,26 @@
 		
 		//Need to add new_stmt_list_node & new_procedure_node to PKB tables
 		this->pkb_builder_.addProcedureNode(new_procedure_node);
-		std::cout << "\n ParentNode Size: " << this->current_parent_node_->getChildrenNode().size();
-
-		//Debugging statement
-		std::cout << "\nCreated procedure node: " << new_procedure_node->getProcedureName();
-
-		return 0;
+		this->pkb_builder_.addStatementListNode(new_stmt_list_node);
 	}
 
-	int Parser::parseCall(STRING str) {
+	/*
+	void Parser::parseCall(STRING str) {
 		//We assume that this statement will terminate with ';'
-		return 0;
 	}
+	*/
 
-	int Parser::parseStmtListClose() {
-		//Method 1: Accounts for procedure statement list only.
-		/*
-		//Checks if stmtlist size < 1, returns non-zero int as a signal that there is a problem
-		if (this->current_parent_node_->getChildrenNode().size() < 1) {
-			return -1;
-		}
-		std::cout << "\n ParentNode Size: " << this->current_parent_node_->getChildrenNode().size();
-		//Set current_parent_node_ as parent of parent of curr_parent_node_
-		//current_parent_node_ should be stmt_list_node
-		this->current_parent_node_ = this->current_parent_node_->getParentNode();
-		std::cout << "\n ParentNode Size: " << this->current_parent_node_->getChildrenNode().size();
-		this->current_parent_node_ = this->current_parent_node_->getParentNode();
-		std::cout << "\n ParentNode Size: " << this->current_parent_node_->getChildrenNode().size();
-
-		//Debugging stmt
-		std::shared_ptr<ProcedureNode> proc_node = std::static_pointer_cast<ProcedureNode>(this->current_parent_node_->getChildrenNode().at(0));
-		std::cout << "\nExited out of procedure node: " << proc_node->getProcedureName();
-		*/
-		
+	void Parser::parseStmtListClose() {	
 		//Method 2: accounts for container statements
 		
 		//Part 1: When closing a stmtList Node, 
 		//Checks if stmtlist size < 1, returns non-zero int as a signal that there is a problem
 		if (this->current_parent_node_->getChildrenNode().size() < 1) {
-			return -1;
-			//TODO:print parsing error -> incorrect code
+			throw "Error: Expected statement list to have at least 1 statement, but 0 statements found.";
 		}
 
 		//Part 2:
 		//Assuming we maintain curr_parent_node_
-
 
 		//There are 2 different ways to change the curr_parent_node_ (Refer to StmtListCloseChangeParentNode image)
 		if (this->current_parent_node_->getParentNode()->getNodeType() == NodeTypeEnum::ifNode){
@@ -2590,12 +2248,10 @@
 			this->current_parent_node_ = this->current_parent_node_->getParentNode()->getParentNode();
 
 		}
-
-		return 0;
 	}
 
 	//===== START OF HELPER FUNCTIONS =====
-	int Parser::takesPrecedent(OperatorTypeEnum l_op, OperatorTypeEnum r_op) {
+	PRECEDENCE Parser::takesPrecedent(OP_TYPE_ENUM l_op, OP_TYPE_ENUM r_op) {
 		//Returns 1 if left operator takes precendence
 		if (l_op == OperatorTypeEnum::opMult || l_op == OperatorTypeEnum::opDiv || l_op == OperatorTypeEnum::opMod) {
 			if (r_op == OperatorTypeEnum::opPlus || l_op == OperatorTypeEnum::opMin) {
@@ -2616,7 +2272,7 @@
 		}
 	}
 
-	ExpressionTypeEnum Parser::getExpressionType(OperatorTypeEnum op) {
+	EXPR_TYPE_ENUM Parser::getExpressionType(OP_TYPE_ENUM op) {
 		if (op == OperatorTypeEnum::opPlus) {
 			return ExpressionTypeEnum::plus;
 		}
@@ -2640,7 +2296,7 @@
 	//===== END OF HELPER FUNCTIONS =====
 
 	//===== START OF HELPER FUNCTIONS FOR RELATION NODE =====
-	int Parser::takesPrecedent(RelOperatorTypeEnum l_op, RelOperatorTypeEnum r_op) {
+	PRECEDENCE Parser::takesPrecedent(REL_OP_TYPE_ENUM l_op, REL_OP_TYPE_ENUM r_op) {
 		//Returns 1 if left operator takes precendence
 		if (l_op == RelOperatorTypeEnum::ropMult || l_op == RelOperatorTypeEnum::ropDiv || l_op == RelOperatorTypeEnum::ropMod) {
 			if (r_op == RelOperatorTypeEnum::ropMult || r_op == RelOperatorTypeEnum::ropDiv || r_op == RelOperatorTypeEnum::ropMod) {
@@ -2696,7 +2352,7 @@
 		}
 	}
 
-	ExpressionTypeEnum Parser::getExpressionType(RelOperatorTypeEnum op) {
+	EXPR_TYPE_ENUM Parser::getExpressionType(REL_OP_TYPE_ENUM op) {
 		if (op == RelOperatorTypeEnum::ropPlus) {
 			return ExpressionTypeEnum::plus;
 		}
@@ -2717,7 +2373,7 @@
 		}
 	}
 
-	RelationTypeEnum Parser::getArithmeticRelationType(RelOperatorTypeEnum op) {
+	REL_TYPE_ENUM Parser::getArithmeticRelationType(REL_OP_TYPE_ENUM op) {
 		if (op == RelOperatorTypeEnum::ropEq) {
 			return RelationTypeEnum::eq;
 		}
@@ -2741,7 +2397,7 @@
 		}
 	}
 
-	ConditionTypeEnum Parser::getBooleanRelationType(RelOperatorTypeEnum op) {
+	COND_TYPE_ENUM Parser::getBooleanRelationType(REL_OP_TYPE_ENUM op) {
 		if (op == RelOperatorTypeEnum::ropNot) {
 			return ConditionTypeEnum::not;
 		}
@@ -2756,7 +2412,7 @@
 		}
 	}
 
-	bool Parser::isArithmeticOp(RelOperatorTypeEnum op) {
+	BOOLEAN_TYPE Parser::isArithmeticOp(REL_OP_TYPE_ENUM op) {
 		if (op == RelOperatorTypeEnum::ropPlus || op == RelOperatorTypeEnum::ropMin
 			|| op == RelOperatorTypeEnum::ropMult || op == RelOperatorTypeEnum::ropDiv
 			|| op == RelOperatorTypeEnum::ropMod) {
@@ -2767,7 +2423,7 @@
 		}
 	}
 
-	bool Parser::isRelationOp(RelOperatorTypeEnum op) {
+	BOOLEAN_TYPE Parser::isRelationOp(REL_OP_TYPE_ENUM op) {
 		if (op == RelOperatorTypeEnum::ropEq || op == RelOperatorTypeEnum::ropNeq
 			|| op == RelOperatorTypeEnum::ropGt || op == RelOperatorTypeEnum::ropGte
 			|| op == RelOperatorTypeEnum::ropLt || op == RelOperatorTypeEnum::ropLte) {
@@ -2778,7 +2434,7 @@
 		}
 	}
 
-	bool Parser::isBooleanOp(RelOperatorTypeEnum op) {
+	BOOLEAN_TYPE Parser::isBooleanOp(REL_OP_TYPE_ENUM op) {
 		if (op == RelOperatorTypeEnum::ropBoolNone || op == RelOperatorTypeEnum::ropNot
 			|| op == RelOperatorTypeEnum::ropAnd || op == RelOperatorTypeEnum::ropOr) {
 			return true;
@@ -2789,120 +2445,3 @@
 	}
 
 	//===== END OF HELPER FUNCTIONS FOR RELATION NODE =====
-
-	//===== START OF DEBUGGER FUNCTIONS =====
-	int Parser::printTree(AST_NODE_PTR parent_node_ptr) {
-		std::deque< AST_NODE_PTR> node_queue = std::deque< AST_NODE_PTR>();
-		node_queue.push_back(parent_node_ptr);
-
-		while (!node_queue.empty()) {
-			AST_NODE_PTR node_ptr = node_queue.front();
-			node_queue.pop_front();
-			NODE_TYPE node_type = node_ptr->getNodeType();
-			AST_NODE_PTR_LIST children_nodes = node_ptr->getChildrenNode();
-
-			// Get properties of current node, and print:
-			std::vector<std::string> node_properties = getProperties(node_ptr, node_type);
-
-			std::cout << "\n\n Node Type: ";
-;			for (STRING properties : node_properties) {
-				std::cout << properties << '\n';
-			}
-
-			// Enqueue currrent node's children nodes:
-			for (AST_NODE_PTR child : children_nodes) {
-				node_queue.push_back(child);
-			}
-
-			// Print number of children nodes:
-			std::cout << "No. of Children: " << children_nodes.size() << '\n';
-		}
-
-		return 0;
-	}
-
-	std::vector<std::string> Parser::getProperties(AST_NODE_PTR node_ptr, NODE_TYPE node_type) {
-		std::vector<std::string> node_properties;
-		ExpressionTypeEnum expr = std::static_pointer_cast<ExpressionNode>(node_ptr)->getExpressionType();
-		STRING expr_str = "ERROR NO EXPR";
-		switch (node_type) {
-		
-		case NODE_TYPE::assignNode:
-			node_properties.push_back("assignNode");
-			break;
-
-		case NODE_TYPE::conditionNode:
-			node_properties.push_back("conditionNode");
-			//node_properties.push_back(std::static_pointer_cast<ConditionNode>(node_ptr)->getConditionType());
-			break;
-
-		case NODE_TYPE::constantNode:
-			node_properties.push_back("constantNode");
-			node_properties.push_back(std::static_pointer_cast<ConstantNode>(node_ptr)->getValue());
-			break;
-
-		case NODE_TYPE::expressionNode:
-			node_properties.push_back("expressionNode");
-			
-			if (expr == ExpressionTypeEnum::div) {
-					expr_str = "DIVISION";
-			} else if(expr == ExpressionTypeEnum::times) {
-				expr_str = "MULTIPLICATION";
-			} else if(expr == ExpressionTypeEnum::plus) {
-				expr_str = "PLUS";
-			} else if(expr == ExpressionTypeEnum::min) {
-				expr_str = "MINUS";
-			} else if(expr == ExpressionTypeEnum::mod) {
-				expr_str = "MODULO";
-			} else if(expr == ExpressionTypeEnum::none) {
-				expr_str = "VAR OR CONST";
-			}
-			node_properties.push_back(expr_str);
-			break;
-
-		case NODE_TYPE::ifNode:
-			node_properties.push_back("ifNode");
-			break;
-
-		case NODE_TYPE::printNode:
-			node_properties.push_back("printNode");
-			break;
-
-		case NODE_TYPE::procedureNode:
-			node_properties.push_back("procedureNode");
-			node_properties.push_back(std::static_pointer_cast<ProcedureNode>(node_ptr)->getProcedureName());
-			break;
-
-		case NODE_TYPE::programNode:
-			node_properties.push_back("programNode");
-			break;
-
-		case NODE_TYPE::readNode:
-			node_properties.push_back("readNode");
-			break;
-
-		case NODE_TYPE::relationNode:
-			node_properties.push_back("relationNode");
-			//node_properties.push_back(std::static_pointer_cast<RelationNode>(node_ptr)->getRelationType());
-			break;
-
-		case NODE_TYPE::statementListNode:
-			node_properties.push_back("statementListNode");
-			break;
-
-		case NODE_TYPE::variableNode:
-			node_properties.push_back("variableNode");
-			node_properties.push_back(std::static_pointer_cast<VariableNode>(node_ptr)->getVariableName());
-			break;
-
-		case NODE_TYPE::whileNode:
-			node_properties.push_back("whileNode");
-			break;
-
-		default:
-			node_properties.push_back("Error: No such node.");
-		}
-
-		return node_properties;
-	}
-

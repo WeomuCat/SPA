@@ -1,0 +1,9 @@
+procedure proc1 {
+    read a;
+}
+procedure proc2 {
+    read b;
+}
+procedure proc3 {
+    read b;
+}

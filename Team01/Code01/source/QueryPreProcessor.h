@@ -20,6 +20,7 @@ typedef std::string ARGUMENT;
 typedef bool VALIDATION_RESULT;
 typedef std::string EXPRESSION;
 typedef std::string STRING;
+typedef int INDEX;
 
 class QueryPreProcessor {
 	/* Overview: Pre-processes queries into a suitable data structure for the evaluator */
@@ -50,6 +51,12 @@ private:
 	/*
 		Description:
 		  Normal: Returns SPLIT_DECLARATIONS
+		*/
+
+	INDEX getNextClauseIndex(CLAUSES c, INDEX current_index, INDEX such_that_index, INDEX pattern_index);
+	/*
+		Description:
+		  Normal: Returns the INDEX of the next clause
 		*/
 
 	QueryNode createExpressionNode(EXPRESSION e);
@@ -107,6 +114,12 @@ private:
 	/*
 		Description:
 		  Normal: Returns a VALIDATION_RESULT based on relationship format
+		*/
+
+	VALIDATION_RESULT isStatementArgument(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
+	/*
+		Description:
+		  Normal: Returns a VALIDATION_RESULT based on whether argument returns a statemenr number
 		*/
 
 	VALIDATION_RESULT isValidRelationArguments(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,

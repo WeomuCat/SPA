@@ -6,8 +6,8 @@ enum class QueryNodeType {
 	synonym,
 	integer,
 	ident,
-	wild_card,
-	expression,
+	wild_card, //"_"
+	expression, //for ASTNode expressions
 	such_that,
 	parent,
 	parentT,

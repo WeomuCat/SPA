@@ -1,0 +1,6 @@
+--- procedure main {
+001     a = 5;
+002     b = 3;
+003     c = a;
+004     print a;
+--- }

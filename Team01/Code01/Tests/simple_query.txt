@@ -1,0 +1,5 @@
+1 - comment
+assign a;
+Select a pattern a(_, _"a"_)
+a, b, c, d, e
+5000

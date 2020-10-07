@@ -1,0 +1,28 @@
+
+
+ Node Type: procedureNode
+main
+No. of Children: 1
+
+
+ Node Type: statementListNode
+No. of Children: 1
+
+
+ Node Type: assignNode
+No. of Children: 2
+
+
+ Node Type: variableNode
+a
+No. of Children: 0
+
+
+ Node Type: expressionNode
+VAR OR CONST
+No. of Children: 1
+
+
+ Node Type: constantNode
+1
+No. of Children: 0
