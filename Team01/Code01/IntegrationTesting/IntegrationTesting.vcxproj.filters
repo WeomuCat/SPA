@@ -29,7 +29,7 @@
     <ClCompile Include="TestFrontEnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\UnitTesting\TestQueryEvaluator.cpp">
+    <ClCompile Include="TestQueryEvaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

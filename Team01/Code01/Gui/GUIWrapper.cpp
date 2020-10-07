@@ -24,7 +24,6 @@
 #include "../source/PKB.cpp"
 #include "../source/PKBBuilder.cpp"
 #include "../source/PKB/ASTNode/VariableNode.cpp"
-#include "../source/PKBStub.cpp"
 
 
 // a default constructor
