@@ -20,25 +20,16 @@ void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList&
 		getParentTResult(pkb, clause_bool, clause_result_list);
 	}
 	else if (relationship_type == QueryNodeType::usesS) {
-		//std::vector<std::pair<int, std::string>> stmt_cross;
-		//std::vector<std::pair<std::string, std::string>> proc_cross;
-		if (child1.getSynonymType() != QuerySynonymType::procedure) {
-			getUsesSResult(pkb, clause_bool, clause_result_list);
-		}
-		else {
-			getUsesPResult(pkb, clause_bool, clause_result_list);
-		}
-
+		getUsesSResult(pkb, clause_bool, clause_result_list);
 	}
-	//else if (relationship_type == QueryNodeType::usesP) {}
+	else if (relationship_type == QueryNodeType::usesP) {
+		getUsesPResult(pkb, clause_bool, clause_result_list);
+	}
 	else if (relationship_type == QueryNodeType::modifiesS) {
-		if (child1.getSynonymType() != QuerySynonymType::procedure) {
-			getModifiesSResult(pkb, clause_bool, clause_result_list);
-		}
-		else {
-			getModifiesPResult(pkb, clause_bool, clause_result_list);
-
-		}
+		getModifiesSResult(pkb, clause_bool, clause_result_list);
+	}
+	else if (relationship_type == QueryNodeType::modifiesP) {
+		getModifiesPResult(pkb, clause_bool, clause_result_list);
 	}
 }
 

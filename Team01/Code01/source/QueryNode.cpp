@@ -146,7 +146,7 @@ void QueryNode::setBooleanNode(BOOLEAN boolean) {
 	this->node_content = content;
 }
 
-AST_NODE QueryNode::getBool() {
+BOOLEAN QueryNode::getBool() {
 	return node_content.getBool();
 }
 
