@@ -133,6 +133,9 @@
     <ClCompile Include="..\source\PKB\DesignEntities\CallTable.cpp">
       <Filter>Source\DesignEntity</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Relationship.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h">
@@ -287,6 +290,9 @@
     </ClInclude>
     <ClInclude Include="RelOperatorTypeEnum.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Relationship.h">
+      <Filter>Header\QP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -59,6 +59,7 @@
     <ClInclude Include="..\source\QueryNodeType.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
     <ClInclude Include="..\source\QuerySynonymType.h" />
+    <ClInclude Include="..\source\Relationship.h" />
     <ClInclude Include="..\source\ResultList.h" />
     <ClInclude Include="..\source\ResultListManager.h" />
     <ClInclude Include="RelOperatorTypeEnum.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="..\source\QueryNodeContent.cpp" />
     <ClCompile Include="..\source\QueryPreProcessor.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
+    <ClCompile Include="..\source\Relationship.cpp" />
     <ClCompile Include="..\source\ResultList.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@
 #include "ResultList.h"
 #include "ResultListManager.h"
 #include "PKB.h"
+#include "Relationship.h"
 
 #include <string>
 #include <unordered_map>
@@ -23,6 +24,7 @@ class QueryEvaluator {
 
 private:
 	PKB pkb = (PKBBuilder().build()); // because PKB has no default constructor
+	void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList& result_list);
 	STMT_NUM_LIST QueryEvaluator::getStmtList(QueryNode node);
 	VAR_NAME_LIST QueryEvaluator::getVarNameList(QueryNode node);
 	PROC_NAME_LIST QueryEvaluator::getProcList(QueryNode node);
@@ -42,8 +44,8 @@ private:
 	//ResultList QueryEvaluator::getUsesPResult(QueryNode child1, QueryNode child2);
 	//ResultList QueryEvaluator::getModifiesSResult(QueryNode child1, QueryNode child2);
 	//ResultList QueryEvaluator::getModifiesPResult(QueryNode child1, QueryNode child2);
-	bool findPartialPattern(AST_NODE_PTR ast, std::string search_name);
-	bool isSameSynonymName(QueryNode child1, QueryNode child2);
+	bool QueryEvaluator::findPartialPattern(AST_NODE_PTR ast, std::string search_name);
+	bool QueryEvaluator::isSameSynonymName(QueryNode child1, QueryNode child2);
 
 public:
 	QueryEvaluator(PKB pkb);
