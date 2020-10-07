@@ -10,21 +10,21 @@ typedef bool BOOLEAN_TYPE;
 class ConstantNode : public ASTNode {
 
 public:
+
+	/*
+	Description: Sets NODE_TYPE of node to be constantNode.
+	*/
 	ConstantNode();
-		/*
-		Description: Sets NODE_TYPE of node to be constantNode.
-		*/
 
+	/*
+	Description: Returns True if able to set the VALUE of the Constant in this ConstantNode
+	*/
 	BOOLEAN_TYPE setValue(VALUE value);
-		/*
-		Description: Returns True if able to set the VALUE of the Constant in this ConstantNode
-		*/
 
+	/*
+	Description: Returns the VALUE of the Constant in this ConstantNode
+	*/
 	VALUE getValue();
-		/*
-		Description: Returns the VALUE of the Constant in this ConstantNode
-		*/
-
 
 private:
 	VALUE value_;

@@ -18,20 +18,20 @@ private:
     friend class PKB;
     friend class PKBBuilder;
 
+    /*
+    Description: Returns the index of the CONSTANT_NODE_PTR added to the table.
+    */
     INDEX addConstantNode(CONSTANT_NODE_PTR node);
-        /*
-        Description: Returns the index of the CONSTANT_NODE_PTR added to the table.
-        */
 
+    /*
+    Description: Returns a CONSTANT_NAME_PTR_LIST of the table.
+    */
     CONSTANT_NODE_PTR_LIST getConstantNodeList();
-        /*
-        Description: Returns a CONSTANT_NAME_PTR_LIST of the table.
-        */
 
+    /*
+    Description: Returns a CONSTANT_VALUE_LIST of the table.
+    */
     CONSTANT_VALUE_LIST getConstantValueList();
-        /*
-        Description: Returns a CONSTANT_VALUE_LIST of the table.
-        */
 
     std::vector<CONSTANT_NODE_PTR> nodes_;
 
