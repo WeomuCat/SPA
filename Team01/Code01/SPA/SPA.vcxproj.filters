@@ -136,8 +136,13 @@
     <ClCompile Include="..\source\Relationship.cpp">
       <Filter>Source\QP</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\source\ClauseQueue.cpp">
       <Filter>Source\QP</Filter>
+=======
+    <ClCompile Include="..\source\PKB\Relationships\RelationshipTransitiveTable.cpp">
+      <Filter>Source\Relationship</Filter>
+>>>>>>> c9efbea08ac6edd21b02e4674b027d182a5a0d09
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="..\source\Relationship.h">
       <Filter>Header\QP</Filter>
+    </ClCompile>
+    <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h">
+      <Filter>Header\Relationship</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ClauseQueue.h">
       <Filter>Header\QP</Filter>
