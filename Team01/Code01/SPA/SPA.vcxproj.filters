@@ -296,7 +296,7 @@
     </ClInclude>
     <ClInclude Include="..\source\Relationship.h">
       <Filter>Header\QP</Filter>
-    </ClCompile>
+    </ClInclude>
     <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h">
       <Filter>Header\Relationship</Filter>
     </ClInclude>
