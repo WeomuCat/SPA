@@ -29,7 +29,7 @@ private:
     /*
     Description: Returns a PROC_NAME_LIST of the table.
     */
-    PROC_NAME_LIST getProcedureNameList(
+    PROC_NAME_LIST getProcedureNameList();
 
     std::vector<PROC_NODE_PTR> nodes_;
 
