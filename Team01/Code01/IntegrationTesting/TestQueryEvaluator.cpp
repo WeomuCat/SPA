@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "../source/QueryEvaluator.h"
-#include "../source/PKBStub.h"
 #include "../source/QueryNode.h"
 #include "../source/QueryNodeType.h"
 #include "../source/PKB/ASTNode/PrintNode.h"
