@@ -6,6 +6,7 @@ import argparse
 import collections
 import os
 import re
+import signal
 import subprocess
 import sys
 
@@ -23,6 +24,7 @@ LABEL_EXTENSION = "lab"
 PUBLISH_QRY_EXTENSION = "_queries.txt"
 PUBLISH_SRC_EXTENSION = "_source.txt"
 
+INFO_ACCENT_COLOR = "\033[36m"
 WARNING_COLOR = "\033[93m"
 ERROR_COLOR = "\033[91m"
 END_COLOR = "\033[0m"
@@ -31,19 +33,20 @@ LABEL_INDENTATION = "    "
 
 TOKEN_NAME = 0
 TOKEN_INTEGER = 1
-TOKEN_OPEN_BRACKET = 2
-TOKEN_CLOSE_BRACKET = 3
-TOKEN_OPEN_BRACE = 4
-TOKEN_CLOSE_BRACE = 5
-TOKEN_SEMICOLON = 6
-TOKEN_EXPR = 7
-TOKEN_TERM = 8
-TOKEN_REL_EXPR = 9
-TOKEN_NOT = 10
-TOKEN_AND = 11
-TOKEN_OR = 12
-TOKEN_EQUALS = 13
-TOKEN_EOF = 14
+TOKEN_ZERO = 2
+TOKEN_OPEN_BRACKET = 3
+TOKEN_CLOSE_BRACKET = 4
+TOKEN_OPEN_BRACE = 5
+TOKEN_CLOSE_BRACE = 6
+TOKEN_SEMICOLON = 7
+TOKEN_EXPR = 8
+TOKEN_TERM = 9
+TOKEN_REL_EXPR = 10
+TOKEN_NOT = 11
+TOKEN_AND = 12
+TOKEN_OR = 13
+TOKEN_EQUALS = 14
+TOKEN_EOF = 15
 
 NODE_PROGRAM = 0
 NODE_PROCEDURE = 1
@@ -55,9 +58,13 @@ NODE_STATEMENT_WHILE = 6
 NODE_STATEMENT_IF = 7
 NODE_STATEMENT_ASSIGN = 8
 
+SUMMARY_STATEMENT = 9
+SUMMARY_CONTAINER = 10
+
 TOKENS_PATTERN = {
     "[A-Za-z][A-Za-z\d]*": TOKEN_NAME,
-    "\d+": TOKEN_INTEGER,
+    "[1-9]\d*": TOKEN_INTEGER,
+    "0": TOKEN_ZERO,
     "\(": TOKEN_OPEN_BRACKET,
     "\)": TOKEN_CLOSE_BRACKET,
     "{": TOKEN_OPEN_BRACE,
@@ -78,6 +85,9 @@ TOKENS_PATTERN = {
 
 def printinfo(s):
     print("Info: {}".format(s))
+
+def printinfoaccent(s):
+    print("{}Info: {}{}".format(INFO_ACCENT_COLOR, s, END_COLOR))
 
 def printerr(s):
     print("{}Error: {}{}".format(ERROR_COLOR, s, END_COLOR))
@@ -421,7 +431,8 @@ def parse_rel_factor(tokens):
     o = parse_expr(tokens)
     if not o is None:
         return o
-    if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER:
+    # Constants are sequences of digits. If more than one digit, the first digit cannot be 0
+    if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER or tokens[0][0] == TOKEN_ZERO:
         return tokens.popleft()[1]
     return None
 
@@ -449,7 +460,8 @@ def parse_term(tokens):
 
 # factor: var_name | const_value | `(` expr `)`
 def parse_factor(tokens):
-    if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER:
+    # Constants are sequences of digits. If more than one digit, the first digit cannot be 0
+    if tokens[0][0] == TOKEN_NAME or tokens[0][0] == TOKEN_INTEGER or tokens[0][0] == TOKEN_ZERO:
         return tokens.popleft()[1]
     if tokens[0][0] == TOKEN_OPEN_BRACKET:
         o = tokens.popleft()[1]
@@ -484,9 +496,6 @@ def validate_program(ast):
         node = (p_name, path)
         data = (procedure_calls, visited)
         validate_program_cycle(node, data)
-
-    # Constants are sequences of digits. If more than one digit, the first digit cannot be 0
-    # TODO: Upgrade parser
 
 def validate_program_calls(statement_list, data):
     procedure_calls = data[0]
@@ -540,7 +549,7 @@ def check():
             content = f.read()
 
         path = os.path.relpath(source_full_path)
-        printinfo("Checking ({}/{}): '{}'".format(index+1, len(source_paths), path))
+        printinfoaccent("Checking ({}/{}): '{}'".format(index+1, len(source_paths), path))
 
         try:
             ast = parse_source(content)
@@ -548,7 +557,7 @@ def check():
             printwarn("Invalid grammar!\nError Message: {}".format(err))
             continue
 
-        printinfo("Valid grammar :)")
+        printinfo("Valid grammar :)\n")
 
     printinfo("All checking done! :)")
 
@@ -573,59 +582,60 @@ def label():
             continue
 
         path = os.path.relpath(label_full_path)
-        printinfo("Labelling ({}/{}): '{}'".format(index+1, len(source_paths), path))
-        statements = []
-        for i, p in enumerate(ast[1]):
-            if i != 0:
-                statements.append((False, 0, ""))
-            v = "procedure {} {{".format(p[1][0])
-            statements.append((False, 0, v))
-            statements.extend(label_statements(p[1][1][1], 1))
-            statements.append((False, 0, "}"))
+        printinfoaccent("Labelling ({}/{}): '{}'".format(index+1, len(source_paths), path))
 
-        lines = []
-        n = 0
-        for b, i, v in statements:
-            indent = LABEL_INDENTATION * i
-            if b:
-                n += 1
-                lines.append("{:03d} {}{}".format(n, indent, v))
-            else:
-                lines.append("--- {}{}".format(indent, v))
-
+        label_string = ast_to_label(ast)
         with open(label_full_path, "w") as l:
-            l.write("\n".join(lines) + "\n")
+            l.write("{}\n".format(label_string))
 
     printinfo("All labelling done! :)")
 
-def label_statements(statement_list, indent):
+def ast_to_lines(ast, indent=0):
     result = []
-    for s in statement_list:
-        if s[0] == NODE_STATEMENT_READ:
-            v = "read {};".format(s[1][0])
-            result.append((True, indent, v))
-        elif s[0] == NODE_STATEMENT_PRINT:
-            v = "print {};".format(s[1][0])
-            result.append((True, indent, v))
-        elif s[0] == NODE_STATEMENT_CALL:
-            v = "call {};".format(s[1][0])
-            result.append((True, indent, v))
-        elif s[0] == NODE_STATEMENT_WHILE:
-            v = "while ({}) {{".format(s[1][0])
-            result.append((True, indent, v))
-            result.extend(label_statements(s[1][1][1], indent + 1))
-            result.append((False, indent, "}"))
-        elif s[0] == NODE_STATEMENT_IF:
-            v = "if ({}) then {{".format(s[1][0])
-            result.append((True, indent, v))
-            result.extend(label_statements(s[1][1][1], indent + 1))
-            result.append((False, indent, "} else {"))
-            result.extend(label_statements(s[1][2][1], indent + 1))
-            result.append((False, indent, "}"))
-        elif s[0] == NODE_STATEMENT_ASSIGN:
-            v = "{} = {};".format(s[1][0], s[1][1])
-            result.append((True, indent, v))
+    if ast[0] == NODE_PROGRAM:
+        for i, c in enumerate(ast[1]):
+            if i != 0:
+                result.append((False, 0, ""))
+            result.extend(ast_to_lines(c, indent))
+    elif ast[0] == NODE_PROCEDURE:
+        result.append((False, 0, "procedure {} {{".format(ast[1][0])))
+        result.extend(ast_to_lines(ast[1][1], indent+1))
+        result.append((False, 0, "}"))
+    elif ast[0] == NODE_STATEMENT_LIST:
+        for c in ast[1]:
+            result.extend(ast_to_lines(c, indent))
+    elif ast[0] == NODE_STATEMENT_READ:
+        result.append((True, indent, "read {};".format(ast[1][0])))
+    elif ast[0] == NODE_STATEMENT_PRINT:
+        result.append((True, indent, "print {};".format(ast[1][0])))
+    elif ast[0] == NODE_STATEMENT_CALL:
+        result.append((True, indent, "call {};".format(ast[1][0])))
+    elif ast[0] == NODE_STATEMENT_WHILE:
+        result.append((True, indent, "while ({}) {{".format(ast[1][0])))
+        result.extend(ast_to_lines(ast[1][1], indent + 1))
+        result.append((False, indent, "}"))
+    elif ast[0] == NODE_STATEMENT_IF:
+        result.append((True, indent, "if ({}) then {{".format(ast[1][0])))
+        result.extend(ast_to_lines(ast[1][1], indent + 1))
+        result.append((False, indent, "} else {"))
+        result.extend(ast_to_lines(ast[1][2], indent + 1))
+        result.append((False, indent, "}"))
+    elif ast[0] == NODE_STATEMENT_ASSIGN:
+        result.append((True, indent, "{} = {};".format(ast[1][0], ast[1][1])))
     return result
+
+def ast_to_label(ast):
+    lines = ast_to_lines(ast)
+    result = []
+    n = 0
+    for b, i, v in lines:
+        indent = LABEL_INDENTATION * i
+        if b:
+            n += 1
+            result.append("{:03d} {}{}".format(n, indent, v))
+        else:
+            result.append("--- {}{}".format(indent, v))
+    return "\n".join(result)
 
 # Creates compiled system test files for submission!
 def publish():
@@ -663,6 +673,7 @@ def publish():
             line = re.sub(r"^\d+(.*)", r"\1", line)
             qry_lines[i] = "{}{}".format(count, line)
             count += 1
+        qry_string = "\n".join(qry_lines)
 
         # Write files to PUBLISH_OUTPUT_DIRECTORY
         output_name = os.path.relpath(source_path, tests_dir_path)
@@ -675,7 +686,7 @@ def publish():
         output_src_full_path = os.path.join(PUBLISH_OUTPUT_DIRECTORY, output_src_full_path)
         output_src_full_path = os.path.abspath(output_src_full_path)
 
-        printinfo("Publishing test ({}/{}): {}".format(index+1, len(deps), output_name))
+        printinfoaccent("Publishing test ({}/{}): {}".format(index+1, len(deps), output_name))
         with open(source_full_path) as s:
             src_content = s.read()
 
@@ -683,7 +694,7 @@ def publish():
             s.write(src_content)
 
         with open(output_qry_full_path, "w") as q:
-            q.write("\n".join(qry_lines) + "\n")
+            q.write("{}\n".format(qry_string))
 
     printinfo("All tests published! :) Please check '{}' directory for all published files!".format(os.path.relpath(PUBLISH_OUTPUT_DIRECTORY)))
 
@@ -719,7 +730,7 @@ def run():
         output_full_path = os.path.abspath(output_full_path)
 
         # Run AutoTester
-        printinfo("Running test ({}/{}): {} ({})".format(index+1, len(tests), s_name, q_name))
+        printinfoaccent("Running test ({}/{}): {} ({})".format(index+1, len(tests), s_name, q_name))
         process = subprocess.run([autotester_path, source_full_path, queries_full_path, output_full_path], stdout=subprocess.DEVNULL)
 
         if not process.returncode == 0:
@@ -730,11 +741,100 @@ def run():
 
 # Summarize 'coverage' of all .qry and .src files
 def summarize():
-    printerr("This function is not implemented yet :)")
+    source_paths = get_source_paths()
+    if len(source_paths) == 0:
+        printwarn("No source files were found!")
+        return
+
+    printinfo("Summarizing .src files...")
+    for index, source_path in enumerate(source_paths):
+        source_full_path = "{}.{}".format(source_path, SOURCE_EXTENSION)
+
+        with open(source_full_path) as f:
+            content = f.read()
+
+        try:
+            ast = parse_source(content)
+        except:
+            continue
+
+        path = os.path.relpath(source_full_path)
+        printinfoaccent("Summarizing ({}/{}): '{}'".format(index+1, len(source_paths), path))
+
+        # Summarize AST
+        summary = summarize_ast(ast)
+
+        # Format and print outputs :)
+        infos = []
+        abstracts = {
+            NODE_PROCEDURE : "Procedure",
+            SUMMARY_STATEMENT : "Statement",
+            SUMMARY_CONTAINER : "Container"
+        }
+        for k, v in abstracts.items():
+            count = summary[k]
+            infos.append("{}(s): {}".format(v, count))
+        printinfo("{}".format(", ".join(infos)))
+
+        infos = []
+        statements = {
+            NODE_STATEMENT_READ : "Read",
+            NODE_STATEMENT_PRINT : "Print",
+            NODE_STATEMENT_CALL : "Call",
+            NODE_STATEMENT_WHILE : "While",
+            NODE_STATEMENT_IF : "If",
+            NODE_STATEMENT_ASSIGN : "Assign",
+        }
+        for k, v in statements.items():
+            count = summary[k]
+            infos.append("{}(s): {}".format(v, count))
+        printinfo("{}\n".format(", ".join(infos)))
+
+    printinfo("All summarizing done! :)")
+
+def summarize_ast(ast):
+    result = collections.Counter()
+    if ast[0] == NODE_PROGRAM:
+        for c in ast[1]:
+            result.update(summarize_ast(c))
+    elif ast[0] == NODE_PROCEDURE:
+        result[NODE_PROCEDURE] += 1
+        result.update(summarize_ast(ast[1][1]))
+    elif ast[0] == NODE_STATEMENT_LIST:
+        for c in ast[1]:
+            result.update(summarize_ast(c))
+    elif ast[0] == NODE_STATEMENT_READ:
+        result[SUMMARY_STATEMENT] += 1
+        result[NODE_STATEMENT_READ] += 1
+    elif ast[0] == NODE_STATEMENT_PRINT:
+        result[SUMMARY_STATEMENT] += 1
+        result[NODE_STATEMENT_PRINT] += 1
+    elif ast[0] == NODE_STATEMENT_CALL:
+        result[SUMMARY_STATEMENT] += 1
+        result[NODE_STATEMENT_CALL] += 1
+    elif ast[0] == NODE_STATEMENT_WHILE:
+        result[SUMMARY_STATEMENT] += 1
+        result[SUMMARY_CONTAINER] += 1
+        result[NODE_STATEMENT_WHILE] += 1
+        result.update(summarize_ast(ast[1][1]))
+    elif ast[0] == NODE_STATEMENT_IF:
+        result[SUMMARY_STATEMENT] += 1
+        result[SUMMARY_CONTAINER] += 1
+        result[NODE_STATEMENT_IF] += 1
+        result.update(summarize_ast(ast[1][1]))
+        result.update(summarize_ast(ast[1][2]))
+    elif ast[0] == NODE_STATEMENT_ASSIGN:
+        result[SUMMARY_STATEMENT] += 1
+        result[NODE_STATEMENT_ASSIGN] += 1
+    return result
 
 
 
 ### Main
+def sigint_handler(s, f):
+    printinfo("SIGINT caught, exiting! :)")
+    sys.exit()
+signal.signal(signal.SIGINT, sigint_handler)
 
 # Fixes colors not showing on cmd
 os.system("color")
