@@ -12,7 +12,6 @@ typedef std::vector<CONSTANT_NODE_PTR> CONSTANT_NODE_PTR_LIST;
 typedef std::vector<CONSTANT_VALUE> CONSTANT_VALUE_LIST;
 
 class ConstantTable {
-/* Overview: This is a data structure*/
 
 private:
     friend class PKB;
