@@ -60,7 +60,8 @@ public:
 	}
 	
 	static ResultList merge(ResultList list1, ResultList list2) {
-		// If either list is empty, return the other list
+		// If either list is empty (no columns), return the other list
+		// Note: if there is at least 1 column, but no rows for the column, it is not considered empty.
 		ROW_LIST rows1 = list1.getRowList();
 		ROW_LIST rows2 = list2.getRowList();
 		if (rows1.size() == 0) {
