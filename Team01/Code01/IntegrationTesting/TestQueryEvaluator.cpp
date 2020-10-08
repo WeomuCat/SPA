@@ -1611,6 +1611,30 @@ namespace IntegrationTesting
 		// assign a; variable v; Select a pattern a("c", _"d"_)
 		// assign a; variable v; Select a pattern a(v, "3")
 
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_PKB2_ReturnsTrue)
+		{
+			// Query: "Select BOOLEAN"
+			std::unordered_map<std::string, QueryNode> processed_synonyms;
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode(true);
+			QueryNode root_children[] = { child1 };
+			root.setChildren(root_children, 1);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb2);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			STRING_RESULT correct_result = "TRUE";
+
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
 		TEST_METHOD(evaluateQuery_SelectA_PatternWildCardWildCard_Returns123)
 		{
 			// Query: "assign a; Select a pattern a(_, _)"
@@ -1998,17 +2022,42 @@ namespace IntegrationTesting
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
-		TEST_METHOD(evaluateQuery_SelectBOOLEAN_PKB2_ReturnsTrue)
+		
+		TEST_METHOD(evaluateQuery_SelectA_PatternAIdentPartial_ReturnEmpty)
 		{
-			// Query: "Select BOOLEAN"
-			std::unordered_map<std::string, QueryNode> processed_synonyms;
+			// Query: "assign a; Select a pattern a("c", _"10"_)"
+			// Get processed_synonyms and processed clauses
+			QueryNode assign_node = QueryNode();
+			assign_node.setSynonymNode({ QuerySynonymType::assign }, "a");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"a", assign_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::assign }, "a");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::assign }, "a");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("c");
+
+			QueryNode child_child_child2 = QueryNode();
+			std::shared_ptr<ConstantNode> const_node = std::make_shared<ConstantNode>();
+			const_node->setValue("10");
+			std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+			expr_node->setExpressionType({ ExpressionTypeEnum::none });
+			expr_node->setLeftAstNode(const_node);
+
+			child_child_child2.setNodeType({ QueryNodeType::expression });
+			child_child_child2.setASTNode(expr_node);
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
+			child2.setChildren(child2_children, 3);
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
-			QueryNode root_children[] = { child1 };
-			root.setChildren(root_children, 1);
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
 
@@ -2016,7 +2065,65 @@ namespace IntegrationTesting
 			QueryEvaluator qe = QueryEvaluator(*pkb2);
 			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
 			STRING_RESULT result_string = ResultListManager::getStringValues(result);
-			STRING_RESULT correct_result = "TRUE";
+			STRING_RESULT correct_result = "";
+
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_PatternAIdentPartial_ReturnsFalse)
+		{
+			// Query: "assign a; Select BOOLEAN pattern a("c", _"10"_)"
+			// Get processed_synonyms and processed clauses
+			QueryNode assign_node = QueryNode();
+			assign_node.setSynonymNode({ QuerySynonymType::assign }, "a");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"a", assign_node} };
+
+			// Select: BOOLEAN
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode(true);
+
+			// pattern
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+
+			// pattern a
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::assign }, "a");
+
+			// arg1: "c"
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("c");
+
+			// arg2: _"10"_
+			QueryNode child_child_child2 = QueryNode();
+			std::shared_ptr<ConstantNode> const_node = std::make_shared<ConstantNode>();
+			const_node->setValue("10");
+			std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+			expr_node->setExpressionType({ ExpressionTypeEnum::none });
+			expr_node->setLeftAstNode(const_node);
+
+			child_child_child2.setNodeType({ QueryNodeType::expression });
+			child_child_child2.setASTNode(expr_node);
+
+			// Set pattern's children
+			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
+			child2.setChildren(child2_children, 3);
+
+			// Set root node
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb2);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			STRING_RESULT correct_result = "FALSE";
 
 			Logger::WriteMessage("Result: ");
 			Logger::WriteMessage(result_string.c_str());
