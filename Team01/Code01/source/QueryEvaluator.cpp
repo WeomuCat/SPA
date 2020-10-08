@@ -7,12 +7,11 @@ QueryEvaluator::QueryEvaluator(PKB pkb) {
 
 QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSED_CLAUSES clauses) {
 	ResultList result_list;
+	BOOLEAN query_bool = true;
 	const QUERY_RESULT no_result = QUERY_RESULT();
+	const QUERY_RESULT boolean_true_result = { "TRUE" };
+	const QUERY_RESULT boolean_false_result = { "FALSE" };
 
-	// If no synonyms are declared, Query is INVALID. Return no result.
-	if (synonyms.size() == 0) {
-		return no_result;
-	}
 
 	// If root of clauses tree is unassigned, then the clause is syntactically incorrect. Return no result.
 	if (clauses.getNodeType() == QueryNodeType::unassigned) {
@@ -24,13 +23,48 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 		throw "Error: Select has no children, it should have at least 1 child (ie Select v)";
 	}
 
-	// Get return type and return synonym name
-	QueryNode return_synonym = children[0];
-	QuerySynonymType return_synonym_type = return_synonym.getSynonymType();
-	SYNONYM_NAME return_synonym_name = return_synonym.getString(); // "v"
+	/* NOTE FOR ITER 2: NEED TO CHECK RETURN_SYNONYM FIRST, MIGHT BE BOOLEAN AND NOT SYNONYM */
+	QueryNode return_value = children[0];
+	setEvaluatorReturnType(return_value);
+	if (return_type == QueryEvaluatorReturnType::synonym) {
 
-	// fill resultList with return_synonym_name
-	fillWithReturnSynonym(return_synonym_type, return_synonym_name, result_list);
+		// If no synonyms are declared, Query is INVALID. Return no result.
+		if (synonyms.size() == 0) {
+			return no_result;
+		}
+
+		// Get return type and return synonym name
+		QueryNode return_synonym = return_value;
+		QuerySynonymType return_synonym_type = return_synonym.getSynonymType();
+		SYNONYM_NAME return_synonym_name = return_synonym.getString(); // "v"
+		this->return_synonym_names = return_synonym_name;
+
+		// fill resultList with return_synonym_name
+		fillWithReturnSynonym(return_synonym_type, return_synonym_name, result_list);
+	}
+	else if (return_type == QueryEvaluatorReturnType::tuple) {
+
+		// If no synonyms are declared, Query is INVALID. Return no result.
+		if (synonyms.size() == 0) {
+			return no_result;
+		}
+
+		// Check with hui ming the data structure of how multiple return synonym names will be stored
+		
+		/*
+		std::vector<std::string> all_return_synonyms = ...
+		this->return_synonym_names = all_return_synonyms;
+		*/
+	} else if (return_type == QueryEvaluatorReturnType::boolean) {
+		// if there are no clauses, automatically return true. For BOOLEAN, synonyms need not be declared.
+		if (children.size() == 1) {
+			return boolean_true_result;
+		}
+
+	}
+	else {
+		throw "QE: Return type is invalid";
+	}
 
 
 	// for all clauses in Select (not including the synonym)
@@ -175,17 +209,38 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 			
 
 		// if the clause_bool is true => merge result_list with clause_result_list
-		// if the clause_bool is false => return ""
+		// if the clause_bool is false => 
+		//		if return type is synonym => return no result list
+		//		if return type is boolean => return false result list
 		if (clause_bool) {
 			result_list = ResultListManager::merge(result_list, clause_result_list);
 		}
 		else {
-			return no_result;
+			if (return_type == QueryEvaluatorReturnType::synonym) {
+				return no_result;
+			}
+			if (return_type == QueryEvaluatorReturnType::boolean) {
+				return boolean_false_result;
+			}
 		}
 	}
 
-	// convert result_list to string output
-	return ResultListManager::getSynonymValues(result_list, return_synonym_name);
+	if (return_type == QueryEvaluatorReturnType::synonym) {
+		// convert result_list to string output
+		return ResultListManager::getSynonymValues(result_list, return_synonym_names);
+
+	}
+	else if (return_type == QueryEvaluatorReturnType::boolean) {
+		
+		if (result_list.getNumRows() > 0) {
+			return boolean_true_result;
+		} else {
+			return boolean_false_result;
+		}
+	}
+	else {
+		//handle tuple return result here
+	}
 }
 
 void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList &result_list) {
@@ -252,4 +307,21 @@ bool QueryEvaluator::findPartialPattern(AST_NODE_PTR ast, std::string search_nam
 	}
 
 	return false;
+}
+
+void QueryEvaluator::setEvaluatorReturnType(QueryNode select_return) {
+	QueryNodeType return_type = select_return.getNodeType();
+
+	if (return_type == QueryNodeType::synonym) {
+		this->return_type = { QueryEvaluatorReturnType::synonym };
+	}
+	else if (return_type == QueryNodeType::tuple) {
+		this->return_type = { QueryEvaluatorReturnType::tuple };
+	}
+	else if(return_type == QueryNodeType::boolean) {
+		this->return_type = { QueryEvaluatorReturnType::boolean };
+	}
+	else {
+		throw "QE: Select's return type is not synonym, tuple, boolean";
+	}
 }

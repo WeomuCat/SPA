@@ -56,6 +56,7 @@
     <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\UsesTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
+    <ClInclude Include="..\source\QueryEvaluatorReturnType.h" />
     <ClInclude Include="..\source\QueryNode.h" />
     <ClInclude Include="..\source\QueryNodeContent.h" />
     <ClInclude Include="..\source\QueryNodeType.h" />

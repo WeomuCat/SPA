@@ -7,6 +7,7 @@
 #include "ResultListManager.h"
 #include "PKB.h"
 #include "Relationship.h"
+#include "QueryEvaluatorReturnType.h"
 
 #include <string>
 #include <unordered_map>
@@ -17,6 +18,7 @@ class QueryEvaluator;
 typedef std::vector<std::string> QUERY_RESULT;
 typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 typedef QueryNode PROCESSED_CLAUSES;
+typedef std::string RETURN_SYNONYMS; //ITER 2: change this to VECTOR
 
 class QueryEvaluator {
 	/* Overview: Evaluates pre-processed queries and returns the corresponding result */
@@ -35,10 +37,15 @@ public:
 
 private:
 	PKB pkb = (PKBBuilder().build()); // because PKB has no default constructor
+	RETURN_SYNONYMS return_synonym_names;
+	QueryEvaluatorReturnType return_type;
+
 	void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList& result_list);
 	/*
 	Description: Fills the given result_list with all values of the given synonym_type, attached to the column name of the given synonym_name.
 	*/
 
 	bool QueryEvaluator::findPartialPattern(AST_NODE_PTR ast, std::string search_name);
+	
+	void setEvaluatorReturnType(QueryNode select_return);
 };
