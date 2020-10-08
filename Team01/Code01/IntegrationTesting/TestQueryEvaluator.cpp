@@ -1435,8 +1435,8 @@ namespace IntegrationTesting
 			ewoof->setExpressionType({ ExpressionTypeEnum::none });
 			ewoof->setLeftAstNode(woof);
 
-			child_child_child2.setNodeType({ QueryNodeType::expression });
 			child_child_child2.setASTNode(ewoof);
+			child_child_child2.setNodeType({ QueryNodeType::partial_expression });
 
 			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
 			child2.setChildren(child2_children, 3);
@@ -1530,8 +1530,8 @@ namespace IntegrationTesting
 			eb->setExpressionType({ ExpressionTypeEnum::none });
 			eb->setLeftAstNode(b);
 
-			child_child_child2.setNodeType({ QueryNodeType::expression });
 			child_child_child2.setASTNode(eb);
+			child_child_child2.setNodeType({ QueryNodeType::partial_expression });
 
 			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
 			child2.setChildren(child2_children, 3);
@@ -1621,8 +1621,8 @@ namespace IntegrationTesting
 			expr_node->setExpressionType({ ExpressionTypeEnum::none });
 			expr_node->setLeftAstNode(const_node);
 
-			child_child_child2.setNodeType({ QueryNodeType::expression });
 			child_child_child2.setASTNode(expr_node);
+			child_child_child2.setNodeType({ QueryNodeType::partial_expression });
 
 			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
 			child2.setChildren(child2_children, 3);
