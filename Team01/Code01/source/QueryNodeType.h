@@ -9,14 +9,17 @@ enum class QueryNodeType {
 	integer,
 	ident,
 	wild_card, //"_"
-	expression, //for ASTNode expressions
+	expression, //for full ASTNode expressions eg "c"
+	partial_expression, //for partial ASTNode expressions eg _"c"_
 	such_that,
 	parent,
 	parentT,
 	follows,
 	followsT,
 	usesS,
+	usesP,
 	modifiesS,
+	modifiesP,
 	calls,
 	callsT,
 	next,
