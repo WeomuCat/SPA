@@ -44,6 +44,18 @@ void QueryNode::setNodeType(NODE_TYPE_STRING node_type_string) {
 	else if (std::regex_match(node_type_string, std::regex("Modifies"))) {
 		this->node_type = QueryNodeType::modifiesS;
 	}
+	else if (std::regex_match(node_type_string, std::regex("Calls"))) {
+		this->node_type = QueryNodeType::calls;
+	}
+	else if (std::regex_match(node_type_string, std::regex("Calls\\*"))) {
+		this->node_type = QueryNodeType::callsT;
+	}
+	else if (std::regex_match(node_type_string, std::regex("Next"))) {
+		this->node_type = QueryNodeType::next;
+	}
+	else if (std::regex_match(node_type_string, std::regex("Next\\*"))) {
+		this->node_type = QueryNodeType::nextT;
+	}
 }
 
 QUERY_NODE_TYPE QueryNode::getNodeType() {
@@ -92,6 +104,9 @@ void QueryNode::setSynonymNode(SYNONYM_TYPE_STRING synonym_type_string, SYNONYM_
 	else if (std::regex_match(synonym_type_string, std::regex("print"))) {
 		this->synonym_type = QuerySynonymType::print;
 	}
+	else if (std::regex_match(synonym_type_string, std::regex("calll"))) {
+		this->synonym_type = QuerySynonymType::call;
+	}
 	else if (std::regex_match(synonym_type_string, std::regex("while"))) {
 		this->synonym_type = QuerySynonymType::whiles;
 	}
@@ -107,6 +122,9 @@ void QueryNode::setSynonymNode(SYNONYM_TYPE_STRING synonym_type_string, SYNONYM_
 	else if (std::regex_match(synonym_type_string, std::regex("constant"))) {
 		this->synonym_type = QuerySynonymType::constant;
 	}
+	else if (std::regex_match(synonym_type_string, std::regex("prog_line"))) {
+		this->synonym_type = QuerySynonymType::prog_line;
+	}
 	else if (std::regex_match(synonym_type_string, std::regex("procedure"))) {
 		this->synonym_type = QuerySynonymType::procedure;
 	}
@@ -119,6 +137,17 @@ void QueryNode::setIdentityNode(STRING identity) {
 	this->node_type = { QueryNodeType::ident };
 	QueryNodeContent content = QueryNodeContent(identity);
 	this->node_content = content;
+}
+
+void QueryNode::setBooleanNode(BOOLEAN boolean) {
+	this->node_type = { QueryNodeType::boolean };
+
+	QueryNodeContent content = QueryNodeContent(boolean);
+	this->node_content = content;
+}
+
+BOOLEAN QueryNode::getBool() {
+	return node_content.getBool();
 }
 
 SYNONYM_TYPE QueryNode::getSynonymType() {
