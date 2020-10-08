@@ -1,12 +1,13 @@
 #pragma once
 
+#include "PKB.h"
+#include "Pattern.h"
 #include "QueryNode.h"
 #include "QueryNodeType.h"
 #include "QuerySynonymType.h"
+#include "Relationship.h"
 #include "ResultList.h"
 #include "ResultListManager.h"
-#include "PKB.h"
-#include "Relationship.h"
 
 #include <string>
 #include <unordered_map>

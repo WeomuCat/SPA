@@ -64,7 +64,6 @@
     <ClInclude Include="..\source\Relationship.h" />
     <ClInclude Include="..\source\ResultList.h" />
     <ClInclude Include="..\source\ResultListManager.h" />
-    <ClInclude Include="Pattern.h" />
     <ClInclude Include="RelOperatorTypeEnum.h" />
   </ItemGroup>
   <ItemGroup>
