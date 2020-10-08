@@ -9,20 +9,21 @@ typedef bool BOOLEAN_TYPE;
 class VariableNode : public ASTNode {
 
 public:
+
+	/*
+	Description: Sets NODE_TYPE of node to be variableNode.
+	*/
 	VariableNode();
-		/*
-		Description: Sets NODE_TYPE of node to be variableNode.
-		*/
 
+	/*
+	Description: Returns True if able to set var_name_ as var_name, false otherwise.
+	*/
 	BOOLEAN_TYPE setVariableName(VAR_NAME var_name);
-		/*
-		Description: Returns True if able to set var_name_ as var_name, false otherwise.
-		*/
 
+	/*
+	Description: Returns a STRING of the variable's name
+	*/
 	VAR_NAME getVariableName();
-		/*
-		Description: Returns a STRING of the variable's name
-		*/
 
 private:
 	VAR_NAME var_name_;
