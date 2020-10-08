@@ -36,6 +36,17 @@ namespace IntegrationTesting
 		*/
 		std::shared_ptr<PKB> pkb2;
 
+		/*
+		// For pattern only!!
+		procedure woof {
+			while (meow > 0)
+			while (!(a + b == c + d))
+			if (a <= 3)
+			if ((c - a / t != 1) && (d + o * g != 2))
+		}
+		*/
+		std::shared_ptr<PKB> pkb3;
+
 		// MULTIPLE CURSOR INSTRUCTIONS :)
 		// 1. hold ALT
 		// 2. click and drag mouse
@@ -280,6 +291,181 @@ namespace IntegrationTesting
 				builder.addModifies("meow", "c");
 
 				pkb2 = std::make_shared<PKB>(builder.build());
+			}
+
+
+			{
+				// PKB 3
+				PKBBuilder builder;
+
+				std::shared_ptr<ProcedureNode> proc = std::make_shared<ProcedureNode>();
+				proc->setProcedureName("woof");
+				builder.addProcedureNode(proc);
+
+				std::shared_ptr<VariableNode> v1 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v2 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v3 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v4 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v5 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v6 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v7 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v8 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v9 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v10 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v11 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v12 = std::make_shared<VariableNode>();
+				v1->setVariableName("meow");
+				v2->setVariableName("a");
+				v3->setVariableName("b");
+				v4->setVariableName("c");
+				v5->setVariableName("d");
+				v6->setVariableName("a");
+				v7->setVariableName("c");
+				v8->setVariableName("a");
+				v9->setVariableName("t");
+				v10->setVariableName("d");
+				v11->setVariableName("o");
+				v12->setVariableName("g");
+				builder.addVariableNode(v1);
+				builder.addVariableNode(v2);
+				builder.addVariableNode(v3);
+				builder.addVariableNode(v4);
+				builder.addVariableNode(v5);
+				builder.addVariableNode(v6);
+				builder.addVariableNode(v7);
+				builder.addVariableNode(v8);
+				builder.addVariableNode(v9);
+				builder.addVariableNode(v10);
+				builder.addVariableNode(v11);
+				builder.addVariableNode(v12);
+
+				std::shared_ptr<ConstantNode> c1 = std::make_shared<ConstantNode>();
+				std::shared_ptr<ConstantNode> c2 = std::make_shared<ConstantNode>();
+				std::shared_ptr<ConstantNode> c3 = std::make_shared<ConstantNode>();
+				std::shared_ptr<ConstantNode> c4 = std::make_shared<ConstantNode>();
+				c1->setValue("0");
+				c2->setValue("3");
+				c3->setValue("1");
+				c4->setValue("2");
+
+				std::shared_ptr<ExpressionNode> e1 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e2 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e3 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e4 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e5 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e6 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e7 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e8 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e9 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e10 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e11 = std::make_shared<ExpressionNode>();
+				std::shared_ptr<ExpressionNode> e12 = std::make_shared<ExpressionNode>();
+				// meow
+				e1->setExpressionType(ExpressionTypeEnum::none);
+				e1->setLeftAstNode(v1);
+				// 0
+				e2->setExpressionType(ExpressionTypeEnum::none);
+				e2->setLeftAstNode(c1);
+				// a + b
+				e3->setExpressionType(ExpressionTypeEnum::plus);
+				e3->setLeftAstNode(v2);
+				e3->setRightAstNode(v3);
+				// c + d
+				e4->setExpressionType(ExpressionTypeEnum::plus);
+				e4->setLeftAstNode(v4);
+				e4->setRightAstNode(v5);
+				// a
+				e5->setExpressionType(ExpressionTypeEnum::none);
+				e5->setLeftAstNode(v6);
+				// 3
+				e6->setExpressionType(ExpressionTypeEnum::none);
+				e6->setLeftAstNode(c2);
+				// a / t
+				e7->setExpressionType(ExpressionTypeEnum::div);
+				e7->setLeftAstNode(v8);
+				e7->setRightAstNode(v9);
+				// c - e7
+				e8->setExpressionType(ExpressionTypeEnum::min);
+				e8->setLeftAstNode(v7);
+				e8->setRightAstNode(e7);
+				// 1
+				e9->setExpressionType(ExpressionTypeEnum::none);
+				e9->setLeftAstNode(c3);
+				// o * g
+				e10->setExpressionType(ExpressionTypeEnum::times);
+				e10->setLeftAstNode(v11);
+				e10->setRightAstNode(v12);
+				// d + e10
+				e11->setExpressionType(ExpressionTypeEnum::plus);
+				e11->setLeftAstNode(v10);
+				e11->setRightAstNode(e10);
+				// 2
+				e12->setExpressionType(ExpressionTypeEnum::none);
+				e12->setLeftAstNode(c4);
+
+				std::shared_ptr<RelationNode> r1 = std::make_shared<RelationNode>();
+				std::shared_ptr<RelationNode> r2 = std::make_shared<RelationNode>();
+				std::shared_ptr<RelationNode> r3 = std::make_shared<RelationNode>();
+				std::shared_ptr<RelationNode> r4 = std::make_shared<RelationNode>();
+				std::shared_ptr<RelationNode> r5 = std::make_shared<RelationNode>();
+				// e1 > e2
+				r1->setRelationType(RelationTypeEnum::gt);
+				r1->setLeftAstNode(e1);
+				r1->setRightAstNode(e2);
+				// e3 == e4
+				r2->setRelationType(RelationTypeEnum::eq);
+				r2->setLeftAstNode(e3);
+				r2->setRightAstNode(e4);
+				// e5 <= e6
+				r3->setRelationType(RelationTypeEnum::lte);
+				r3->setLeftAstNode(e5);
+				r3->setRightAstNode(e6);
+				// e8 != e9
+				r4->setRelationType(RelationTypeEnum::neq);
+				r4->setLeftAstNode(e8);
+				r4->setRightAstNode(e9);
+				// e11 != e12
+				r5->setRelationType(RelationTypeEnum::neq);
+				r5->setLeftAstNode(e11);
+				r5->setRightAstNode(e12);
+
+				std::shared_ptr<ConditionNode> cd1 = std::make_shared<ConditionNode>();
+				std::shared_ptr<ConditionNode> cd2 = std::make_shared<ConditionNode>();
+				std::shared_ptr<ConditionNode> cd3 = std::make_shared<ConditionNode>();
+				std::shared_ptr<ConditionNode> cd4 = std::make_shared<ConditionNode>();
+				// r1
+				cd1->setConditionType(ConditionTypeEnum::none);
+				cd1->setLeftAstNode(r1);
+				// !(r2)
+				cd2->setConditionType(ConditionTypeEnum::not);
+				cd2->setLeftAstNode(r2);
+				// r3
+				cd3->setConditionType(ConditionTypeEnum::none);
+				cd3->setLeftAstNode(r3);
+				// (r4) && (r5)
+				cd4->setConditionType(ConditionTypeEnum::and);
+				cd4->setLeftAstNode(r4);
+				cd4->setRightAstNode(r5);
+
+				std::shared_ptr<WhileNode> w1 = std::make_shared<WhileNode>();
+				std::shared_ptr<WhileNode> w2 = std::make_shared<WhileNode>();
+				w1->setConditionNode(cd1);
+				w1->setStatementNumber(1);
+				w2->setConditionNode(cd2);
+				w2->setStatementNumber(2);
+				builder.addWhileNode(w1);
+				builder.addWhileNode(w2);
+
+				std::shared_ptr<IfNode> i1 = std::make_shared<IfNode>();
+				std::shared_ptr<IfNode> i2 = std::make_shared<IfNode>();
+				i1->setConditionNode(cd3);
+				i1->setStatementNumber(3);
+				i2->setConditionNode(cd4);
+				i2->setStatementNumber(4);
+				builder.addIfNode(i1);
+				builder.addIfNode(i2);
+
+				pkb3 = std::make_shared<PKB>(builder.build());
 			}
 		}
 
@@ -1643,6 +1829,485 @@ namespace IntegrationTesting
 			Logger::WriteMessage("Result: ");
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+		
+		TEST_METHOD(evaluateQuery_SelectA_PatternAWildCardPartial_Returns3)
+		{
+			// Query: "assign a; Select a pattern a (_, _"b + 3"_)"
+			// Get processed_synonyms and processed clauses
+			QueryNode assign_node = QueryNode();
+			assign_node.setSynonymNode({ QuerySynonymType::assign }, "a");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"a", assign_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::assign }, "a");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::assign }, "a");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setNodeType({ QueryNodeType::wild_card });
+
+			QueryNode child_child_child2 = QueryNode();
+			std::shared_ptr<VariableNode> left_node = std::make_shared<VariableNode>();
+			left_node->setVariableName("b");
+			std::shared_ptr<ConstantNode> right_node = std::make_shared<ConstantNode>();
+			right_node->setValue("3");
+			std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+			expr_node->setExpressionType({ ExpressionTypeEnum::plus });
+			expr_node->setLeftAstNode(left_node);
+			expr_node->setRightAstNode(right_node);
+
+			child_child_child2.setASTNode(expr_node);
+			child_child_child2.setNodeType({ QueryNodeType::partial_expression });
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
+			child2.setChildren(child2_children, 3);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb2);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = { "3" };
+			Assert::IsTrue(set_result == correct_result);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectA_PatternAWildCardExact_ReturnsEmpty)
+		{
+			// Query: "assign a; Select a pattern a (_, "b + 3")"
+			// Get processed_synonyms and processed clauses
+			QueryNode assign_node = QueryNode();
+			assign_node.setSynonymNode({ QuerySynonymType::assign }, "a");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"a", assign_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::assign }, "a");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::assign }, "a");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setNodeType({ QueryNodeType::wild_card });
+
+			QueryNode child_child_child2 = QueryNode();
+			std::shared_ptr<VariableNode> left_node = std::make_shared<VariableNode>();
+			left_node->setVariableName("b");
+			std::shared_ptr<ConstantNode> right_node = std::make_shared<ConstantNode>();
+			right_node->setValue("3");
+			std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+			expr_node->setExpressionType({ ExpressionTypeEnum::plus });
+			expr_node->setLeftAstNode(left_node);
+			expr_node->setRightAstNode(right_node);
+
+			child_child_child2.setASTNode(expr_node);
+			child_child_child2.setNodeType({ QueryNodeType::expression });
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
+			child2.setChildren(child2_children, 3);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb2);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = {};
+			Assert::IsTrue(set_result == correct_result);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectA_PatternAWildCardExact_Returns3)
+		{
+			// Query: "assign a; Select a pattern a (_, "2 / (b + 3) % d + o * g")"
+			// Get processed_synonyms and processed clauses
+			QueryNode assign_node = QueryNode();
+			assign_node.setSynonymNode({ QuerySynonymType::assign }, "a");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"a", assign_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::assign }, "a");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::assign }, "a");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setNodeType({ QueryNodeType::wild_card });
+
+			QueryNode child_child_child2 = QueryNode();
+			std::shared_ptr<VariableNode> v1 = std::make_shared<VariableNode>();
+			std::shared_ptr<VariableNode> v2 = std::make_shared<VariableNode>();
+			std::shared_ptr<VariableNode> v3 = std::make_shared<VariableNode>();
+			std::shared_ptr<VariableNode> v4 = std::make_shared<VariableNode>();
+			v1->setVariableName("b");
+			v2->setVariableName("d");
+			v3->setVariableName("o");
+			v4->setVariableName("g");
+
+			std::shared_ptr<ConstantNode> c1 = std::make_shared<ConstantNode>();
+			std::shared_ptr<ConstantNode> c2 = std::make_shared<ConstantNode>();
+			c1->setValue("2");
+			c2->setValue("3");
+
+			std::shared_ptr<ExpressionNode> e1 = std::make_shared<ExpressionNode>();
+			std::shared_ptr<ExpressionNode> e2 = std::make_shared<ExpressionNode>();
+			std::shared_ptr<ExpressionNode> e3 = std::make_shared<ExpressionNode>();
+			std::shared_ptr<ExpressionNode> e4 = std::make_shared<ExpressionNode>();
+			std::shared_ptr<ExpressionNode> e5 = std::make_shared<ExpressionNode>();
+			// o * g
+			e1->setExpressionType(ExpressionTypeEnum::times);
+			e1->setLeftAstNode(v3);
+			e1->setRightAstNode(v4);
+			// b + 3
+			e2->setExpressionType(ExpressionTypeEnum::plus);
+			e2->setLeftAstNode(v1);
+			e2->setRightAstNode(c2);
+			// 2 / e2
+			e3->setExpressionType(ExpressionTypeEnum::div);
+			e3->setLeftAstNode(c1);
+			e3->setRightAstNode(e2);
+			// e3 % d
+			e4->setExpressionType(ExpressionTypeEnum::mod);
+			e4->setLeftAstNode(e3);
+			e4->setRightAstNode(v2);
+			// e4 + e1
+			e5->setExpressionType(ExpressionTypeEnum::plus);
+			e5->setLeftAstNode(e4);
+			e5->setRightAstNode(e1);
+
+			child_child_child2.setASTNode(e5);
+			child_child_child2.setNodeType({ QueryNodeType::expression });
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
+			child2.setChildren(child2_children, 3);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb2);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = { "3" };
+			Assert::IsTrue(set_result == correct_result);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectI_PatternIIdent_Returns4)
+		{
+			// Query: "if i; Select i pattern i ("g", _)"
+			// Get processed_synonyms and processed clauses
+			QueryNode if_node;
+			if_node.setSynonymNode({ QuerySynonymType::ifs }, "i");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"i", if_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::ifs }, "i");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::ifs }, "i");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("g");
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb3);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = { "4" };
+			Assert::IsTrue(set_result == correct_result);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectW_PatternWIdent_Returns2)
+		{
+			// Query: "while w; Select w pattern w ("a", _)"
+			// Get processed_synonyms and processed clauses
+			QueryNode while_node;
+			while_node.setSynonymNode({ QuerySynonymType::whiles }, "w");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"w", while_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::whiles }, "w");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::whiles }, "w");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("a");
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb3);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = { "2" };
+			Assert::IsTrue(set_result == correct_result);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectI_PatternIWildCard_Returns34)
+		{
+			// Query: "if i; Select i pattern i (_, _)"
+			// Get processed_synonyms and processed clauses
+			QueryNode if_node;
+			if_node.setSynonymNode({ QuerySynonymType::ifs }, "i");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"i", if_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::ifs }, "i");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::ifs }, "i");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setNodeType(QueryNodeType::wild_card);
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb3);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = { "3", "4" };
+			Assert::IsTrue(set_result == correct_result);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectW_PatternWWildCard_Returns12)
+		{
+			// Query: "while w; Select w pattern w (_, _)"
+			// Get processed_synonyms and processed clauses
+			QueryNode while_node;
+			while_node.setSynonymNode({ QuerySynonymType::whiles }, "w");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"w", while_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::whiles }, "w");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::whiles }, "w");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setNodeType(QueryNodeType::wild_card);
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb3);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = { "1", "2" };
+			Assert::IsTrue(set_result == correct_result);
+		}
+		
+		TEST_METHOD(evaluateQuery_SelectV_PatternAVWildCard_ReturnsABC)
+		{
+			// Query: "assign a; variable v; Select v pattern a (v, _)"
+			// Get processed_synonyms and processed clauses
+			QueryNode assign_node;
+			assign_node.setSynonymNode({ QuerySynonymType::assign }, "a");
+			QueryNode variable_node;
+			variable_node.setSynonymNode({ QuerySynonymType::variable }, "v");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"a", assign_node}, {"v", variable_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::variable }, "v");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::assign }, "a");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::variable }, "v");
+
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setNodeType({ QueryNodeType::wild_card });
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
+			child2.setChildren(child2_children, 3);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb2);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = { "a", "b", "c" };
+			Assert::IsTrue(set_result == correct_result);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectV_PatternIV_ReturnsVariables)
+		{
+			// Query: "if i; variable v; Select v pattern i (v, _, _)"
+			// Get processed_synonyms and processed clauses
+			QueryNode if_node;
+			if_node.setSynonymNode({ QuerySynonymType::ifs }, "i");
+			QueryNode variable_node;
+			variable_node.setSynonymNode({ QuerySynonymType::variable }, "v");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"i", if_node}, {"v", variable_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::variable }, "v");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::ifs }, "i");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::variable }, "v");
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb3);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = { "a", "c", "t", "d", "o", "g" };
+			Assert::IsTrue(set_result == correct_result);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectV_PatternWV_ReturnsVariables)
+		{
+			// Query: "while w; variable v; Select v pattern w (v, _)"
+			// Get processed_synonyms and processed clauses
+			QueryNode while_node;
+			while_node.setSynonymNode({ QuerySynonymType::whiles }, "w");
+			QueryNode variable_node;
+			variable_node.setSynonymNode({ QuerySynonymType::variable }, "v");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"w", while_node}, {"v", variable_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::variable }, "v");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::whiles }, "w");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::variable }, "v");
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb3);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+
+			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
+			std::unordered_set<CONSTANT_VALUE> correct_result = { "meow", "a", "b", "c", "d" };
+			Assert::IsTrue(set_result == correct_result);
 		}
 	};
 }

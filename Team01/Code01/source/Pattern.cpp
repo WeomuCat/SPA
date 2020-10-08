@@ -228,6 +228,7 @@ bool Pattern::exactExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR nee
 
 bool Pattern::partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle) {
     // Do BFS
+    bool matching = false;
     AST_NODE_PTR match_start = nullptr;
     std::queue<AST_NODE_PTR> queue1;
     std::queue<AST_NODE_PTR> queue2;
@@ -239,18 +240,23 @@ bool Pattern::partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR n
 
         bool equal = areExpressionNodesEqual(n1, n2);
 
-        // If we are currently matching, but the current nodes are not equal, reset both queues
-        if (match_start != nullptr && !equal) {
+        // If we are currently matching, but the current nodes are not equal:
+        // 1. clear both queues
+        // 2. push children of match_start to queue1
+        // 3. push needle to queue2
+        if (matching && !equal) {
+            matching = false;
             queue1 = {};
             queue2 = {};
-            queue1.push(match_start);
+            for (AST_NODE_PTR c : getExpressionNodeChildren(match_start)) {
+                queue1.push(c);
+            }
             queue2.push(needle);
-            match_start = nullptr;
             continue;
         }
 
         // If we not matching and the current nodes are not equal, traverse haystack tree
-        if (match_start == nullptr && !equal) {
+        if (!matching && !equal) {
             queue1.pop();
             // Push children of current nodes to queues
             for (AST_NODE_PTR c : getExpressionNodeChildren(n1)) {
@@ -261,7 +267,8 @@ bool Pattern::partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR n
 
         // If the current nodes are equal, we traverse both queues
         // Indicate that we are matching starting from this node
-        if (match_start == nullptr) {
+        if (!matching) {
+            matching = true;
             match_start = n1;
         }
 
@@ -276,7 +283,7 @@ bool Pattern::partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR n
         }
     }
     
-    // If queue2 is empty, we have found a partial match!
+    // If queue2 is empty, we have completely traversed the needle tree, and thus there is a partial match!
     return queue2.empty();
 }
 

@@ -20,7 +20,8 @@ BOOLEAN_TYPE RelationNode::setRelationType(RELATION_TYPE relation_type) {
 BOOLEAN_TYPE RelationNode::setLeftAstNode(AST_NODE_PTR left_node_ptr) {
     try {
         if (left_node_ptr->getNodeType() != NODE_TYPE::variableNode &&
-            left_node_ptr->getNodeType() != NODE_TYPE::constantNode) {
+            left_node_ptr->getNodeType() != NODE_TYPE::constantNode &&
+            left_node_ptr->getNodeType() != NODE_TYPE::expressionNode) {
             return false;
         }
         addChildNode(left_node_ptr);
@@ -36,7 +37,8 @@ BOOLEAN_TYPE RelationNode::setLeftAstNode(AST_NODE_PTR left_node_ptr) {
 BOOLEAN_TYPE RelationNode::setRightAstNode(AST_NODE_PTR right_node_ptr) {
     try {
         if (right_node_ptr->getNodeType() != NODE_TYPE::variableNode &&
-            right_node_ptr->getNodeType() != NODE_TYPE::constantNode) {
+            right_node_ptr->getNodeType() != NODE_TYPE::constantNode &&
+            right_node_ptr->getNodeType() != NODE_TYPE::expressionNode) {
             return false;
         }
         addChildNode(right_node_ptr);
