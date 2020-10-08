@@ -15,30 +15,30 @@
 class QueryEvaluator;
 
 typedef std::vector<std::string> QUERY_RESULT;
-/*may need to typedef processed_synonyms? check with huiming on the type from preprocessor*/
 typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 typedef QueryNode PROCESSED_CLAUSES;
 
 class QueryEvaluator {
-	/* Overview: Evaluates pre-processed queries and returns the result */
-
-private:
-	PKB pkb = (PKBBuilder().build()); // because PKB has no default constructor
-	void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList& result_list);
-	bool QueryEvaluator::findPartialPattern(AST_NODE_PTR ast, std::string search_name);
+	/* Overview: Evaluates pre-processed queries and returns the corresponding result */
 
 public:
 	QueryEvaluator(PKB pkb);
 	/*
-		Description:
-		  Normal:
-		*/
+	Description: Creates a QueryEvaluator for the given PKB.
+	*/
 
 	QUERY_RESULT evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSED_CLAUSES clauses);
 	/*
-		Requires: A query in the form of PROCESSED_SYNONYMS and PROCESSED_CLAUSES
-		Description:
-		  Normal: Returns the QUERY_RESULT
-		  Abnormal: If 's' and 'c' is not a valid processed query, throw an exception
-		*/
+	Description: Returns the query result of the given processed synonyms and processed clauses.
+				 Invalid queries would return an empty result list.
+	*/
+
+private:
+	PKB pkb = (PKBBuilder().build()); // because PKB has no default constructor
+	void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList& result_list);
+	/*
+	Description: Fills the given result_list with all values of the given synonym_type, attached to the column name of the given synonym_name.
+	*/
+
+	bool QueryEvaluator::findPartialPattern(AST_NODE_PTR ast, std::string search_name);
 };

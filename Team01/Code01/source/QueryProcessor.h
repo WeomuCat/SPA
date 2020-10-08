@@ -19,14 +19,11 @@ public:
 
 	QueryProcessor(PKB pkb);
 	/*
-		Description:
-		  Normal: 
-		*/
+	Description: Creates a QueryProcessor for the given PKB.
+	*/
 
 	QUERY_RESULT processQuery(QUERY q);
 	/*
-		Description:
-		  Normal: Returns the QUERY_RESULT
-		  Abnormal: If 'q' is not a valid query, throw an exception
-		*/
+	Description: Processes the given query and returns the query result.
+	*/
 };

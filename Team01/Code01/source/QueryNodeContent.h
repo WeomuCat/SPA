@@ -23,18 +23,46 @@ public:
 	QueryNodeContent();
 
 	QueryNodeContent(STRING content);
+	/*
+	Description: Creates a QueryNodeContent with the given string.
+				 All other values will remain their default values.
+	*/
 
 	QueryNodeContent(INTEGER integer);
+	/*
+	Description: Creates a QueryNodeContent with the given integer.
+				 All other values will remain their default values.
+	*/
 
 	QueryNodeContent(AST_NODE astnode);
+	/*
+	Description: Creates a QueryNodeContent with the given astnode.
+				 All other values will remain their default values.
+	*/
 
 	QueryNodeContent(BOOLEAN boolean);
+	/*
+	Description: Creates a QueryNodeContent with the given boolean.
+				 All other values will remain their default values.
+	*/
 
 	STRING getString();
+	/*
+	Description: Returns this string value.
+	*/
 
 	INTEGER getInt();
+	/*
+	Description: Returns this integer value.
+	*/
 
 	AST_NODE getAstNode();
+	/*
+	Description: Returns this ASTNode.
+	*/
 
 	BOOLEAN getBool();
+	/*
+	Description: Returns this boolean value.
+	*/
 };

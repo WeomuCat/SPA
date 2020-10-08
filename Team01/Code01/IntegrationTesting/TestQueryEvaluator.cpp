@@ -1182,7 +1182,7 @@ namespace IntegrationTesting
 
 		TEST_METHOD(evaluateQuery_SelectVUsesSP_v_ReturnsV)
 		{
-			// Query: "variable v; procedure p; Select v such that UsesS(p,v)"
+			// Query: "variable v; procedure p; Select v such that UsesP(p,v)"
 			// Get processed_synonyms and processed clauses
 			QueryNode variable_node = QueryNode();
 			variable_node.setSynonymNode({ QuerySynonymType::variable }, "v");
@@ -1195,7 +1195,7 @@ namespace IntegrationTesting
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::such_that });
 			QueryNode child_child1 = QueryNode();
-			child_child1.setNodeType({ QueryNodeType::usesS });
+			child_child1.setNodeType({ QueryNodeType::usesP });
 			QueryNode child_child_child1 = QueryNode();
 			child_child_child1.setSynonymNode({ QuerySynonymType::procedure }, "p");
 			QueryNode child_child_child2 = QueryNode();
@@ -1224,7 +1224,7 @@ namespace IntegrationTesting
 
 		TEST_METHOD(evaluateQuery_SelectPUsesSP_v_ReturnsP)
 		{
-			// Query: "variable v; procedure p; Select v such that UsesS(p,v)"
+			// Query: "variable v; procedure p; Select v such that UsesP(p,v)"
 			// Get processed_synonyms and processed clauses
 			QueryNode variable_node = QueryNode();
 			variable_node.setSynonymNode({ QuerySynonymType::variable }, "v");
@@ -1237,7 +1237,7 @@ namespace IntegrationTesting
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::such_that });
 			QueryNode child_child1 = QueryNode();
-			child_child1.setNodeType({ QueryNodeType::usesS });
+			child_child1.setNodeType({ QueryNodeType::usesP });
 			QueryNode child_child_child1 = QueryNode();
 			child_child_child1.setSynonymNode({ QuerySynonymType::procedure }, "p");
 			QueryNode child_child_child2 = QueryNode();
@@ -1306,7 +1306,7 @@ namespace IntegrationTesting
 
 		TEST_METHOD(evaluateQuery_SelectVModifiesP_v_ReturnsEmpty)
 		{
-			// Query: "variable v; procedure p; Select v such that ModifiesS(p,v)"
+			// Query: "variable v; procedure p; Select v such that ModifiesP(p,v)"
 			// Get processed_synonyms and processed clauses
 			QueryNode variable_node = QueryNode();
 			variable_node.setSynonymNode({ QuerySynonymType::variable }, "v");
@@ -1319,7 +1319,7 @@ namespace IntegrationTesting
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::such_that });
 			QueryNode child_child1 = QueryNode();
-			child_child1.setNodeType({ QueryNodeType::modifiesS });
+			child_child1.setNodeType({ QueryNodeType::modifiesP });
 			QueryNode child_child_child1 = QueryNode();
 			child_child_child1.setSynonymNode({ QuerySynonymType::procedure }, "p");
 			QueryNode child_child_child2 = QueryNode();
