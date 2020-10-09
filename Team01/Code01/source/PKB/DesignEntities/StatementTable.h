@@ -2,35 +2,29 @@
 
 #include <memory>
 #include <vector>
+#include "DesignEntityTable.h"
+#include "DesignEntityTable.cpp"
 #include "../ASTNode/StatementNode.h"
 
-typedef int INDEX;
 typedef std::shared_ptr<StatementNode> STMT_NODE_PTR;
 typedef std::vector<STMT_NODE_PTR> STMT_NODE_PTR_LIST;
 typedef std::vector<STMT_NUM> STMT_NUM_LIST;
 
-class StatementTable {
-/* Overview: This is a data structure*/
+class StatementTable : public DesignEntityTable<STMT_NODE_PTR> {
 
-private:
-    friend class PKB;
-    friend class PKBBuilder;
-
+public:
+    /*
+    Description: Returns the index of the STMT_NODE_PTR added to the table.
+    */
     INDEX addStatementNode(STMT_NODE_PTR node);
-        /*
-        Description: Returns the index of the STMT_NODE_PTR added to the table.
-        */
 
+    /*
+    Description: Returns a STMT_NODE_PTR_LIST of the table.
+    */
     STMT_NODE_PTR_LIST getStatementNodeList();
-        /*
-        Description: Returns a STMT_NODE_PTR_LIST of the table.
-        */
     
+    /*
+    Description: Returns a STMT_NUM_LIST of the table.
+    */
     STMT_NUM_LIST getStatementNumList();
-        /*
-        Description: Returns a STMT_NUM_LIST of the table.
-        */
-
-    std::vector<STMT_NODE_PTR> nodes_;
-
 };

@@ -1,13 +1,11 @@
 #include "StatementTable.h"
 
 INDEX StatementTable::addStatementNode(STMT_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 STMT_NODE_PTR_LIST StatementTable::getStatementNodeList() {
-    return STMT_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 STMT_NUM_LIST StatementTable::getStatementNumList() {

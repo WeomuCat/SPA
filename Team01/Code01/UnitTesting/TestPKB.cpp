@@ -7,60 +7,140 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
 	
 	// Tests PKBBuilder as well.
-	TEST_CLASS(PKBTest) {
+	TEST_CLASS(PKB_GetterSetterTest) {
 	public:
 		TEST_METHOD(addAssign_getAssigns_True) {
 			PKBBuilder pkb_builder;
 			ASSIGN_NODE_PTR expected = std::make_shared<AssignNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
 			pkb_builder.addAssignNode(expected);
 			PKB pkb = pkb_builder.build();
-			ASSIGN_NODE_PTR actual = pkb.getAssigns().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+
+			ASSIGN_NODE_PTR actual_pkb = pkb.getAssigns().at(0);
+			ASSIGN_NODE_PTR actual_builder = pkb_builder.getAssigns().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			int num = pkb.getAssignNumList().at(0);
+			Assert::AreEqual(expected_num, num);;
+		}
+		TEST_METHOD(addCall_getCall_True) {
+			PKBBuilder pkb_builder;
+			CALL_NODE_PTR expected = std::make_shared<CallNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
+			pkb_builder.addCallNode(expected);
+			PKB pkb = pkb_builder.build();
+
+			CALL_NODE_PTR actual_pkb = pkb.getCalls().at(0);
+			CALL_NODE_PTR actual_builder = pkb_builder.getCalls().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			int num = pkb.getCallNumList().at(0);
+			Assert::AreEqual(expected_num, num);
 		}
 		
 		TEST_METHOD(addConstant_getConstants_True) {
 			PKBBuilder pkb_builder;
 			CONSTANT_NODE_PTR expected = std::make_shared<ConstantNode>();
+			std::string expected_num = "1";
+			expected->setValue(expected_num);
 			pkb_builder.addConstantNode(expected);
 			PKB pkb = pkb_builder.build();
-			CONSTANT_NODE_PTR actual = pkb.getConstants().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			CONSTANT_NODE_PTR actual_pkb = pkb.getConstants().at(0);
+			CONSTANT_NODE_PTR actual_builder = pkb_builder.getConstants().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			std::string num = pkb.getConstantValueList().at(0);
+			Assert::AreEqual(expected_num, num);
 		}
 
 		TEST_METHOD(addIf_getIfs_True) {
 			PKBBuilder pkb_builder;
 			IF_NODE_PTR expected = std::make_shared<IfNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
 			pkb_builder.addIfNode(expected);
 			PKB pkb = pkb_builder.build();
-			IF_NODE_PTR actual = pkb.getIfs().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			IF_NODE_PTR actual_pkb = pkb.getIfs().at(0);
+			IF_NODE_PTR actual_builder = pkb_builder.getIfs().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			int num = pkb.getIfNumList().at(0);
+			Assert::AreEqual(expected_num, num);			
 		}
 
 		TEST_METHOD(addPrint_getPrints_True) {
 			PKBBuilder pkb_builder;
 			PRINT_NODE_PTR expected = std::make_shared<PrintNode>();
+			VAR_NODE_PTR expected_var = std::make_shared<VariableNode>();
+			int expected_num = 1;
+			std::string expected_var_name = "x";
+			expected_var->setVariableName(expected_var_name);
+			expected->setStatementNumber(expected_num);
+			expected->setVariableNode(expected_var);
 			pkb_builder.addPrintNode(expected);
+			pkb_builder.addVariableNode(expected_var);
 			PKB pkb = pkb_builder.build();
-			PRINT_NODE_PTR actual = pkb.getPrints().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			PRINT_NODE_PTR actual_pkb = pkb.getPrints().at(0);
+			PRINT_NODE_PTR actual_builder = pkb_builder.getPrints().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			int num = pkb.getPrintNumList().at(0);			
+			Assert::AreEqual(expected_num, num);
+
+			std::string actual_var_name = pkb.getPrintVarNameList().at(0);
+			Assert::AreEqual(expected_var_name, actual_var_name);
 		}
 
 		TEST_METHOD(addProcedure_getProcedures_True) {
 			PKBBuilder pkb_builder;
 			PROC_NODE_PTR expected = std::make_shared<ProcedureNode>();
+			std::string expected_name = "main";
+			expected->setProcedureName(expected_name);
 			pkb_builder.addProcedureNode(expected);
 			PKB pkb = pkb_builder.build();
-			PROC_NODE_PTR actual = pkb.getProcedures().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			PROC_NODE_PTR actual_pkb = pkb.getProcedures().at(0);
+			PROC_NODE_PTR actual_builder = pkb_builder.getProcedures().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			std::string name = pkb.getProcedureNameList().at(0);
+			Assert::AreEqual(expected_name, name);			
 		}
 
 		TEST_METHOD(addRead_getReads_True) {
 			PKBBuilder pkb_builder;
 			READ_NODE_PTR expected = std::make_shared<ReadNode>();
+			VAR_NODE_PTR expected_var = std::make_shared<VariableNode>();
+			int expected_num = 1;
+			std::string expected_var_name = "x";
+			expected_var->setVariableName(expected_var_name);
+			expected->setStatementNumber(expected_num);
+			expected->setVariableNode(expected_var);
 			pkb_builder.addReadNode(expected);
+			pkb_builder.addVariableNode(expected_var);
 			PKB pkb = pkb_builder.build();
-			READ_NODE_PTR actual = pkb.getReads().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			READ_NODE_PTR actual_pkb = pkb.getReads().at(0);
+			READ_NODE_PTR actual_builder = pkb_builder.getReads().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			int num = pkb.getReadNumList().at(0);
+			Assert::AreEqual(expected_num, num);
+
+			std::string actual_var_name = pkb.getReadVarNameList().at(0);
+			Assert::AreEqual(expected_var_name, actual_var_name);
 		}
 
 		TEST_METHOD(addStatementList_getStatementLists_True) {
@@ -68,35 +148,62 @@ namespace UnitTesting {
 			STMT_LIST_NODE_PTR expected = std::make_shared<StatementListNode>();
 			pkb_builder.addStatementListNode(expected);
 			PKB pkb = pkb_builder.build();
-			STMT_LIST_NODE_PTR actual = pkb.getStatementLists().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+
+			STMT_LIST_NODE_PTR actual_pkb = pkb.getStatementLists().at(0);
+			STMT_LIST_NODE_PTR actual_builder = pkb_builder.getStatementLists().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
 		}
 
 		TEST_METHOD(addStatement_getStatements_True) {
 			PKBBuilder pkb_builder;
 			ASSIGN_NODE_PTR expected = std::make_shared<AssignNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
 			pkb_builder.addStatementNode(expected);
 			PKB pkb = pkb_builder.build();
-			STMT_NODE_PTR actual = pkb.getStatements().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+
+			STMT_NODE_PTR actual_pkb = pkb.getStatements().at(0);
+			STMT_NODE_PTR actual_builder = pkb_builder.getStatements().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			int num = pkb.getStatementNumList().at(0);
+			Assert::AreEqual(expected_num, num);
 		}
 
 		TEST_METHOD(addVariable_getVariables_True) {
 			PKBBuilder pkb_builder;
 			VAR_NODE_PTR expected = std::make_shared<VariableNode>();
+			std::string expected_name = "x";
+			expected->setVariableName(expected_name);
 			pkb_builder.addVariableNode(expected);
 			PKB pkb = pkb_builder.build();
-			VAR_NODE_PTR actual = pkb.getVariables().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			VAR_NODE_PTR actual_pkb = pkb.getVariables().at(0);
+			VAR_NODE_PTR actual_builder = pkb_builder.getVariables().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			std::string name = pkb.getVariableNameList().at(0);
+			Assert::AreEqual(expected_name, name);
 		}
 
 		TEST_METHOD(addWhile_getWhiles_True) {
 			PKBBuilder pkb_builder;
 			WHILE_NODE_PTR expected = std::make_shared<WhileNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
 			pkb_builder.addWhileNode(expected);
 			PKB pkb = pkb_builder.build();
-			WHILE_NODE_PTR actual = pkb.getWhiles().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+
+			WHILE_NODE_PTR actual_pkb = pkb.getWhiles().at(0);
+			WHILE_NODE_PTR actual_builder = pkb_builder.getWhiles().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			int num = pkb.getWhileNumList().at(0);
+			Assert::AreEqual(expected_num, num);
 		}
 
 		TEST_METHOD(setProgramNode_getProgramNode_True) {
@@ -104,6 +211,7 @@ namespace UnitTesting {
 			PROGRAM_NODE_PTR expected = std::make_shared<ProgramNode>();
 			pkb_builder.setProgramNode(expected);
 			PKB pkb = pkb_builder.build();
+
 			PROGRAM_NODE_PTR actual = pkb.getProgramNode();
 			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
 		}

@@ -11,31 +11,31 @@ typedef bool BOOLEAN_TYPE;
 
 class WhileNode : public StatementNode, public std::enable_shared_from_this<WhileNode> {
 public:
+
+	/*
+	Description: Sets NODE_TYPE of node to be assignNode.
+	*/
 	WhileNode();
-		/*
-		Description: Sets NODE_TYPE of node to be assignNode.
-		*/
 
+	/*
+	Description: Returns True if able to set the CONDITION_NODE_PTR of this while statement, false otherwise.
+	*/
 	BOOLEAN_TYPE setConditionNode(CONDITION_NODE_PTR condition_node_ptr);
-		/*
-		Description: Returns True if able to set the CONDITION_NODE_PTR of this while statement, false otherwise.
-		*/
 
+	/*
+	Description: Returns True if able to set stmt_list_node_ptr_ as stmt_list_node_ptr, false otherwise.
+	*/
 	BOOLEAN_TYPE setWhileStatementListNode(STMT_LIST_NODE_PTR stmt_list_node_ptr);
-		/*
-		Description: Returns True if able to set stmt_list_node_ptr_ as stmt_list_node_ptr, false otherwise.
-		*/
 
+	/*
+	Description: Returns the CONDITION_NODE_PTR of WhileNode condition.
+	*/
 	CONDITION_NODE_PTR getConditionNode();
-		/*
-		Description: Returns the CONDITION_NODE_PTR of WhileNode condition.
-		*/
 
+	/*
+	Description: Returns a STATEMENT_LIST_NODE_PTR of the while statement body.
+	*/
 	STMT_LIST_NODE_PTR getWhileStatementListNode();
-		/*
-		Description: Returns a STATEMENT_LIST_NODE_PTR of the while statement body.
-		*/
-
 
 private:
 	CONDITION_NODE_PTR condition_node_ptr_;

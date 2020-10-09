@@ -1,13 +1,11 @@
 #include "AssignTable.h"
 
 INDEX AssignTable::addAssignNode(ASSIGN_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 ASSIGN_NODE_PTR_LIST AssignTable::getAssignNodeList() {
-    return ASSIGN_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 STMT_NUM_LIST AssignTable::getAssignNumList() {

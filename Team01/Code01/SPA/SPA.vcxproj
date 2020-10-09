@@ -39,6 +39,7 @@
     <ClInclude Include="..\source\PKB\DesignEntities\AssignTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\CallTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\ConstantTable.h" />
+    <ClInclude Include="..\source\PKB\DesignEntities\DesignEntityTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\IfTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\PrintTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\ProcedureTable.h" />
@@ -92,6 +93,7 @@
     <ClCompile Include="..\source\PKB\DesignEntities\AssignTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\CallTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\ConstantTable.cpp" />
+    <ClCompile Include="..\source\PKB\DesignEntities\DesignEntityTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\IfTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\PrintTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\ProcedureTable.cpp" />

@@ -142,6 +142,9 @@
     <ClCompile Include="..\source\Pattern.cpp">
       <Filter>Source\QP</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\PKB\DesignEntities\DesignEntityTable.cpp">
+      <Filter>Source\DesignEntity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h">
@@ -305,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="..\source\Pattern.h">
       <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\DesignEntities\DesignEntityTable.h">
+      <Filter>Header\DesignEntity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
