@@ -1,13 +1,11 @@
 #include "PrintTable.h"
 
 INDEX PrintTable::addPrintNode(PRINT_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 PRINT_NODE_PTR_LIST PrintTable::getPrintNodeList() {
-    return PRINT_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 STMT_NUM_LIST PrintTable::getPrintNumList() {

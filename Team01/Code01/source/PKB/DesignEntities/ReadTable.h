@@ -2,20 +2,18 @@
 
 #include <memory>
 #include <vector>
+#include "DesignEntityTable.h"
+#include "DesignEntityTable.cpp"
 #include "../ASTNode/ReadNode.h"
 
-typedef int INDEX;
 typedef std::shared_ptr<ReadNode> READ_NODE_PTR;
 typedef std::vector<READ_NODE_PTR> READ_NODE_PTR_LIST;
 typedef std::vector<STMT_NUM> STMT_NUM_LIST;
 typedef std::vector<VAR_NAME> VAR_NAME_LIST;
 
-class ReadTable {
+class ReadTable : public DesignEntityTable<READ_NODE_PTR> {
 
-private:
-    friend class PKB;
-    friend class PKBBuilder;
-
+public:
     /*
     Description: Returns the index of the READ_NODE_PTR added to the table.
     */
@@ -35,7 +33,4 @@ private:
     Description: Returns a VAR_NAME_LIST of the table.
     */
     VAR_NAME_LIST getReadVarNameList();
-
-    std::vector<READ_NODE_PTR> nodes_;
-
 };

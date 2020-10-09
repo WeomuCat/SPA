@@ -3,20 +3,18 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "DesignEntityTable.h"
+#include "DesignEntityTable.cpp"
 #include "../ASTNode/ConstantNode.h"
 
-typedef int INDEX;
 typedef std::string CONSTANT_VALUE;
 typedef std::shared_ptr<ConstantNode> CONSTANT_NODE_PTR;
 typedef std::vector<CONSTANT_NODE_PTR> CONSTANT_NODE_PTR_LIST;
 typedef std::vector<CONSTANT_VALUE> CONSTANT_VALUE_LIST;
 
-class ConstantTable {
+class ConstantTable : public DesignEntityTable<CONSTANT_NODE_PTR> {
 
-private:
-    friend class PKB;
-    friend class PKBBuilder;
-
+public:
     /*
     Description: Returns the index of the CONSTANT_NODE_PTR added to the table.
     */
@@ -31,7 +29,4 @@ private:
     Description: Returns a CONSTANT_VALUE_LIST of the table.
     */
     CONSTANT_VALUE_LIST getConstantValueList();
-
-    std::vector<CONSTANT_NODE_PTR> nodes_;
-
 };

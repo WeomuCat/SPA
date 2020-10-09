@@ -2,19 +2,17 @@
 
 #include <memory>
 #include <vector>
+#include "DesignEntityTable.h"
+#include "DesignEntityTable.cpp"
 #include "../ASTNode/IfNode.h"
 
-typedef int INDEX;
 typedef std::shared_ptr<IfNode> IF_NODE_PTR;
 typedef std::vector<IF_NODE_PTR> IF_NODE_PTR_LIST;
 typedef std::vector<STMT_NUM> STMT_NUM_LIST;
 
-class IfTable {
+class IfTable : public DesignEntityTable<IF_NODE_PTR> {
 
-private:
-    friend class PKB;
-    friend class PKBBuilder;
-
+public:
     /*
     Description: Returns the index of the IF_NODE_PTR added to the table.
     */
@@ -29,7 +27,4 @@ private:
     Description: Returns a STMT_NUM_LIST of the table.
     */
     STMT_NUM_LIST getIfNumList();
-
-    std::vector<IF_NODE_PTR> nodes_;
-
 };

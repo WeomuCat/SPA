@@ -2,20 +2,18 @@
 
 #include <memory>
 #include <vector>
+#include "DesignEntityTable.h"
+#include "DesignEntityTable.cpp"
 #include "../ASTNode/ProcedureNode.h"
 
-typedef int INDEX;
 typedef std::string PROC_NAME;
 typedef std::shared_ptr<ProcedureNode> PROC_NODE_PTR;
 typedef std::vector<PROC_NODE_PTR> PROC_NODE_PTR_LIST;
 typedef std::vector<PROC_NAME> PROC_NAME_LIST;
 
-class ProcedureTable {
+class ProcedureTable : public DesignEntityTable<PROC_NODE_PTR> {
 
-private:
-    friend class PKB;
-    friend class PKBBuilder;
-
+public:
     /*
     Description: Returns the index of the PROC_NODE_PTR added to the table.
     */
@@ -30,7 +28,4 @@ private:
     Description: Returns a PROC_NAME_LIST of the table.
     */
     PROC_NAME_LIST getProcedureNameList();
-
-    std::vector<PROC_NODE_PTR> nodes_;
-
 };

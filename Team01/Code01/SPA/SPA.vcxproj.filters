@@ -139,6 +139,9 @@
     <ClCompile Include="..\source\PKB\Relationships\RelationshipTransitiveTable.cpp">
       <Filter>Source\Relationship</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\PKB\DesignEntities\DesignEntityTable.cpp">
+      <Filter>Source\DesignEntity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h">
@@ -296,9 +299,12 @@
     </ClInclude>
     <ClInclude Include="..\source\Relationship.h">
       <Filter>Header\QP</Filter>
-    </ClCompile>
+    </ClInclude>
     <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h">
       <Filter>Header\Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\DesignEntities\DesignEntityTable.h">
+      <Filter>Header\DesignEntity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

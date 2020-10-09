@@ -11,7 +11,6 @@ class RelationshipTransitiveTable {
     /* Overview: This is a data structure that can store transitive relationships */
 
 public:
-    
     /*
     Description: Clears the cache of this table.
     */
