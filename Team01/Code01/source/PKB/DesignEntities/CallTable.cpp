@@ -1,13 +1,11 @@
 #include "CallTable.h"
 
 INDEX CallTable::addCallNode(CALL_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 CALL_NODE_PTR_LIST CallTable::getCallNodeList() {
-    return CALL_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 STMT_NUM_LIST CallTable::getCallNumList() {

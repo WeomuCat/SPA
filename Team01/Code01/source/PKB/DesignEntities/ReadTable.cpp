@@ -1,13 +1,11 @@
 #include "ReadTable.h"
 
 INDEX ReadTable::addReadNode(READ_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 READ_NODE_PTR_LIST ReadTable::getReadNodeList() {
-    return READ_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 STMT_NUM_LIST ReadTable::getReadNumList() {
