@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\ParserPrintTree.h" />
+    <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\PKBBuilder.h" />
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h" />
@@ -70,6 +71,7 @@
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\ParserPrintTree.cpp" />
+    <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\PKBBuilder.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\AssignNode.cpp" />
