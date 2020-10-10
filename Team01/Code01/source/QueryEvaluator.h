@@ -46,8 +46,6 @@ private:
 	/*
 	Description: Fills the given result_list with all values of the given synonym_type, attached to the column name of the given synonym_name.
 	*/
-
-	bool QueryEvaluator::findPartialPattern(AST_NODE_PTR ast, std::string search_name);
 	
 	void setEvaluatorReturnType(QueryNode select_return);
 };
