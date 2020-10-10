@@ -17,6 +17,12 @@ QueryNodeContent::QueryNodeContent(AST_NODE astnode) {
 	this->modified = 3;
 }
 
+QueryNodeContent::QueryNodeContent(STRING syn, ATTRIBUTE attribute) {
+	this->strings = syn;
+	this->attribute = attribute;
+	this->modified = 4;
+}
+
 STRING QueryNodeContent::getString() {
 	return strings;
 }
@@ -27,4 +33,8 @@ INTEGER QueryNodeContent::getInt() {
 
 AST_NODE QueryNodeContent::getAstNode() {
 	return astnode;
+}
+
+ATTRIBUTE QueryNodeContent::getAttribute() {
+	return attribute;
 }
