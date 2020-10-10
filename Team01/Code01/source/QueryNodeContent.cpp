@@ -1,3 +1,5 @@
+#include <regex>
+
 #include "QueryNodeContent.h"
 
 QueryNodeContent::QueryNodeContent() {}
@@ -19,16 +21,16 @@ QueryNodeContent::QueryNodeContent(AST_NODE astnode) {
 
 QueryNodeContent::QueryNodeContent(STRING syn, ATTRIBUTE_STRING attribute) {
 	this->strings = syn;
-	if (std::regex_match(node_type_string, std::regex("procName"))) {
+	if (std::regex_match(attribute, std::regex("procName"))) {
 		this->attribute = AttributeType::procName;
 	}
-	else if (std::regex_match(node_type_string, std::regex("varName"))) {
+	else if (std::regex_match(attribute, std::regex("varName"))) {
 		this->attribute = AttributeType::varName;
 	}
-	else if (std::regex_match(node_type_string, std::regex("value"))) {
+	else if (std::regex_match(attribute, std::regex("value"))) {
 		this->attribute = AttributeType::value;
 	}
-	else if (std::regex_match(node_type_string, std::regex("stmt#"))) {
+	else if (std::regex_match(attribute, std::regex("stmt#"))) {
 		this->attribute = AttributeType::stmtNum;
 	}
 	this->modified = 4;
