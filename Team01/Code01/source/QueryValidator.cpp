@@ -39,7 +39,7 @@ VALIDATION_RESULT QueryValidator ::isValidStructure(QUERY q) {
 Validation rules:
 	- Declaration must not be empty
 	- Follows the format: design-entity synonym (‘,’ synonym)* ‘;’
-	- Declared design entityy is valid
+	- Declared design entity is valid
 	- Synonym names follows the format: LETTER ( LETTER | DIGIT )*
 */
 VALIDATION_RESULT QueryValidator::isValidDeclaration(SINGLE_DECLARATION single_d) {
@@ -148,8 +148,8 @@ VALIDATION_RESULT QueryValidator::isStatementArgument(PROCESSED_SYNONYMS proc_s,
 Validation rules:
 	- If argument is a synonym, check if it has been declared
 	- Check if type of arguments are correct
-		- Follows and FollowsT can only have 'stmt' as design entity
-		- Parent and ParentT can only have 'stmt' as design entity
+		- Follows and FollowsT can only have statement arguments
+		- Parent and ParentT can only have statement arguments
 		- If arguments of UsesS are synonyms, only the following combinations are allowed:
 				- assign, variable
 				- print, variable
@@ -278,8 +278,7 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 
 /*
 Validation rules:
-	- Check if declared relationship is valid
-	- Check if relationship has correct format+number of arguments
+	- Check if pattern has correct format+number of arguments
 */
 VALIDATION_RESULT QueryValidator::isValidPatternFormat(SINGLE_CLAUSE single_c) {
 	if (!std::regex_match(single_c, clause_pattern_format_)) {
