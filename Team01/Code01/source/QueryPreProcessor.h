@@ -5,19 +5,17 @@
 #include <vector>
 
 #include "QueryNode.h"
+#include "QueryValidator.h"
 
 typedef std::string QUERY;
 typedef std::vector<std::string> SPLIT_QUERY;
 typedef std::string DECLARATIONS;
 typedef std::vector<std::string> SPLIT_DECLARATIONS;
-typedef std::string SINGLE_DECLARATION;
 typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 typedef std::string CLAUSES;
-typedef std::string SINGLE_CLAUSE;
 typedef QueryNode PROCESSED_CLAUSES;
 typedef std::string RELATIONSHIP;
 typedef std::string ARGUMENT;
-typedef bool VALIDATION_RESULT;
 typedef std::string EXPRESSION;
 typedef std::string STRING;
 typedef int INDEX;
@@ -83,63 +81,6 @@ private:
 	/*
 		Description:
 		  Normal: Returns a QueryNode for the pattern
-		*/
-
-
-	VALIDATION_RESULT isValidStructure(QUERY q);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on general structure of input query
-		*/
-
-	VALIDATION_RESULT isValidDeclaration(SINGLE_DECLARATION single_d);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on grammer for declarations
-		*/
-
-	VALIDATION_RESULT isValidClause(CLAUSES c);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on grammar for clauses
-		*/
-
-	VALIDATION_RESULT isSynonymDeclared(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on whether synonym has been declared
-		*/
-
-	VALIDATION_RESULT isValidRelationFormat(SINGLE_CLAUSE single_c);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on relationship format
-		*/
-
-	VALIDATION_RESULT isStatementArgument(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on whether argument returns a statemenr number
-		*/
-
-	VALIDATION_RESULT isValidRelationArguments(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
-		ARGUMENT first_arg, ARGUMENT second_arg);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on relationship argument validity
-		*/
-
-	VALIDATION_RESULT isValidPatternFormat(SINGLE_CLAUSE single_c);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on pattern format
-		*/
-
-	VALIDATION_RESULT isValidPatternArguments(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
-		ARGUMENT first_arg, ARGUMENT second_arg);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on pattern argument validity
 		*/
 
 	STRING trimWhitespaces(STRING s);
