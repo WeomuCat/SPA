@@ -12,6 +12,8 @@ typedef std::vector<std::string> SPLIT_QUERY;
 typedef std::string DECLARATIONS;
 typedef std::vector<std::string> SPLIT_DECLARATIONS;
 typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
+typedef std::string ELEMENT;
+typedef std::string RESULT;
 typedef std::string CLAUSES;
 typedef QueryNode PROCESSED_CLAUSES;
 typedef std::string RELATIONSHIP;
@@ -50,12 +52,22 @@ private:
 	SPLIT_DECLARATIONS splitDeclarations(DECLARATIONS d);
 
 	/*
+	Description: Returns a QueryNode for the element.
+	*/
+	QueryNode createElemNode(PROCESSED_SYNONYMS proc_s, ELEMENT e);
+
+	/*
+	Description: Returns a QueryNode for the result clause.
+	*/
+	QueryNode createResultNode(PROCESSED_SYNONYMS proc_s, RESULT r);
+
+	/*
 	Description: Returns the INDEX of the next clause.
 	*/
 	INDEX getNextClauseIndex(CLAUSES c, INDEX current_index, INDEX such_that_index, INDEX pattern_index);
 
 	/*
-	Description: Returns SPLIT_DECLARATIONS.
+	Description: Returns a QueryNode for the expression.
 	*/
 	QueryNode createExpressionNode(EXPRESSION e);
 

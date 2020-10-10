@@ -246,19 +246,22 @@ namespace IntegrationTesting
 			PROCESSED_CLAUSES proc_c3 = qpp.preProcessClauses(proc_s, c3);
 
 			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::select);
-			Assert::IsTrue(proc_c1.getChildren()[0].getNodeType() == QueryNodeType::synonym);
-			Assert::IsTrue(proc_c1.getChildren()[0].getSynonymType() == QuerySynonymType::stmt);
-			Assert::IsTrue(proc_c1.getChildren()[0].getString().compare("s") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[0].getNodeType() == QueryNodeType::tuple);
+			Assert::IsTrue(proc_c1.getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[0].getChildren()[0].getSynonymType() == QuerySynonymType::stmt);
+			Assert::IsTrue(proc_c1.getChildren()[0].getChildren()[0].getString().compare("s") == 0);
 
 			Assert::IsTrue(proc_c2.getNodeType() == QueryNodeType::select);
-			Assert::IsTrue(proc_c2.getChildren()[0].getNodeType() == QueryNodeType::synonym);
-			Assert::IsTrue(proc_c2.getChildren()[0].getSynonymType() == QuerySynonymType::ifs);
-			Assert::IsTrue(proc_c2.getChildren()[0].getString().compare("ifs") == 0);
+			Assert::IsTrue(proc_c2.getChildren()[0].getNodeType() == QueryNodeType::tuple);
+			Assert::IsTrue(proc_c1.getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[0].getChildren()[0].getSynonymType() == QuerySynonymType::ifs);
+			Assert::IsTrue(proc_c2.getChildren()[0].getChildren()[0].getString().compare("ifs") == 0);
 
 			Assert::IsTrue(proc_c3.getNodeType() == QueryNodeType::select);
-			Assert::IsTrue(proc_c3.getChildren()[0].getNodeType() == QueryNodeType::synonym);
-			Assert::IsTrue(proc_c3.getChildren()[0].getSynonymType() == QuerySynonymType::variable);
-			Assert::IsTrue(proc_c3.getChildren()[0].getString().compare("v") == 0);
+			Assert::IsTrue(proc_c3.getChildren()[0].getNodeType() == QueryNodeType::tuple);
+			Assert::IsTrue(proc_c1.getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c3.getChildren()[0].getChildren()[0].getSynonymType() == QuerySynonymType::variable);
+			Assert::IsTrue(proc_c3.getChildren()[0].getChildren()[0].getString().compare("v") == 0);
 		}
 
 		TEST_METHOD(preProcessClauses_Select_Invalid_Success) {
