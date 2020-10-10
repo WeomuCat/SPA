@@ -71,11 +71,6 @@ INDEX QueryPreProcessor::getNextClauseIndex(CLAUSES c, INDEX current_index, INDE
 }
 
 QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
-	/*
-		expression-spec:    ‘_’ ‘"’ factor ‘"’ ‘_’ | ‘_’
-
-		factor: var_name | const_value
-	*/
 	QueryNode exp_node = QueryNode();
 
 	if (std::regex_match(e, std::regex("_"))) {

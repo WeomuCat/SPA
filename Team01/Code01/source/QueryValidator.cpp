@@ -14,13 +14,13 @@ const std::regex stmt_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
 const std::regex ent_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\")");
 const std::regex expression_spec_format_("(_\\s*\"\\s*([a-zA-Z][a-zA-Z0-9]*|[0-9]+)\\s*\"\\s*_|_)");
 
-VALIDATION_RESULT QueryValidator ::isValidStructure(QUERY q) {
-	/*
-	Validation rules:
+/*
+Validation rules:
 		- Query is not empty
 		- Has a declaration
 		- Has 'Select'
-	*/
+*/
+VALIDATION_RESULT QueryValidator ::isValidStructure(QUERY q) {
 	if (q.length() <= 0) {
 		return false;
 	}
@@ -35,14 +35,14 @@ VALIDATION_RESULT QueryValidator ::isValidStructure(QUERY q) {
 	}
 }
 
+/*
+Validation rules:
+	- Declaration must not be empty
+	- Follows the format: design-entity synonym (‘,’ synonym)* ‘;’
+	- Declared design entityy is valid
+	- Synonym names follows the format: LETTER ( LETTER | DIGIT )*
+*/
 VALIDATION_RESULT QueryValidator::isValidDeclaration(SINGLE_DECLARATION single_d) {
-	/*
-	Validation rules:
-		- Declaration must not be empty
-		- Follows the format: design-entity synonym (‘,’ synonym)* ‘;’
-		- Declared design entityy is valid
-		- Synonym names follows the format: LETTER ( LETTER | DIGIT )*
-	*/
 	if (single_d.length() <= 0) {
 		return false;
 	}
@@ -54,12 +54,12 @@ VALIDATION_RESULT QueryValidator::isValidDeclaration(SINGLE_DECLARATION single_d
 	}
 }
 
+/*
+Validation rules:
+	- There is a synonym after 'Select'
+	- Has at most one 'such that' and 'pattern' clauses
+*/
 VALIDATION_RESULT QueryValidator::isValidClause(CLAUSES c) {
-	/*
-	Validation rules:
-		- There is a synonym after 'Select'
-		- Has at most one 'such that' and 'pattern' clauses
-	*/
 	if (!std::regex_match(c, clause_select_format_)) {
 		return false;
 	}
@@ -79,12 +79,12 @@ VALIDATION_RESULT QueryValidator::isSynonymDeclared(PROCESSED_SYNONYMS proc_s, S
 	return (proc_s.find(s) != proc_s.end());
 }
 
+/*
+Validation rules:
+	- Check if declared relationship is valid
+	- Check if relationship has correct format+number of arguments
+*/
 VALIDATION_RESULT QueryValidator::isValidRelationFormat(SINGLE_CLAUSE single_c) {
-	/*
-	Validation rules:
-		- Check if declared relationship is valid
-		- Check if relationship has correct format+number of arguments
-	*/
 	if (!std::regex_match(single_c, clause_relation_format_)) {
 		return false;
 	}
@@ -93,17 +93,17 @@ VALIDATION_RESULT QueryValidator::isValidRelationFormat(SINGLE_CLAUSE single_c) 
 	}
 }
 
+/*
+List of synonyms that return statement number:
+	- stmt
+	- read
+	- print
+	- call
+	- while
+	- if
+	- assign
+*/
 VALIDATION_RESULT QueryValidator::isStatementArgument(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
-	/*
-	List of synonyms that return statement number:
-		- stmt
-		- read
-		- print
-		- call
-		- while
-		- if
-		- assign
-	*/
 	if (!std::regex_match(a, stmt_ref_format_)) {
 		return false;
 	}
@@ -144,32 +144,32 @@ VALIDATION_RESULT QueryValidator::isStatementArgument(PROCESSED_SYNONYMS proc_s,
 	}
 }
 
+/*
+Validation rules:
+	- If argument is a synonym, check if it has been declared
+	- Check if type of arguments are correct
+		- Follows and FollowsT can only have 'stmt' as design entity
+		- Parent and ParentT can only have 'stmt' as design entity
+		- If arguments of UsesS are synonyms, only the following combinations are allowed:
+				- assign, variable
+				- print, variable
+				- if, variable
+				- while, variable
+				- procedure, variable
+				- call, variable
+				*note second arguments are all variables
+		- If arguments of ModifiesS are synonyms, only the following combinations are allowed:
+				- assign, variable
+				- read, variable
+				- if, variable
+				- while, variable
+				- procedure, variable
+				- call, variable
+				*note second arguments are all variables
+		- Modifies and Uses can not have '_' as first argument
+*/
 VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
 	ARGUMENT first_arg, ARGUMENT second_arg) {
-	/*
-	Validation rules:
-		- If argument is a synonym, check if it has been declared
-		- Check if type of arguments are correct
-			- Follows and FollowsT can only have 'stmt' as design entity
-			- Parent and ParentT can only have 'stmt' as design entity
-			- If arguments of UsesS are synonyms, only the following combinations are allowed:
-					- assign, variable
-					- print, variable
-					- if, variable
-					- while, variable
-					- procedure, variable
-					- call, variable
-					*note second arguments are all variables
-			- If arguments of ModifiesS are synonyms, only the following combinations are allowed:
-					- assign, variable
-					- read, variable
-					- if, variable
-					- while, variable
-					- procedure, variable
-					- call, variable
-					*note second arguments are all variables
-			- Modifies and Uses can not have '_' as first argument
-	*/
 
 	if (std::regex_match(first_arg, name_format_) && !isSynonymDeclared(proc_s, first_arg)) {
 		return false;
@@ -276,12 +276,12 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 	return false;
 }
 
+/*
+Validation rules:
+	- Check if declared relationship is valid
+	- Check if relationship has correct format+number of arguments
+*/
 VALIDATION_RESULT QueryValidator::isValidPatternFormat(SINGLE_CLAUSE single_c) {
-	/*
-	Validation rules:
-		- Check if declared relationship is valid
-		- Check if relationship has correct format+number of arguments
-	*/
 	if (!std::regex_match(single_c, clause_pattern_format_)) {
 		return false;
 	}
@@ -291,15 +291,15 @@ VALIDATION_RESULT QueryValidator::isValidPatternFormat(SINGLE_CLAUSE single_c) {
 
 }
 
+/*
+Validation rules:
+	- Check if synonym has been declared
+	- Check if synonym is declared as 'assign'
+	- If first argument is synonym, check if it has been declared
+	- Check if type of arguments are correct
+*/
 VALIDATION_RESULT QueryValidator::isValidPatternArguments(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
 	ARGUMENT first_arg, ARGUMENT second_arg) {
-	/*
-	Validation rules:
-		- Check if synonym has been declared
-		- Check if synonym is declared as 'assign'
-		- If first argument is synonym, check if it has been declared
-		- Check if type of arguments are correct
-	*/
 
 	if (!isSynonymDeclared(proc_s, s)) {
 		return false;

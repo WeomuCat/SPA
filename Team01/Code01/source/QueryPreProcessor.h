@@ -20,72 +20,64 @@ typedef std::string EXPRESSION;
 typedef std::string STRING;
 typedef int INDEX;
 
+/*
+Overview: Pre-processes queries into a suitable data structure for the evaluator.
+*/
 class QueryPreProcessor {
-	/* Overview: Pre-processes queries into a suitable data structure for the evaluator */
 
 public:
+	/*
+	Description: Returns a SPLIT_QUERY.
+	*/
 	SPLIT_QUERY splitQuery(QUERY q);
-	/*
-		Description:
-		  Normal: Returns a SPLIT_QUERY
-		*/
 
+	/*
+	Description: Returns PROCESSED_SYNONYMS.
+				 If synonyms are not valid, returns an empty map.
+	*/
 	PROCESSED_SYNONYMS preProcessSynonyms(DECLARATIONS d);
-	/*
-		Description:
-		  Normal: Returns PROCESSED_SYNONYMS
-		  Abnormal: If synonyms are not valid, returns an empty map
-		*/
 
-	PROCESSED_CLAUSES preProcessClauses(PROCESSED_SYNONYMS proc_s, CLAUSES c);
 	/*
-		Description:
-		  Normal: Returns PROCESSED_CLAUSES
-		  Abnormal: If clauses are not valid, returns a query node with a null NODE_TYPE
-		*/
+	Description: Returns PROCESSED_CLAUSES.
+				 If clauses are not valid, returns a query node with a null NODE_TYPE.
+	*/
+	PROCESSED_CLAUSES preProcessClauses(PROCESSED_SYNONYMS proc_s, CLAUSES c);
 
 private:
+	/*
+	Description: Returns SPLIT_DECLARATIONS.
+	*/
 	SPLIT_DECLARATIONS splitDeclarations(DECLARATIONS d);
-	/*
-		Description:
-		  Normal: Returns SPLIT_DECLARATIONS
-		*/
 
+	/*
+	Description: Returns the INDEX of the next clause.
+	*/
 	INDEX getNextClauseIndex(CLAUSES c, INDEX current_index, INDEX such_that_index, INDEX pattern_index);
-	/*
-		Description:
-		  Normal: Returns the INDEX of the next clause
-		*/
 
+	/*
+	Description: Returns SPLIT_DECLARATIONS.
+	*/
 	QueryNode createExpressionNode(EXPRESSION e);
-	/*
-		Description:
-		  Normal: Returns SPLIT_DECLARATIONS
-		*/
 
+	/*
+	Description: Returns a QueryNode for the argument.
+	*/
 	QueryNode createArgumentNode(PROCESSED_SYNONYMS proc_s, ARGUMENT arg);
-	/*
-		Description:
-		  Normal: Returns a QueryNode for the argument
-		*/
 
+	/*
+	Description: Returns a QueryNode for the relationship.
+	*/
 	QueryNode createRelationNode(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
 		ARGUMENT first_arg, ARGUMENT second_arg);
-	/*
-		Description:
-		  Normal: Returns a QueryNode for the relationship
-		*/
 
+	/*
+	Description: Returns a QueryNode for the pattern.
+	*/
 	QueryNode createPatternNode(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
 		ARGUMENT first_arg, ARGUMENT second_arg);
-	/*
-		Description:
-		  Normal: Returns a QueryNode for the pattern
-		*/
 
-	STRING trimWhitespaces(STRING s);
 	/*
-		Description:
-		  Normal: Trims whitespaces from front and back of STRING and returns it
+	Description: Trims whitespaces from front and back of STRING and returns it.
 	*/
+	STRING trimWhitespaces(STRING s);
 };
