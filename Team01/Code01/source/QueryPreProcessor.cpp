@@ -62,6 +62,11 @@ QueryNode QueryPreProcessor::createElemNode(PROCESSED_SYNONYMS proc_s, ELEMENT e
 	}
 	else {
 		// element is an attribute reference
+		// split element into synonym and attrRef
+		int fullstop_index = e.find(".");
+		STRING syn = trimWhitespaces(e.substr(0, fullstop_index));
+		ATTRIBUTE_STRING attribute = trimWhitespaces(e.substr(fullstop_index + 1));;
+		elem_node.setAttrNode(syn, attribute);
 	}
 
 	return elem_node;
@@ -85,11 +90,6 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 		// result clause is a tuple of multiple elements
 		result_node.setNodeType({ QueryNodeType::tuple });
 
-		// get index of '<' and '>'
-		// while there are still elements between
-		// check if is synonym or attribute relation
-		// add as children
-
 		int open_brac_index = r.find("<");
 		int comma_index = r.find(",");
 		int closed_brac_index = r.find(">");
@@ -103,6 +103,10 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 			result_node.setChildren(result_child, 1);
 		}
 		else {
+			// loop through elements between brackets
+			// create elem node
+			// add as children
+
 			int curr_index = open_brac_index + 1;
 
 			while (comma_index != -1) {
