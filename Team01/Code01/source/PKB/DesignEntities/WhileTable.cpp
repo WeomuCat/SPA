@@ -1,13 +1,11 @@
 #include "WhileTable.h"
 
 INDEX WhileTable::addWhileNode(WHILE_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 WHILE_NODE_PTR_LIST WhileTable::getWhileNodeList() {
-    return WHILE_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 STMT_NUM_LIST WhileTable::getWhileNumList() {

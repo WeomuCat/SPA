@@ -2,13 +2,11 @@
 #include "VariableTable.h"
 
 INDEX VariableTable::addVariableNode(VAR_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 VAR_NODE_PTR_LIST VariableTable::getVariableNodeList() {
-    return VAR_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 VAR_NAME_LIST VariableTable::getVariableNameList() {

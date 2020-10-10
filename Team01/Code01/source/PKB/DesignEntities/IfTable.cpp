@@ -1,13 +1,11 @@
 #include "IfTable.h"
 
 INDEX IfTable::addIfNode(IF_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 IF_NODE_PTR_LIST IfTable::getIfNodeList() {
-    return IF_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 STMT_NUM_LIST IfTable::getIfNumList() {

@@ -15,20 +15,21 @@ class ProgramNode: public ASTNode, public std::enable_shared_from_this<ProgramNo
 
 
 public:
+
+	/*
+	Description: Constructs an empty ProgramNode.
+	*/
 	ProgramNode();
-		/*
-		Description: Constructs an empty ProgramNode.
-		*/
 
+	/*
+	Description: Returns True if able to add the PROC_NODE_PTR to the PROC_NODE_PTR_LIST, false otherwise.
+	*/
 	BOOLEAN_TYPE addProcedureNode(PROC_NODE_PTR proc_node_ptr);
-		/*
-		Description: Returns True if able to add the PROC_NODE_PTR to the PROC_NODE_PTR_LIST, false otherwise.
-		*/
 
+	/*
+	Description: Returns the PROC_NODE_PTR_LIST containing the list of PROC_NODE_PTR of the program.
+	*/
 	PROC_NODE_PTR_LIST getProcedureNodeList();
-		/*
-		Description: Returns the PROC_NODE_PTR_LIST containing the list of PROC_NODE_PTR of the program.
-		*/
 
 private:
 	PROC_NODE_PTR_LIST proc_node_ptr_list_;
