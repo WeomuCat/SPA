@@ -11,26 +11,25 @@ typedef std::vector<VAR_NODE_PTR> VAR_NODE_PTR_LIST;
 typedef std::vector<VAR_NAME> VAR_NAME_LIST;
 
 class VariableTable {
-/* Overview: This is a data structure*/
 
 private:
     friend class PKB;
     friend class PKBBuilder;
 
+    /*
+    Description: Returns the index of the VAR_NODE_PTR that was stored into the table.
+    */
     INDEX addVariableNode(VAR_NODE_PTR node);
-        /*
-        Description: Returns the index of the VAR_NODE_PTR added to the table.
-        */
 
+    /*
+    Description: Returns an VAR_NODE_PTR_LIST from the table.
+    */
     VAR_NODE_PTR_LIST getVariableNodeList();
-        /*
-        Description: Returns a VAR_NODE_PTR_LIST of the table.
-        */
 
+    /*
+    Description: Returns a VAR_NAME_LIST of the VAR_NODE_PTR from the table.
+    */
     VAR_NAME_LIST getVariableNameList();
-        /*
-        Description: Returns a VAR_NAME_LIST of the table.
-        */
 
     std::vector<VAR_NODE_PTR> nodes_;
 };
