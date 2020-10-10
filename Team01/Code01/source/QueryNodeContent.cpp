@@ -17,9 +17,20 @@ QueryNodeContent::QueryNodeContent(AST_NODE astnode) {
 	this->modified = 3;
 }
 
-QueryNodeContent::QueryNodeContent(STRING syn, ATTRIBUTE attribute) {
+QueryNodeContent::QueryNodeContent(STRING syn, ATTRIBUTE_STRING attribute) {
 	this->strings = syn;
-	this->attribute = attribute;
+	if (std::regex_match(node_type_string, std::regex("procName"))) {
+		this->attribute = AttributeType::procName;
+	}
+	else if (std::regex_match(node_type_string, std::regex("varName"))) {
+		this->attribute = AttributeType::varName;
+	}
+	else if (std::regex_match(node_type_string, std::regex("value"))) {
+		this->attribute = AttributeType::value;
+	}
+	else if (std::regex_match(node_type_string, std::regex("stmt#"))) {
+		this->attribute = AttributeType::stmtNum;
+	}
 	this->modified = 4;
 }
 
