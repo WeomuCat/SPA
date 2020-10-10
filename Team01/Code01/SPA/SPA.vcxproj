@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\AbstractDataTypes.h" />
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\ParserPrintTree.h" />
     <ClInclude Include="..\source\Pattern.h" />
@@ -65,7 +66,7 @@
     <ClInclude Include="..\source\Relationship.h" />
     <ClInclude Include="..\source\ResultList.h" />
     <ClInclude Include="..\source\ResultListManager.h" />
-    <ClInclude Include="RelOperatorTypeEnum.h" />
+    <ClInclude Include="..\source\Testing.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\DesignExtractor.cpp" />
@@ -116,6 +117,7 @@
     <ClCompile Include="..\source\QueryProcessor.cpp" />
     <ClCompile Include="..\source\Relationship.cpp" />
     <ClCompile Include="..\source\ResultList.cpp" />
+    <ClCompile Include="..\source\Testing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

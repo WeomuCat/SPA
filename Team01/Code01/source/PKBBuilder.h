@@ -22,7 +22,6 @@ class PKBBuilder;
 #include "PKB/Relationships/ModifiesTable.h"
 #include "PKB/Relationships/NextTable.h"
 
-
 typedef std::shared_ptr<ProgramNode> PROGRAM_NODE_PTR;
 
 typedef AssignTable ASSIGN_TABLE;
