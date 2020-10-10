@@ -17,11 +17,6 @@ QueryNodeContent::QueryNodeContent(AST_NODE astnode) {
 	this->modified = 3;
 }
 
-QueryNodeContent::QueryNodeContent(BOOLEAN boolean) {
-	this->boolean = boolean;
-	this->modified = 4;
-}
-
 STRING QueryNodeContent::getString() {
 	return strings;
 }
@@ -32,8 +27,4 @@ INTEGER QueryNodeContent::getInt() {
 
 AST_NODE QueryNodeContent::getAstNode() {
 	return astnode;
-}
-
-BOOLEAN QueryNodeContent::getBool() {
-	return boolean;
 }

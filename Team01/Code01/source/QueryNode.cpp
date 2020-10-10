@@ -139,17 +139,6 @@ void QueryNode::setIdentityNode(STRING identity) {
 	this->node_content = content;
 }
 
-void QueryNode::setBooleanNode(BOOLEAN boolean) {
-	this->node_type = { QueryNodeType::boolean };
-
-	QueryNodeContent content = QueryNodeContent(boolean);
-	this->node_content = content;
-}
-
-BOOLEAN QueryNode::getBool() {
-	return node_content.getBool();
-}
-
 SYNONYM_TYPE QueryNode::getSynonymType() {
 	return synonym_type;
 }
