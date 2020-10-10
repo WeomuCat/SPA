@@ -16,12 +16,12 @@ public:
 	VariableNode();
 
 	/*
-	Description: Returns True if able to set var_name_ as var_name, false otherwise.
+	Description: Returns True if able to set the STRING of the variable name.
 	*/
 	BOOLEAN_TYPE setVariableName(VAR_NAME var_name);
 
 	/*
-	Description: Returns a STRING of the variable's name
+	Description: Returns the VALUE of the STRING of the variable's name
 	*/
 	VAR_NAME getVariableName();
 
