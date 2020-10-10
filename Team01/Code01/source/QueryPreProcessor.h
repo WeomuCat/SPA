@@ -41,7 +41,7 @@ public:
 
 	/*
 	Description: Returns PROCESSED_CLAUSES.
-				 If clauses are not valid, returns a query node with a null NODE_TYPE.
+				 If clauses are not valid, returns a query node with an unassigned NODE_TYPE.
 	*/
 	PROCESSED_CLAUSES preProcessClauses(PROCESSED_SYNONYMS proc_s, CLAUSES c);
 
@@ -58,6 +58,7 @@ private:
 
 	/*
 	Description: Returns a QueryNode for the result clause.
+				 If result clause is not valid, returns a query node with an unassigned NODE_TYPE.
 	*/
 	QueryNode createResultNode(PROCESSED_SYNONYMS proc_s, RESULT r);
 

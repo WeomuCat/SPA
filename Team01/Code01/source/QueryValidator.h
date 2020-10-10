@@ -8,6 +8,8 @@
 typedef bool VALIDATION_RESULT;
 typedef std::string QUERY;
 typedef std::string CLAUSES;
+typedef std::string ELEMENT;
+typedef std::string RESULT;
 typedef std::string SINGLE_DECLARATION;
 typedef std::string SINGLE_CLAUSE;
 typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
@@ -39,6 +41,16 @@ public:
 	Description: Returns a VALIDATION_RESULT based on whether synonym has been declared.
 	*/
 	static VALIDATION_RESULT isSynonymDeclared(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s);
+
+	/*
+	Description: Returns a VALIDATION_RESULT based on grammar for elements.
+	*/
+	static VALIDATION_RESULT isValidElem(PROCESSED_SYNONYMS proc_s, ELEMENT elem);
+
+	/*
+	Description: Returns a VALIDATION_RESULT based on format for result clause.
+	*/
+	static VALIDATION_RESULT isValidResultFormat(RESULT res);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on relationship format.
