@@ -1,11 +1,13 @@
 #pragma once
 
+#include "PKB.h"
+#include "Pattern.h"
 #include "QueryNode.h"
 #include "QueryNodeType.h"
 #include "QuerySynonymType.h"
+#include "Relationship.h"
 #include "ResultList.h"
 #include "ResultListManager.h"
-#include "PKB.h"
 
 #include <string>
 #include <unordered_map>
@@ -23,26 +25,8 @@ class QueryEvaluator {
 
 private:
 	PKB pkb = (PKBBuilder().build()); // because PKB has no default constructor
-	STMT_NUM_LIST QueryEvaluator::getStmtList(QueryNode node);
-	VAR_NAME_LIST QueryEvaluator::getVarNameList(QueryNode node);
-	PROC_NAME_LIST QueryEvaluator::getProcList(QueryNode node);
-	void QueryEvaluator::getFollowsResult(QueryNode child1, QueryNode child2, bool& clause_bool, ResultList& clause_result_list);
-	void QueryEvaluator::getFollowsTResult(QueryNode child1, QueryNode child2, bool& clause_bool, ResultList& clause_result_list);
-	void QueryEvaluator::getParentResult(QueryNode child1, QueryNode child2, bool& clause_bool, ResultList& clause_result_list);
-	void QueryEvaluator::getParentTResult(QueryNode child1, QueryNode child2, bool& clause_bool, ResultList& clause_result_list);
-	void QueryEvaluator::getUsesSResult(QueryNode child1, QueryNode child2, bool& clause_bool, ResultList& clause_result_list);
-	void QueryEvaluator::getUsesPResult(QueryNode child1, QueryNode child2, bool& clause_bool, ResultList& clause_result_list);
-	void QueryEvaluator::getModifiesSResult(QueryNode child1, QueryNode child2, bool& clause_bool, ResultList& clause_result_list);
-	void QueryEvaluator::getModifiesPResult(QueryNode child1, QueryNode child2, bool& clause_bool, ResultList& clause_result_list);
-	//ResultList QueryEvaluator::getFollowsResult(QueryNode child1, QueryNode child2);
-	//ResultList QueryEvaluator::getFollowsTResult(QueryNode child1, QueryNode child2);
-	//ResultList QueryEvaluator::getParentResult(QueryNode child1, QueryNode child2);
-	//ResultList QueryEvaluator::getParentTResult(QueryNode child1, QueryNode child2);
-	//ResultList QueryEvaluator::getUsesSResult(QueryNode child1, QueryNode child2);
-	//ResultList QueryEvaluator::getUsesPResult(QueryNode child1, QueryNode child2);
-	//ResultList QueryEvaluator::getModifiesSResult(QueryNode child1, QueryNode child2);
-	//ResultList QueryEvaluator::getModifiesPResult(QueryNode child1, QueryNode child2);
-	bool findPartialPattern(AST_NODE_PTR ast, std::string search_name);
+	void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList& result_list);
+	bool QueryEvaluator::findPartialPattern(AST_NODE_PTR ast, std::string search_name);
 
 public:
 	QueryEvaluator(PKB pkb);

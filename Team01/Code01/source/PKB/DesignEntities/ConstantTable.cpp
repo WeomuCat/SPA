@@ -2,13 +2,11 @@
 #include "ConstantTable.h"
 
 INDEX ConstantTable::addConstantNode(CONSTANT_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 CONSTANT_NODE_PTR_LIST ConstantTable::getConstantNodeList() {
-    return CONSTANT_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 CONSTANT_VALUE_LIST ConstantTable::getConstantValueList() {

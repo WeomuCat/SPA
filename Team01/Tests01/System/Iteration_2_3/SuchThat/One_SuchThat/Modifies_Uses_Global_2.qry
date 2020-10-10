@@ -1,0 +1,11 @@
+1 - Modifies: Modifies next procedure
+
+Select BOOLEAN such that Modifies ("cProc", "hhh")
+TRUE
+1000
+
+2 - Uses: Uses next procedure
+
+Select BOOLEAN such that Uses ("cProc", "eee")
+TRUE
+1000

@@ -2,18 +2,16 @@
 
 #include <memory>
 #include <vector>
+#include "DesignEntityTable.h"
+#include "DesignEntityTable.cpp"
 #include "../ASTNode/StatementListNode.h"
 
-typedef int INDEX;
 typedef std::shared_ptr<StatementListNode> STMT_LIST_NODE_PTR;
 typedef std::vector<STMT_LIST_NODE_PTR> STMT_LIST_NODE_PTR_LIST;
 
-class StatementListTable {
+class StatementListTable : public DesignEntityTable<STMT_LIST_NODE_PTR> {
 
-private:
-    friend class PKB;
-    friend class PKBBuilder;
-
+public:
     /*
     Description: Returns the index of the PRINT_NODE_PTR that was stored into the table.
     */
@@ -23,7 +21,4 @@ private:
     Description: Returns a STMT_LIST_NODE_PTR_LIST from the table.
     */
     STMT_LIST_NODE_PTR_LIST getStatementListNodeList();
-
-    STMT_LIST_NODE_PTR_LIST nodes_;
-
 };

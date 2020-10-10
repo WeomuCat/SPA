@@ -6,15 +6,15 @@ void ResultList::addColumn(SYNONYM_NAME columnName) {
 
 void ResultList::addColumn(SYNONYM_NAME columnName, SYNONYM_VALUES_LIST columnValues) {
 	results.insert({ columnName, columnValues });
-	num_rows_ = columnValues.size();
+	num_rows = columnValues.size();
 }
 
 void ResultList::addColumn(SYNONYM_NAME columnName, SYNONYM_INT_VALUES_LIST columnValues) {
-	SYNONYM_VALUES_LIST strColumnValues;
+	SYNONYM_VALUES_LIST str_column_values;
 	for (int s : columnValues) {
-		strColumnValues.push_back(std::to_string(s));
+		str_column_values.push_back(std::to_string(s));
 	}
-	ResultList::addColumn(columnName, strColumnValues);
+	ResultList::addColumn(columnName, str_column_values);
 }
 
 void ResultList::addRow(ROW row) {
@@ -35,7 +35,7 @@ void ResultList::addRow(ROW row) {
 		r.second.push_back(it->second);
 	}
 
-	num_rows_++;
+	num_rows++;
 }
 
 void ResultList::removeColumn(SYNONYM_NAME columnName) {
@@ -60,7 +60,7 @@ SYNONYM_NAME_LIST ResultList::getAllSynonyms() {
 
 ROW_LIST ResultList::getRowList() {
 	ROW_LIST all_rows;
-	for (int i = 0; i < num_rows_ ; ++i) {
+	for (int i = 0; i < num_rows ; ++i) {
 		ROW current_row;
 		for (RESULT_LIST::iterator it = results.begin(); it != results.end(); ++it) {
 			SYNONYM_NAME synonym = it->first;
@@ -73,5 +73,5 @@ ROW_LIST ResultList::getRowList() {
 }
 
 INTEGER ResultList::getNumRows() {
-	return num_rows_;
+	return num_rows;
 }

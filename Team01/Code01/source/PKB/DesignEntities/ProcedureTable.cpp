@@ -1,13 +1,11 @@
 #include "ProcedureTable.h"
 
 INDEX ProcedureTable::addProcedureNode(PROC_NODE_PTR node) {
-    INDEX index = nodes_.size();
-    nodes_.push_back(node);
-    return index;
+    return addNode(node);
 }
 
 PROC_NODE_PTR_LIST ProcedureTable::getProcedureNodeList() {
-    return PROC_NODE_PTR_LIST(nodes_);
+    return getNodeList();
 }
 
 PROC_NAME_LIST ProcedureTable::getProcedureNameList() {

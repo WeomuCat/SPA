@@ -12,30 +12,31 @@ typedef bool BOOLEAN_TYPE;
 class ProcedureNode : public ASTNode, public std::enable_shared_from_this<ProcedureNode> {
 
 public:
+
+	/*
+	Description: Sets NODE_TYPE of node to be procedureNode.
+	*/
 	ProcedureNode();
-		/*
-		Description: Sets NODE_TYPE of node to be procedureNode.
-		*/
 
+	/*
+	Description: Returns True if able to set STRING of the procedure's name, false otherwise.
+	*/
 	BOOLEAN_TYPE setProcedureName(STRING proc_name);
-		/*
-		Description: Returns True if able to set STRING of the procedure's name, false otherwise.
-		*/
 
+	/*
+	Returns True if able to set the child STMT_LIST_NODE_PTR of the procedure, false otherwise.
+	*/
 	BOOLEAN_TYPE setProcedureStatementListNode(STMT_LIST_NODE_PTR stmt_list_node_ptr);
-		/*
-		Returns True if able to set the child STMT_LIST_NODE_PTR of the procedure, false otherwise.
-		*/
 
+	/*
+	Description: Returns the STRING of the procedure's name
+	*/
 	STRING getProcedureName();
-		/*
-		Description: Returns the STRING of the procedure's name
-		*/
 
+	/*
+	Description: Returns the child STMT_LIST_NODE_POINTER of the procedure.
+	*/
 	STMT_LIST_NODE_PTR getProcedureStatementListNode();
-		/*
-		Description: Returns the child STMT_LIST_NODE_POINTER of the procedure.
-		*/
 
 private:
 	STRING proc_name_;

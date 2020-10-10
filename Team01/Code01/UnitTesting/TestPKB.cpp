@@ -7,60 +7,140 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
 	
 	// Tests PKBBuilder as well.
-	TEST_CLASS(PKBTest) {
+	TEST_CLASS(PKB_GetterSetterTest) {
 	public:
 		TEST_METHOD(addAssign_getAssigns_True) {
 			PKBBuilder pkb_builder;
 			ASSIGN_NODE_PTR expected = std::make_shared<AssignNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
 			pkb_builder.addAssignNode(expected);
 			PKB pkb = pkb_builder.build();
-			ASSIGN_NODE_PTR actual = pkb.getAssigns().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+
+			ASSIGN_NODE_PTR actual_pkb = pkb.getAssigns().at(0);
+			ASSIGN_NODE_PTR actual_builder = pkb_builder.getAssigns().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			int num = pkb.getAssignNumList().at(0);
+			Assert::AreEqual(expected_num, num);;
+		}
+		TEST_METHOD(addCall_getCall_True) {
+			PKBBuilder pkb_builder;
+			CALL_NODE_PTR expected = std::make_shared<CallNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
+			pkb_builder.addCallNode(expected);
+			PKB pkb = pkb_builder.build();
+
+			CALL_NODE_PTR actual_pkb = pkb.getCalls().at(0);
+			CALL_NODE_PTR actual_builder = pkb_builder.getCalls().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			int num = pkb.getCallNumList().at(0);
+			Assert::AreEqual(expected_num, num);
 		}
 		
 		TEST_METHOD(addConstant_getConstants_True) {
 			PKBBuilder pkb_builder;
 			CONSTANT_NODE_PTR expected = std::make_shared<ConstantNode>();
+			std::string expected_num = "1";
+			expected->setValue(expected_num);
 			pkb_builder.addConstantNode(expected);
 			PKB pkb = pkb_builder.build();
-			CONSTANT_NODE_PTR actual = pkb.getConstants().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			CONSTANT_NODE_PTR actual_pkb = pkb.getConstants().at(0);
+			CONSTANT_NODE_PTR actual_builder = pkb_builder.getConstants().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			std::string num = pkb.getConstantValueList().at(0);
+			Assert::AreEqual(expected_num, num);
 		}
 
 		TEST_METHOD(addIf_getIfs_True) {
 			PKBBuilder pkb_builder;
 			IF_NODE_PTR expected = std::make_shared<IfNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
 			pkb_builder.addIfNode(expected);
 			PKB pkb = pkb_builder.build();
-			IF_NODE_PTR actual = pkb.getIfs().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			IF_NODE_PTR actual_pkb = pkb.getIfs().at(0);
+			IF_NODE_PTR actual_builder = pkb_builder.getIfs().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			int num = pkb.getIfNumList().at(0);
+			Assert::AreEqual(expected_num, num);			
 		}
 
 		TEST_METHOD(addPrint_getPrints_True) {
 			PKBBuilder pkb_builder;
 			PRINT_NODE_PTR expected = std::make_shared<PrintNode>();
+			VAR_NODE_PTR expected_var = std::make_shared<VariableNode>();
+			int expected_num = 1;
+			std::string expected_var_name = "x";
+			expected_var->setVariableName(expected_var_name);
+			expected->setStatementNumber(expected_num);
+			expected->setVariableNode(expected_var);
 			pkb_builder.addPrintNode(expected);
+			pkb_builder.addVariableNode(expected_var);
 			PKB pkb = pkb_builder.build();
-			PRINT_NODE_PTR actual = pkb.getPrints().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			PRINT_NODE_PTR actual_pkb = pkb.getPrints().at(0);
+			PRINT_NODE_PTR actual_builder = pkb_builder.getPrints().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			int num = pkb.getPrintNumList().at(0);			
+			Assert::AreEqual(expected_num, num);
+
+			std::string actual_var_name = pkb.getPrintVarNameList().at(0);
+			Assert::AreEqual(expected_var_name, actual_var_name);
 		}
 
 		TEST_METHOD(addProcedure_getProcedures_True) {
 			PKBBuilder pkb_builder;
 			PROC_NODE_PTR expected = std::make_shared<ProcedureNode>();
+			std::string expected_name = "main";
+			expected->setProcedureName(expected_name);
 			pkb_builder.addProcedureNode(expected);
 			PKB pkb = pkb_builder.build();
-			PROC_NODE_PTR actual = pkb.getProcedures().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			PROC_NODE_PTR actual_pkb = pkb.getProcedures().at(0);
+			PROC_NODE_PTR actual_builder = pkb_builder.getProcedures().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			std::string name = pkb.getProcedureNameList().at(0);
+			Assert::AreEqual(expected_name, name);			
 		}
 
 		TEST_METHOD(addRead_getReads_True) {
 			PKBBuilder pkb_builder;
 			READ_NODE_PTR expected = std::make_shared<ReadNode>();
+			VAR_NODE_PTR expected_var = std::make_shared<VariableNode>();
+			int expected_num = 1;
+			std::string expected_var_name = "x";
+			expected_var->setVariableName(expected_var_name);
+			expected->setStatementNumber(expected_num);
+			expected->setVariableNode(expected_var);
 			pkb_builder.addReadNode(expected);
+			pkb_builder.addVariableNode(expected_var);
 			PKB pkb = pkb_builder.build();
-			READ_NODE_PTR actual = pkb.getReads().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			READ_NODE_PTR actual_pkb = pkb.getReads().at(0);
+			READ_NODE_PTR actual_builder = pkb_builder.getReads().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+			
+			int num = pkb.getReadNumList().at(0);
+			Assert::AreEqual(expected_num, num);
+
+			std::string actual_var_name = pkb.getReadVarNameList().at(0);
+			Assert::AreEqual(expected_var_name, actual_var_name);
 		}
 
 		TEST_METHOD(addStatementList_getStatementLists_True) {
@@ -68,35 +148,62 @@ namespace UnitTesting {
 			STMT_LIST_NODE_PTR expected = std::make_shared<StatementListNode>();
 			pkb_builder.addStatementListNode(expected);
 			PKB pkb = pkb_builder.build();
-			STMT_LIST_NODE_PTR actual = pkb.getStatementLists().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+
+			STMT_LIST_NODE_PTR actual_pkb = pkb.getStatementLists().at(0);
+			STMT_LIST_NODE_PTR actual_builder = pkb_builder.getStatementLists().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
 		}
 
 		TEST_METHOD(addStatement_getStatements_True) {
 			PKBBuilder pkb_builder;
 			ASSIGN_NODE_PTR expected = std::make_shared<AssignNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
 			pkb_builder.addStatementNode(expected);
 			PKB pkb = pkb_builder.build();
-			STMT_NODE_PTR actual = pkb.getStatements().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+
+			STMT_NODE_PTR actual_pkb = pkb.getStatements().at(0);
+			STMT_NODE_PTR actual_builder = pkb_builder.getStatements().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			int num = pkb.getStatementNumList().at(0);
+			Assert::AreEqual(expected_num, num);
 		}
 
 		TEST_METHOD(addVariable_getVariables_True) {
 			PKBBuilder pkb_builder;
 			VAR_NODE_PTR expected = std::make_shared<VariableNode>();
+			std::string expected_name = "x";
+			expected->setVariableName(expected_name);
 			pkb_builder.addVariableNode(expected);
 			PKB pkb = pkb_builder.build();
-			VAR_NODE_PTR actual = pkb.getVariables().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+			
+			VAR_NODE_PTR actual_pkb = pkb.getVariables().at(0);
+			VAR_NODE_PTR actual_builder = pkb_builder.getVariables().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			std::string name = pkb.getVariableNameList().at(0);
+			Assert::AreEqual(expected_name, name);
 		}
 
 		TEST_METHOD(addWhile_getWhiles_True) {
 			PKBBuilder pkb_builder;
 			WHILE_NODE_PTR expected = std::make_shared<WhileNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
 			pkb_builder.addWhileNode(expected);
 			PKB pkb = pkb_builder.build();
-			WHILE_NODE_PTR actual = pkb.getWhiles().at(0);
-			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
+
+			WHILE_NODE_PTR actual_pkb = pkb.getWhiles().at(0);
+			WHILE_NODE_PTR actual_builder = pkb_builder.getWhiles().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			int num = pkb.getWhileNumList().at(0);
+			Assert::AreEqual(expected_num, num);
 		}
 
 		TEST_METHOD(setProgramNode_getProgramNode_True) {
@@ -104,6 +211,7 @@ namespace UnitTesting {
 			PROGRAM_NODE_PTR expected = std::make_shared<ProgramNode>();
 			pkb_builder.setProgramNode(expected);
 			PKB pkb = pkb_builder.build();
+
 			PROGRAM_NODE_PTR actual = pkb.getProgramNode();
 			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual));
 		}
@@ -124,7 +232,7 @@ namespace UnitTesting {
 
 		/*
 		- procedure main {
-		1   while (x > 0) then {
+		1   while (x > 0) {
 		2     if (y > 0) then {
 		3       read x;
 		4       read y;
@@ -175,6 +283,41 @@ namespace UnitTesting {
 		*/
 		std::shared_ptr<PKB> pkb4;
 
+		// Calls & CallsT only
+		/*
+		procedure a { call b, c }
+		procedure b { call c, d, f }
+		procedure c { }
+		procedure d { }
+		procedure e { call f }
+		procedure f { call g }
+		procedure g { call h, i, j }
+		procedure h { }
+		procedure i { }
+		procedure j { }
+		*/
+		std::shared_ptr<PKB> pkb5;
+
+		// NextT only
+		/*
+		- procedure {
+		1   while {
+		2     if {
+		3       while {
+		4         stmt
+		-       }
+		-     } else {
+		5       while {
+		6         stmt
+		-       }
+		-     }
+		7     stmt
+		-   }
+		8   stmt
+		- }
+		*/
+		std::shared_ptr<PKB> pkb6;
+
 		TEST_METHOD_INITIALIZE(PKBInitialize) {
 			PKBBuilder b1;
 			b1.addFollows(1, 2);
@@ -214,6 +357,13 @@ namespace UnitTesting {
 			b2.addModifies(4, "y");
 			b2.addModifies(5, "z");
 			b2.addModifies(6, "y");
+			b2.addNext(1, 2);
+			b2.addNext(2, 3);
+			b2.addNext(2, 5);
+			b2.addNext(3, 4);
+			b2.addNext(4, 1);
+			b2.addNext(5, 6);
+			b2.addNext(6, 1);
 			pkb2 = std::make_shared<PKB>(b2.build());
 
 			PKBBuilder b3;
@@ -236,6 +386,33 @@ namespace UnitTesting {
 			b4.addParent(7, 8);
 			b4.addParent(7, 9);
 			pkb4 = std::make_shared<PKB>(b4.build());
+
+			PKBBuilder b5;
+			b5.addCalls("a", "b");
+			b5.addCalls("a", "c");
+			b5.addCalls("b", "c");
+			b5.addCalls("b", "d");
+			b5.addCalls("b", "f");
+			b5.addCalls("e", "f");
+			b5.addCalls("f", "g");
+			b5.addCalls("g", "h");
+			b5.addCalls("g", "i");
+			b5.addCalls("g", "j");
+			pkb5 = std::make_shared<PKB>(b5.build());
+
+			PKBBuilder b6;
+			b6.addNext(1, 2);
+			b6.addNext(1, 8);
+			b6.addNext(2, 3);
+			b6.addNext(2, 5);
+			b6.addNext(3, 4);
+			b6.addNext(3, 7);
+			b6.addNext(4, 3);
+			b6.addNext(5, 6);
+			b6.addNext(5, 7);
+			b6.addNext(6, 5);
+			b6.addNext(7, 1);
+			pkb6 = std::make_shared<PKB>(b6.build());
 		}
 
 		/* isFollows */
@@ -418,6 +595,144 @@ namespace UnitTesting {
 		TEST_METHOD(isModifies_InvalidArgs_False) {
 			Assert::IsFalse(pkb1->isModifies(0, ""));
 			Assert::IsFalse(pkb1->isModifies("", "a"));
+		}
+
+		/* isCalls */
+		TEST_METHOD(isCalls_Stored_True) {
+			Assert::IsTrue(pkb5->isCalls("a", "b"));
+			Assert::IsTrue(pkb5->isCalls("a", "c"));
+			Assert::IsTrue(pkb5->isCalls("b", "c"));
+			Assert::IsTrue(pkb5->isCalls("b", "d"));
+			Assert::IsTrue(pkb5->isCalls("b", "f"));
+			Assert::IsTrue(pkb5->isCalls("e", "f"));
+			Assert::IsTrue(pkb5->isCalls("f", "g"));
+			Assert::IsTrue(pkb5->isCalls("g", "h"));
+			Assert::IsTrue(pkb5->isCalls("g", "i"));
+			Assert::IsTrue(pkb5->isCalls("g", "j"));
+		}
+
+		TEST_METHOD(isCalls_Transitive_False) {
+			Assert::IsFalse(pkb5->isCalls("a", "h"));
+			Assert::IsFalse(pkb5->isCalls("a", "i"));
+			Assert::IsFalse(pkb5->isCalls("a", "j"));
+			Assert::IsFalse(pkb5->isCalls("a", "d"));
+			Assert::IsFalse(pkb5->isCalls("e", "h"));
+			Assert::IsFalse(pkb5->isCalls("e", "i"));
+			Assert::IsFalse(pkb5->isCalls("e", "j"));
+		}
+
+		TEST_METHOD(isCalls_InvalidProcName_False) {
+			Assert::IsFalse(pkb5->isCalls("", ""));
+			Assert::IsFalse(pkb5->isCalls("k", "l"));
+		}
+
+		/* isCallsTransitive */
+		TEST_METHOD(isCallsT_Stored_True) {
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "b"));
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "c"));
+			Assert::IsTrue(pkb5->isCallsTransitive("b", "c"));
+			Assert::IsTrue(pkb5->isCallsTransitive("b", "d"));
+			Assert::IsTrue(pkb5->isCallsTransitive("b", "f"));
+			Assert::IsTrue(pkb5->isCallsTransitive("e", "f"));
+			Assert::IsTrue(pkb5->isCallsTransitive("f", "g"));
+			Assert::IsTrue(pkb5->isCallsTransitive("g", "h"));
+			Assert::IsTrue(pkb5->isCallsTransitive("g", "i"));
+			Assert::IsTrue(pkb5->isCallsTransitive("g", "j"));
+		}
+
+		TEST_METHOD(isCallsT_Transitive_True) {
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "h"));
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "i"));
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "j"));
+			Assert::IsTrue(pkb5->isCallsTransitive("a", "d"));
+			Assert::IsTrue(pkb5->isCallsTransitive("e", "h"));
+			Assert::IsTrue(pkb5->isCallsTransitive("e", "i"));
+			Assert::IsTrue(pkb5->isCallsTransitive("e", "j"));
+		}
+
+		TEST_METHOD(isCallsT_InvalidProcName_False) {
+			Assert::IsFalse(pkb5->isCallsTransitive("", ""));
+			Assert::IsFalse(pkb5->isCallsTransitive("k", "l"));
+		}
+
+		/* isNext */
+		TEST_METHOD(isNext_Stored_True) {
+			Assert::IsTrue(pkb2->isNext(1, 2));
+			Assert::IsTrue(pkb2->isNext(2, 3));
+			Assert::IsTrue(pkb2->isNext(2, 5));
+			Assert::IsTrue(pkb2->isNext(3, 4));
+			Assert::IsTrue(pkb2->isNext(4, 1));
+			Assert::IsTrue(pkb2->isNext(5, 6));
+			Assert::IsTrue(pkb2->isNext(6, 1));
+		}
+
+		TEST_METHOD(isNext_Transitive_False) {
+			Assert::IsFalse(pkb2->isNext(1, 1));
+			Assert::IsFalse(pkb2->isNext(2, 2));
+			Assert::IsFalse(pkb2->isNext(3, 3));
+			Assert::IsFalse(pkb2->isNext(4, 4));
+			Assert::IsFalse(pkb2->isNext(5, 5));
+			Assert::IsFalse(pkb2->isNext(6, 6));
+
+			Assert::IsFalse(pkb2->isNext(2, 1));
+			Assert::IsFalse(pkb2->isNext(6, 4));
+		}
+
+		TEST_METHOD(isNext_InvalidStmtNum_False) {
+			Assert::IsFalse(pkb2->isNext(0, 1));
+			Assert::IsFalse(pkb2->isNext(6, 7));
+		}
+
+		/* isNextTransitive */
+		TEST_METHOD(isNextT_Stored_True) {
+			Assert::IsTrue(pkb2->isNextTransitive(1, 2));
+			Assert::IsTrue(pkb2->isNextTransitive(2, 3));
+			Assert::IsTrue(pkb2->isNextTransitive(2, 5));
+			Assert::IsTrue(pkb2->isNextTransitive(3, 4));
+			Assert::IsTrue(pkb2->isNextTransitive(4, 1));
+			Assert::IsTrue(pkb2->isNextTransitive(5, 6));
+			Assert::IsTrue(pkb2->isNextTransitive(6, 1));
+
+			Assert::IsTrue(pkb6->isNextTransitive(1, 2));
+			Assert::IsTrue(pkb6->isNextTransitive(1, 8));
+			Assert::IsTrue(pkb6->isNextTransitive(2, 3));
+			Assert::IsTrue(pkb6->isNextTransitive(2, 5));
+			Assert::IsTrue(pkb6->isNextTransitive(3, 4));
+			Assert::IsTrue(pkb6->isNextTransitive(3, 7));
+			Assert::IsTrue(pkb6->isNextTransitive(4, 3));
+			Assert::IsTrue(pkb6->isNextTransitive(5, 6));
+			Assert::IsTrue(pkb6->isNextTransitive(5, 7));
+			Assert::IsTrue(pkb6->isNextTransitive(6, 5));
+			Assert::IsTrue(pkb6->isNextTransitive(7, 1));
+		}
+
+		TEST_METHOD(isNextT_Transitive_True) {
+			Assert::IsTrue(pkb2->isNextTransitive(1, 1));
+			Assert::IsTrue(pkb2->isNextTransitive(2, 2));
+			Assert::IsTrue(pkb2->isNextTransitive(3, 3));
+			Assert::IsTrue(pkb2->isNextTransitive(4, 4));
+			Assert::IsTrue(pkb2->isNextTransitive(5, 5));
+			Assert::IsTrue(pkb2->isNextTransitive(6, 6));
+
+			Assert::IsTrue(pkb2->isNextTransitive(2, 1));
+			Assert::IsTrue(pkb2->isNextTransitive(6, 4));
+
+			Assert::IsTrue(pkb6->isNextTransitive(1, 1));
+			Assert::IsTrue(pkb6->isNextTransitive(2, 2));
+			Assert::IsTrue(pkb6->isNextTransitive(3, 3));
+			Assert::IsTrue(pkb6->isNextTransitive(4, 4));
+			Assert::IsTrue(pkb6->isNextTransitive(5, 5));
+			Assert::IsTrue(pkb6->isNextTransitive(6, 6));
+			Assert::IsTrue(pkb6->isNextTransitive(7, 7));
+
+			Assert::IsTrue(pkb6->isNextTransitive(4, 7));
+			Assert::IsTrue(pkb6->isNextTransitive(3, 1));
+			Assert::IsTrue(pkb6->isNextTransitive(7, 6));
+		}
+
+		TEST_METHOD(isNextT_InvalidStmtNum_False) {
+			Assert::IsFalse(pkb2->isNextTransitive(0, 1));
+			Assert::IsFalse(pkb2->isNextTransitive(6, 7));
 		}
 	};
 }

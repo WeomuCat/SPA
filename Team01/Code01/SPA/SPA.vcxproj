@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\ParserPrintTree.h" />
+    <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\PKBBuilder.h" />
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="..\source\PKB\DesignEntities\AssignTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\CallTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\ConstantTable.h" />
+    <ClInclude Include="..\source\PKB\DesignEntities\DesignEntityTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\IfTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\PrintTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\ProcedureTable.h" />
@@ -52,6 +54,7 @@
     <ClInclude Include="..\source\PKB\Relationships\ModifiesTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\NextTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\ParentTable.h" />
+    <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\UsesTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryNode.h" />
@@ -59,6 +62,7 @@
     <ClInclude Include="..\source\QueryNodeType.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
     <ClInclude Include="..\source\QuerySynonymType.h" />
+    <ClInclude Include="..\source\Relationship.h" />
     <ClInclude Include="..\source\ResultList.h" />
     <ClInclude Include="..\source\ResultListManager.h" />
     <ClInclude Include="RelOperatorTypeEnum.h" />
@@ -67,9 +71,9 @@
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\ParserPrintTree.cpp" />
+    <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\PKBBuilder.cpp" />
-    <ClCompile Include="..\source\PKBStub.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\AssignNode.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\ASTNode.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\CallNode.cpp" />
@@ -89,6 +93,7 @@
     <ClCompile Include="..\source\PKB\DesignEntities\AssignTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\CallTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\ConstantTable.cpp" />
+    <ClCompile Include="..\source\PKB\DesignEntities\DesignEntityTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\IfTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\PrintTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\ProcedureTable.cpp" />
@@ -102,12 +107,14 @@
     <ClCompile Include="..\source\PKB\Relationships\ModifiesTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\NextTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\ParentTable.cpp" />
+    <ClCompile Include="..\source\PKB\Relationships\RelationshipTransitiveTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\UsesTable.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryNode.cpp" />
     <ClCompile Include="..\source\QueryNodeContent.cpp" />
     <ClCompile Include="..\source\QueryPreProcessor.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
+    <ClCompile Include="..\source\Relationship.cpp" />
     <ClCompile Include="..\source\ResultList.cpp" />
   </ItemGroup>
   <ItemGroup>
