@@ -30,7 +30,7 @@ public:
 
 	QueryNodeContent(AST_NODE astnode);
 
-	QueryNodeContent(STRING syn, ATTRIBUTE attribute);
+	QueryNodeContent(STRING syn, ATTRIBUTE_STRING attribute);
 
 	STRING getString();
 
