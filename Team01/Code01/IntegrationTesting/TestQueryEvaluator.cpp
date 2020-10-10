@@ -1940,7 +1940,7 @@ namespace IntegrationTesting
 			ewoof->setExpressionType({ ExpressionTypeEnum::none });
 			ewoof->setLeftAstNode(woof);
 
-			child_child_child2.setNodeType({ QueryNodeType::expression });
+			child_child_child2.setNodeType({ QueryNodeType::partial_expression });
 			child_child_child2.setASTNode(ewoof);
 
 			// Set pattern's children
@@ -2151,6 +2151,57 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		TEST_METHOD(evaluateQuery_SelectV_PatternAIdentPartial_Returns3)
+		{
+			// Query: "variable v; assign a; Select v pattern a("c", _"2"_)"
+			// Get processed_synonyms and processed clauses
+			QueryNode assign_node = QueryNode();
+			assign_node.setSynonymNode({ QuerySynonymType::assign }, "a");
+			QueryNode var_node = QueryNode();
+			var_node.setSynonymNode({ QuerySynonymType::variable }, "v");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"a", assign_node}, {"v", var_node} };
+
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::variable }, "v");
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::pattern });
+			QueryNode child_child_child0 = QueryNode();
+			child_child_child0.setSynonymNode({ QuerySynonymType::assign }, "a");
+
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("c");
+
+			QueryNode child_child_child2 = QueryNode();
+			std::shared_ptr<ConstantNode> const_node = std::make_shared<ConstantNode>();
+			const_node->setValue("2");
+			std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+			expr_node->setExpressionType({ ExpressionTypeEnum::none });
+			expr_node->setLeftAstNode(const_node);
+
+			child_child_child2.setASTNode(expr_node);
+			child_child_child2.setNodeType({ QueryNodeType::partial_expression });
+
+			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
+			child2.setChildren(child2_children, 3);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb2);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			STRING_RESULT correct_result = "a, g, o, woof, b, c, d";
+
+			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
 		TEST_METHOD(evaluateQuery_SelectBOOLEAN_PatternAIdentPartial_ReturnsTrue)
 		{
 			// Query: "assign a; Select BOOLEAN pattern a("c", _"2"_)"
@@ -2159,23 +2210,18 @@ namespace IntegrationTesting
 			assign_node.setSynonymNode({ QuerySynonymType::assign }, "a");
 			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"a", assign_node} };
 
-			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
 			child1.setBooleanNode(true);
 
-			// pattern
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::pattern });
 
-			// pattern a
 			QueryNode child_child_child0 = QueryNode();
 			child_child_child0.setSynonymNode({ QuerySynonymType::assign }, "a");
 
-			// arg1: "c"
 			QueryNode child_child_child1 = QueryNode();
 			child_child_child1.setIdentityNode("c");
 
-			// arg2: _"2"_
 			QueryNode child_child_child2 = QueryNode();
 			std::shared_ptr<ConstantNode> const_node = std::make_shared<ConstantNode>();
 			const_node->setValue("2");
@@ -2183,14 +2229,12 @@ namespace IntegrationTesting
 			expr_node->setExpressionType({ ExpressionTypeEnum::none });
 			expr_node->setLeftAstNode(const_node);
 
-			child_child_child2.setNodeType({ QueryNodeType::expression });
 			child_child_child2.setASTNode(expr_node);
+			child_child_child2.setNodeType({ QueryNodeType::partial_expression });
 
-			// Set pattern's children
 			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
 			child2.setChildren(child2_children, 3);
 
-			// Set root node
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
 			QueryNode root_children[] = { child1, child2 };
@@ -2234,7 +2278,7 @@ namespace IntegrationTesting
 			expr_node->setExpressionType({ ExpressionTypeEnum::none });
 			expr_node->setLeftAstNode(const_node);
 
-			child_child_child2.setNodeType({ QueryNodeType::expression });
+			child_child_child2.setNodeType({ QueryNodeType::partial_expression });
 			child_child_child2.setASTNode(expr_node);
 
 			QueryNode child2_children[] = { child_child_child0, child_child_child1, child_child_child2 };
@@ -2290,7 +2334,7 @@ namespace IntegrationTesting
 			expr_node->setExpressionType({ ExpressionTypeEnum::none });
 			expr_node->setLeftAstNode(const_node);
 
-			child_child_child2.setNodeType({ QueryNodeType::expression });
+			child_child_child2.setNodeType({ QueryNodeType::partial_expression });
 			child_child_child2.setASTNode(expr_node);
 
 			// Set pattern's children
