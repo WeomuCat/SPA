@@ -1,13 +1,8 @@
 #pragma once
 
-#include <memory>
-#include <string>
+#include "../../AbstractDataTypes.h"
 #include "ASTNode.h"
 #include "ExpressionTypeEnum.h"
-
-typedef std::shared_ptr<ASTNode> AST_NODE_PTR;
-typedef ExpressionTypeEnum EXPR_TYPE;
-typedef bool BOOLEAN_TYPE;
 
 class ExpressionNode : public ASTNode, public std::enable_shared_from_this<ExpressionNode> {
 /*ExpressionNode is +, -, *, / or none*/

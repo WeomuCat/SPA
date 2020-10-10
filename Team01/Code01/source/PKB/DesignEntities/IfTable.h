@@ -1,14 +1,9 @@
 #pragma once
 
-#include <memory>
-#include <vector>
+#include "../../AbstractDataTypes.h"
 #include "DesignEntityTable.h"
 #include "DesignEntityTable.cpp"
 #include "../ASTNode/IfNode.h"
-
-typedef std::shared_ptr<IfNode> IF_NODE_PTR;
-typedef std::vector<IF_NODE_PTR> IF_NODE_PTR_LIST;
-typedef std::vector<STMT_NUM> STMT_NUM_LIST;
 
 class IfTable : public DesignEntityTable<IF_NODE_PTR> {
 

@@ -1,14 +1,9 @@
 #pragma once
 
-#include <memory>
-#include <vector>
+#include "../../AbstractDataTypes.h"
 #include "DesignEntityTable.h"
 #include "DesignEntityTable.cpp"
 #include "../ASTNode/WhileNode.h"
-
-typedef std::shared_ptr<WhileNode> WHILE_NODE_PTR;
-typedef std::vector<WHILE_NODE_PTR> WHILE_NODE_PTR_LIST;
-typedef std::vector<STMT_NUM> STMT_NUM_LIST;
 
 class WhileTable : public DesignEntityTable<WHILE_NODE_PTR> {
 

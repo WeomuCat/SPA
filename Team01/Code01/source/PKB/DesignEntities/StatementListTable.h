@@ -1,13 +1,9 @@
 #pragma once
 
-#include <memory>
-#include <vector>
+#include "../../AbstractDataTypes.h"
 #include "DesignEntityTable.h"
 #include "DesignEntityTable.cpp"
 #include "../ASTNode/StatementListNode.h"
-
-typedef std::shared_ptr<StatementListNode> STMT_LIST_NODE_PTR;
-typedef std::vector<STMT_LIST_NODE_PTR> STMT_LIST_NODE_PTR_LIST;
 
 class StatementListTable : public DesignEntityTable<STMT_LIST_NODE_PTR> {
 

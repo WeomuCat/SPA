@@ -1,13 +1,8 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include "StatementListNode.h"
+#include "../../AbstractDataTypes.h"
 #include "ASTNode.h"
-
-typedef std::shared_ptr<StatementListNode> STMT_LIST_NODE_PTR;
-typedef std::string STRING;
-typedef bool BOOLEAN_TYPE;
+#include "StatementListNode.h"
 
 class ProcedureNode : public ASTNode, public std::enable_shared_from_this<ProcedureNode> {
 
@@ -21,7 +16,7 @@ public:
 	/*
 	Description: Returns True if able to set STRING of the procedure's name, false otherwise.
 	*/
-	BOOLEAN_TYPE setProcedureName(STRING proc_name);
+	BOOLEAN_TYPE setProcedureName(PROC_NAME proc_name);
 
 	/*
 	Returns True if able to set the child STMT_LIST_NODE_PTR of the procedure, false otherwise.
@@ -31,7 +26,7 @@ public:
 	/*
 	Description: Returns the STRING of the procedure's name
 	*/
-	STRING getProcedureName();
+	PROC_NAME getProcedureName();
 
 	/*
 	Description: Returns the child STMT_LIST_NODE_POINTER of the procedure.
@@ -39,7 +34,7 @@ public:
 	STMT_LIST_NODE_PTR getProcedureStatementListNode();
 
 private:
-	STRING proc_name_;
+	PROC_NAME proc_name_;
 	STMT_LIST_NODE_PTR proc_stmt_list_node_ptr_;
 
 };

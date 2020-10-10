@@ -1,8 +1,6 @@
 #pragma once
 
-#include <vector>
-
-typedef int INDEX;
+#include "../../AbstractDataTypes.h"
 
 template<typename T>
 class DesignEntityTable {

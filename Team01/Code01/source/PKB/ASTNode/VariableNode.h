@@ -1,10 +1,7 @@
 #pragma once
 
-#include <string>
+#include "../../AbstractDataTypes.h"
 #include "StatementNode.h"
-
-typedef std::string VAR_NAME;
-typedef bool BOOLEAN_TYPE;
 
 class VariableNode : public ASTNode {
 

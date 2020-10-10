@@ -1,9 +1,8 @@
 #pragma once
 
+#include "../../AbstractDataTypes.h"
 #include "RelationshipTransitiveTable.h"
 #include "RelationshipTransitiveTable.cpp"
-
-typedef int STMT_NUM;
 
 class ParentTable : public RelationshipTransitiveTable<STMT_NUM> {
     /* Overview: This is a data structure */

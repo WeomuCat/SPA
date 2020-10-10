@@ -2,9 +2,9 @@
 
 #include <unordered_map>
 #include <unordered_set>
-#include "../Hashing.h"
 
-typedef bool BOOLEAN_TYPE;
+#include "../../AbstractDataTypes.h"
+#include "../Hashing.h"
 
 template<typename T>
 class RelationshipTransitiveTable {

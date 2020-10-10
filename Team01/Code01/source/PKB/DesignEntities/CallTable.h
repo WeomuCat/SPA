@@ -1,14 +1,9 @@
 #pragma once
 
-#include <memory>
-#include <vector>
+#include "../../AbstractDataTypes.h"
 #include "DesignEntityTable.h"
 #include "DesignEntityTable.cpp"
 #include "../ASTNode/CallNode.h"
-
-typedef std::shared_ptr<CallNode> CALL_NODE_PTR;
-typedef std::vector<CALL_NODE_PTR> CALL_NODE_PTR_LIST;
-typedef std::vector<STMT_NUM> STMT_NUM_LIST;
 
 class CallTable : public DesignEntityTable<CALL_NODE_PTR> {
 

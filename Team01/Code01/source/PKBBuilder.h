@@ -1,7 +1,6 @@
 #pragma once
 
-class PKBBuilder;
-
+#include "AbstractDataTypes.h"
 #include "PKB.h"
 #include "PKB/ASTNode/ProgramNode.h"
 #include "PKB/DesignEntities/AssignTable.h"
@@ -21,27 +20,6 @@ class PKBBuilder;
 #include "PKB/Relationships/UsesTable.h"
 #include "PKB/Relationships/ModifiesTable.h"
 #include "PKB/Relationships/NextTable.h"
-
-typedef std::shared_ptr<ProgramNode> PROGRAM_NODE_PTR;
-
-typedef AssignTable ASSIGN_TABLE;
-typedef CallTable CALL_TABLE;
-typedef ConstantTable CONSTANT_TABLE;
-typedef IfTable IF_TABLE;
-typedef PrintTable PRINT_TABLE;
-typedef ProcedureTable PROC_TABLE;
-typedef ReadTable READ_TABLE;
-typedef StatementListTable STMT_LIST_TABLE;
-typedef StatementTable STMT_TABLE;
-typedef VariableTable VAR_TABLE;
-typedef WhileTable WHILE_TABLE;
-
-typedef FollowsTable FOLLOWS_TABLE;
-typedef ParentTable PARENT_TABLE;
-typedef UsesTable USES_TABLE;
-typedef ModifiesTable MODIFIES_TABLE;
-typedef CallsTable CALLS_TABLE;
-typedef NextTable NEXT_TABLE;
 
 class PKBBuilder {
 /* 

@@ -1,15 +1,9 @@
 #pragma once
 
-#include <memory>
-#include <vector>
+#include "../../AbstractDataTypes.h"
 #include "DesignEntityTable.h"
 #include "DesignEntityTable.cpp"
 #include "../ASTNode/PrintNode.h"
-
-typedef std::shared_ptr<PrintNode> PRINT_NODE_PTR;
-typedef std::vector<PRINT_NODE_PTR> PRINT_NODE_PTR_LIST;
-typedef std::vector<STMT_NUM> STMT_NUM_LIST;
-typedef std::vector<VAR_NAME> VAR_NAME_LIST;
 
 class PrintTable : public DesignEntityTable<PRINT_NODE_PTR> {
 

@@ -1,14 +1,8 @@
 #pragma once
 
-class StatementNode;
-
-#include <memory>
+#include "../../AbstractDataTypes.h"
 #include "ASTNode.h"
 #include "StatementListNode.h"
-
-typedef std::shared_ptr<StatementListNode> STMT_LIST_NODE_PTR;
-typedef bool BOOLEAN_TYPE;
-typedef int STMT_NUM;
 
 class StatementNode : public ASTNode {
 

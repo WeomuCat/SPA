@@ -1,15 +1,9 @@
 #pragma once
 
-#include <memory>
-#include <vector>
+#include "../../AbstractDataTypes.h"
 #include "DesignEntityTable.h"
 #include "DesignEntityTable.cpp"
 #include "../ASTNode/ReadNode.h"
-
-typedef std::shared_ptr<ReadNode> READ_NODE_PTR;
-typedef std::vector<READ_NODE_PTR> READ_NODE_PTR_LIST;
-typedef std::vector<STMT_NUM> STMT_NUM_LIST;
-typedef std::vector<VAR_NAME> VAR_NAME_LIST;
 
 class ReadTable : public DesignEntityTable<READ_NODE_PTR> {
 

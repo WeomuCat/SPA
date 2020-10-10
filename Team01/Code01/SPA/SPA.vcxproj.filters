@@ -145,9 +145,6 @@
     <ClCompile Include="..\source\PKB\DesignEntities\DesignEntityTable.cpp">
       <Filter>Source\DesignEntity</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Testing.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h">
@@ -226,9 +223,6 @@
       <Filter>Header\DesignEntity</Filter>
     </ClInclude>
     <ClInclude Include="..\source\PKB\DesignEntities\ReadTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\RelationTypeEnum.h">
       <Filter>Header\DesignEntity</Filter>
     </ClInclude>
     <ClInclude Include="..\source\PKB\DesignEntities\StatementListTable.h">
@@ -315,8 +309,8 @@
     <ClInclude Include="..\source\AbstractDataTypes.h">
       <Filter>Header\PKB</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Testing.h">
-      <Filter>Header</Filter>
+    <ClInclude Include="..\source\PKB\ASTNode\RelationTypeEnum.h">
+      <Filter>Header\ASTNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
