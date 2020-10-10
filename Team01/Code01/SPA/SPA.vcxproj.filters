@@ -145,6 +145,9 @@
     <ClCompile Include="..\source\PKB\DesignEntities\DesignEntityTable.cpp">
       <Filter>Source\DesignEntity</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\QueryValidator.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h">
@@ -311,6 +314,12 @@
     </ClInclude>
     <ClInclude Include="..\source\PKB\DesignEntities\DesignEntityTable.h">
       <Filter>Header\DesignEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryPreProcessor.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryValidator.h">
+      <Filter>Header\QP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

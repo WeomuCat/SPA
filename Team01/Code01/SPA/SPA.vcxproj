@@ -60,8 +60,10 @@
     <ClInclude Include="..\source\QueryNode.h" />
     <ClInclude Include="..\source\QueryNodeContent.h" />
     <ClInclude Include="..\source\QueryNodeType.h" />
+    <ClInclude Include="..\source\QueryPreProcessor.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
     <ClInclude Include="..\source\QuerySynonymType.h" />
+    <ClInclude Include="..\source\QueryValidator.h" />
     <ClInclude Include="..\source\Relationship.h" />
     <ClInclude Include="..\source\ResultList.h" />
     <ClInclude Include="..\source\ResultListManager.h" />
@@ -114,6 +116,7 @@
     <ClCompile Include="..\source\QueryNodeContent.cpp" />
     <ClCompile Include="..\source\QueryPreProcessor.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
+    <ClCompile Include="..\source\QueryValidator.cpp" />
     <ClCompile Include="..\source\Relationship.cpp" />
     <ClCompile Include="..\source\ResultList.cpp" />
   </ItemGroup>
