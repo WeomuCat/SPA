@@ -108,7 +108,7 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 				closed_brac_index - open_brac_index - 1));
 
 			if (QueryValidator::isValidElem(proc_s, e)) {
-				QueryNode result_child[] = { createElemNode(proc_s, r) };
+				QueryNode result_child[] = { createElemNode(proc_s, e) };
 				result_node.setChildren(result_child, 1);
 			}
 			else {
@@ -123,10 +123,10 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 			int curr_index = open_brac_index + 1;
 
 			while (comma_index != -1) {
-				ELEMENT e = trimWhitespaces(r.substr(curr_index, comma_index = curr_index));
+				ELEMENT e = trimWhitespaces(r.substr(curr_index, comma_index - curr_index));
 
 				if (QueryValidator::isValidElem(proc_s, e)) {
-					QueryNode result_child[] = { createElemNode(proc_s, r) };
+					QueryNode result_child[] = { createElemNode(proc_s, e) };
 					result_node.setChildren(result_child, 1);
 
 					curr_index = comma_index + 1;
@@ -143,7 +143,7 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 			ELEMENT e = trimWhitespaces(r.substr(curr_index, closed_brac_index - curr_index));
 
 			if (QueryValidator::isValidElem(proc_s, e)) {
-				QueryNode result_child[] = { createElemNode(proc_s, r) };
+				QueryNode result_child[] = { createElemNode(proc_s, e) };
 				result_node.setChildren(result_child, 1);
 			}
 			else {

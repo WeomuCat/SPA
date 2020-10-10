@@ -251,7 +251,7 @@ namespace UnitTesting
 			RESULT r5 = "<s1, s2> ";
 			RESULT r6 = "<s1.unknown, s2>";
 			RESULT r7 = "<s1, s2.unknown>";
-			RESULT r8 = "<s1.unkown>";
+			RESULT r8 = "<s1.unknown>";
 
 			Assert::IsFalse(QueryValidator::isValidResultFormat(r1));
 			Assert::IsFalse(QueryValidator::isValidResultFormat(r2));
