@@ -52,7 +52,7 @@ public:
     /*==== Design Entities ====*/
     
     /*
-    Description: Adds a ASSIGN_NODE_PTR to the ASSIGN_TABLE when building the PKB.
+    Description: Adds an ASSIGN_NODE_PTR to the ASSIGN_TABLE when building the PKB.
                  Returns the INDEX of the ASSIGN_NODE_PTR in the ASSIGN_TABLE.
     */
     INDEX addAssignNode(ASSIGN_NODE_PTR assign_node_ptr);
@@ -82,8 +82,8 @@ public:
     INDEX addPrintNode(PRINT_NODE_PTR print_node_ptr);
 
     /*
-    Description: Adds a PROC_NAME to the PROCEDURE_TABLE when building the PKB.
-                 Returns the INDEX of the PROC_NAME in the PROCEDURE_TABLE.
+    Description: Adds a PROC_NAME to the PROC_TABLE when building the PKB.
+                 Returns the INDEX of the PROC_NAME in the PROC_TABLE.
     */
     INDEX addProcedureNode(PROC_NODE_PTR proc_node_ptr);
 
@@ -94,26 +94,26 @@ public:
     INDEX addReadNode(READ_NODE_PTR read_node_ptr);
 
     /*
-    Description: Adds a STMT_LIST_NODE_PTR to the STATEMENT_TABLE when building the PKB.
-                 Returns the INDEX of the STMT_LIST_NODE_PTR in the STATEMENT_TABLE.
+    Description: Adds a STMT_LIST_NODE_PTR to the STMT_LIST_TABLE when building the PKB.
+                 Returns the INDEX of the STMT_LIST_NODE_PTR in the STMT_LIST_TABLE.
     */
     INDEX addStatementListNode(STMT_LIST_NODE_PTR stmt_list_node_ptr);
 
     /*
-    Description: Adds a STMT_NUM to the WHILE_TABLE when building the PKB.
+    Description: Adds a WHILE_NODE to the WHILE_TABLE when building the PKB.
                  Returns the INDEX of the STMT_NUM in the WHILE_TABLE.
     */
     INDEX addWhileNode(WHILE_NODE_PTR while_node_ptr);
 
     /*
-    Description: Adds a VAR_NODE_PTR to the VARIABLE_TABLE when building the PKB.
-                 Returns the INDEX of the VAR_NODE_PTR in the VARIABLE_TABLE.
+    Description: Adds a VAR_NODE_PTR to the VAR_TABLE when building the PKB.
+                 Returns the INDEX of the VAR_NODE_PTR in the VAR_TABLE.
     */
     INDEX addVariableNode(VAR_NODE_PTR var_node_ptr);
 
     /*
-    Description: Adds a STMT_NODE_PTR to the STATEMENT_TABLE when building the PKB.
-                 Returns the INDEX of the STMT_NODE_PTR in the STATEMENT_TABLE.
+    Description: Adds a STMT_NODE_PTR to the STMT_TABLE when building the PKB.
+                 Returns the INDEX of the STMT_NODE_PTR in the STMT_TABLE.
     */
     INDEX addStatementNode(STMT_NODE_PTR stmt_node_ptr);
 
@@ -178,7 +178,7 @@ public:
 
     /*
     Description: Stores a Follows(STMT_NUM, STMT_NUM) relationship to
-                    the FOLLOWS_TABLE when building the PKB.
+                 the FOLLOWS_TABLE when building the PKB.
     */
     void addFollows(STMT_NUM s1, STMT_NUM s2);
 
@@ -230,8 +230,8 @@ public:
     void setProgramNode(PROGRAM_NODE_PTR program_node_ptr);
 
     /*
-    Description: We create an immutable PKB containing all the design entities,
-                 relationship information and AST information provided.
+    Description: Return an immutable PKB after building it with all the 
+                 information stored in the PKB_BUILDER
     */
     PKB build();
 

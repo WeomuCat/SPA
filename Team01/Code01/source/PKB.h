@@ -194,7 +194,7 @@ public:
     STMT_NUM_LIST getWhileNumList();
 
     /*
-    Description: Returns the STMT_NUM_LIST stored in STATEMENT_TABLE.
+    Description: Returns the STMT_NUM_LIST stored in STMT_TABLE.
                  If there are no elements in the collection, returns an empty
                  STMT_NUM_LIST.
     */
@@ -208,14 +208,14 @@ public:
     CONSTANT_VALUE_LIST getConstantValueList();
 
     /*
-    Description: Returns the PROC_NAME_LIST stored in PROCEDURE_TABLE.
+    Description: Returns the PROC_NAME_LIST stored in PROC_TABLE.
                  If there are no elements in the collection, returns an empty
                  PROC_NAME_LIST.
     */
     PROC_NAME_LIST getProcedureNameList();
 
     /*
-    Description: Returns the VAR_NAME_LIST stored in VARIABLE_TABLE.
+    Description: Returns the VAR_NAME_LIST stored in VAR_TABLE.
                  If there are no elements in the collection, returns an empty
                  VAR_NAME_LIST.
     */
