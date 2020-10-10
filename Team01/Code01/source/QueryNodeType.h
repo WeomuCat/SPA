@@ -24,5 +24,6 @@ enum class QueryNodeType {
 	callsT,
 	next,
 	nextT,
-	pattern
+	pattern,
+	with
 };

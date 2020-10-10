@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-<<<<<<< HEAD
     <ClCompile Include="..\source\ClauseQueue.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\ParserPrintTree.cpp" />
+    <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\PKBBuilder.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\AssignNode.cpp" />
@@ -27,6 +27,7 @@
     <ClCompile Include="..\source\PKB\DesignEntities\AssignTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\CallTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\ConstantTable.cpp" />
+    <ClCompile Include="..\source\PKB\DesignEntities\DesignEntityTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\IfTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\PrintTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\ProcedureTable.cpp" />
@@ -49,11 +50,13 @@
     <ClCompile Include="..\source\QueryProcessor.cpp" />
     <ClCompile Include="..\source\Relationship.cpp" />
     <ClCompile Include="..\source\ResultList.cpp" />
+    <ClCompile Include="..\source\WithClause.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\ClauseQueue.h" />
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\ParserPrintTree.h" />
+    <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\PKBBuilder.h" />
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h" />
@@ -79,6 +82,7 @@
     <ClInclude Include="..\source\PKB\DesignEntities\AssignTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\CallTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\ConstantTable.h" />
+    <ClInclude Include="..\source\PKB\DesignEntities\DesignEntityTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\IfTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\PrintTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\ProcedureTable.h" />
@@ -96,6 +100,7 @@
     <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\UsesTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
+    <ClInclude Include="..\source\QueryEvaluatorReturnType.h" />
     <ClInclude Include="..\source\QueryNode.h" />
     <ClInclude Include="..\source\QueryNodeContent.h" />
     <ClInclude Include="..\source\QueryNodeType.h" />
@@ -105,320 +110,7 @@
     <ClInclude Include="..\source\ResultList.h" />
     <ClInclude Include="..\source\ResultListManager.h" />
     <ClInclude Include="RelOperatorTypeEnum.h" />
-    <ClInclude Include="..\source\QueryEvaluatorReturnType.h" />
-=======
-    <ClCompile Include="..\source\PKB\ASTNode\AssignNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\AssignTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\ASTNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\ConditionNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\ConstantNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\ConstantTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\ExpressionNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\Relationships\FollowsTable.cpp">
-      <Filter>Source\Relationship</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\IfNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\IfTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\Relationships\ParentTable.cpp">
-      <Filter>Source\Relationship</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\PrintNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\ReadNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\ProcedureNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\ProgramNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\StatementNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\VariableNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\WhileNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\RelationNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\StatementListNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\PrintTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\ProcedureTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\StatementListTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\ReadTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\StatementTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\VariableTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\WhileTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\Relationships\ModifiesTable.cpp">
-      <Filter>Source\Relationship</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\Relationships\UsesTable.cpp">
-      <Filter>Source\Relationship</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Parser.cpp">
-      <Filter>Source\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParserPrintTree.cpp">
-      <Filter>Source\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB.cpp">
-      <Filter>Source\PKB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKBBuilder.cpp">
-      <Filter>Source\PKB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryEvaluator.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryNode.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryNodeContent.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryPreProcessor.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryProcessor.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ResultList.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>Source\PKB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\Relationships\CallsTable.cpp">
-      <Filter>Source\Relationship</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\Relationships\NextTable.cpp">
-      <Filter>Source\Relationship</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\ASTNode\CallNode.cpp">
-      <Filter>Source\ASTNode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\CallTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Relationship.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\Relationships\RelationshipTransitiveTable.cpp">
-      <Filter>Source\Relationship</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Pattern.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB\DesignEntities\DesignEntityTable.cpp">
-      <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\AssignTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\ASTNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\ConditionNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\ConditionTypeEnum.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\ConstantNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\ConstantTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\ExpressionNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\ExpressionTypeEnum.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\Relationships\FollowsTable.h">
-      <Filter>Header\Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\IfNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\IfTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\NodeTypeEnum.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\Relationships\ParentTable.h">
-      <Filter>Header\Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\PrintNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\ProcedureNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\ProgramNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\ReadNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\RelationNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\StatementListNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\StatementNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\VariableNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\WhileNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\PrintTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\ProcedureTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\ReadTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\RelationTypeEnum.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\StatementListTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\StatementTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\VariableTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\WhileTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\Relationships\ModifiesTable.h">
-      <Filter>Header\Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\Relationships\UsesTable.h">
-      <Filter>Header\Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryEvaluator.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryNode.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryNodeContent.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryNodeType.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessor.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QuerySynonymType.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ResultList.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ResultListManager.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParserPrintTree.h">
-      <Filter>Header\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Parser.h">
-      <Filter>Header\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB.h">
-      <Filter>Header\PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKBBuilder.h">
-      <Filter>Header\PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\Hashing.h">
-      <Filter>Header\PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\Relationships\CallsTable.h">
-      <Filter>Header\Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\Relationships\NextTable.h">
-      <Filter>Header\Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\ASTNode\CallNode.h">
-      <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\CallTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="RelOperatorTypeEnum.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Relationship.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h">
-      <Filter>Header\Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Pattern.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\DesignEntities\DesignEntityTable.h">
-      <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
->>>>>>> e76ac8b4f05c4f834e9515e7af959acd527dea26
+    <ClInclude Include="..\source\WithClause.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

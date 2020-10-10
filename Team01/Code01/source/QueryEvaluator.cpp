@@ -92,6 +92,10 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 			Pattern pattern = Pattern(clause);
 			pattern.getPatternResult(pkb, clause_bool, clause_result_list);
 		}
+		else if (clause_type == QueryNodeType::with) {
+			WithClause with = WithClause(clause);
+			with.getWithResult(pkb, clause_bool, clause_result_list);
+		}
 		
 
 		// if the clause_bool is true => merge result_list with clause_result_list

@@ -9,6 +9,7 @@
 #include "Relationship.h"
 #include "ResultList.h"
 #include "ResultListManager.h"
+#include "WithClause.h"
 
 #include <string>
 #include <unordered_map>
