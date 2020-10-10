@@ -143,7 +143,7 @@ void QueryNode::setIdentityNode(STRING identity) {
 	this->node_content = content;
 }
 
-void QueryNode::setAttrNode(STRING syn, ATTRIBUTE attribute) {
+void QueryNode::setAttrNode(STRING syn, ATTRIBUTE_STRING attribute) {
 	this->node_type = { QueryNodeType::attr };
 	QueryNodeContent content = QueryNodeContent(syn, attribute);
 	this->node_content = content;

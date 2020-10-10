@@ -10,6 +10,7 @@ typedef std::string STRING;
 typedef int INTEGER;
 typedef std::shared_ptr<ASTNode> AST_NODE;
 typedef AttributeType ATTRIBUTE;
+typedef std::string ATTRIBUTE_STRING;
 typedef int MODIFIED_FLAG;
 
 class QueryNodeContent {
