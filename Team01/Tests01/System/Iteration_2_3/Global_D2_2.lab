@@ -1,0 +1,77 @@
+--- procedure firstore {
+001     coal = iron - 1111;
+002     lapis = gold - redstone;
+003     print diamond;
+004     emerald = emerald - 2222;
+005     call secondore;
+--- }
+--- 
+--- procedure secondore {
+006     if ((lapis - gold * 2222 / emerald / coal - iron == redstone * 3333) && (!(diamond - gold != emerald))) then {
+007         emerald = 1111;
+008         print emerald;
+---     } else {
+009         if (gold == 1111) then {
+010             read gold;
+011             redstone = lapis * 4444;
+012             call thirdore;
+---         } else {
+013             if (redstone < 3333) then {
+014                 print gold;
+015                 redstone = emerald * diamond - iron;
+---             } else {
+016                 gold = coal;
+017                 call thirdore;
+---             }
+018             while (diamond == 3333) {
+019                 call fourthore;
+---             }
+020             call fifthore;
+---         }
+---     }
+--- }
+--- 
+--- procedure thirdore {
+021     print gold;
+022     read diamond;
+023     while (coal - iron != 1111) {
+024         iron = lapis * laps - 2222;
+025         read lapis;
+---     }
+026     if (iron == lapis) then {
+027         print lapis;
+028         coal = diamond - gold * 3333;
+029         call fifthore;
+---     } else {
+030         redstone = redstone * 4444;
+031         print redstone;
+---     }
+032     diamond = gold - 1111;
+033     print diamond;
+--- }
+--- 
+--- procedure fourthore {
+034     diamond = gold / 2222 % iron;
+035     gold = iron - coal;
+036     while (iron == diamond) {
+037         print gold;
+038         diamond = 1111 * 4444 - 2222 % 3333;
+039         gold = iron - coal;
+040         print coal;
+041         call fifthore;
+042         iron = gold + coal;
+---     }
+043     read coal;
+044     call fifthore;
+045     print coal;
+--- }
+--- 
+--- procedure fifthore {
+046     gold = 4444;
+047     if (coal == 0) then {
+048         coal = 2222 * coal;
+---     } else {
+049         read coal;
+---     }
+050     print coal;
+--- }

@@ -1,0 +1,77 @@
+procedure firstore {
+    coal = iron - 1111;
+    lapis = gold - redstone;
+    print diamond;
+    emerald = emerald - 2222;
+    call secondore;
+}
+
+procedure secondore {
+    if ((lapis - gold * 2222 / emerald / coal - iron == redstone * 3333) && (!(diamond - gold != emerald))) then {
+        emerald = 1111;
+        print emerald;
+    } else {
+        if (gold == 1111) then {
+            read gold;
+            redstone = lapis * 4444;
+            call thirdore;
+        } else {
+            if (redstone < 3333) then {
+                print gold;
+                redstone = emerald * diamond - iron;
+            } else {
+                gold = coal;
+                call thirdore;
+            }   
+            while (diamond == 3333) {
+                call fourthore;
+            }
+            call fifthore;
+        }
+    }
+}
+
+procedure thirdore {
+    print gold;
+    read diamond;
+    while (coal - iron != 1111) {
+        iron = lapis * laps - 2222;
+        read lapis;
+    }
+    if (iron == lapis) then {
+        print lapis;
+        coal = diamond - gold * 3333;
+        call fifthore;
+    } else {
+        redstone = redstone * 4444;
+        print redstone;
+    }
+    diamond = gold - 1111;
+    print diamond;
+}
+
+procedure fourthore {
+    diamond = gold / 2222 % iron;
+    gold = iron - coal;
+    while (iron == diamond) {
+        print gold;
+        diamond = 1111 * 4444 - 2222 % 3333;
+        gold = iron - coal;
+        print coal;
+        call fifthore;
+        iron = gold + coal;
+    }
+    read coal;
+    call fifthore;
+    print coal;
+}
+
+procedure fifthore {
+    gold = 4444;
+    if (coal == 0) then {
+        coal = 2222 * coal;
+    } else {
+        read coal;
+    }
+    print coal;
+}
