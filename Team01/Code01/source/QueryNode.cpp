@@ -133,25 +133,24 @@ void QueryNode::setSynonymNode(SYNONYM_TYPE_STRING synonym_type_string, SYNONYM_
 	this->node_content = content;
 }
 
+SYNONYM_TYPE QueryNode::getSynonymType() {
+	return synonym_type;
+}
+
 void QueryNode::setIdentityNode(STRING identity) {
 	this->node_type = { QueryNodeType::ident };
 	QueryNodeContent content = QueryNodeContent(identity);
 	this->node_content = content;
 }
 
-void QueryNode::setBooleanNode(BOOLEAN boolean) {
-	this->node_type = { QueryNodeType::boolean };
-
-	QueryNodeContent content = QueryNodeContent(boolean);
+void QueryNode::setAttrNode(STRING syn, ATTRIBUTE_STRING attribute) {
+	this->node_type = { QueryNodeType::attr };
+	QueryNodeContent content = QueryNodeContent(syn, attribute);
 	this->node_content = content;
 }
 
-BOOLEAN QueryNode::getBool() {
-	return node_content.getBool();
-}
-
-SYNONYM_TYPE QueryNode::getSynonymType() {
-	return synonym_type;
+ATTRIBUTE QueryNode::getAttr() {
+	return node_content.getAttribute();
 }
 
 STRING QueryNode::getString() {

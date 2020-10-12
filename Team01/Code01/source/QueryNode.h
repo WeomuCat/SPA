@@ -44,8 +44,8 @@ public:
 	void setASTNode(AST_NODE astnode);
 	AST_NODE getAstNode();
 
-	void setBooleanNode(BOOLEAN astnode);
-	BOOLEAN getBool();
+	void setAttrNode(STRING syn, ATTRIBUTE_STRING attribute);
+	ATTRIBUTE getAttr();
 
 	void setChildren(QUERY_NODE_POINTERS children, int size); //need to add all children at once, in the right order
 	QUERY_NODE_LIST getChildren();

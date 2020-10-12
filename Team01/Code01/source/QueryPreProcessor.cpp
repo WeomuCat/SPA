@@ -14,6 +14,8 @@
 
 const std::regex name_format_("[a-zA-Z][a-zA-Z0-9]*");
 const std::regex integer_format_("[0-9]+");
+const std::regex attr_rel_format_("[a-zA-Z][a-zA-Z0-9]*\\.(procName|varName|value|stmt#)");
+const QueryNode null_node_ = QueryNode();
 
 STRING QueryPreProcessor::trimWhitespaces(STRING s) {
 	int start = s.find_first_not_of(" \n\r\t\f\v");
@@ -50,6 +52,112 @@ SPLIT_DECLARATIONS QueryPreProcessor::splitDeclarations(DECLARATIONS d) {
 	}
 
 	return split_d;
+}
+
+QueryNode QueryPreProcessor::createElemNode(PROCESSED_SYNONYMS proc_s, ELEMENT e) {
+	QueryNode elem_node = QueryNode();
+
+	if (std::regex_match(e, std::regex(name_format_))) {
+		// element is a synonym
+		elem_node.setSynonymNode({ proc_s.find(e)->second.getSynonymType() }, e);
+	}
+	else {
+		// element is an attribute reference
+		// split element into synonym and attrRef
+		int fullstop_index = e.find(".");
+		STRING syn = trimWhitespaces(e.substr(0, fullstop_index));
+		ATTRIBUTE_STRING attribute = trimWhitespaces(e.substr(fullstop_index + 1));;
+		elem_node.setAttrNode(syn, attribute);
+	}
+
+	return elem_node;
+}
+
+QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT r) {
+	//returns Querynode of QueryNodeType::unassigned if result is invalid
+	bool isValid = true;
+	QueryNode result_node = QueryNode();
+
+	if (std::regex_match(r, std::regex("BOOLEAN"))) {
+		// result clause is a boolean
+		result_node.setNodeType({ QueryNodeType::boolean });
+	}
+	else if (std::regex_match(r, std::regex(name_format_)) || std::regex_match(r, std::regex(attr_rel_format_))) {
+		// result clause is a tuple of only one element
+		result_node.setNodeType({ QueryNodeType::tuple });
+
+		if (QueryValidator::isValidElem(proc_s, r)) {
+			QueryNode result_child[] = { createElemNode(proc_s, r) };
+			result_node.setChildren(result_child, 1);
+		}
+		else {
+			isValid = false;
+		}
+	}
+	else {
+		// result clause is a tuple of multiple elements
+		result_node.setNodeType({ QueryNodeType::tuple });
+
+		int open_brac_index = r.find("<");
+		int comma_index = r.find(",");
+		int closed_brac_index = r.find(">");
+
+		if (comma_index == -1) {
+			// only one element between brackets
+			ELEMENT e = trimWhitespaces(r.substr(open_brac_index + 1,
+				closed_brac_index - open_brac_index - 1));
+
+			if (QueryValidator::isValidElem(proc_s, e)) {
+				QueryNode result_child[] = { createElemNode(proc_s, e) };
+				result_node.setChildren(result_child, 1);
+			}
+			else {
+				isValid = false;
+			}
+		}
+		else {
+			// loop through elements between brackets
+			// create elem node
+			// add as children
+
+			int curr_index = open_brac_index + 1;
+
+			while (comma_index != -1) {
+				ELEMENT e = trimWhitespaces(r.substr(curr_index, comma_index - curr_index));
+
+				if (QueryValidator::isValidElem(proc_s, e)) {
+					QueryNode result_child[] = { createElemNode(proc_s, e) };
+					result_node.setChildren(result_child, 1);
+
+					curr_index = comma_index + 1;
+					comma_index = r.find(",", curr_index);
+				}
+				else {
+					isValid = false;
+					break;
+				}
+			}
+
+			// create final element & add as child
+
+			ELEMENT e = trimWhitespaces(r.substr(curr_index, closed_brac_index - curr_index));
+
+			if (QueryValidator::isValidElem(proc_s, e)) {
+				QueryNode result_child[] = { createElemNode(proc_s, e) };
+				result_node.setChildren(result_child, 1);
+			}
+			else {
+				isValid = false;
+			}
+		}
+	}
+
+	if (isValid) {
+		return result_node;
+	}
+	else {
+		return null_node_;
+	}
 }
 
 INDEX QueryPreProcessor::getNextClauseIndex(CLAUSES c, INDEX current_index, INDEX such_that_index, INDEX pattern_index) {
@@ -263,21 +371,26 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 	if (QueryValidator::isValidClause(c)) {
 		select_node.setNodeType({ QueryNodeType::select });
 
-		SYNONYM_NAME select_syn;
+		RESULT result_clause;
 		int such_that_index = c.find("such that");
 		int pattern_index = c.find("pattern");
 		int next_index = getNextClauseIndex(c, 0, such_that_index, pattern_index);
 
 		if (next_index == -1) {
 			// no such that nor pattern clause
-			select_syn = trimWhitespaces(c.substr(6));
+			result_clause = trimWhitespaces(c.substr(6));
 
-			if (QueryValidator::isSynonymDeclared(proc_s, select_syn)) {
-				// create synonym node and set as child
-				QueryNode select_syn_node = QueryNode();
-				select_syn_node.setSynonymNode({ proc_s.find(select_syn)->second.getSynonymType() }, select_syn);
-				QueryNode select_children[] = { select_syn_node };
-				select_node.setChildren(select_children, 1);
+			if (QueryValidator::isValidResultFormat(result_clause)) {
+				// create result clause node and set as child
+				QueryNode result_node = createResultNode(proc_s, result_clause);
+
+				if (result_node.getNodeType() != QueryNodeType::unassigned) {
+					QueryNode select_children[] = { result_node };
+					select_node.setChildren(select_children, 1);
+				}
+				else {
+					is_valid = false;
+				}
 			}
 			else {
 				is_valid = false;
@@ -288,15 +401,20 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 			QueryNode select_children[3];
 			int child_index = 0;
 
-			// extract select synonym
-			select_syn = trimWhitespaces(c.substr(6, next_index - 6));
-			QueryNode select_syn_node = QueryNode();
+			// extract result clause
+			result_clause = trimWhitespaces(c.substr(6, next_index - 6));
 
-			if (QueryValidator::isSynonymDeclared(proc_s, select_syn)) {
-				// create synonym node and set as first child
-				select_syn_node.setSynonymNode({ proc_s.find(select_syn)->second.getSynonymType() }, select_syn);
-				select_children[child_index] = select_syn_node;
-				child_index++;
+			if (QueryValidator::isValidResultFormat(result_clause)) {
+				// create result clause node and set as first child
+				QueryNode result_node = createResultNode(proc_s, result_clause);
+
+				if (result_node.getNodeType() != QueryNodeType::unassigned) {
+					select_children[child_index] = result_node;
+					child_index++;
+				}
+				else {
+					is_valid = false;
+				}
 			}
 			else {
 				is_valid = false;
@@ -391,8 +509,6 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 		return select_node;
 	}
 	else {
-		PROCESSED_CLAUSES null_node = QueryNode();
-
-		return null_node;
+		return null_node_;
 	}
 }

@@ -6,6 +6,7 @@ enum class QueryNodeType {
 	boolean,
 	tuple,
 	synonym,
+	attr,
 	integer,
 	ident,
 	wild_card, //"_"

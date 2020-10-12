@@ -321,6 +321,9 @@
     <ClInclude Include="..\source\QueryValidator.h">
       <Filter>Header\QP</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\AttributeType.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
