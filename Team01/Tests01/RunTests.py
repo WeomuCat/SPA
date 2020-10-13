@@ -663,9 +663,9 @@ def publish():
             with open(queries_full_path) as q:
                 for line in q:
                     line = line.strip()
-                    if line == "":
-                        break
                     qry_lines.append(line)
+            while qry_lines[-1] == "":
+                qry_lines.pop()
 
         # Replace comment numbers
         count = 1
