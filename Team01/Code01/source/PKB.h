@@ -1,9 +1,6 @@
 #pragma once
 
-class PKB;
-
-#include <memory>
-#include <vector>
+#include "AbstractDataTypes.h"
 #include "PKBBuilder.h"
 #include "PKB/ASTNode/ProgramNode.h"
 #include "PKB/DesignEntities/AssignTable.h"
@@ -23,29 +20,6 @@ class PKB;
 #include "PKB/Relationships/ModifiesTable.h"
 #include "PKB/Relationships/CallsTable.h"
 #include "PKB/Relationships/NextTable.h"
-
-typedef PKBBuilder PKB_BUILDER;
-
-typedef std::shared_ptr<ProgramNode> PROGRAM_NODE_PTR;
-
-typedef AssignTable ASSIGN_TABLE;
-typedef CallTable CALL_TABLE;
-typedef ConstantTable CONSTANT_TABLE;
-typedef IfTable IF_TABLE;
-typedef PrintTable PRINT_TABLE;
-typedef ProcedureTable PROC_TABLE;
-typedef ReadTable READ_TABLE;
-typedef StatementListTable STMT_LIST_TABLE;
-typedef StatementTable STMT_TABLE;
-typedef VariableTable VAR_TABLE;
-typedef WhileTable WHILE_TABLE;
-
-typedef FollowsTable FOLLOWS_TABLE;
-typedef ParentTable PARENT_TABLE;
-typedef UsesTable USES_TABLE;
-typedef ModifiesTable MODIFIES_TABLE;
-typedef CallsTable CALLS_TABLE;
-typedef NextTable NEXT_TABLE;
 
 /* 
 Overview: The PKB that contains design entities and relationships of a given SIMPLE source code 
@@ -194,7 +168,7 @@ public:
     STMT_NUM_LIST getWhileNumList();
 
     /*
-    Description: Returns the STMT_NUM_LIST stored in STATEMENT_TABLE.
+    Description: Returns the STMT_NUM_LIST stored in STMT_TABLE.
                  If there are no elements in the collection, returns an empty
                  STMT_NUM_LIST.
     */
@@ -208,14 +182,14 @@ public:
     CONSTANT_VALUE_LIST getConstantValueList();
 
     /*
-    Description: Returns the PROC_NAME_LIST stored in PROCEDURE_TABLE.
+    Description: Returns the PROC_NAME_LIST stored in PROC_TABLE.
                  If there are no elements in the collection, returns an empty
                  PROC_NAME_LIST.
     */
     PROC_NAME_LIST getProcedureNameList();
 
     /*
-    Description: Returns the VAR_NAME_LIST stored in VARIABLE_TABLE.
+    Description: Returns the VAR_NAME_LIST stored in VAR_TABLE.
                  If there are no elements in the collection, returns an empty
                  VAR_NAME_LIST.
     */

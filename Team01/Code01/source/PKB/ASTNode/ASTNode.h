@@ -1,15 +1,7 @@
 #pragma once
 
-#include <memory>
-#include <vector>
+#include "../../AbstractDataTypes.h"
 #include "NodeTypeEnum.h"
-
-class ASTNode;
-
-typedef std::shared_ptr<ASTNode> AST_NODE_PTR;
-typedef std::vector<std::shared_ptr<ASTNode>> AST_NODE_PTR_LIST;
-typedef bool BOOLEAN_TYPE;
-typedef NodeTypeEnum NODE_TYPE;
 
 class ASTNode {
 

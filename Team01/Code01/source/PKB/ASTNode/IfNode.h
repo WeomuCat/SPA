@@ -1,13 +1,9 @@
 #pragma once
 
-#include <memory>
+#include "../../AbstractDataTypes.h"
 #include "ConditionNode.h"
 #include "StatementListNode.h"
 #include "StatementNode.h"
-
-typedef std::shared_ptr<ConditionNode> CONDITION_NODE_PTR;
-typedef std::shared_ptr<StatementListNode> STMT_LIST_NODE_PTR;
-typedef bool BOOLEAN_TYPE;
 
 class IfNode : public StatementNode, public std::enable_shared_from_this<StatementNode> {
 public:

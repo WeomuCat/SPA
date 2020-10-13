@@ -1,9 +1,8 @@
 #pragma once
 
+#include "../../AbstractDataTypes.h"
 #include "RelationshipTransitiveTable.h"
 #include "RelationshipTransitiveTable.cpp"
-
-typedef int STMT_NUM;
 
 class NextTable : public RelationshipTransitiveTable<STMT_NUM> {
 

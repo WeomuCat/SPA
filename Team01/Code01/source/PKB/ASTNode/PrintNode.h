@@ -1,12 +1,10 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include "PrintNode.h"
+#include "../../AbstractDataTypes.h"
 #include "StatementNode.h"
+#include "PrintNode.h"
 #include "VariableNode.h"
 
-typedef std::shared_ptr<VariableNode> VAR_NODE_PTR;
 typedef std::string STRING;
 typedef bool BOOLEAN_TYPE;
 

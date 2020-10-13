@@ -1,14 +1,8 @@
 #pragma once
 
-#include <memory>
-#include <string>
-
+#include "../../AbstractDataTypes.h"
 #include "ASTNode.h"
 #include "RelationTypeEnum.h"
-
-typedef std::shared_ptr<ASTNode> AST_NODE_PTR;
-typedef RelationTypeEnum RELATION_TYPE;
-typedef bool BOOLEAN_TYPE;
 
 class RelationNode : public ASTNode, public std::enable_shared_from_this<RelationNode> {
 /*RelationNode is ==, !=, <=, >=, <, >*/

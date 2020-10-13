@@ -1,17 +1,13 @@
 #pragma once
 
-#include <memory>
-#include <string>
 #include <typeinfo>
 #include <exception>
+
+#include "../../AbstractDataTypes.h"
 #include "RelationNode.h"
 #include "StatementNode.h"
 #include "ConditionTypeEnum.h"
 
-typedef std::shared_ptr<RelationNode> RELATION_NODE_PTR;
-typedef std::shared_ptr<ASTNode> AST_NODE_PTR;
-typedef ConditionTypeEnum CONDITION_TYPE;
-typedef bool BOOLEAN_TYPE;
 
 class ConditionNode : public ASTNode, public std::enable_shared_from_this<ConditionNode> {
 

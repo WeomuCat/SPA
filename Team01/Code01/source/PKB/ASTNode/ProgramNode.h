@@ -1,14 +1,8 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include <vector>
-#include "ProcedureNode.h"
+#include "../../AbstractDataTypes.h"
 #include "ASTNode.h"
-
-typedef bool BOOLEAN_TYPE;
-typedef std::shared_ptr<ProcedureNode> PROC_NODE_PTR;
-typedef std::vector<PROC_NODE_PTR> PROC_NODE_PTR_LIST;
+#include "ProcedureNode.h"
 
 /*This class is the root node of the AST, also known as the program node*/
 class ProgramNode: public ASTNode, public std::enable_shared_from_this<ProgramNode> {

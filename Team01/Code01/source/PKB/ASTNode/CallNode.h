@@ -1,13 +1,8 @@
 #pragma once
 
-#include <memory>
-#include <string>
+#include "../../AbstractDataTypes.h"
 #include "CallNode.h"
 #include "StatementNode.h"
-
-typedef std::shared_ptr<ProcedureNode> PROC_NODE_PTR;
-typedef std::string PROC_NAME;
-typedef bool BOOLEAN_TYPE;
 
 class CallNode: public StatementNode, public std::enable_shared_from_this<CallNode> {
 

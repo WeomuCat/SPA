@@ -116,7 +116,7 @@ bool QueryEvaluator::findPartialPattern(AST_NODE_PTR ast, std::string search_nam
 		NODE_TYPE node_type = node->getNodeType();
 		if (node_type == NodeTypeEnum::constantNode) {
 			CONSTANT_NODE_PTR n = std::static_pointer_cast<ConstantNode>(node);
-			VALUE node_name = n->getValue();
+			CONSTANT_VALUE node_name = n->getValue();
 			if (node_name.compare(search_name) == 0) {
 				return true;
 			}
