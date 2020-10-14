@@ -35,7 +35,7 @@ procedure thirdore {
     print gold;
     read diamond;
     while (coal - iron != 1111) {
-        iron = lapis * laps - 2222;
+        iron = lapis * lapis - 2222;
         read lapis;
     }
     if (iron == lapis) then {
