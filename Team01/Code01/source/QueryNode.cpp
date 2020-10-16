@@ -38,11 +38,17 @@ void QueryNode::setNodeType(NODE_TYPE_STRING node_type_string) {
 	else if (std::regex_match(node_type_string, std::regex("Parent\\*"))) {
 		this->node_type = QueryNodeType::parentT;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Uses"))) {
+	else if (std::regex_match(node_type_string, std::regex("UsesS"))) {
 		this->node_type = QueryNodeType::usesS;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Modifies"))) {
+	else if (std::regex_match(node_type_string, std::regex("UsesP"))) {
+		this->node_type = QueryNodeType::usesP;
+	}
+	else if (std::regex_match(node_type_string, std::regex("ModifiesS"))) {
 		this->node_type = QueryNodeType::modifiesS;
+	}
+	else if (std::regex_match(node_type_string, std::regex("ModifiesP"))) {
+		this->node_type = QueryNodeType::modifiesP;
 	}
 	else if (std::regex_match(node_type_string, std::regex("Calls"))) {
 		this->node_type = QueryNodeType::calls;

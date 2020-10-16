@@ -242,7 +242,28 @@ QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, RELAT
 	ARGUMENT first_arg, ARGUMENT second_arg) {
 
 	QueryNode relation_node = QueryNode();
-	relation_node.setNodeType((NODE_TYPE_STRING)rel);
+	
+	if (std::regex_match(rel, std::regex("Uses")) || std::regex_match(rel, std::regex("Modifies"))) {
+		if (QueryValidator::isStatementRef(first_arg)) {
+			if (std::regex_match(rel, std::regex("Uses"))) {
+				relation_node.setNodeType("UsesS");
+			}
+			else {
+				relation_node.setNodeType("ModifiesS");
+			}
+		}
+		else {
+			if (std::regex_match(rel, std::regex("Uses"))) {
+				relation_node.setNodeType("UsesP");
+			}
+			else {
+				relation_node.setNodeType("ModifiesP");
+			}
+		}
+	}
+	else {
+		relation_node.setNodeType((NODE_TYPE_STRING)rel);
+	}
 
 	QueryNode first_arg_node = createArgumentNode(proc_s, first_arg);
 	QueryNode second_arg_node = createArgumentNode(proc_s, second_arg);
