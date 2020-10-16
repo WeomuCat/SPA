@@ -1,0 +1,101 @@
+--- procedure pokemon {
+001     print squirtle;
+002     while (charmander != squirtle) {
+003         charmander = 24 + bulbasaur + 21;
+004         read bulbasaur;
+005         bulbasaur = squirtle + 23;
+---     }
+006     if (charmander == 16) then {
+007         print charmander;
+008         call evolve;
+009         charmeleon = charmander;
+010         print charmeleon;
+011         if (charmander == 36) then {
+012             print charmeleon;
+013             call evolveagain;
+014             charizard = charmeleon;
+015             charizard = charmander + charmeleon + 22;
+---         } else {
+016             charmander = 0;
+017             print charizard;
+018             call evolveagain;
+---         }
+019         read charmander;
+020         print charizard;
+---     } else {
+021         charmander = charmander + 1;
+022         read charmander;
+023         ivysaur = 1;
+024         wartortle = 1;
+---     }
+025     if (squirtle <= 16) then {
+026         print venusaur;
+027         call evolve;
+---     } else {
+028         read venusaur;
+029         call evolve;
+---     }
+030     if (bulbasaur > 16) then {
+031         bulbasaur = 21;
+032         call evolve;
+033         print ivysaur;
+---     } else {
+034         call evolveagain;
+035         read wartortle;
+---     }
+036     if ((charmander == 23) && (charizard != blastoise)) then {
+037         blastoise = ivysaur + squirtle;
+038         call evolveagain;
+---     } else {
+039         call evolveagain;
+040         wartortle = 21 + charmeleon;
+---     }
+--- }
+--- 
+--- procedure evolve {
+041     bulbasaur = 23 + 24;
+042     squirtle = 16 + 36;
+043     read bulbasaur;
+044     print squirtle;
+045     while (bulbasaur != (charmeleon + squirtle)) {
+046         squirtle = 36 % 36 - charmeleon;
+047         print wartortle;
+048         read venusaur;
+---     }
+049     read blastoise;
+--- }
+--- 
+--- procedure evolveagain {
+050     while (bulbasaur == 21) {
+051         if (bulbasaur != 36) then {
+052             if (charmander == 36) then {
+053                 if ((squirtle == 36) || (36 + 16 > ivysaur)) then {
+054                     print venusaur;
+055                     read ivysaur;
+---                 } else {
+056                     print blastoise;
+---                 }
+057                 while (blastoise == 23) {
+058                     ivysaur = 24 + ivysaur;
+059                     print bulbasaur;
+---                 }
+---             } else {
+060                 read wartortle;
+061                 print wartortle;
+062                 ivysaur = venusaur % 36;
+---             }
+063             print ivysaur;
+---         } else {
+064             read bulbasaur;
+065             charmander = ivysaur + bulbasaur + charizard;
+---         }
+066         read charizard;
+067         print charizard;
+068         while (charizard < 21) {
+069             venusaur = blastoise + blastoise;
+---         }
+---     }
+070     print bulbasaur;
+071     read charizard;
+072     charizard = 21 + 36 + 22 / venusaur;
+--- }
