@@ -152,11 +152,20 @@ namespace UnitTesting
 			Assert::IsTrue(type == chosen_type);
 		}
 
-		TEST_METHOD(setNodeType_UsesRegex_Success)
+		TEST_METHOD(setNodeType_UsesSRegex_Success)
 		{
 			QueryNode query_node;
 			QueryNodeType chosen_type = { QueryNodeType::usesS };
 			query_node.setNodeType({ "UsesS" });
+			QUERY_NODE_TYPE type = query_node.getNodeType();
+			Assert::IsTrue(type == chosen_type);
+		}
+
+		TEST_METHOD(setNodeType_UsesPRegex_Success)
+		{
+			QueryNode query_node;
+			QueryNodeType chosen_type = { QueryNodeType::usesP };
+			query_node.setNodeType({ "UsesP" });
 			QUERY_NODE_TYPE type = query_node.getNodeType();
 			Assert::IsTrue(type == chosen_type);
 		}
@@ -169,6 +178,52 @@ namespace UnitTesting
 			QUERY_NODE_TYPE type = query_node.getNodeType();
 			Assert::IsTrue(type == chosen_type);
 		}
+
+		TEST_METHOD(setNodeType_ModifiesPRegex_Success)
+		{
+			QueryNode query_node;
+			QueryNodeType chosen_type = { QueryNodeType::modifiesP };
+			query_node.setNodeType({ "ModifiesP" });
+			QUERY_NODE_TYPE type = query_node.getNodeType();
+			Assert::IsTrue(type == chosen_type);
+		}
+
+		TEST_METHOD(setNodeType_CallsRegex_Success)
+		{
+			QueryNode query_node;
+			QueryNodeType chosen_type = { QueryNodeType::calls };
+			query_node.setNodeType({ "Calls" });
+			QUERY_NODE_TYPE type = query_node.getNodeType();
+			Assert::IsTrue(type == chosen_type);
+		}
+
+		TEST_METHOD(setNodeType_CallsTRegex_Success)
+		{
+			QueryNode query_node;
+			QueryNodeType chosen_type = { QueryNodeType::callsT };
+			query_node.setNodeType({ "Calls*" });
+			QUERY_NODE_TYPE type = query_node.getNodeType();
+			Assert::IsTrue(type == chosen_type);
+		}
+
+		TEST_METHOD(setNodeType_NextRegex_Success)
+		{
+			QueryNode query_node;
+			QueryNodeType chosen_type = { QueryNodeType::next };
+			query_node.setNodeType({ "Next" });
+			QUERY_NODE_TYPE type = query_node.getNodeType();
+			Assert::IsTrue(type == chosen_type);
+		}
+
+		TEST_METHOD(setNodeType_NextTRegex_Success)
+		{
+			QueryNode query_node;
+			QueryNodeType chosen_type = { QueryNodeType::nextT };
+			query_node.setNodeType({ "Next*" });
+			QUERY_NODE_TYPE type = query_node.getNodeType();
+			Assert::IsTrue(type == chosen_type);
+		}
+
 		TEST_METHOD(setSynonymNode_AssignA_Success) {
 			QueryNode query_node;
 			QuerySynonymType chosen_synonym = { QuerySynonymType::assign };

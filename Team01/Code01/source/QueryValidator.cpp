@@ -14,6 +14,7 @@ const std::regex clause_relation_format_("(Follows|Follows\\*|Parent|Parent\\*|U
 const std::regex clause_pattern_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*(_\\s*\"\\s*[^\\s].*\\s*\"\\s*_|_)\\s*\\)");
 const std::regex stmt_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
 const std::regex ent_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\")");
+const std::regex line_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
 const std::regex expression_spec_format_("(_\\s*\"\\s*([a-zA-Z][a-zA-Z0-9]*|[0-9]+)\\s*\"\\s*_|_)");
 
 /*
@@ -229,7 +230,7 @@ List of synonyms that return line refernces:
 	- prog_line
 */
 VALIDATION_RESULT QueryValidator::isLineRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
-	if (!std::regex_match(a, ent_ref_format_)) {
+	if (!std::regex_match(a, line_ref_format_)) {
 		return false;
 	}
 	else if (a.compare("_") == 0) {
@@ -306,14 +307,17 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		}
 	}
 	else if (rel.compare("Uses") == 0) {
-		if (std::regex_match(first_arg, std::regex("_"))) {
+		if (first_arg.compare("_") == 0) {
 			return false;
 		}
-		else if (!std::regex_match(first_arg, stmt_ref_format_) || !std::regex_match(second_arg, ent_ref_format_)) {
+		else if (!std::regex_match(first_arg, stmt_ref_format_) && !std::regex_match(first_arg, ent_ref_format_)) {
+			return false;
+		}
+		else if (!std::regex_match(second_arg, ent_ref_format_)) {
 			return false;
 		}
 		else if (std::regex_match(first_arg, name_format_)) {
-			if (std::regex_match(second_arg, std::regex("_"))) {
+			if (second_arg.compare("_") == 0) {
 				return true;
 			}
 			else if (std::regex_match(second_arg, identity_format_)) {
@@ -345,14 +349,17 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		}
 	}
 	else if (rel.compare("Modifies") == 0) {
-		if (std::regex_match(first_arg, std::regex("_"))) {
+		if (first_arg.compare("_") == 0) {
 			return false;
 		}
-		else if (!std::regex_match(first_arg, stmt_ref_format_) || !std::regex_match(second_arg, ent_ref_format_)) {
+		else if (!std::regex_match(first_arg, stmt_ref_format_) && !std::regex_match(first_arg, ent_ref_format_)) {
+			return false;
+		}
+		else if (!std::regex_match(second_arg, ent_ref_format_)) {
 			return false;
 		}
 		else if (std::regex_match(first_arg, name_format_)) {
-			if (std::regex_match(second_arg, std::regex("_"))) {
+			if (second_arg.compare("_") == 0) {
 				return true;
 			}
 			else if (std::regex_match(second_arg, identity_format_)) {
@@ -384,10 +391,16 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		}
 	}
 	else if (rel.compare("Calls") == 0 || rel.compare("Calls*") == 0) {
-		if (!isEntityRef(proc_s, first_arg) || proc_s.find(second_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+		if (!isEntityRef(proc_s, first_arg)) {
 			return false;
 		}
-		else if (!isEntityRef(proc_s, second_arg) || proc_s.find(second_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+		else if (!isEntityRef(proc_s, second_arg)) {
+			return false;
+		}
+		if (std::regex_match(first_arg, name_format_) && proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+			return false;
+		}
+		else if (std::regex_match(second_arg, name_format_) && proc_s.find(second_arg)->second.getSynonymType() == QuerySynonymType::variable) {
 			return false;
 		}
 		else {

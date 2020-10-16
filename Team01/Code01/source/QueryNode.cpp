@@ -110,7 +110,7 @@ void QueryNode::setSynonymNode(SYNONYM_TYPE_STRING synonym_type_string, SYNONYM_
 	else if (synonym_type_string.compare("print") == 0) {
 		this->synonym_type = QuerySynonymType::print;
 	}
-	else if (synonym_type_string.compare("calll") == 0) {
+	else if (synonym_type_string.compare("call") == 0) {
 		this->synonym_type = QuerySynonymType::call;
 	}
 	else if (synonym_type_string.compare("while") == 0) {
