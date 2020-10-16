@@ -1,0 +1,41 @@
+--- procedure main {
+001     a = 1;
+002     b = a;
+003     c = d;
+004     read a;
+005     if (a != 0) then {
+006         a = a + b + c + d + e;
+007         if (c == b) then {
+008             a = 5;
+009             print a;
+---         } else {
+010             f = e / d + 5 * a;
+011             print f;
+---         }
+---     } else {
+012         while (a != b) {
+013             read c;
+014             c = a + b / 8;
+015             print c;
+016             while (a >= b) {
+017                 read e;
+018                 if (a < 0) then {
+019                     print e;
+---                 } else {
+020                     c = a - e * 5;
+021                     if (c > e) then {
+022                         read a;
+023                         a = 1 * a + b / 2 * 4;
+024                         print d;
+---                     } else {
+025                         b = (1 * a + 2 * c + 3 * d + 4 * e) / 4;
+---                     }
+026                     a = b / 2 + 1;
+---                 }
+027                 print a;
+028                 print b;
+---             }
+---         }
+029         print d;
+---     }
+--- }

@@ -1,0 +1,141 @@
+--- procedure Life {
+001     while (1 == 1) {
+002         time = time + 1;
+003         seconds = time % 60;
+004         minutes = (time / 60) % 60;
+005         hours = (time / 60 / 60) % 24;
+006         age = time / 60 / 60 / 24 / 365;
+007         if (sleeping == 1) then {
+008             tired = tired - 1;
+009             if (tired <= 20) then {
+010                 sleeping = 0;
+---             } else {
+011                 print sleeping;
+---             }
+---         } else {
+012             tired = tired + 1;
+013             if (tired > 80) then {
+014                 sleeping = 1;
+---             } else {
+015                 print null;
+---             }
+016             if (drinking == 1) then {
+017                 thirst = thirst - 5;
+018                 if (thirst <= 0) then {
+019                     drinking = 0;
+---                 } else {
+020                     print drinking;
+---                 }
+---             } else {
+021                 thirst = thirst + 1;
+022                 if (thirst > 50) then {
+023                     drinking = 1;
+---                 } else {
+024                     print null;
+---                 }
+025                 if (eating == 1) then {
+026                     happiness = happiness + 1;
+027                     hunger = hunger - 1;
+028                     thirst = thirst + 5;
+029                     if (hunger <= 0) then {
+030                         eating = 0;
+---                     } else {
+031                         print eating;
+---                     }
+---                 } else {
+032                     hunger = hunger + 1;
+033                     boredom = boredom + 1;
+034                     if (hunger > 50) then {
+035                         eating = 1;
+---                     } else {
+036                         print null;
+---                     }
+037                     while (crying == 1) {
+038                         sadness = sadness - 1;
+039                         time = time + 10;
+040                         if (sadness <= 0) then {
+041                             happiness = 10;
+042                             crying = 0;
+---                         } else {
+043                             print crying;
+---                         }
+---                     }
+044                     if ((age >= 3) && (age <= 12)) then {
+045                         if (playing == 1) then {
+046                             happiness = happiness + 1;
+047                             if (tired > 100) then {
+048                                 playing = 0;
+---                             } else {
+049                                 print playing;
+---                             }
+---                         } else {
+050                             playing = 1;
+---                         }
+---                     } else {
+051                         if ((age >= 13) && (age <= 22)) then {
+052                             messages = messages + 1;
+053                             while ((playing == 1) || (drawing == 1)) {
+054                                 happiness = happiness + 1;
+055                                 boredom = boredom - 1;
+056                                 tired = tired + 1;
+057                                 time = time + 10;
+058                                 if (boredom <= 0) then {
+059                                     boredom = 0;
+---                                 } else {
+060                                     print null;
+---                                 }
+061                                 if (tired > 50) then {
+062                                     drawing = 0;
+063                                     if (tired > 100) then {
+064                                         playing = 0;
+---                                     } else {
+065                                         print playing;
+---                                     }
+---                                 } else {
+066                                     print drawing;
+---                                 }
+---                             }
+067                             if ((studying == 1) || (reading == 1)) then {
+068                                 read lecture;
+069                                 read tutorial;
+070                                 read assignment;
+071                                 happiness = 0;
+072                                 motivation = 0;
+073                                 reading = 0;
+074                                 studying = 0;
+---                             } else {
+075                                 if (minutes == 0) then {
+076                                     motivation = motivation + 1;
+---                                 } else {
+077                                     print null;
+---                                 }
+078                                 if (motivation > 100) then {
+079                                     reading = 1;
+080                                     studying = 1;
+---                                 } else {
+081                                     while (messages > 0) {
+082                                         read message;
+083                                         happiness = happiness + 1;
+084                                         time = time + 10;
+085                                         messages = messages - 1;
+---                                     }
+---                                 }
+---                             }
+---                         } else {
+086                             if ((age >= 23) && (age <= 99)) then {
+087                                 boredom = boredom + 5;
+088                                 happiness = 0;
+089                                 motivation = 0;
+090                                 sadness = sadness + 5;
+091                                 tired = tired + 5;
+092                                 money = money + 5;
+---                             } else {
+093                                 print null;
+---                             }
+---                         }
+---                     }
+---                 }
+---             }
+---         }
+---     }
+--- }
