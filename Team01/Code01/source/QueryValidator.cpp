@@ -153,7 +153,7 @@ VALIDATION_RESULT QueryValidator::isStatementRef(PROCESSED_SYNONYMS proc_s, ARGU
 	if (!std::regex_match(a, stmt_ref_format_)) {
 		return false;
 	}
-	else if (std::regex_match(a, std::regex("_"))) {
+	else if (a.compare("_") == 0) {
 		return true;
 	}
 	else if (std::regex_match(a, integer_format_)) {
@@ -202,7 +202,7 @@ VALIDATION_RESULT QueryValidator::isEntityRef(PROCESSED_SYNONYMS proc_s, ARGUMEN
 	if (!std::regex_match(a, ent_ref_format_)) {
 		return false;
 	}
-	else if (std::regex_match(a, std::regex("_"))) {
+	else if (a.compare("_") == 0) {
 		return true;
 	}
 	else if (std::regex_match(a, identity_format_)) {
@@ -232,7 +232,7 @@ VALIDATION_RESULT QueryValidator::isLineRef(PROCESSED_SYNONYMS proc_s, ARGUMENT 
 	if (!std::regex_match(a, ent_ref_format_)) {
 		return false;
 	}
-	else if (std::regex_match(a, std::regex("_"))) {
+	else if (a.compare("_") == 0) {
 		return true;
 	}
 	else if (std::regex_match(a, integer_format_)) {
@@ -283,7 +283,7 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		return false;
 	}
 
-	if (std::regex_match(rel, std::regex("Follows")) || std::regex_match(rel, std::regex("Follows\\*"))) {
+	if (rel.compare("Follows") == 0 || rel.compare("Follows*") == 0) {
 		if (!isStatementRef(proc_s, first_arg)) {
 			return false;
 		}
@@ -294,7 +294,7 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 			return true;
 		}
 	}
-	else if (std::regex_match(rel, std::regex("Parent")) || std::regex_match(rel, std::regex("Parent\\*"))) {
+	else if (rel.compare("Parent") == 0 || rel.compare("Parent*") == 0) {
 		if (!isStatementRef(proc_s, first_arg)) {
 			return false;
 		}
@@ -305,7 +305,7 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 			return true;
 		}
 	}
-	else if (std::regex_match(rel, std::regex("Uses"))) {
+	else if (rel.compare("Uses") == 0) {
 		if (std::regex_match(first_arg, std::regex("_"))) {
 			return false;
 		}
@@ -344,7 +344,7 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 			return true;
 		}
 	}
-	else if (std::regex_match(rel, std::regex("Modifies"))) {
+	else if (rel.compare("Modifies") == 0) {
 		if (std::regex_match(first_arg, std::regex("_"))) {
 			return false;
 		}
@@ -383,7 +383,7 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 			return true;
 		}
 	}
-	else if (std::regex_match(rel, std::regex("Calls")) || std::regex_match(rel, std::regex("Calls\\*"))) {
+	else if (rel.compare("Calls") == 0 || rel.compare("Calls*") == 0) {
 		if (!isEntityRef(proc_s, first_arg) || proc_s.find(second_arg)->second.getSynonymType() == QuerySynonymType::variable) {
 			return false;
 		}
@@ -394,7 +394,7 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 			return true;
 		}
 	}
-	else if (std::regex_match(rel, std::regex("Next")) || std::regex_match(rel, std::regex("Next\\*"))) {
+	else if (rel.compare("Next") == 0 || rel.compare("Next*") == 0) {
 	if (!isLineRef(proc_s, first_arg)) {
 		return false;
 	}
