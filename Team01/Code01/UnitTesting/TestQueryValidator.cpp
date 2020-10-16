@@ -299,7 +299,7 @@ namespace UnitTesting
 			Assert::IsFalse(QueryValidator::isValidRelationFormat(r6));
 		}
 
-		TEST_METHOD(isStatementArgument_Valid_Success) {
+		TEST_METHOD(isStatementRef_Valid_Success) {
 			PROCESSED_SYNONYMS proc_s;
 
 			QueryNode stmt_s = QueryNode();
@@ -335,17 +335,17 @@ namespace UnitTesting
 			ARGUMENT arg7 = "ifs";
 			ARGUMENT arg8 = "a";
 
-			Assert::IsTrue(QueryValidator::isStatementArgument(proc_s, arg1));
-			Assert::IsTrue(QueryValidator::isStatementArgument(proc_s, arg2));
-			Assert::IsTrue(QueryValidator::isStatementArgument(proc_s, arg3));
-			Assert::IsTrue(QueryValidator::isStatementArgument(proc_s, arg4));
-			Assert::IsTrue(QueryValidator::isStatementArgument(proc_s, arg5));
-			Assert::IsTrue(QueryValidator::isStatementArgument(proc_s, arg6));
-			Assert::IsTrue(QueryValidator::isStatementArgument(proc_s, arg7));
-			Assert::IsTrue(QueryValidator::isStatementArgument(proc_s, arg8));
+			Assert::IsTrue(QueryValidator::isStatementRef(proc_s, arg1));
+			Assert::IsTrue(QueryValidator::isStatementRef(proc_s, arg2));
+			Assert::IsTrue(QueryValidator::isStatementRef(proc_s, arg3));
+			Assert::IsTrue(QueryValidator::isStatementRef(proc_s, arg4));
+			Assert::IsTrue(QueryValidator::isStatementRef(proc_s, arg5));
+			Assert::IsTrue(QueryValidator::isStatementRef(proc_s, arg6));
+			Assert::IsTrue(QueryValidator::isStatementRef(proc_s, arg7));
+			Assert::IsTrue(QueryValidator::isStatementRef(proc_s, arg8));
 		}
 
-		TEST_METHOD(isStatementArgument_Invalid_Success) {
+		TEST_METHOD(isStatementRef_Invalid_Success) {
 			PROCESSED_SYNONYMS proc_s;
 
 			QueryNode var_v = QueryNode();
@@ -364,9 +364,9 @@ namespace UnitTesting
 			ARGUMENT arg2 = "c";
 			ARGUMENT arg3 = "p";
 
-			Assert::IsFalse(QueryValidator::isStatementArgument(proc_s, arg1));
-			Assert::IsFalse(QueryValidator::isStatementArgument(proc_s, arg2));
-			Assert::IsFalse(QueryValidator::isStatementArgument(proc_s, arg3));
+			Assert::IsFalse(QueryValidator::isStatementRef(proc_s, arg1));
+			Assert::IsFalse(QueryValidator::isStatementRef(proc_s, arg2));
+			Assert::IsFalse(QueryValidator::isStatementRef(proc_s, arg3));
 		}
 
 		TEST_METHOD(isValidRelationArguments_Follows_Valid_Success) {

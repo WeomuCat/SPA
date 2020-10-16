@@ -284,10 +284,10 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 	}
 
 	if (std::regex_match(rel, std::regex("Follows")) || std::regex_match(rel, std::regex("Follows\\*"))) {
-		if (!isStatementArgument(proc_s, first_arg)) {
+		if (!isStatementRef(proc_s, first_arg)) {
 			return false;
 		}
-		else if (!isStatementArgument(proc_s, second_arg)) {
+		else if (!isStatementRef(proc_s, second_arg)) {
 			return false;
 		}
 		else {
@@ -295,10 +295,10 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		}
 	}
 	else if (std::regex_match(rel, std::regex("Parent")) || std::regex_match(rel, std::regex("Parent\\*"))) {
-		if (!isStatementArgument(proc_s, first_arg)) {
+		if (!isStatementRef(proc_s, first_arg)) {
 			return false;
 		}
-		else if (!isStatementArgument(proc_s, second_arg)) {
+		else if (!isStatementRef(proc_s, second_arg)) {
 			return false;
 		}
 		else {

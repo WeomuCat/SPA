@@ -156,7 +156,7 @@ namespace UnitTesting
 		{
 			QueryNode query_node;
 			QueryNodeType chosen_type = { QueryNodeType::usesS };
-			query_node.setNodeType({ "Uses" });
+			query_node.setNodeType({ "UsesS" });
 			QUERY_NODE_TYPE type = query_node.getNodeType();
 			Assert::IsTrue(type == chosen_type);
 		}
@@ -165,7 +165,7 @@ namespace UnitTesting
 		{
 			QueryNode query_node;
 			QueryNodeType chosen_type = { QueryNodeType::modifiesS };
-			query_node.setNodeType({ "Modifies" });
+			query_node.setNodeType({ "ModifiesS" });
 			QUERY_NODE_TYPE type = query_node.getNodeType();
 			Assert::IsTrue(type == chosen_type);
 		}

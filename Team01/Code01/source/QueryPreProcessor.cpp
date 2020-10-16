@@ -244,7 +244,7 @@ QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, RELAT
 	QueryNode relation_node = QueryNode();
 	
 	if (std::regex_match(rel, std::regex("Uses")) || std::regex_match(rel, std::regex("Modifies"))) {
-		if (QueryValidator::isStatementRef(first_arg)) {
+		if (QueryValidator::isStatementRef(proc_s, first_arg)) {
 			if (std::regex_match(rel, std::regex("Uses"))) {
 				relation_node.setNodeType("UsesS");
 			}
