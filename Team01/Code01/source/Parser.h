@@ -38,13 +38,14 @@ private:
 	void parseWhile();
 	void parseIfThen();
 	void parseElse();
-	//int parseCall(STRING str);
+	void parseCall();
 	void parseStmtListClose();
 
 	STRING getNextToken(FILE_ITER_PTR iter, FILE_ITER eos);
 
 	PROGRAM_NODE_PTR program_node_;
 	AST_NODE_PTR current_parent_node_;
+	PROC_NODE_PTR current_parent_proc_node_;
 	PKBBuilder pkb_builder_;
 
 	STMT_TOKEN_QUEUE stmt_token_queue_;

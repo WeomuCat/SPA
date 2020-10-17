@@ -2280,6 +2280,9 @@
 
 		std::static_pointer_cast<ProgramNode>(this->current_parent_node_)->addProcedureNode(new_procedure_node);
 
+		//Change parent procedure tracker to new_procedure_node
+		this->current_parent_proc_node_ = new_procedure_node;
+
 		//change parent tracker to stmtlistnode_ptr
 		this->current_parent_node_ = new_stmt_list_node;
 		
@@ -2288,11 +2291,65 @@
 		this->pkb_builder_.addStatementListNode(new_stmt_list_node);
 	}
 
-	/*
-	void Parser::parseCall(STRING str) {
+	
+	void Parser::parseCall() {
 		//We assume that this statement will terminate with ';'
+		//We take in two tokens, expecting a NAME and a ';'
+		if (this->stmt_token_queue_.front() != "call") {
+			throw "Error: Expected 'call' terminal but was not found.";
+		}
+		this->stmt_token_queue_.pop_front(); // Remove stmt type token
+
+		STRING name_token = this->process_token_stream_.front(); //Retrieves potential procedure name token
+		this->process_token_stream_.pop_front(); // Pops out NAME token
+		if (!isalpha(name_token.at(0))) {
+			throw "Error: Expected NAME token but was not found.";
+		}
+
+		if (this->process_token_stream_.front() != ";") {
+			throw "Error: Expected ';' terminal but was not found.";
+		}
+		this->process_token_stream_.pop_front(); // Pops out ';'
+
+		//Construct new_call_node
+		std::shared_ptr<CallNode> new_call_node = std::make_shared<CallNode>();
+		
+		new_call_node->setCallerProcedureName(this->current_parent_proc_node_->getProcedureName());
+		new_call_node->setCalleeProcedureName(name_token);
+
+		//Set PrintNode stmt_num
+		this->stmt_num_++;
+		new_call_node->setStatementNumber(this->stmt_num_);
+
+		std::static_pointer_cast<StatementListNode>(this->current_parent_node_)->addStatementNode(new_call_node);
+		new_call_node->setStatementListNode(std::static_pointer_cast<StatementListNode>(this->current_parent_node_));
+
+		//Need to add new_call_node PKB tables
+		this->pkb_builder_.addStatementNode(new_call_node);
+		this->pkb_builder_.addCallNode(new_call_node);
+
+		//add Calls relationship to PKB table
+		this->pkb_builder_.addCalls(new_call_node->getCallerProcedureName(), new_call_node->getCalleeProcedureName());
+
+		//add Parent relationship if this->current_parent_node_->getParentNode() is not procedureNode
+		if (this->current_parent_node_->getParentNode()->getNodeType() != NodeTypeEnum::procedureNode) {
+			this->pkb_builder_.addParent(std::static_pointer_cast<StatementNode>(this->current_parent_node_->getParentNode())->getStatementNumber()
+				, new_call_node->getStatementNumber());
+		}
+
+		//add Follows relationship if this statement is not the first statement of this->current_parent_node_
+		if (new_call_node != std::static_pointer_cast<StatementListNode>(this->current_parent_node_)->getStatementNodeList().at(0)) {
+			int this_stmt_num = new_call_node->getStatementNumber();
+			STMT_LIST_NODE_PTR stmtList = std::static_pointer_cast<StatementListNode>(this->current_parent_node_);
+			STMT_NODE_PTR prevStmt = std::static_pointer_cast<StatementNode>(stmtList->getChildrenNode().end()[-2]);
+
+			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
+				, new_call_node->getStatementNumber());
+			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
+				, new_call_node->getStatementNumber());
+		}
 	}
-	*/
+	
 
 	void Parser::parseStmtListClose() {	
 		//Method 2: accounts for container statements
