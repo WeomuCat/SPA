@@ -208,7 +208,6 @@
 			PROC_NAME caller_proc = c_ptr->getCallerProcedureName();
 			PROC_NAME callee_proc = c_ptr->getCalleeProcedureName();
 
-			//std::set<PROC_NAME> called_neighbours = proc_call_graph[caller_proc];
 			proc_call_graph[caller_proc].insert(callee_proc);
 			
 			called_procs.insert(callee_proc);
@@ -235,8 +234,96 @@
 			sorted_procs.pop_front();
 		}
 		
-		//Remove any procedures that are not called
 		//
+		while (!sorted_procs.empty()) {
+			PROC_NAME caller_proc_name = sorted_procs.front();
+			sorted_procs.pop_front();
+			
+			if (called_procs.count(caller_proc_name) != 0) {
+				//Find proc_node
+				PROC_NODE_PTR proc_node_ptr;
+				for (PROC_NODE_PTR p_ptr : this->pkb_builder_.getProcedures()) {
+					if (p_ptr->getProcedureName().compare(caller_proc_name) == 0) {
+						proc_node_ptr = p_ptr;
+						break;
+					}
+				}
+				std::set<STRING> used_vars_set;
+				std::set<STRING> modified_vars_set;
+				
+				//Populate set of Used Vars
+				//Populate set of ModifiedVars
+				for (VAR_NODE_PTR v_ptr : this->pkb_builder_.getVariables()) {
+					if (this->pkb_builder_.isUses(proc_node_ptr->getProcedureName(), v_ptr->getVariableName())) {
+						used_vars_set.insert(v_ptr->getVariableName());
+					}
+					if (this->pkb_builder_.isModifies(proc_node_ptr->getProcedureName(), v_ptr->getVariableName())) {
+						modified_vars_set.insert(v_ptr->getVariableName());
+					}
+				}
+
+				//For each callnode in getCalls() that callee ==caller_proc_name
+				for (CALL_NODE_PTR c_ptr : this->pkb_builder_.getCalls()) {
+					if (c_ptr->getCalleeProcedureName().compare(caller_proc_name) == 0) {
+						//Set Uses/Modifies Relationship for call statement for all vars
+						for (VAR_NAME v_name : used_vars_set) {
+							this->pkb_builder_.addUses(c_ptr->getStatementNumber(), v_name);
+						}
+						for (VAR_NAME v_name : modified_vars_set) {
+							this->pkb_builder_.addModifies(c_ptr->getStatementNumber(), v_name);
+						}
+						
+						//Set Uses Relationship for all containers of this statement by going up 2 steps until we hit ProcedureNode.
+						std::shared_ptr<ASTNode> curr_container = c_ptr->getParentNode()->getParentNode();
+						STMT_NUM curr_stmtnum = 0;
+						while (curr_container->getNodeType() != NodeTypeEnum::procedureNode) {
+							//Get stmt number of container
+							if (curr_container->getNodeType() == NodeTypeEnum::whileNode) {
+								curr_stmtnum = std::static_pointer_cast<WhileNode>(curr_container)->getStatementNumber();
+							}
+							else if (curr_container->getNodeType() == NodeTypeEnum::ifNode) {
+								curr_stmtnum = std::static_pointer_cast<IfNode>(curr_container)->getStatementNumber();
+							}
+							
+							//Set Uses/Modifies Relationship for this statement for all vars
+							for (VAR_NAME v_name : used_vars_set) {
+								this->pkb_builder_.addUses(curr_stmtnum, v_name);
+							}
+							for (VAR_NAME v_name : modified_vars_set) {
+								this->pkb_builder_.addModifies(curr_stmtnum, v_name);
+							}
+
+							//Check if can go up 2 steps
+							if (curr_container->getParentNode()->getParentNode() == NULL) {
+								//Throw exception if cant
+								throw "Exception in parseWhile: curr_container missing grandparent node.";
+							}
+							else {
+								//curr_container = go up 2 steps
+								curr_container = curr_container->getParentNode()->getParentNode();
+							}
+						}
+						//call addUses for procedureNode
+						if (curr_container->getNodeType() != NodeTypeEnum::procedureNode) {
+							//Throw exception if cant
+							throw "Exception in parseWhile: curr_container should be ProcedureNode.";
+						}
+						else {
+							//Set Uses/Modifies Relationship for ProcedureNode for all vars 
+							PROC_NAME caller_name = std::static_pointer_cast<ProcedureNode>(curr_container)->getProcedureName();
+
+							
+							for (VAR_NAME v_name : used_vars_set) {
+								this->pkb_builder_.addUses(caller_name, v_name);
+							}
+							for (VAR_NAME v_name : modified_vars_set) {
+								this->pkb_builder_.addModifies(caller_name, v_name);
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		PKB pkb = this->pkb_builder_.build();
 		
