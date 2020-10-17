@@ -25,7 +25,7 @@ Select <v1, v2> such that Modifies (p1, v1) and Modifies (p2, v2) and Calls (p1,
 5000
 6 - Calls*, Calls*
 procedure p1, p2, p3;
-Select p1.procNmae such that Calls* (p1.procName, p2.procName) and Calls* (p2.procName, p3.procName) with p2.procName = "thirdore"
+Select p1.procNmae such that Calls* (p1, p2) and Calls* (p2, p3) with p2.procName = "thirdore"
 secondore
 5000
 7 - Follows*, Uses, Next*
@@ -43,8 +43,8 @@ stmt s1, s2;
 Select s1 such that Follows* (s1, s2) and Next* (s2, s1) with s2.stmt# = 38
 37
 5000
-10 - Next*, Next*, Calls
-stmt s1, s2; call c1; procedure p;
-Select c.procName such that Next* (s1, s2) and Next* (s2, c) and Calls(c1.procName, p) with s1.stmt# = 11
-thirdore, fourthore
+10 - Next*, Next*
+stmt s1, s2; call c; procedure p;
+Select c.procName such that Next* (s1, s2) and Next* (s2, c) with s1.stmt# = 11
+thirdore, fourthore, fifthore
 5000
