@@ -116,8 +116,80 @@
 			throw "Unexpected Token Encountered.";
 		}
 
+
+		// Add remaining next relationships to NextTable
+
+		// Remaining Next Relationships for WhileNodes
+		WHILE_NODE_PTR_LIST while_node_ptrs = this->pkb_builder_.getWhiles();
+		STMT_NODE_PTR whileblock_firststmt;
+		STMT_NODE_PTR whileblock_laststmt;
+		STMT_NODE_PTR stmt_after_while_block;
+
+		for (WHILE_NODE_PTR w_ptr : while_node_ptrs) {
+			STMT_NODE_PTR whileblock_firststmt = w_ptr->getWhileStatementListNode()->getStatementNodeList().front();
+			this->pkb_builder_.addNext(w_ptr->getStatementNumber(), whileblock_firststmt->getStatementNumber());
+			
+			STMT_NODE_PTR whileblock_laststmt = w_ptr->getWhileStatementListNode()->getStatementNodeList().back();
+			this->pkb_builder_.addNext(whileblock_laststmt->getStatementNumber(), w_ptr->getStatementNumber());
+
+			STMT_LIST_NODE_PTR_LIST nodes_in_parent_stmt_lst = w_ptr->getParentStatementListNode()->getStatementNodeList();
+			//Find stmt after while stmt
+			//No such stmt if while stmt is last stmt
+			int i = 0;
+			// Iterate all nodes in parent stmt list until while stmt node is found.
+			while (i < (nodes_in_parent_stmt_lst.size() + 1) && !(nodes_in_parent_stmt_lst[i] != w_ptr)) {
+				i++;
+			}
+			//Get stmt after while stmt and set relationship
+			if (i < (nodes_in_parent_stmt_lst.size() + 1)) {
+				i = i + 1;
+				stmt_after_while_block = nodes_in_parent_stmt_lst[i];
+				this->pkb_builder_.addNext(w_ptr->getStatementNumber(), stmt_after_while_block->getStatementNumber());
+			}
+		}
+		// Remaining Next Relationships for IfNodes
+		IF_NODE_PTR_LIST if_node_ptrs = this->pkb_builder_.getIfs();
+		STMT_NODE_PTR ifblock_firststmt;
+		STMT_NODE_PTR ifblock_laststmt;
+		STMT_NODE_PTR elseblock_firststmt;
+		STMT_NODE_PTR elseblock_laststmt;
+		STMT_NODE_PTR stmt_after_if_block;
+
+		for (IF_NODE_PTR if_ptr : if_node_ptrs) {
+			STMT_NODE_PTR ifblock_firststmt = if_ptr->getThenStatementListNode()->getStatementNodeList().front();
+			this->pkb_builder_.addNext(if_ptr->getStatementNumber(), ifblock_firststmt->getStatementNumber());
+			
+			STMT_NODE_PTR elseblock_laststmt = if_ptr->getElseStatementListNode()->getStatementNodeList().front();
+			this->pkb_builder_.addNext(if_ptr->getStatementNumber(), elseblock_laststmt->getStatementNumber());
+
+
+
+			STMT_LIST_NODE_PTR_LIST nodes_in_parent_stmt_lst = if_ptr->getParentStatementListNode()->getStatementNodeList();
+			//Find stmt after if stmt
+			//No such stmt if if stmt is last stmt
+			int i = 0;
+			// Iterate all nodes in parent stmt list until while stmt node is found.
+			while (i < (nodes_in_parent_stmt_lst.size() + 1) && !(nodes_in_parent_stmt_lst[i] != w_ptr)) {
+				i++;
+			}
+			//Get stmt after if stmt and set relationship
+			if (i < (nodes_in_parent_stmt_lst.size() + 1)) {
+				i = i + 1;
+				stmt_after_while_block = nodes_in_parent_stmt_lst[i];
+				//Last stmts are dependent on the stmt_after_if_block existing
+				STMT_NODE_PTR ifblock_laststmt = if_ptr->getThenStatementListNode()->getStatementNodeList().back();
+				STMT_NODE_PTR elseblock_laststmt = if_ptr->getElseStatementListNode()->getStatementNodeList().back();
+				this->pkb_builder_.addNext(ifblock_laststmt->getStatementNumber(), stmt_after_while_block->getStatementNumber());
+				this->pkb_builder_.addNext(elseblock_laststmt->getStatementNumber(), stmt_after_while_block->getStatementNumber());
+			}
+			
+		}
+
+
 		PKB pkb = this->pkb_builder_.build();
 		
+
+
 		return pkb;
 	}
 
@@ -860,6 +932,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_while_node->getStatementNumber());
+			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
+				, new_while_node->getStatementNumber());
 		}
 
 		//add Uses Relationship for all vars
@@ -1520,6 +1594,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_if_node->getStatementNumber());
+			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
+				, new_while_node->getStatementNumber());
 		}
 
 		//add Uses Relationship for all vars
@@ -1892,6 +1968,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_assign_node->getStatementNumber());
+			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
+				, new_while_node->getStatementNumber());
 		}
 
 		//add Modifies Relationship for this statement
@@ -2029,6 +2107,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_read_node->getStatementNumber());
+			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
+				, new_while_node->getStatementNumber());
 		}
 
 		//Set Modifies Relationship for this statement
@@ -2124,6 +2204,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_print_node->getStatementNumber());
+			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
+				, new_while_node->getStatementNumber());
 		}
 
 		//Set Uses Relationship for this statement
