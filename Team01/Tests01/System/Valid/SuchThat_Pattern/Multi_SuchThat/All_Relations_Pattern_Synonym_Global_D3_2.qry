@@ -5,7 +5,7 @@ seventh
 5000
 2 - Follows and Parent
 assign a; while w;
-Select a such that Follows (w, _) and Parent (w, a) pattern w (nana, _) and pattern a (_, _"2"_)
+Select a.stmt# such that Follows (w, _) and Parent (w, a) pattern w (nana, _) and pattern a (_, _"2"_)
 44, 46
 3 - Follows* and Modifies
 if i; variable v;
@@ -29,7 +29,7 @@ Select <i, w> such that Parent (i, w) and Parent* (i, 26) pattern w ("yon", _) a
 5000
 7 - Parent* and Modifies and Uses
 while w; if i; stmt s; variable v;
-Select v such that Parent* (w, s) and Modifies (i, v) and Uses (s, v) pattern w ("ichi", _) and pattern i ("go", _, _)
+Select v.varName such that Parent* (w, s) and Modifies (i, v) and Uses (s, v) pattern w ("ichi", _) and pattern i ("go", _, _)
 zero, ichi, ni, go, roku, nana, hachi, kyuu
 5000
 8 - Modifies and Modfies and Modifies
@@ -44,12 +44,12 @@ hachi
 5000
 10 - Modifies and Uses and Calls
 call c; if i; variable v;
-Select i such that Modifies (i, v) and Uses (p, v) and Calls (p, "ninth") pattern i (v, _, _)
+Select i.stmt# such that Modifies (i, v) and Uses (p, v) and Calls (p, "ninth") pattern i (v, _, _)
 16, 22, 24, 58, 78, 87
 5000
 11 - Assign patterns
 assign a1, a2, a3, a4, a5, a6, a7;
-Select <a1, a2, a3, a4, a5, a6, a7> such that Follows (a1, a2) and Follows (a2, a3) and Next (a3, a4) and Next (a4, a5) and Follows (a5, a6) and Next (a6, a7) pattern a1 ("zero", _) and pattern a2 (_, _"ni + san"_) and pattern a3 ("ni", _"san + yon + go"_) and pattern a4 (_, _) and pattern a5 ("yon", "go + roku + nana + hachi + kyuu")
+Select <a1, a2.stmt#, a3, a4.stmt#, a5, a6.stmt#, a7> such that Follows (a1, a2) and Follows (a2, a3) and Next (a3, a4) and Next (a4, a5) and Follows (a5, a6) and Next (a6, a7) pattern a1 ("zero", _) and pattern a2 (_, _"ni + san"_) and pattern a3 ("ni", _"san + yon + go"_) and pattern a4 (_, _) and pattern a5 ("yon", "go + roku + nana + hachi + kyuu")
 <91, 92, 93, 94, 95, 96, 97>
 5000
 12 - If patterns
