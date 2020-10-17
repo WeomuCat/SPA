@@ -185,7 +185,6 @@
 			
 		}
 
-
 		PKB pkb = this->pkb_builder_.build();
 		
 
