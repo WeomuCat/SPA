@@ -54,6 +54,9 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 		/*
 		std::vector<std::string> all_return_synonyms = ...
 		this->return_synonym_names = all_return_synonyms;
+
+		// fill resultList with ALL return_synonym_names
+		fillWithAllReturnSynonyms(...); //this method needs to make a separate ResultList for each synonym and merge pairwise
 		*/
 	} else if (return_type == QueryEvaluatorReturnType::boolean) {
 		// if there are no clauses, automatically return true. For BOOLEAN, synonyms need not be declared.

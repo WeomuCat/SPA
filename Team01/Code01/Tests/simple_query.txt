@@ -1,5 +1,5 @@
 1 - comment
-assign a;
-Select a pattern a(_, _"a"_)
+proc p; variable v;
+Select v such that Uses(p, v)
 a, b, c, d, e
 5000
