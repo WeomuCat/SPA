@@ -7,6 +7,7 @@
 #include <iterator>
 #include <deque>
 #include <set>
+#include <unordered_map>
 
 #include "PKB.h"
 #include "Parser.h"
@@ -107,6 +108,12 @@
 				continue;
 			}
 
+			if (stmt_token == "call") {
+				this->stmt_token_queue_.push_back(stmt_token); //This is "else" token
+				parseCall();
+				continue;
+			}
+
 			if (stmt_token == "}") {
 				parseStmtListClose();
 				continue;
@@ -116,7 +123,7 @@
 			throw "Unexpected Token Encountered.";
 		}
 
-
+		
 		// Add remaining next relationships to NextTable
 
 		// Remaining Next Relationships for WhileNodes
@@ -132,21 +139,22 @@
 			STMT_NODE_PTR whileblock_laststmt = w_ptr->getWhileStatementListNode()->getStatementNodeList().back();
 			this->pkb_builder_.addNext(whileblock_laststmt->getStatementNumber(), w_ptr->getStatementNumber());
 
-			STMT_LIST_NODE_PTR_LIST nodes_in_parent_stmt_lst = w_ptr->getParentStatementListNode()->getStatementNodeList();
+			STMT_NODE_PTR_LIST nodes_in_parent_stmt_lst = w_ptr->getParentStatementListNode()->getStatementNodeList();
 			//Find stmt after while stmt
 			//No such stmt if while stmt is last stmt
 			int i = 0;
 			// Iterate all nodes in parent stmt list until while stmt node is found.
-			while (i < (nodes_in_parent_stmt_lst.size() + 1) && !(nodes_in_parent_stmt_lst[i] != w_ptr)) {
+			while (i < (nodes_in_parent_stmt_lst.size() - 1) && !(nodes_in_parent_stmt_lst[i] != w_ptr)) {
 				i++;
 			}
 			//Get stmt after while stmt and set relationship
-			if (i < (nodes_in_parent_stmt_lst.size() + 1)) {
+			if (i < (nodes_in_parent_stmt_lst.size() - 1)) {
 				i = i + 1;
 				stmt_after_while_block = nodes_in_parent_stmt_lst[i];
 				this->pkb_builder_.addNext(w_ptr->getStatementNumber(), stmt_after_while_block->getStatementNumber());
 			}
 		}
+		
 		// Remaining Next Relationships for IfNodes
 		IF_NODE_PTR_LIST if_node_ptrs = this->pkb_builder_.getIfs();
 		STMT_NODE_PTR ifblock_firststmt;
@@ -164,16 +172,16 @@
 
 
 
-			STMT_LIST_NODE_PTR_LIST nodes_in_parent_stmt_lst = if_ptr->getParentStatementListNode()->getStatementNodeList();
+			STMT_NODE_PTR_LIST nodes_in_parent_stmt_lst = if_ptr->getParentStatementListNode()->getStatementNodeList();
 			//Find stmt after if stmt
 			//No such stmt if if stmt is last stmt
 			int i = 0;
 			// Iterate all nodes in parent stmt list until while stmt node is found.
-			while (i < (nodes_in_parent_stmt_lst.size() + 1) && !(nodes_in_parent_stmt_lst[i] != w_ptr)) {
+			while (i < (nodes_in_parent_stmt_lst.size() - 1) && !(nodes_in_parent_stmt_lst[i] != if_ptr)) {
 				i++;
 			}
 			//Get stmt after if stmt and set relationship
-			if (i < (nodes_in_parent_stmt_lst.size() + 1)) {
+			if (i < (nodes_in_parent_stmt_lst.size() - 1)) {
 				i = i + 1;
 				stmt_after_while_block = nodes_in_parent_stmt_lst[i];
 				//Last stmts are dependent on the stmt_after_if_block existing
@@ -184,7 +192,52 @@
 			}
 			
 		}
+		
+		
+		//TODO: Add Uses & Modifies relationships that are a result of Call to their respective tables
+		std::set<PROC_NAME> called_procs;
+		std::unordered_map<PROC_NAME, std::set<PROC_NAME>> proc_call_graph;
+		//For each proc create a proc,vector pair
+		for (PROC_NODE_PTR p_ptr : this->pkb_builder_.getProcedures()) {
+			std::pair<PROC_NAME, std::set<PROC_NAME>> proc_call_node = std::pair<PROC_NAME, std::set<PROC_NAME>>(p_ptr->getProcedureName(), std::set<PROC_NAME>());
+			proc_call_graph.insert(proc_call_node);
+		}
 
+		CALL_NODE_PTR_LIST call_node_list = this->pkb_builder_.getCalls();
+		for (CALL_NODE_PTR c_ptr : call_node_list) {
+			PROC_NAME caller_proc = c_ptr->getCallerProcedureName();
+			PROC_NAME callee_proc = c_ptr->getCalleeProcedureName();
+
+			//std::set<PROC_NAME> called_neighbours = proc_call_graph[caller_proc];
+			proc_call_graph[caller_proc].insert(callee_proc);
+			
+			called_procs.insert(callee_proc);
+		}
+
+		//Topo sort Procedures
+		std::deque<PROC_NAME> sorted_procs;
+		
+		topoSort(proc_call_graph, sorted_procs);
+		
+		//TODO: Test topo sort with fake
+
+		for (auto ele : proc_call_graph) {
+			std::cout << "CALLER: " << ele.first << " | CALLED: ";
+			for (auto called : ele.second) {
+				std::cout << called << ", ";
+			}
+			std::cout << "\n";
+		}
+
+		while (!sorted_procs.empty()) {
+			std::cout << sorted_procs.front();
+			std::cout << " ";
+			sorted_procs.pop_front();
+		}
+		
+		//Remove any procedures that are not called
+		//
+		
 		PKB pkb = this->pkb_builder_.build();
 		
 
@@ -931,7 +984,7 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_while_node->getStatementNumber());
-			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
 				, new_while_node->getStatementNumber());
 		}
 
@@ -1593,8 +1646,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_if_node->getStatementNumber());
-			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
-				, new_while_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_if_node->getStatementNumber());
 		}
 
 		//add Uses Relationship for all vars
@@ -1967,8 +2020,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_assign_node->getStatementNumber());
-			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
-				, new_while_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_assign_node->getStatementNumber());
 		}
 
 		//add Modifies Relationship for this statement
@@ -2106,8 +2159,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_read_node->getStatementNumber());
-			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
-				, new_while_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_read_node->getStatementNumber());
 		}
 
 		//Set Modifies Relationship for this statement
@@ -2203,8 +2256,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_print_node->getStatementNumber());
-			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
-				, new_while_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_print_node->getStatementNumber());
 		}
 
 		//Set Uses Relationship for this statement
@@ -2345,7 +2398,7 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_call_node->getStatementNumber());
-			this->pkb_builder_.addNext()(prevStmt->getStatementNumber()
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
 				, new_call_node->getStatementNumber());
 		}
 	}
@@ -2583,3 +2636,33 @@
 	}
 
 	//===== END OF HELPER FUNCTIONS FOR RELATION NODE =====
+
+	//===== START OF HELPER FUNCTIONS FOR TOPOLOGICAL SORT OF PROCEDURE NODES =====
+	
+	void Parser::topoSort(std::unordered_map<PROC_NAME, std::set<PROC_NAME>>& graph, std::deque<PROC_NAME>& sorted_procs) {
+		std::unordered_map<PROC_NAME, bool> visited;
+		for (auto ele : graph) {
+			visited.insert(std::pair<PROC_NAME, bool>(ele.first, false));
+		}
+		
+		for (auto &ele : visited) {
+			if (ele.second == false) {
+				topoSortHelper(ele.first, visited, graph, sorted_procs);
+			}
+		}
+	}
+
+	void Parser::topoSortHelper(PROC_NAME caller_proc, std::unordered_map<PROC_NAME, bool> &visited, std::unordered_map<PROC_NAME
+		, std::set<PROC_NAME>> &graph, std::deque<PROC_NAME> &sorted_procs) {
+		visited[caller_proc] = true;
+
+		for (auto callee_proc : graph[caller_proc]) {
+			if (!visited[callee_proc]) {
+				topoSortHelper(callee_proc, visited, graph, sorted_procs);
+			}
+		}
+
+		sorted_procs.push_back(caller_proc);
+	}
+
+	//===== END OF HELPER FUNCTIONS FOR TOPOLOGICAL SORT OF PROCEDURE NODES =====

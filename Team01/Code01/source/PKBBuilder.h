@@ -210,6 +210,37 @@ public:
     Description: Return an immutable PKB after building it with all the 
                  information stored in the PKB_BUILDER
     */
+    BOOLEAN_TYPE isUses(STMT_NUM s, VAR_NAME v);
+
+    /*
+    Description: Returns a BOOLEAN_TYPE indicating whether or not
+                 Uses(PROC_NAME, VAR_NAME) holds
+    */
+    BOOLEAN_TYPE isUses(PROC_NAME p, VAR_NAME v);
+
+    /*
+    Description: Returns a BOOLEAN_TYPE indicating whether or not
+                 Modifies(STMT_NUM, VAR_NAME) holds
+    */
+    BOOLEAN_TYPE isModifies(STMT_NUM s, VAR_NAME v);
+
+    /*
+    Description: Returns a BOOLEAN_TYPE indicating whether or not
+                 Modifies(PROC_NAME, VAR_NAME) holds
+    */
+    BOOLEAN_TYPE isModifies(PROC_NAME p, VAR_NAME v);
+
+    /*
+    Description: Returns a BOOLEAN_TYPE indicating whether or not
+                 Calls(PROC_NAME, PROC_NAME) holds
+    */
+    BOOLEAN_TYPE isCalls(PROC_NAME p1, PROC_NAME p2);
+
+    /*
+    Description: Returns a BOOLEAN_TYPE indicating whether or not
+                 Calls*(PROC_NAME, PROC_NAME) holds
+    */
+
     PKB build();
 
 private:

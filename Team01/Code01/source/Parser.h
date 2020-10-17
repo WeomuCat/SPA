@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <deque>
+#include <unordered_map>
+#include <set>
 
 #include "../source/PKB.h"
 #include "OperatorTypeEnum.h"
@@ -66,5 +68,10 @@ private:
 	BOOLEAN_TYPE isArithmeticOp(REL_OP_TYPE_ENUM op);
 	BOOLEAN_TYPE isRelationOp(REL_OP_TYPE_ENUM op);
 	BOOLEAN_TYPE isBooleanOp(REL_OP_TYPE_ENUM op);
+
+	//Helper functions to Topologically Sort Procedure Nodes
+	void topoSort(std::unordered_map<PROC_NAME, std::set<PROC_NAME>>& graph, std::deque<PROC_NAME>& sorted_procs);
+	void topoSortHelper(PROC_NAME caller_proc, std::unordered_map<PROC_NAME, bool>& visited
+		, std::unordered_map<PROC_NAME, std::set<PROC_NAME>> &graph, std::deque<PROC_NAME>& sorted_procs);
 };
 

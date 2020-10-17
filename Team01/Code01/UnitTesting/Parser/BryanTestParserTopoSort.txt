@@ -1,0 +1,25 @@
+procedure main {
+	call sub1;
+	call sub2;
+}
+
+procedure sub1 {
+	print x;
+}
+
+procedure sub2 {
+	call subsub3;
+	call subsub4;
+}
+
+procedure subsub3 {
+	read y;
+}
+
+procedure subsub4 {
+	call subsubsub5;
+}
+
+procedure subsubsub5 {
+	print z;
+}
