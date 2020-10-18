@@ -37,7 +37,7 @@ private:
 	void getModifiesPResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 	void getCallsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 	void getCallsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	//void getNextResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
+	void getNextResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 	//void getNextTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 	 
 
