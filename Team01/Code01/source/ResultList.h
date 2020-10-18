@@ -32,4 +32,5 @@ public:
 	SYNONYM_VALUES_LIST getValuesOfSynonym(SYNONYM_NAME column_name);
 	bool containsSynonym(SYNONYM_NAME column_name);
 	INTEGER getNumRows();
+	INTEGER getNumColumns();
 };

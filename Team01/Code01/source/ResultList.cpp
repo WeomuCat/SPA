@@ -75,3 +75,7 @@ ROW_LIST ResultList::getRowList() {
 INTEGER ResultList::getNumRows() {
 	return num_rows;
 }
+
+INTEGER ResultList::getNumColumns() {
+	return results.size();
+}

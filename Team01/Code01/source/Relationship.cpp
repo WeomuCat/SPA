@@ -752,7 +752,7 @@ void Relationship::getCallsResult(PKB pkb, bool& clause_bool, ResultList& clause
 		list2.push_back(child2.getString());
 	}
 	else if (child2_type == QueryNodeType::synonym) {
-		list2 = getVarNameList(pkb, child2);
+		list2 = getProcList(pkb, child2);
 	}
 	else if (child2_type == QueryNodeType::wild_card) {
 		list2 = getProcList(pkb, child2);
@@ -875,19 +875,9 @@ STMT_NUM_LIST Relationship::getStmtList(PKB pkb, QueryNode child1) {
 }
 
 VAR_NAME_LIST Relationship::getVarNameList(PKB pkb, QueryNode node) {
-	if (node.getSynonymType() == QuerySynonymType::variable) {
-		return pkb.getVariableNameList();
-	}
-	else {
-		throw "QE: node is not a variable, getVarNameList requires a variable node";
-	}
+	return pkb.getVariableNameList();
 }
 
 PROC_NAME_LIST Relationship::getProcList(PKB pkb,QueryNode node) {
-	if (node.getSynonymType() == QuerySynonymType::procedure) {
-		return pkb.getProcedureNameList();
-	}
-	else {
-		throw "QE: node is not a procedure, getProcList requires a procedure node";
-	}
+	return pkb.getProcedureNameList();
 }

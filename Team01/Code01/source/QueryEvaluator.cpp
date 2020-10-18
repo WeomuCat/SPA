@@ -7,7 +7,7 @@ QueryEvaluator::QueryEvaluator(PKB pkb) {
 
 QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSED_CLAUSES clauses) {
 	ResultList result_list;
-	BOOLEAN query_bool = true;
+	BOOLEAN only_true_false_clauses = true;
 	const QUERY_RESULT no_result = QUERY_RESULT();
 	const QUERY_RESULT boolean_true_result = { "TRUE" };
 	const QUERY_RESULT boolean_false_result = { "FALSE" };
@@ -104,11 +104,18 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 		}
 		
 
-		// if the clause_bool is true => merge result_list with clause_result_list
-		// if the clause_bool is false => 
-		//		if return type is synonym => return no result list
-		//		if return type is boolean => return false result list
+		/* 
+		if the clause_bool is true:
+			if there are columns (means not True/False clause) => set only_true_false_clause to false
+			merge result_list with clause_result_list
+		if the clause_bool is false => 
+			if return type is synonym => return no result list
+			if return type is boolean => return false result list
+		*/
 		if (clause_bool) {
+			if (clause_result_list.getNumColumns() != 0) {
+				only_true_false_clauses = false;
+			}
 			result_list = ResultListManager::merge(result_list, clause_result_list);
 		}
 		else {
@@ -128,7 +135,10 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 	}
 	else if (return_type == QueryEvaluatorReturnType::boolean) {
 		
-		if (result_list.getNumRows() > 0) {
+		if (only_true_false_clauses) {
+			return boolean_true_result;
+		}
+		else if (result_list.getNumRows() > 0) {
 			return boolean_true_result;
 		} else {
 			return boolean_false_result;

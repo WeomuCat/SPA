@@ -25,7 +25,7 @@ namespace IntegrationTesting
 			print e;
 		}
 		*/
-		std::shared_ptr<PKB> pkb; // ohh you can right click and rename it to pkb1! ohh i see!
+		std::shared_ptr<PKB> pkb;
 
 		/* PKB 2:
 		procedure meow {
@@ -36,8 +36,7 @@ namespace IntegrationTesting
 		*/
 		std::shared_ptr<PKB> pkb2;
 
-		/*
-		// For pattern only!!
+		/* PKB 3: For pattern only!!
 		procedure woof {
 			while (meow > 0)
 			while (!(a + b == c + d))
@@ -46,6 +45,41 @@ namespace IntegrationTesting
 		}
 		*/
 		std::shared_ptr<PKB> pkb3;
+
+		/* PKB 4: 
+		procedure main {
+			calls morning;			1
+			calls afternoon;		2
+			calls evening;			3
+			calls night;			4
+		}
+		procedure morning {
+			calls breakfast;		5
+		}
+		procedure afternoon {
+			calls lunch;			6
+		}
+		procedure evening {
+			calls dinner;			7
+		}
+		procedure night {
+			calls diarrhoea;		8
+		}
+		procedure breakfast {
+			read newspaper;			9
+		}
+		procedure lunch {
+			read menu;				10
+		}
+		procedure dinner {
+			read menu;				11	
+		}
+		procedure diarrhoea {
+			pain = 100;				12
+		}
+		*/
+		std::shared_ptr<PKB> pkb4;
+
 
 		// MULTIPLE CURSOR INSTRUCTIONS :)
 		// 1. hold ALT
@@ -465,6 +499,273 @@ namespace IntegrationTesting
 				builder.addIfNode(i2);
 
 				pkb3 = std::make_shared<PKB>(builder.build());
+			}
+
+			{
+				// PKB 4
+				PKBBuilder builder;
+
+				std::shared_ptr<VariableNode> v1 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v2 = std::make_shared<VariableNode>();
+				std::shared_ptr<VariableNode> v3 = std::make_shared<VariableNode>();
+				v1->setVariableName("newspaper");
+				v2->setVariableName("menu");
+				v3->setVariableName("pain");
+				builder.addVariableNode(v1);
+				builder.addVariableNode(v2);
+				builder.addVariableNode(v3);
+
+				std::shared_ptr<ReadNode> r1 = std::make_shared<ReadNode>();
+				std::shared_ptr<ReadNode> r2 = std::make_shared<ReadNode>();
+				std::shared_ptr<ReadNode> r3 = std::make_shared<ReadNode>();
+				r1->setStatementNumber(9);
+				r1->setVariableNode(v1);
+				r2->setStatementNumber(10);
+				r2->setVariableNode(v2);
+				r3->setStatementNumber(11);
+				r3->setVariableNode(v2);
+				builder.addReadNode(r1);
+				builder.addReadNode(r2);
+				builder.addReadNode(r3);
+
+				// pain = 100
+				std::shared_ptr<ConstantNode> const1 = std::make_shared<ConstantNode>();
+				const1->setValue("100");
+				builder.addConstantNode(const1);
+				std::shared_ptr<ExpressionNode> e1 = std::make_shared<ExpressionNode>();
+				e1->setExpressionType(ExpressionTypeEnum::none);
+				e1->setLeftAstNode(const1);
+				std::shared_ptr<AssignNode> a1 = std::make_shared<AssignNode>();
+				a1->setVariableNode(v3);
+				a1->setExpressionNode(e1);
+				a1->setStatementNumber(12);
+
+
+				std::shared_ptr<StatementNode> s1 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s2 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s3 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s4 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s5 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s6 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s7 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s8 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s9 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s10 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s11 = std::make_shared<StatementNode>();
+				std::shared_ptr<StatementNode> s12 = std::make_shared<StatementNode>();
+
+				s1->setStatementNumber(1);
+				s2->setStatementNumber(2);
+				s3->setStatementNumber(3);
+				s4->setStatementNumber(4);
+				s5->setStatementNumber(5);
+				s6->setStatementNumber(6);
+				s7->setStatementNumber(7);
+				s8->setStatementNumber(8);
+				s9->setStatementNumber(9);
+				s10->setStatementNumber(10);
+				s11->setStatementNumber(11);
+				s12->setStatementNumber(12);
+
+				builder.addStatementNode(s1);
+				builder.addStatementNode(s2);
+				builder.addStatementNode(s3);
+				builder.addStatementNode(s4);
+				builder.addStatementNode(s5);
+				builder.addStatementNode(s6);
+				builder.addStatementNode(s7);
+				builder.addStatementNode(s8);
+				builder.addStatementNode(s9);
+				builder.addStatementNode(s10);
+				builder.addStatementNode(s11);
+				builder.addStatementNode(s12);
+
+				// stmtList of main
+				std::shared_ptr<StatementListNode> sl1 = std::make_shared<StatementListNode>();
+				sl1->addStatementNode(s1);
+				sl1->addStatementNode(s2);
+				sl1->addStatementNode(s3);
+				sl1->addStatementNode(s4);
+
+				//stmtList of morning
+				std::shared_ptr<StatementListNode> sl2 = std::make_shared<StatementListNode>();
+				sl2->addStatementNode(s5);
+
+				//stmtList of afternoon
+				std::shared_ptr<StatementListNode> sl3 = std::make_shared<StatementListNode>();
+				sl3->addStatementNode(s6);
+
+				//stmtList of evening
+				std::shared_ptr<StatementListNode> sl4 = std::make_shared<StatementListNode>();
+				sl4->addStatementNode(s7);
+
+				//stmtList of night
+				std::shared_ptr<StatementListNode> sl5 = std::make_shared<StatementListNode>();
+				sl5->addStatementNode(s8);
+
+				//stmtList of breakfast
+				std::shared_ptr<StatementListNode> sl6 = std::make_shared<StatementListNode>();
+				sl6->addStatementNode(s9);
+
+				//stmtList of lunch
+				std::shared_ptr<StatementListNode> sl7 = std::make_shared<StatementListNode>();
+				sl7->addStatementNode(s10);
+
+				//stmtList of dinner
+				std::shared_ptr<StatementListNode> sl8 = std::make_shared<StatementListNode>();
+				sl8->addStatementNode(s11);
+
+				//stmtList of diarrhoea
+				std::shared_ptr<StatementListNode> sl9 = std::make_shared<StatementListNode>();
+				sl9->addStatementNode(s12);
+				
+				builder.addStatementListNode(sl1);
+				builder.addStatementListNode(sl2);
+				builder.addStatementListNode(sl3);
+				builder.addStatementListNode(sl4);
+				builder.addStatementListNode(sl5);
+				builder.addStatementListNode(sl6);
+				builder.addStatementListNode(sl7);
+				builder.addStatementListNode(sl8);
+				builder.addStatementListNode(sl9);
+
+
+				std::shared_ptr<ProcedureNode> proc1 = std::make_shared<ProcedureNode>();
+				proc1->setProcedureName("main");
+				std::shared_ptr<ProcedureNode> proc2 = std::make_shared<ProcedureNode>();
+				proc2->setProcedureName("morning");
+				std::shared_ptr<ProcedureNode> proc3 = std::make_shared<ProcedureNode>();
+				proc3->setProcedureName("afternoon");
+				std::shared_ptr<ProcedureNode> proc4 = std::make_shared<ProcedureNode>();
+				proc4->setProcedureName("evening");
+				std::shared_ptr<ProcedureNode> proc5 = std::make_shared<ProcedureNode>();
+				proc5->setProcedureName("night");
+				std::shared_ptr<ProcedureNode> proc6 = std::make_shared<ProcedureNode>();
+				proc6->setProcedureName("breakfast");
+				std::shared_ptr<ProcedureNode> proc7 = std::make_shared<ProcedureNode>();
+				proc7->setProcedureName("lunch");
+				std::shared_ptr<ProcedureNode> proc8 = std::make_shared<ProcedureNode>();
+				proc8->setProcedureName("dinner");
+				std::shared_ptr<ProcedureNode> proc9 = std::make_shared<ProcedureNode>();
+				proc9->setProcedureName("diarrhoea");
+
+				builder.addProcedureNode(proc1);
+				builder.addProcedureNode(proc2);
+				builder.addProcedureNode(proc3);
+				builder.addProcedureNode(proc4);
+				builder.addProcedureNode(proc5);
+				builder.addProcedureNode(proc6);
+				builder.addProcedureNode(proc7);
+				builder.addProcedureNode(proc8);
+				builder.addProcedureNode(proc9);
+
+				// calls morning
+				std::shared_ptr<CallNode> c1 = std::make_shared<CallNode>();
+				c1->setCallerProcedureName("main");
+				c1->setCalleeProcedureName("morning");
+				c1->setProcedureNode(proc2);
+				c1->setStatementListNode(sl2);
+				c1->setStatementNumber(1);
+
+				// calls afternoon
+				std::shared_ptr<CallNode> c2 = std::make_shared<CallNode>();
+				c2->setCallerProcedureName("main");
+				c2->setCalleeProcedureName("afternoon");
+				c2->setProcedureNode(proc3);
+				c2->setStatementListNode(sl3);
+				c2->setStatementNumber(2);
+
+				// calls evening
+				std::shared_ptr<CallNode> c3 = std::make_shared<CallNode>();
+				c3->setCallerProcedureName("main");
+				c3->setCalleeProcedureName("evening");
+				c3->setProcedureNode(proc4);
+				c3->setStatementListNode(sl4);
+				c3->setStatementNumber(3);
+
+				// calls night
+				std::shared_ptr<CallNode> c4 = std::make_shared<CallNode>();
+				c4->setCallerProcedureName("main");
+				c4->setCalleeProcedureName("night");
+				c4->setProcedureNode(proc5);
+				c4->setStatementListNode(sl5);
+				c4->setStatementNumber(4);
+
+				// calls breakfast
+				std::shared_ptr<CallNode> c5 = std::make_shared<CallNode>();
+				c5->setCallerProcedureName("morning");
+				c5->setCalleeProcedureName("breakfast");
+				c5->setProcedureNode(proc6);
+				c5->setStatementListNode(sl6);
+				c5->setStatementNumber(5);
+
+				// calls lunch
+				std::shared_ptr<CallNode> c6 = std::make_shared<CallNode>();
+				c6->setCallerProcedureName("afternoon");
+				c6->setCalleeProcedureName("lunch");
+				c6->setProcedureNode(proc7);
+				c6->setStatementListNode(sl7);
+				c6->setStatementNumber(6);
+
+				// calls dinner
+				std::shared_ptr<CallNode> c7 = std::make_shared<CallNode>();
+				c7->setCallerProcedureName("evening");
+				c7->setCalleeProcedureName("dinner");
+				c7->setProcedureNode(proc8);
+				c7->setStatementListNode(sl8);
+				c7->setStatementNumber(7);
+
+				// calls diarrhoea
+				std::shared_ptr<CallNode> c8 = std::make_shared<CallNode>();
+				c8->setCallerProcedureName("night");
+				c8->setCalleeProcedureName("diarrhoea");
+				c8->setProcedureNode(proc9);
+				c8->setStatementListNode(sl9);
+				c8->setStatementNumber(8);
+
+				builder.addCallNode(c1);
+				builder.addCallNode(c2);
+				builder.addCallNode(c3);
+				builder.addCallNode(c4);
+				builder.addCallNode(c5);
+				builder.addCallNode(c6);
+				builder.addCallNode(c7);
+				builder.addCallNode(c8);
+
+				builder.addFollows(1, 2);
+				builder.addFollows(2, 3);
+				builder.addFollows(3, 4);
+
+				builder.addModifies("breakfast", "newspaper");
+				builder.addModifies("morning", "newspaper");
+				builder.addModifies("main", "newspaper");
+				builder.addModifies("lunch", "menu");
+				builder.addModifies("afternoon", "menu");
+				builder.addModifies("main", "menu");
+				builder.addModifies("dinner", "menu");
+				builder.addModifies("evening", "menu");
+				builder.addModifies("main", "menu");
+				builder.addModifies("diarrhoea", "pain");
+				builder.addModifies("night", "pain");
+				builder.addModifies("main", "pain");
+
+				builder.addModifies(9, "newspaper");
+				builder.addModifies(10, "menu");
+				builder.addModifies(11, "menu");
+				builder.addModifies(12, "pain");
+				
+				builder.addCalls("main", "morning");
+				builder.addCalls("main", "afternoon");
+				builder.addCalls("main", "evening");
+				builder.addCalls("main", "night");
+				builder.addCalls("morning", "breakfast");
+				builder.addCalls("afternoon", "lunch");
+				builder.addCalls("evening", "dinner");
+				builder.addCalls("night", "diarrhoea");
+
+
+
+				pkb4 = std::make_shared<PKB>(builder.build());
 			}
 
 		}
@@ -2837,6 +3138,362 @@ namespace IntegrationTesting
 			std::unordered_set<CONSTANT_VALUE> set_result(result.begin(), result.end());
 			std::unordered_set<CONSTANT_VALUE> correct_result = { "meow", "a", "b", "c", "d" };
 			Assert::IsTrue(set_result == correct_result);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP1_CallsP1P2_ReturnsP1)
+		{
+			// Query: "procedure p1, p2; Select p1 such that Calls(p1, p2)"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			QueryNode proc2_node = QueryNode();
+			proc2_node.setSynonymNode({ QuerySynonymType::procedure }, "p2");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node}, {"p2", proc2_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Calls
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::calls });
+
+			// arg 1: p1
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// arg 2: p2
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::procedure }, "p2");
+			
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "main, main, main, main, morning, afternoon, evening, night";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP1_CallsP1Wildcard_ReturnsP1)
+		{
+			// Query: "procedure p1; Select p1 such that Calls(p1, _)"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Calls
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::calls });
+
+			// arg 1: p1
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// arg 2: _
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setNodeType({ QueryNodeType::wild_card });
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "main, main, main, main, morning, afternoon, evening, night";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP1_CallsIdentP1_ReturnsP1)
+		{
+			// Query: "procedure p1; Select p1 such that Calls("main", p1)"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Calls
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::calls });
+
+			// arg 1: "main"
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("main");
+
+			// arg 2: p1
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "morning, afternoon, evening, night";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_CallsIdentIdent_ReturnsTrue)
+		{
+			// Query: "Select BOOLEAN such that Calls("main", "afternoon")"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode(true);
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Calls
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::calls });
+
+			// arg 1: "main"
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("main");
+
+			// arg 2: "afternoon"
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setIdentityNode("afternoon");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "TRUE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_CallsIdentIdent_ReturnsFalse)
+		{
+			// Query: "Select BOOLEAN such that Calls("main", "breakfast")"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode(true);
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Calls
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::calls });
+
+			// arg 1: "main"
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("main");
+
+			// arg 2: "afternoon"
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setIdentityNode("breakfast");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "FALSE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP1_CallsWildcardWildcard_ReturnsP1)
+		{
+			// Query: "procedure p1; Select p1 such that Calls(_, _)"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Calls
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::calls });
+
+			// arg 1: p1
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setNodeType({ QueryNodeType::wild_card });
+
+			// arg 2: _
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setNodeType({ QueryNodeType::wild_card });
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "main, morning, afternoon, evening, night, breakfast, lunch, dinner, diarrhoea";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
 	};
