@@ -4232,7 +4232,7 @@ namespace IntegrationTesting
 		/*=================================  PKB 4: NextT =========================================*/
 		TEST_METHOD(evaluateQuery_SelectS_NextTNS_ReturnsS)
 		{
-			// Query: "prog_line n; stmt s; Select s such that Next(n, s)"
+			// Query: "prog_line n; stmt s; Select s such that NextT(n, s)"
 			// Get processed_synonyms and processed clauses
 			QueryNode progline_node = QueryNode();
 			progline_node.setSynonymNode({ QuerySynonymType::prog_line }, "n");
@@ -4286,6 +4286,65 @@ namespace IntegrationTesting
 				Logger::WriteMessage(msg);
 			}
 			STRING_RESULT correct_result = "2, 3, 3, 4, 4, 4";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectS_NextTNInteger_ReturnsN)
+		{
+			// Query: "prog_line n; Select n such that NextT(n, 4)"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"n", progline_node} };
+
+			// Select: n
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Next
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::nextT });
+
+			// arg 1: n
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// arg 2: 4
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setIntegerNode(4);
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "1, 2, 3";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
