@@ -29,7 +29,7 @@
 --- }
 --- 
 --- procedure third {
-022     if ((zero == ni) && ((ni == ichi) || (!(ichi - nna > kyuu / go)))) then {
+022     if ((zero == ni) && ((ni == ichi) || (!(ichi - nana > kyuu / go)))) then {
 023         call fourth;
 024         if (yon < go) then {
 025             call seventh;

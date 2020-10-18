@@ -1,0 +1,64 @@
+1 - Follows and Follows*
+assign a; while w; call c;
+Select c.procName such that Follows (a, w) and Follows* (w, c) pattern a ("zero", "ichi + ni + san + yon + go + roku + nana + hachi + kyuu")
+seventh
+5000
+2 - Follows and Parent
+assign a; while w;
+Select a.stmt# such that Follows (w, _) and Parent (w, a) pattern w (nana, _) and pattern a (_, _"2"_)
+44, 46
+3 - Follows* and Modifies
+if i; variable v;
+Select v such that Follows* (12, i) and Modifies (i, v) pattern i (v, _, _)
+ni, go
+5000
+4 - Follows and Uses
+stmt s; if i; variable v;
+Select i such that Follows (s, i) and Modifies (s, v) pattern i (v, _, _)
+77
+5000
+5 - Follows and Next* and Uses
+stmt s; assign a; variable v;
+Select a such that Follows (a, s) and Next* (s, a) and Uses (a, v) pattern a (v, _)
+none
+5000
+6 - Parent and Parent*
+while w; if i;
+Select <i, w> such that Parent (i, w) and Parent* (i, 26) pattern w ("yon", _) and pattern i ("zero", _, _)
+<22, 30>
+5000
+7 - Parent* and Modifies and Uses
+while w; if i; stmt s; variable v;
+Select v.varName such that Parent* (w, s) and Modifies (i, v) and Uses (s, v) pattern w ("ichi", _) and pattern i ("go", _, _)
+zero, ichi, ni, go, roku, nana, hachi, kyuu
+5000
+8 - Modifies and Modfies and Modifies
+assign a1, a2, a3; variable v;
+Select <a1, a2, a3> such that Modifies (a1, v) and Modifies (a2, v) and Modifies (a3, v) pattern a1 (v, "kyuu + hachi") and pattern a2 (_, "hachi + kyuu") and pattern a3 (v, _)
+<13, 98, 13>, <13, 98, 98>
+5000
+9 - Uses and Uses and Uses
+assign a1, a2, a3; variable v;
+Select v such that Uses (a1, v) and Uses (a2, v) and Uses (a3, v) pattern a1 (v, v) and pattern a2 (_, _) and pattern a3 ("hachi", _"kyuu"_)
+hachi
+5000
+10 - Modifies and Uses and Calls
+call c; if i; variable v;
+Select i.stmt# such that Modifies (i, v) and Uses (p, v) and Calls (p, "ninth") pattern i (v, _, _)
+16, 22, 24, 58, 78, 87
+5000
+11 - Assign patterns
+assign a1, a2, a3, a4, a5, a6, a7;
+Select <a1, a2.stmt#, a3, a4.stmt#, a5, a6.stmt#, a7> such that Follows (a1, a2) and Follows (a2, a3) and Next (a3, a4) and Next (a4, a5) and Follows (a5, a6) and Next (a6, a7) pattern a1 ("zero", _) and pattern a2 (_, _"ni + san"_) and pattern a3 ("ni", _"san + yon + go"_) and pattern a4 (_, _) and pattern a5 ("yon", "go + roku + nana + hachi + kyuu")
+<91, 92, 93, 94, 95, 96, 97>
+5000
+12 - If patterns
+if i1, i2, i3, i4, i5;
+Select <i1, i2, i3, i4, i5> such that Uses (i1, "ichi") and Uses (i2, "ni") and Uses (i3, "san") and Uses (i4, "yon") and Uses (i5, "go") pattern i1 ("go", _, _) and pattern i2 ("yon", _, _) and pattern i3 ("san", _, _) and pattern i4 ("ni", _, _) and pattern i5 ("ichi", _, _)
+none
+5000
+13 - While patterns
+while w1, w2, w3; variable v;
+Select w1 such that Modifies (w1, "ichi") and Modifies (w2, "ni") and Modifies (w3, v) pattern w1 (v, _) and pattern w2 (v, _) and pattern (v, _) 
+2, 40, 41, 49
+5000

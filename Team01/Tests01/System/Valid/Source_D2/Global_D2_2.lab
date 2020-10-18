@@ -33,7 +33,7 @@
 --- 
 --- procedure thirdore {
 021     print gold;
-022     read diamond;
+022     read diamond; 
 023     while (coal - iron != 1111) {
 024         iron = lapis * lapis - 2222;
 025         read lapis;
