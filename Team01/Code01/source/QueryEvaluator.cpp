@@ -177,9 +177,9 @@ void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type,
 	else if (return_synonym_type == QuerySynonymType::whiles) {
 		result_list.addColumn(return_synonym_name, pkb.getWhileNumList());
 	}
-	//else if (return_synonym_type == QuerySynonymType::prog_line) {
-	//	result_list.addColumn(return_synonym_name, pkb.
-	
+	else if (return_synonym_type == QuerySynonymType::prog_line) {
+		result_list.addColumn(return_synonym_name, pkb.getStatementNumList());
+	}
 	
 }
 

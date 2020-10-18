@@ -4056,6 +4056,65 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		TEST_METHOD(evaluateQuery_Selectn_NextWildcardN_ReturnsN)
+		{
+			// Query: "prog_line n; Select n such that Next(_, n)"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"n", progline_node} };
+
+			// Select: s
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Next
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::next });
+
+			// arg 1: _
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setNodeType({ QueryNodeType::wild_card });
+
+			// arg 2: n
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "2, 3, 4";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
 		TEST_METHOD(evaluateQuery_SelectBOOLEAN_NextIntegerInteger_ReturnsTrue)
 		{
 			// Query: "Select BOOLEAN such that Next(2, 3)"
