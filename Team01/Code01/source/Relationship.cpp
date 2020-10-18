@@ -40,6 +40,9 @@ void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList&
 	else if (relationship_type == QueryNodeType::next) {
 		getNextResult(pkb, clause_bool, clause_result_list);
 	}
+	else if (relationship_type == QueryNodeType::nextT) {
+		getNextTResult(pkb, clause_bool, clause_result_list);
+	}
 }
 
 void Relationship::getFollowsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
@@ -967,6 +970,90 @@ void Relationship::getNextResult(PKB pkb, bool& clause_bool, ResultList& clause_
 	std::vector<std::pair<INTEGER, INTEGER>> filter;
 	for (std::pair<INTEGER, INTEGER> p : cross) {
 		if (pkb.isNext(p.first, p.second)) {
+			filter.push_back(p);
+		}
+	}
+
+	// after filtering:
+	// if the filtered list is empty, then we say that this clause is FALSE
+	// else, this clause is TRUE
+	clause_bool = (filter.size() > 0);
+
+	// Add the filtered to ResultList!
+	// 1. Add the synonym names as column headers
+	if (child1_type == QueryNodeType::synonym) {
+		SYNONYM_NAME synonym_name = child1.getString();
+		clause_result_list.addColumn(synonym_name);
+	}
+	if (child2_type == QueryNodeType::synonym) {
+		SYNONYM_NAME synonym_name = child2.getString();
+		clause_result_list.addColumn(synonym_name);
+	}
+
+	// 2. Add synonym values to the Resultlist row wise
+	for (std::pair<INTEGER, INTEGER> p : filter) {
+		ROW row;
+		if (child1_type == QueryNodeType::synonym) {
+			SYNONYM_NAME child1_synonym_name = child1.getString();
+			SYNONYM_VALUE child1_synonym_value = std::to_string(p.first);
+			row.insert({ child1_synonym_name, child1_synonym_value });
+		}
+		if (child2_type == QueryNodeType::synonym) {
+			SYNONYM_NAME child2_synonym_name = child2.getString();
+			SYNONYM_VALUE child2_synonym_value = std::to_string(p.second);
+			row.insert({ child2_synonym_name, child2_synonym_value });
+		}
+		clause_result_list.addRow(row);
+	}
+}
+
+void Relationship::getNextTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: NextT( lineRef, lineRef )
+	Relationship between: Program Lines
+	Note: Synonyms of stmt, assign, call, read, print, while and if can appear in place of program lines (and vice-versa). Statement numbers are then interpreted as program lines.
+
+	lineRef: synonym | _ | INTEGER
+
+		synonym: prog_line | stmt | assign | call | read | print | while | if
+		_: stmt_num_list
+		INTEGER: stmt line number
+
+	Possible Combinations:					   
+	1. NextT(synonym, synonym)			-> NextT(a, r)
+	2. NextT(synonym, _)				-> NextT(n, _)
+	3. NextT(synonym, INTEGER)			-> NextT(n, 10)
+	4. NextT(_, synonym)				-> NextT(_, n)
+	5. NextT(_, _)						-> NextT(_, _)
+	6. NextT(_, INTEGER)				-> NextT(_, 10)
+	7. NextT(INTEGER, synonym)			-> NextT(10, n)
+	8. NextT(INTEGER, _)				-> NextT(10, _)
+	9. NextT(INTEGER, INTEGER)			-> NextT(3, 4)
+	*/
+
+	QueryNodeType child1_type = child1.getNodeType();
+	QueryNodeType child2_type = child2.getNodeType();
+
+	// Populate list1 with child1 values
+	std::vector<INTEGER> list1;
+	list1 = getStmtList(pkb, child1);
+
+	// Populate list2 with child2 values
+	std::vector<INTEGER> list2;
+	list2 = getStmtList(pkb, child2);
+
+	// create all possible pairs of list1 and list2 values
+	std::vector<std::pair<INTEGER, INTEGER>> cross;
+	for (INTEGER s1 : list1) {
+		for (INTEGER s2 : list2) {
+			cross.push_back({ s1, s2 });
+		}
+	}
+
+	// filter the cross with PKB.isFollows
+	std::vector<std::pair<INTEGER, INTEGER>> filter;
+	for (std::pair<INTEGER, INTEGER> p : cross) {
+		if (pkb.isNextTransitive(p.first, p.second)) {
 			filter.push_back(p);
 		}
 	}
