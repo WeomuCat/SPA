@@ -106,7 +106,4 @@ public:
 	Description: Returns a VALIDATION_RESULT based on whether argument is a valid reference.
 	*/
 	static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a);
-
-private:
-
 };

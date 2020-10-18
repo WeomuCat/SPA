@@ -184,7 +184,7 @@ ARGUMENTS QueryPreProcessor::getArguments(SINGLE_CLAUSE c) {
 
 	int open_brac_index = c.find("(");
 	int comma_index = c.find(",");
-	int closed_brac_index = c.find(")");
+	int closed_brac_index = c.rfind(")");
 
 	int curr_index = open_brac_index + 1;
 
@@ -228,7 +228,6 @@ POSTFIX_EXPR QueryPreProcessor::infixToPostfix(INFIX_EXPR e) {
 		// there is only one var/const for the entire expr
 		is_last = true;
 	}
-	
 
 	while (token_end_index != -1 || is_last ) {
 		// get token
@@ -242,11 +241,11 @@ POSTFIX_EXPR QueryPreProcessor::infixToPostfix(INFIX_EXPR e) {
 			// add to postfix expr if is a factor
 			postfix_e.push_back(t);
 		}
-		else if (t.compare("(")) {
+		else if (t.compare("(") == 0) {
 			// add to stack if is '('
 			op_stack.push_back(t);
 		}
-		else if (t.compare(")")) {
+		else if (t.compare(")") == 0) {
 			// pop and add from stack to postfix expr until '('
 			while (op_stack.size() != 0 && op_stack.back().compare("(") != 0) {
 				postfix_e.push_back(op_stack.back());
@@ -257,7 +256,7 @@ POSTFIX_EXPR QueryPreProcessor::infixToPostfix(INFIX_EXPR e) {
 			op_stack.pop_back();
 		}
 		else {
-			if (getTokenPriority(t) > getTokenPriority(op_stack.back())) {
+			if (op_stack.size() == 0 ||getTokenPriority(t) > getTokenPriority(op_stack.back())) {
 				// push onto stack if token has higher priority
 				op_stack.push_back(t);
 			}
