@@ -34,6 +34,9 @@ void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList&
 	else if (relationship_type == QueryNodeType::calls) {
 		getCallsResult(pkb, clause_bool, clause_result_list);
 	}
+	else if (relationship_type == QueryNodeType::callsT) {
+		getCallsTResult(pkb, clause_bool, clause_result_list);
+	}
 }
 
 void Relationship::getFollowsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
@@ -773,6 +776,111 @@ void Relationship::getCallsResult(PKB pkb, bool& clause_bool, ResultList& clause
 	std::vector<std::pair<PROC_NAME, PROC_NAME>> filter;
 	for (std::pair<PROC_NAME, PROC_NAME> p : cross) {
 		if (pkb.isCalls(p.first, p.second)) {
+			filter.push_back(p);
+		}
+	}
+
+	// after filtering:
+	// if the filtered list is empty, then we say that this clause is FALSE
+	// else, this clause is TRUE
+	clause_bool = (filter.size() > 0);
+
+	// Add the filtered to ResultList!
+	// 1. Add the synonym names as column headers
+	if (child1_type == QueryNodeType::synonym) {
+		SYNONYM_NAME synonym_name = child1.getString();
+		clause_result_list.addColumn(synonym_name);
+	}
+	if (child2_type == QueryNodeType::synonym) {
+		SYNONYM_NAME synonym_name = child2.getString();
+		clause_result_list.addColumn(synonym_name);
+	}
+
+	// 2. Add synonym values to the Resultlist row wise
+	for (std::pair<PROC_NAME, PROC_NAME> p : filter) {
+		ROW row;
+		if (child1_type == QueryNodeType::synonym) {
+			SYNONYM_NAME child1_synonym_name = child1.getString();
+			SYNONYM_VALUE child1_synonym_value = p.first;
+			row.insert({ child1_synonym_name, child1_synonym_value });
+		}
+		if (child2_type == QueryNodeType::synonym) {
+			SYNONYM_NAME child2_synonym_name = child2.getString();
+			SYNONYM_VALUE child2_synonym_value = p.second;
+			row.insert({ child2_synonym_name, child2_synonym_value });
+		}
+		clause_result_list.addRow(row);
+	}
+}
+
+void Relationship::getCallsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: CallsT( entRef, entRef)
+	Relationship between: Procedures
+
+	entRef: synonym | _ | IDENT
+
+		synonym: procedure
+		_ : all procedures
+		IDENT: procedure name
+
+	Possible Combinations:
+	1. CallsT(synonym, synonym)			-> CallsT(p1, p2)
+	2. CallsT(synonym, _)				-> CallsT(p, _)
+	3. CallsT(synonym, IDENT)			-> CallsT(p, "main")
+	4. CallsT(_, synonym)				-> CallsT(_, p)
+	5. CallsT(_, _)						-> CallsT(_, _)
+	6. CallsT(_, IDENT)					-> CallsT(_, "main")
+	7. CallsT(IDENT, synonym)			-> CallsT("main", p)
+	8. CallsT(IDENT, _)					-> CallsT("main", _)
+	9. CallsT(IDENT, IDENT)				-> CallsT("main", "woof")
+	*/
+
+	QueryNodeType child1_type = child1.getNodeType();
+	QueryNodeType child2_type = child2.getNodeType();
+
+	// Populate list1 with child1 values
+	std::vector<PROC_NAME> list1;
+	if (child1_type == QueryNodeType::ident) {
+		list1.push_back(child1.getString());
+	}
+	else if (child1_type == QueryNodeType::synonym) {
+		list1 = getProcList(pkb, child1);
+	}
+	else if (child1_type == QueryNodeType::wild_card) {
+		list1 = getProcList(pkb, child1);
+	}
+	else {
+		throw "QE: First argument of Calls should be SYNONYM or IDENT or WILDCARD";
+	}
+
+	// Populate list2 with child2 values
+	std::vector<PROC_NAME> list2;
+	if (child2_type == QueryNodeType::ident) {
+		list2.push_back(child2.getString());
+	}
+	else if (child2_type == QueryNodeType::synonym) {
+		list2 = getProcList(pkb, child2);
+	}
+	else if (child2_type == QueryNodeType::wild_card) {
+		list2 = getProcList(pkb, child2);
+	}
+	else {
+		throw "QE: Second argument of Calls should be SYNONYM or IDENT or WILDCARD";
+	}
+
+	// create all possible pairs of list1 and list2 values
+	std::vector<std::pair<PROC_NAME, PROC_NAME>> cross;
+	for (PROC_NAME s1 : list1) {
+		for (PROC_NAME s2 : list2) {
+			cross.push_back({ s1, s2 });
+		}
+	}
+
+	// filter the cross with PKB.isFollows
+	std::vector<std::pair<PROC_NAME, PROC_NAME>> filter;
+	for (std::pair<PROC_NAME, PROC_NAME> p : cross) {
+		if (pkb.isCallsTransitive(p.first, p.second)) {
 			filter.push_back(p);
 		}
 	}

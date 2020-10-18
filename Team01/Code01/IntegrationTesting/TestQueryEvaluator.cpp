@@ -846,6 +846,8 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		/*=================================  PKB 1: Follows =========================================*/
+
 		TEST_METHOD(evaluateQuery_SelectS1FollowsS1S2_ReturnsS1)
 		{
 			// Query: "stmt s1, s2; variable v; Select s1 such that Follows(s1,s2)"
@@ -1175,6 +1177,9 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+
+		/*=================================  PKB 1: FollowsT =========================================*/
+
 		TEST_METHOD(evaluateQuery_SelectSFollowsTS_S_ReturnsEmpty)
 		{
 			// Query: "stmt s; Select s such that FollowsT(s,s)"
@@ -1432,6 +1437,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		/*=================================  PKB 1: Parent =========================================*/
 		TEST_METHOD(evaluateQuery_SelectSParentS_S_ReturnsEmpty)
 		{
 			// Query: "stmt s; Select s such that Parent(s,s)"
@@ -1531,6 +1537,8 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		/*=================================  PKB 1: ParentT =========================================*/
+
 		TEST_METHOD(evaluateQuery_SelectSParentTS_S_ReturnsEmpty)
 		{
 			// Query: "stmt s; Select s such that ParentT(s,s)"
@@ -1629,6 +1637,8 @@ namespace IntegrationTesting
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
+
+		/*=================================  PKB 1: UsesS =========================================*/
 
 		TEST_METHOD(evaluateQuery_SelectPnUsesPn_v_ReturnsPn)
 		{
@@ -1756,7 +1766,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
-		TEST_METHOD(evaluateQuery_SelectBOOLEANUses1_v_ReturnsTrue)
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_Uses1_v_ReturnsTrue)
 		{
 			// Query: "stmt s; variable v; Select BOOLEAN such that Uses(1,v)"
 			// Get processed_synonyms and processed clauses
@@ -1810,7 +1820,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
-		TEST_METHOD(evaluateQuery_SelectVUsesIfs_v_ReturnsEmpty)
+		TEST_METHOD(evaluateQuery_SelectV_UsesIfs_v_ReturnsEmpty)
 		{
 			// Query: "if ifs; variable v; Select v such that Uses(ifs,v)"
 			// Get processed_synonyms and processed clauses
@@ -1852,7 +1862,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
-		TEST_METHOD(evaluateQuery_SelectBOOLEANUsesIfs_v_ReturnsFalse)
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_UsesIfs_v_ReturnsFalse)
 		{
 			// Query: "if ifs; variable v; Select BOOLEAN such that Uses(ifs,v)"
 			// Get processed_synonyms and processed clauses
@@ -1902,6 +1912,65 @@ namespace IntegrationTesting
 			STRING_RESULT correct_result = "FALSE";
 
 			Logger::WriteMessage("Result: ");
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		/*=================================  PKB 1: UsesP =========================================*/
+
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_UsesPIDENT_IDENT_ReturnsTrue)
+		{
+			// Query: "BOOLEAN such that UsesP("main",a)"
+			// Get processed_synonyms and processed clauses
+			std::unordered_map<std::string, QueryNode> processed_synonyms = {};
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode(true);
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Calls
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::usesP });
+
+			// arg 1: "main"
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("main");
+
+			// arg 2: "afternoon"
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setIdentityNode("a");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "TRUE";
+
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
@@ -1990,6 +2059,8 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		/*=================================  PKB 1: Modifies =========================================*/
+
 		TEST_METHOD(evaluateQuery_SelectVModifies2_v_ReturnsEmpty)
 		{
 			// Query: "variable v; Select v such that ModifiesS(2,v)"
@@ -2071,6 +2142,8 @@ namespace IntegrationTesting
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
+
+		/*=================================  PKB 2: Pattern =========================================*/
 
 		// PATTERN TEST CASES
 
@@ -2851,6 +2924,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(set_result == correct_result);
 		}
 
+		/*=================================  PKB 3: Pattern =========================================*/
 		TEST_METHOD(evaluateQuery_SelectI_PatternIIdent_Returns4)
 		{
 			// Query: "if i; Select i pattern i ("g", _)"
@@ -3140,6 +3214,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(set_result == correct_result);
 		}
 
+		/*=================================  PKB 4: Calls =========================================*/
 		TEST_METHOD(evaluateQuery_SelectP1_CallsP1P2_ReturnsP1)
 		{
 			// Query: "procedure p1, p2; Select p1 such that Calls(p1, p2)"
@@ -3196,6 +3271,67 @@ namespace IntegrationTesting
 				Logger::WriteMessage(msg);
 			}
 			STRING_RESULT correct_result = "main, main, main, main, morning, afternoon, evening, night";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP2_CallsP1P2_ReturnsP2)
+		{
+			// Query: "procedure p1, p2; Select p2 such that Calls(p1, p2)"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			QueryNode proc2_node = QueryNode();
+			proc2_node.setSynonymNode({ QuerySynonymType::procedure }, "p2");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node}, {"p2", proc2_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p2");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Calls
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::calls });
+
+			// arg 1: p1
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// arg 2: p2
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::procedure }, "p2");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "morning, afternoon, evening, night, breakfast, lunch, dinner, diarrhoea";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -3457,7 +3593,7 @@ namespace IntegrationTesting
 			QueryNode child_child1 = QueryNode();
 			child_child1.setNodeType({ QueryNodeType::calls });
 
-			// arg 1: p1
+			// arg 1: _
 			QueryNode child_child_child1 = QueryNode();
 			child_child_child1.setNodeType({ QueryNodeType::wild_card });
 
@@ -3491,6 +3627,305 @@ namespace IntegrationTesting
 				Logger::WriteMessage(msg);
 			}
 			STRING_RESULT correct_result = "main, morning, afternoon, evening, night, breakfast, lunch, dinner, diarrhoea";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		/*=================================  PKB 4: CallsT =========================================*/
+		
+		TEST_METHOD(evaluateQuery_SelectP1_CallsTP1P2_ReturnsP1)
+		{
+			// Query: "procedure p1, p2; Select p1 such that CallsT(p1, p2)"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			QueryNode proc2_node = QueryNode();
+			proc2_node.setSynonymNode({ QuerySynonymType::procedure }, "p2");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node}, {"p2", proc2_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// CallsT
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::callsT });
+
+			// arg 1: p1
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// arg 2: p2
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::procedure }, "p2");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "main, main, main, main, main, main, main, main, morning, afternoon, evening, night";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP1_CallsTP1Ident_ReturnsP1)
+		{
+			// Query: "procedure p1; Select p1 such that CallsT(p1, "diarrhoea")"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// CallsT
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::callsT });
+
+			// arg 1: p1
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// arg 2: diarrhoea
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setIdentityNode("diarrhoea");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "main, night";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP1_CallsTIdentP1_ReturnsP1)
+		{
+			// Query: "procedure p1; Select p1 such that CallsT("main", p1)"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// Calls
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::callsT });
+
+			// arg 1: "main"
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("main");
+
+			// arg 2: p1
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "morning, afternoon, evening, night, breakfast, lunch, dinner, diarrhoea";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_CallsTIdentIdent_ReturnsTrue)
+		{
+			// Query: "Select BOOLEAN such that CallsT("main", "breakfast")"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode(true);
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// CallsT
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::callsT });
+
+			// arg 1: "main"
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("main");
+
+			// arg 2: "afternoon"
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setIdentityNode("breakfast");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "TRUE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_CallsTIdentIdent_ReturnsFalse)
+		{
+			// Query: "Select BOOLEAN such that CallsT("morning", "diarrhoea")"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc1_node = QueryNode();
+			proc1_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p1", proc1_node} };
+
+			// Select: p1
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode(true);
+
+			// such that 
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::such_that });
+
+			// CallsT
+			QueryNode child_child1 = QueryNode();
+			child_child1.setNodeType({ QueryNodeType::callsT });
+
+			// arg 1: "moarning"
+			QueryNode child_child_child1 = QueryNode();
+			child_child_child1.setIdentityNode("morning");
+
+			// arg 2: "diarrhoea"
+			QueryNode child_child_child2 = QueryNode();
+			child_child_child2.setIdentityNode("diarrhoea");
+
+			// set children, make tree
+			QueryNode child_child1_children[] = { child_child_child1, child_child_child2 };
+			child_child1.setChildren(child_child1_children, 2);
+			QueryNode child2_children[] = { child_child1 };
+			child2.setChildren(child2_children, 1);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "FALSE";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
