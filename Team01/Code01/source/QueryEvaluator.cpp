@@ -99,6 +99,9 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 			WithClause with = WithClause(clause);
 			with.getWithResult(pkb, clause_bool, clause_result_list);
 		}
+		else {
+			throw "QE: Clause type is invalid. Valid clauses are such that, pattern, with.";
+		}
 		
 
 		// if the clause_bool is true => merge result_list with clause_result_list
@@ -164,6 +167,10 @@ void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type,
 	else if (return_synonym_type == QuerySynonymType::whiles) {
 		result_list.addColumn(return_synonym_name, pkb.getWhileNumList());
 	}
+	//else if (return_synonym_type == QuerySynonymType::prog_line) {
+	//	result_list.addColumn(return_synonym_name, pkb.
+	
+	
 }
 
 void QueryEvaluator::setEvaluatorReturnType(QueryNode select_return) {

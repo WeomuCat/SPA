@@ -31,17 +31,24 @@ void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList&
 	else if (relationship_type == QueryNodeType::modifiesP) {
 		getModifiesPResult(pkb, clause_bool, clause_result_list);
 	}
+	else if (relationship_type == QueryNodeType::calls) {
+		getCallsResult(pkb, clause_bool, clause_result_list);
+	}
 }
 
 void Relationship::getFollowsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
-	/* Follows(s1, s2)
-		s1 = [1, 2, 3] if assign
-		s2 = [1, 2, 3]
-		cross = [[1,1], [1,2], [1,3]...]
+	/* 
+	Format: Follows( stmtRef, stmtRef )
+	Relationship between: Statements
+	
+	Follows(s1, s2)
+	s1 = [1, 2, 3] if assign
+	s2 = [1, 2, 3]
+	cross = [[1,1], [1,2], [1,3]...]
 
-		filter the cross with PKB
+	filter the cross with PKB
 
-		then add to ResultList
+	then add to ResultList
 	*/
 
 	// Initialize with list of all values for the given synonym
@@ -115,6 +122,11 @@ void Relationship::getFollowsResult(PKB pkb, bool& clause_bool, ResultList& clau
 }
 
 void Relationship::getFollowsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: FollowsT( stmtRef, stmtRef )
+	Relationship between: Statements
+	*/
+
 	QueryNodeType child1_type = child1.getNodeType();
 	QueryNodeType child2_type = child2.getNodeType();
 
@@ -175,6 +187,11 @@ void Relationship::getFollowsTResult(PKB pkb, bool& clause_bool, ResultList& cla
 }
 
 void Relationship::getParentResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: Parent( stmtRef, stmtRef )
+	Relationship between: Statements
+	*/
+
 	QueryNodeType child1_type = child1.getNodeType();
 	QueryNodeType child2_type = child2.getNodeType();
 
@@ -235,6 +252,11 @@ void Relationship::getParentResult(PKB pkb, bool& clause_bool, ResultList& claus
 }
 
 void Relationship::getParentTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: ParentT( stmtRef, stmtRef )
+	Relationship between: Statements
+	*/
+
 	QueryNodeType child1_type = child1.getNodeType();
 	QueryNodeType child2_type = child2.getNodeType();
 
@@ -297,6 +319,7 @@ void Relationship::getParentTResult(PKB pkb, bool& clause_bool, ResultList& clau
 void Relationship::getUsesSResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
 	/*
 	Format: Uses(stmtRef, entRef)
+	Relationship between: Statements/Procedure/Variables
 
 	stmtRef: synonym | INTEGER
 	entRef: synonym | _ | IDENT (synonym can only be v, wildcard is just all v)
@@ -394,6 +417,7 @@ void Relationship::getUsesSResult(PKB pkb, bool& clause_bool, ResultList& clause
 void Relationship::getUsesPResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
 	/*
 	Format: UsesP( entRef1, entRef2)
+	Relationship between: Statements/Procedure/Variables
 
 	entRef1: synonym | IDENT  (semantically invalid to have ‘_’ as the first argument for Modifies and Uses: unclear whether ‘_’ stands for a statement or a procedure.)
 	entRef2: synonym | _ | IDENT (synonym can only be v, wildcard is just all v)
@@ -490,6 +514,7 @@ void Relationship::getUsesPResult(PKB pkb, bool& clause_bool, ResultList& clause
 void Relationship::getModifiesSResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
 	/*
 	Format: Modifies(stmtRef, entRef)
+	Relationship between: Statements/Procedure/Variables
 
 	stmtRef: synonym | INTEGER
 	entRef: synonym | _ | IDENT (synonym can only be v, wildcard is just all v)
@@ -587,6 +612,7 @@ void Relationship::getModifiesSResult(PKB pkb, bool& clause_bool, ResultList& cl
 void Relationship::getModifiesPResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
 	/*
 	Format: ModifiesP ( entRef1, entRef2)
+	Relationship between: Statements/Procedure/Variables
 
 	entRef1: synonym | IDENT  (semantically invalid to have ‘_’ as the first argument for Modifies and Uses: unclear whether ‘_’ stands for a statement or a procedure.)
 	entRef2: synonym | _ | IDENT (synonym can only be v, wildcard is just all v)
@@ -678,6 +704,119 @@ void Relationship::getModifiesPResult(PKB pkb, bool& clause_bool, ResultList& cl
 		clause_result_list.addRow(row);
 	}
 }
+
+void Relationship::getCallsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: Calls( entRef, entRef)
+	Relationship between: Procedures
+
+	entRef: synonym | _ | IDENT
+
+		synonym: procedure
+		_ : all procedures
+		IDENT: procedure name
+
+	Possible Combinations:
+	1. Calls(synonym, synonym)			-> Calls(p1, p2)
+	2. Calls(synonym, _)				-> Calls(p, _)
+	3. Calls(synonym, IDENT)			-> Calls(p, "main")
+	4. Calls(_, synonym)				-> Calls(_, p)
+	5. Calls(_, _)						-> Calls(_, _)
+	6. Calls(_, IDENT)					-> Calls(_, "main")
+	7. Calls(IDENT, synonym)			-> Calls("main", p)
+	8. Calls(IDENT, _)					-> Calls("main", _)
+	9. Calls(IDENT, IDENT)				-> Calls("main", "woof")
+	*/
+
+	QueryNodeType child1_type = child1.getNodeType();
+	QueryNodeType child2_type = child2.getNodeType();
+
+	// Populate list1 with child1 values
+	std::vector<PROC_NAME> list1;
+	if (child1_type == QueryNodeType::ident) {
+		list1.push_back(child1.getString());
+	}
+	else if (child1_type == QueryNodeType::synonym) {
+		list1 = getProcList(pkb, child1);
+	}
+	else if (child1_type == QueryNodeType::wild_card) {
+		list1 = getProcList(pkb, child1);
+	}
+	else {
+		throw "QE: First argument of Calls should be SYNONYM or IDENT or WILDCARD";
+	}
+
+	// Populate list2 with child2 values
+	std::vector<PROC_NAME> list2;
+	if (child2_type == QueryNodeType::ident) {
+		list2.push_back(child2.getString());
+	}
+	else if (child2_type == QueryNodeType::synonym) {
+		list2 = getVarNameList(pkb, child2);
+	}
+	else if (child2_type == QueryNodeType::wild_card) {
+		list2 = getProcList(pkb, child2);
+	}
+	else {
+		throw "QE: Second argument of Calls should be SYNONYM or IDENT or WILDCARD";
+	}
+
+	// create all possible pairs of list1 and list2 values
+	std::vector<std::pair<PROC_NAME, PROC_NAME>> cross;
+	for (PROC_NAME s1 : list1) {
+		for (PROC_NAME s2 : list2) {
+			cross.push_back({ s1, s2 });
+		}
+	}
+
+	// filter the cross with PKB.isFollows
+	std::vector<std::pair<PROC_NAME, PROC_NAME>> filter;
+	for (std::pair<PROC_NAME, PROC_NAME> p : cross) {
+		if (pkb.isCalls(p.first, p.second)) {
+			filter.push_back(p);
+		}
+	}
+
+	// after filtering:
+	// if the filtered list is empty, then we say that this clause is FALSE
+	// else, this clause is TRUE
+	clause_bool = (filter.size() > 0);
+
+	// Add the filtered to ResultList!
+	// 1. Add the synonym names as column headers
+	if (child1_type == QueryNodeType::synonym) {
+		SYNONYM_NAME synonym_name = child1.getString();
+		clause_result_list.addColumn(synonym_name);
+	}
+	if (child2_type == QueryNodeType::synonym) {
+		SYNONYM_NAME synonym_name = child2.getString();
+		clause_result_list.addColumn(synonym_name);
+	}
+
+	// 2. Add synonym values to the Resultlist row wise
+	for (std::pair<PROC_NAME, PROC_NAME> p : filter) {
+		ROW row;
+		if (child1_type == QueryNodeType::synonym) {
+			SYNONYM_NAME child1_synonym_name = child1.getString();
+			SYNONYM_VALUE child1_synonym_value = p.first;
+			row.insert({ child1_synonym_name, child1_synonym_value });
+		}
+		if (child2_type == QueryNodeType::synonym) {
+			SYNONYM_NAME child2_synonym_name = child2.getString();
+			SYNONYM_VALUE child2_synonym_value = p.second;
+			row.insert({ child2_synonym_name, child2_synonym_value });
+		}
+		clause_result_list.addRow(row);
+	}
+}
+
+/*
+void Relationship::getNextResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	// Format:
+	// Relationship between: Program Lines
+	
+
+*/
 
 
 bool Relationship::isSameSynonymName(QueryNode child1, QueryNode child2) {

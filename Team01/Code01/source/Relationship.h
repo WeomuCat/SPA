@@ -35,6 +35,11 @@ private:
 	void getUsesPResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 	void getModifiesSResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 	void getModifiesPResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
+	void getCallsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
+	//void getCallsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
+	//void getNextResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
+	//void getNextTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
+	 
 
 	bool isSameSynonymName(QueryNode child1, QueryNode child2);
 	STMT_NUM_LIST getStmtList(PKB pkb, QueryNode child1);
