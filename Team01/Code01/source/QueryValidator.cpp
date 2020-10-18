@@ -8,12 +8,13 @@ const std::regex integer_format_("[0-9]+");
 const std::regex identity_format_("\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"");
 const std::regex attr_rel_format_("[a-zA-Z][a-zA-Z0-9]*\\.(procName|varName|value|stmt#)");
 const std::regex brac_tuple_format_("<\\s*([a-zA-Z][a-zA-Z0-9]*|[a-zA-Z][a-zA-Z0-9]*\\.(procName|varName|value|stmt#))(\\s*,\\s*([a-zA-Z][a-zA-Z0-9]*|[a-zA-Z][a-zA-Z0-9]*\\.(procName|varName|value|stmt#)))*\\s*>");
-const std::regex declaration_format_("(stmt|read|print|while|if|assign|variable|constant|procedure)\\s+[a-zA-Z][a-zA-Z0-9]*\\s*(\\,\\s*[a-zA-Z][a-zA-Z0-9]*)*\\s*");
+const std::regex declaration_format_("(stmt|read|print|while|if|assign|variable|constant|prog_line|procedure)\\s+[a-zA-Z][a-zA-Z0-9]*\\s*(\\,\\s*[a-zA-Z][a-zA-Z0-9]*)*\\s*");
 const std::regex clause_select_format_("Select\\s+([a-zA-Z][a-zA-Z0-9]*|<.*>).*");
-const std::regex clause_relation_format_("(Follows|Follows\\*|Parent|Parent\\*|Uses|Modifies)\\s*\\(\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*,\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*\\)");
+const std::regex clause_relation_format_("(Follows|Follows\\*|Parent|Parent\\*|Uses|Modifies|Calls|Calls\\*|Next|Next\\*)\\s*\\(\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*,\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*\\)");
 const std::regex clause_pattern_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*(_\\s*\"\\s*[^\\s].*\\s*\"\\s*_|_)\\s*\\)");
 const std::regex stmt_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
 const std::regex ent_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\")");
+const std::regex line_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
 const std::regex expression_spec_format_("(_\\s*\"\\s*([a-zA-Z][a-zA-Z0-9]*|[0-9]+)\\s*\"\\s*_|_)");
 
 /*
@@ -58,7 +59,7 @@ VALIDATION_RESULT QueryValidator::isValidDeclaration(SINGLE_DECLARATION single_d
 
 /*
 Validation rules:
-	- There is a synonym after 'Select'
+	- There is a result clause after 'Select'
 	- Has at most one 'such that' and 'pattern' clauses
 */
 VALIDATION_RESULT QueryValidator::isValidClause(CLAUSES c) {
@@ -86,6 +87,10 @@ Validation rules:
 	- Elements should either be a:
 		- synonym
 		- attribute reference
+	- If element is a synonym, it has been declared
+	- If element is an attribute reference:
+		- synonym is declared
+		- declared attribute name is valid
 */
 VALIDATION_RESULT QueryValidator::isValidElem(PROCESSED_SYNONYMS proc_s, ELEMENT elem) {
 	if (std::regex_match(elem, name_format_) && QueryValidator::isSynonymDeclared(proc_s, elem)) {
@@ -143,12 +148,13 @@ List of synonyms that return statement number:
 	- while
 	- if
 	- assign
+	- prog_line
 */
-VALIDATION_RESULT QueryValidator::isStatementArgument(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
+VALIDATION_RESULT QueryValidator::isStatementRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
 	if (!std::regex_match(a, stmt_ref_format_)) {
 		return false;
 	}
-	else if (std::regex_match(a, std::regex("_"))) {
+	else if (a.compare("_") == 0) {
 		return true;
 	}
 	else if (std::regex_match(a, integer_format_)) {
@@ -176,6 +182,67 @@ VALIDATION_RESULT QueryValidator::isStatementArgument(PROCESSED_SYNONYMS proc_s,
 		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::assign) {
 			return true;
 		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::prog_line) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+}
+
+/*
+List of synonyms that return entity refernces:
+	- variable
+	- procedure
+*/
+VALIDATION_RESULT QueryValidator::isEntityRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
+	if (!std::regex_match(a, ent_ref_format_)) {
+		return false;
+	}
+	else if (a.compare("_") == 0) {
+		return true;
+	}
+	else if (std::regex_match(a, identity_format_)) {
+		return true;
+	}
+	else if (std::regex_match(a, name_format_)) {
+		if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::variable) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::procedure) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+}
+
+/*
+List of synonyms that return line refernces:
+	- prog_line
+*/
+VALIDATION_RESULT QueryValidator::isLineRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
+	if (!std::regex_match(a, line_ref_format_)) {
+		return false;
+	}
+	else if (a.compare("_") == 0) {
+		return true;
+	}
+	else if (std::regex_match(a, integer_format_)) {
+		return true;
+	}
+	else if (std::regex_match(a, name_format_)) {
+		if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::prog_line) {
+			return true;
+		}
 		else {
 			return false;
 		}
@@ -189,25 +256,23 @@ VALIDATION_RESULT QueryValidator::isStatementArgument(PROCESSED_SYNONYMS proc_s,
 Validation rules:
 	- If argument is a synonym, check if it has been declared
 	- Check if type of arguments are correct
-		- Follows and FollowsT can only have statement arguments
-		- Parent and ParentT can only have statement arguments
-		- If arguments of UsesS are synonyms, only the following combinations are allowed:
-				- assign, variable
-				- print, variable
-				- if, variable
-				- while, variable
-				- procedure, variable
-				- call, variable
-				*note second arguments are all variables
-		- If arguments of ModifiesS are synonyms, only the following combinations are allowed:
-				- assign, variable
-				- read, variable
-				- if, variable
-				- while, variable
-				- procedure, variable
-				- call, variable
-				*note second arguments are all variables
-		- Modifies and Uses can not have '_' as first argument
+		- Follows and FollowsT can only have statement references as arguments
+		- Parent and ParentT can only have statement references as arguments
+		- UsesS can only have:
+			- statement references (excluding read & ‘_’) as their first argument
+			- entity references as their second argument
+		- UsesP can only have:
+			- entity references (excluding variable & ‘_’) as their first argument
+			- entity references as their second argument
+		- ModifiesS can only have:
+			- statement references (excluding print & ‘_’) as their first argument
+			- entity references as their second argument
+		- ModifiesP can only have:
+			- entity references (excluding variable & ‘_’) as their first argument
+			- entity references as their second argument
+		- Calls and CallsT can only have entity references (excluding variable) as arguments
+		- Next and NextT can only have line references as arguments
+
 */
 VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
 	ARGUMENT first_arg, ARGUMENT second_arg) {
@@ -219,50 +284,53 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		return false;
 	}
 
-	if (std::regex_match(rel, std::regex("Follows")) || std::regex_match(rel, std::regex("Follows\\*"))) {
-		if (!isStatementArgument(proc_s, first_arg)) {
+	if (rel.compare("Follows") == 0 || rel.compare("Follows*") == 0) {
+		if (!isStatementRef(proc_s, first_arg)) {
 			return false;
 		}
-		else if (!isStatementArgument(proc_s, second_arg)) {
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
-	else if (std::regex_match(rel, std::regex("Parent")) || std::regex_match(rel, std::regex("Parent\\*"))) {
-		if (!isStatementArgument(proc_s, first_arg)) {
-			return false;
-		}
-		else if (!isStatementArgument(proc_s, second_arg)) {
+		else if (!isStatementRef(proc_s, second_arg)) {
 			return false;
 		}
 		else {
 			return true;
 		}
 	}
-	else if (std::regex_match(rel, std::regex("Uses"))) {
-		if (std::regex_match(first_arg, std::regex("_"))) {
+	else if (rel.compare("Parent") == 0 || rel.compare("Parent*") == 0) {
+		if (!isStatementRef(proc_s, first_arg)) {
 			return false;
 		}
-		else if (!std::regex_match(first_arg, stmt_ref_format_) || !std::regex_match(second_arg, ent_ref_format_)) {
+		else if (!isStatementRef(proc_s, second_arg)) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	else if (rel.compare("Uses") == 0) {
+		if (first_arg.compare("_") == 0) {
+			return false;
+		}
+		else if (!std::regex_match(first_arg, stmt_ref_format_) && !std::regex_match(first_arg, ent_ref_format_)) {
+			return false;
+		}
+		else if (!std::regex_match(second_arg, ent_ref_format_)) {
 			return false;
 		}
 		else if (std::regex_match(first_arg, name_format_)) {
-			if (std::regex_match(second_arg, std::regex("_"))) {
+			if (second_arg.compare("_") == 0) {
 				return true;
 			}
-			else if (std::regex_match(second_arg, identity_format_)) {
-				return true;
-			}
-			else if (proc_s.find(second_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+			else if (isEntityRef(proc_s, second_arg)) {
 				if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::read) {
 					return false;
 				}
-				else if (isStatementArgument(proc_s, first_arg)) {
+				else if (isStatementRef(proc_s, first_arg)) {
 					return true;
 				}
-				else if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::procedure) {
+				else if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+					return false;
+				}
+				else if (isEntityRef(proc_s, first_arg)) {
 					return true;
 				}
 				else {
@@ -277,28 +345,31 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 			return true;
 		}
 	}
-	else if (std::regex_match(rel, std::regex("Modifies"))) {
-		if (std::regex_match(first_arg, std::regex("_"))) {
+	else if (rel.compare("Modifies") == 0) {
+		if (first_arg.compare("_") == 0) {
 			return false;
 		}
-		else if (!std::regex_match(first_arg, stmt_ref_format_) || !std::regex_match(second_arg, ent_ref_format_)) {
+		else if (!std::regex_match(first_arg, stmt_ref_format_) && !std::regex_match(first_arg, ent_ref_format_)) {
+			return false;
+		}
+		else if (!std::regex_match(second_arg, ent_ref_format_)) {
 			return false;
 		}
 		else if (std::regex_match(first_arg, name_format_)) {
-			if (std::regex_match(second_arg, std::regex("_"))) {
+			if (second_arg.compare("_") == 0) {
 				return true;
 			}
-			else if (std::regex_match(second_arg, identity_format_)) {
-				return true;
-			}
-			else if (proc_s.find(second_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+			else if (isEntityRef(proc_s, second_arg)) {
 				if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::print) {
 					return false;
 				}
-				else if (isStatementArgument(proc_s, first_arg)) {
+				else if (isStatementRef(proc_s, first_arg)) {
 					return true;
 				}
-				else if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::procedure) {
+				else if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+					return false;
+				}
+				else if (isEntityRef(proc_s, first_arg)) {
 					return true;
 				}
 				else {
@@ -312,6 +383,34 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		else {
 			return true;
 		}
+	}
+	else if (rel.compare("Calls") == 0 || rel.compare("Calls*") == 0) {
+		if (!isEntityRef(proc_s, first_arg)) {
+			return false;
+		}
+		else if (!isEntityRef(proc_s, second_arg)) {
+			return false;
+		}
+		if (std::regex_match(first_arg, name_format_) && proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+			return false;
+		}
+		else if (std::regex_match(second_arg, name_format_) && proc_s.find(second_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	else if (rel.compare("Next") == 0 || rel.compare("Next*") == 0) {
+	if (!isLineRef(proc_s, first_arg)) {
+		return false;
+	}
+	else if (!isLineRef(proc_s, second_arg)) {
+		return false;
+	}
+	else {
+		return true;
+	}
 	}
 
 	return false;
@@ -357,4 +456,20 @@ VALIDATION_RESULT QueryValidator::isValidPatternArguments(PROCESSED_SYNONYMS pro
 		return true;
 	}
 
+}
+
+/*
+Validation rules:
+	- 
+*/
+static VALIDATION_RESULT isValidWithFormat(SINGLE_CLAUSE single_c) {
+	return true;
+}
+
+/*
+Validation rules:
+	- 
+*/
+static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
+	return true;
 }

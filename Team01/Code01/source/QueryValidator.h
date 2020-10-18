@@ -60,7 +60,17 @@ public:
 	/*
 	Description: Returns a VALIDATION_RESULT based on whether argument returns a statemenr number.
 	*/
-	static VALIDATION_RESULT isStatementArgument(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
+	static VALIDATION_RESULT isStatementRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
+
+	/*
+	Description: Returns a VALIDATION_RESULT based on whether argument returns an entity reference.
+	*/
+	static VALIDATION_RESULT isEntityRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
+
+	/*
+	Description: Returns a VALIDATION_RESULT based on whether argument returns a line reference.
+	*/
+	static VALIDATION_RESULT isLineRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on relationship argument validity.
@@ -78,4 +88,14 @@ public:
 	*/
 	static VALIDATION_RESULT isValidPatternArguments(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
 		ARGUMENT first_arg, ARGUMENT second_arg);
+
+	/*
+	Description: Returns a VALIDATION_RESULT based on with format.
+	*/
+	static VALIDATION_RESULT isValidWithFormat(SINGLE_CLAUSE single_c);
+
+	/*
+	Description: Returns a VALIDATION_RESULT based on whether argument is a valid reference.
+	*/
+	static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
 };

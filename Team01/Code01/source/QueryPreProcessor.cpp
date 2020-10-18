@@ -78,7 +78,7 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 	bool isValid = true;
 	QueryNode result_node = QueryNode();
 
-	if (std::regex_match(r, std::regex("BOOLEAN"))) {
+	if (r.compare("BOOLEAN") == 0) {
 		// result clause is a boolean
 		result_node.setNodeType({ QueryNodeType::boolean });
 	}
@@ -181,7 +181,7 @@ INDEX QueryPreProcessor::getNextClauseIndex(CLAUSES c, INDEX current_index, INDE
 QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
 	QueryNode exp_node = QueryNode();
 
-	if (std::regex_match(e, std::regex("_"))) {
+	if (e.compare("_") == 0) {
 		// is wild card
 		exp_node.setNodeType({ QueryNodeType::wild_card });
 	}
@@ -219,7 +219,7 @@ QueryNode QueryPreProcessor::createArgumentNode(PROCESSED_SYNONYMS proc_s, ARGUM
 		// argument is a synonym
 		arg_node.setSynonymNode({ proc_s.find(arg)->second.getSynonymType() }, arg);
 	}
-	else if (std::regex_match(arg, std::regex("_"))) {
+	else if (arg.compare("_") == 0) {
 		// argument is a wild card
 		arg_node.setNodeType({ QueryNodeType::wild_card });
 
@@ -242,7 +242,28 @@ QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, RELAT
 	ARGUMENT first_arg, ARGUMENT second_arg) {
 
 	QueryNode relation_node = QueryNode();
-	relation_node.setNodeType((NODE_TYPE_STRING)rel);
+	
+	if (rel.compare("Uses") == 0 || rel.compare("Modifies") == 0) {
+		if (QueryValidator::isStatementRef(proc_s, first_arg)) {
+			if (rel.compare("Uses") == 0) {
+				relation_node.setNodeType("UsesS");
+			}
+			else {
+				relation_node.setNodeType("ModifiesS");
+			}
+		}
+		else {
+			if (std::regex_match(rel, std::regex("Uses"))) {
+				relation_node.setNodeType("UsesP");
+			}
+			else {
+				relation_node.setNodeType("ModifiesP");
+			}
+		}
+	}
+	else {
+		relation_node.setNodeType((NODE_TYPE_STRING)rel);
+	}
 
 	QueryNode first_arg_node = createArgumentNode(proc_s, first_arg);
 	QueryNode second_arg_node = createArgumentNode(proc_s, second_arg);

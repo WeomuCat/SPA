@@ -14,46 +14,52 @@ void QueryNode::setNodeType(QUERY_NODE_TYPE node_type) {
 }
 
 void QueryNode::setNodeType(NODE_TYPE_STRING node_type_string) {
-	if (std::regex_match(node_type_string, std::regex("select"))) {
+	if (node_type_string.compare("select") == 0) {
 		this->node_type = QueryNodeType::select;
 	}
-	else if (std::regex_match(node_type_string, std::regex("synonym"))) {
+	else if (node_type_string.compare("synonym") == 0) {
 		this->node_type = QueryNodeType::synonym;
 	}
-	else if (std::regex_match(node_type_string, std::regex("such that"))) {
+	else if (node_type_string.compare("such that") == 0) {
 		this->node_type = QueryNodeType::such_that;
 	}
-	else if (std::regex_match(node_type_string, std::regex("pattern"))) {
+	else if (node_type_string.compare("pattern") == 0) {
 		this->node_type = QueryNodeType::pattern;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Follows"))) {
+	else if (node_type_string.compare("Follows") == 0) {
 		this->node_type = QueryNodeType::follows;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Follows\\*"))) {
+	else if (node_type_string.compare("Follows*") == 0) {
 		this->node_type = QueryNodeType::followsT;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Parent"))) {
+	else if (node_type_string.compare("Parent") == 0) {
 		this->node_type = QueryNodeType::parent;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Parent\\*"))) {
+	else if (node_type_string.compare("Parent*") == 0) {
 		this->node_type = QueryNodeType::parentT;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Uses"))) {
+	else if (node_type_string.compare("UsesS") == 0) {
 		this->node_type = QueryNodeType::usesS;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Modifies"))) {
+	else if (node_type_string.compare("UsesP") == 0) {
+		this->node_type = QueryNodeType::usesP;
+	}
+	else if (node_type_string.compare("ModifiesS") == 0) {
 		this->node_type = QueryNodeType::modifiesS;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Calls"))) {
+	else if (node_type_string.compare("ModifiesP") == 0) {
+		this->node_type = QueryNodeType::modifiesP;
+	}
+	else if (node_type_string.compare("Calls") == 0) {
 		this->node_type = QueryNodeType::calls;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Calls\\*"))) {
+	else if (node_type_string.compare("Calls*") == 0) {
 		this->node_type = QueryNodeType::callsT;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Next"))) {
+	else if (node_type_string.compare("Next") == 0) {
 		this->node_type = QueryNodeType::next;
 	}
-	else if (std::regex_match(node_type_string, std::regex("Next\\*"))) {
+	else if (node_type_string.compare("Next*") == 0) {
 		this->node_type = QueryNodeType::nextT;
 	}
 }
@@ -95,37 +101,37 @@ void QueryNode::setSynonymNode(SYNONYM_TYPE synonym_type, SYNONYM_NAME synonym_n
 void QueryNode::setSynonymNode(SYNONYM_TYPE_STRING synonym_type_string, SYNONYM_NAME synonym_name) {
 	this->node_type = {QueryNodeType::synonym};
 
-	if (std::regex_match(synonym_type_string, std::regex("stmt"))) {
+	if (synonym_type_string.compare("stmt") == 0) {
 		this->synonym_type = QuerySynonymType::stmt;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("read"))) {
+	else if (synonym_type_string.compare("read") == 0) {
 		this->synonym_type = QuerySynonymType::read;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("print"))) {
+	else if (synonym_type_string.compare("print") == 0) {
 		this->synonym_type = QuerySynonymType::print;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("calll"))) {
+	else if (synonym_type_string.compare("call") == 0) {
 		this->synonym_type = QuerySynonymType::call;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("while"))) {
+	else if (synonym_type_string.compare("while") == 0) {
 		this->synonym_type = QuerySynonymType::whiles;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("if"))) {
+	else if (synonym_type_string.compare("if") == 0) {
 		this->synonym_type = QuerySynonymType::ifs;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("assign"))) {
+	else if (synonym_type_string.compare("assign") == 0) {
 		this->synonym_type = QuerySynonymType::assign;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("variable"))) {
+	else if (synonym_type_string.compare("variable") == 0) {
 		this->synonym_type = QuerySynonymType::variable;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("constant"))) {
+	else if (synonym_type_string.compare("constant") == 0) {
 		this->synonym_type = QuerySynonymType::constant;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("prog_line"))) {
+	else if (synonym_type_string.compare("prog_line") == 0) {
 		this->synonym_type = QuerySynonymType::prog_line;
 	}
-	else if (std::regex_match(synonym_type_string, std::regex("procedure"))) {
+	else if (synonym_type_string.compare("procedure") == 0) {
 		this->synonym_type = QuerySynonymType::procedure;
 	}
 
