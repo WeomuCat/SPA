@@ -89,6 +89,10 @@ public:
 	*/
 	static VALIDATION_RESULT isValidPatternArguments(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
 		ARGUMENTS args);
+	/*
+	Description: Returns a VALIDATION_RESULT based on the validity of the postfix expression.
+	*/
+	//static VALIDATION_RESULT isValidPostfixExpr(POSTFIX_EXPR e);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on with format.
@@ -99,4 +103,7 @@ public:
 	Description: Returns a VALIDATION_RESULT based on whether argument is a valid reference.
 	*/
 	static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a);
+
+private:
+
 };

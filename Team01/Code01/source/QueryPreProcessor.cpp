@@ -14,7 +14,7 @@
 
 const std::regex name_format_("[a-zA-Z][a-zA-Z0-9]*");
 const std::regex integer_format_("[0-9]+");
-const std::regex attr_rel_format_("[a-zA-Z][a-zA-Z0-9]*\\.(procName|varName|value|stmt#)");
+const std::regex attr_ref_format_("[a-zA-Z][a-zA-Z0-9]*\\.(procName|varName|value|stmt#)");
 const QueryNode null_node_ = QueryNode();
 
 STRING QueryPreProcessor::trimWhitespaces(STRING s) {
@@ -82,7 +82,7 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 		// result clause is a boolean
 		result_node.setNodeType({ QueryNodeType::boolean });
 	}
-	else if (std::regex_match(r, std::regex(name_format_)) || std::regex_match(r, std::regex(attr_rel_format_))) {
+	else if (std::regex_match(r, std::regex(name_format_)) || std::regex_match(r, std::regex(attr_ref_format_))) {
 		// result clause is a tuple of only one element
 		result_node.setNodeType({ QueryNodeType::tuple });
 
@@ -209,11 +209,13 @@ QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
 		exp_node.setNodeType({ QueryNodeType::wild_card });
 	}
 	else {
-		// partial matching of ast node
+		// get expression
 		int open_quote_index = e.find("\"");
 		int close_quote_index = e.rfind("\"");
 		std::string trimmed_exp = trimWhitespaces(e.substr(open_quote_index + 1,
 			close_quote_index - open_quote_index - 1));
+
+		// create expression
 		std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
 
 		if (std::regex_match(trimmed_exp, std::regex(name_format_))) {
@@ -309,7 +311,7 @@ QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, SINGL
 		QueryNode first_arg_node = createArgumentNode(proc_s, args[0]);
 		QueryNode second_arg_node = createArgumentNode(proc_s, args[1]);
 
-		QueryNode relation_node_children[2] = { first_arg_node, second_arg_node };
+		QueryNode relation_node_children[] = { first_arg_node, second_arg_node };
 		relation_node.setChildren(relation_node_children, 2);
 
 		return relation_node;
@@ -324,10 +326,6 @@ QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE
 	bool is_valid = true;
 	QueryNode pattern_node = QueryNode();
 	pattern_node.setNodeType({ QueryNodeType::pattern });
-
-	// maybe refactor this into createPatternNode + createRelationNode
-	// need to check the synonym - assign/while has 2, if has 3
-	// maybe take in vector for arguments here??
 
 	// get synonym
 	int syn_start_index = c.find(" ");
@@ -346,8 +344,17 @@ QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE
 		QueryNode first_arg_node = createArgumentNode(proc_s, args[0]);
 		QueryNode second_arg_node = createExpressionNode(args[1]);
 
-		QueryNode pattern_node_children[3] = { syn_node, first_arg_node, second_arg_node };
-		pattern_node.setChildren(pattern_node_children, 3);
+		if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::ifs) {
+			// pattern-if has 3 arguments
+			QueryNode third_arg_node = createExpressionNode(args[2]);
+			QueryNode pattern_node_children[] = { syn_node, first_arg_node, second_arg_node, third_arg_node };
+			pattern_node.setChildren(pattern_node_children, 4);
+		}
+		else {
+			// pattern-assign & pattern-while has 3 arguments
+			QueryNode pattern_node_children[] = { syn_node, first_arg_node, second_arg_node };
+			pattern_node.setChildren(pattern_node_children, 3);
+		}
 
 		return pattern_node;
 	}
