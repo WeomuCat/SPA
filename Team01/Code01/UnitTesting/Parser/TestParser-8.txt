@@ -1,0 +1,9 @@
+procedure nestedWhile {
+	while (a < b) {
+		print x;
+				
+		while (c > d) {
+			read y;
+		}
+	}
+}

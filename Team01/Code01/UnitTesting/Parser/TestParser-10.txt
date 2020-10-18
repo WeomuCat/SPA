@@ -1,0 +1,9 @@
+procedure proc1 {
+	print a;
+	call proc2;
+	print a;
+}
+
+procedure proc2 {
+	a = 5;
+}
