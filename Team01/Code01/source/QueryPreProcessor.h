@@ -12,7 +12,7 @@ typedef std::string DECLARATIONS;
 typedef std::vector<std::string> SPLIT_DECLARATIONS;
 typedef QueryNode PROCESSED_CLAUSES;
 typedef std::string EXPRESSION;
-typedef std::string INFIX_EXPR;
+typedef std::vector<TOKEN> INFIX_EXPR;
 typedef std::string STRING;
 typedef int INDEX;
 
@@ -65,6 +65,11 @@ private:
 	Description: Returns a vector of arguments for a clause.
 	*/
 	ARGUMENTS getArguments(SINGLE_CLAUSE c);
+
+	/*
+	Description: Returns a tokenized INFIX_EXPR.
+	*/
+	INFIX_EXPR tokenizeExpression(EXPRESSION e);
 
 	/*
 	Description: Returns priotity of TOKEN.

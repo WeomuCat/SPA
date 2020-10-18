@@ -202,6 +202,47 @@ ARGUMENTS QueryPreProcessor::getArguments(SINGLE_CLAUSE c) {
 	return args;
 }
 
+INFIX_EXPR QueryPreProcessor::tokenizeExpression(EXPRESSION e) {
+	INFIX_EXPR infix_e;
+	std::string token;
+
+	for (int i = 0; i < e.size(); i++) {
+		char c = e[i];
+
+		if (c == ' ') {
+			if (token.size() > 0) {
+				infix_e.push_back(token);
+				token.clear();
+			}
+		}
+		else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '(' || c == ')') {
+			// token is operator
+
+			if (token.size() > 0) {
+				infix_e.push_back(token);
+				token.clear();
+			}
+
+			token.push_back(c);
+		}
+		else {
+			// token is character/numeral
+
+			if (token.size() > 0 && !std::regex_match(token, integer_format_) && !std::regex_match(token, name_format_)) {
+				infix_e.push_back(token);
+				token.clear();
+			}
+
+			token.push_back(c);
+		}
+	}
+
+	infix_e.push_back(token);
+	token.clear();
+
+	return infix_e;
+}
+
 int QueryPreProcessor::getTokenPriority(TOKEN t) {
 	// var & const < '+' & '-' < '*' & '/'
 
@@ -218,24 +259,11 @@ int QueryPreProcessor::getTokenPriority(TOKEN t) {
 
 POSTFIX_EXPR QueryPreProcessor::infixToPostfix(INFIX_EXPR e) {
 	POSTFIX_EXPR postfix_e;
-	INFIX_EXPR remaining_e = e;
 	std::vector<TOKEN> op_stack;
 
-	bool is_last = false;
-	int token_end_index = remaining_e.find(" ");
-
-	if (token_end_index == -1) {
-		// there is only one var/const for the entire expr
-		is_last = true;
-	}
-
-	while (token_end_index != -1 || is_last ) {
+	for (int i = 0; i < e.size(); i++) {
 		// get token
-		TOKEN t = trimWhitespaces(remaining_e.substr(0, token_end_index));
-
-		if (!is_last) {
-			remaining_e = trimWhitespaces(remaining_e.substr(token_end_index + 1));
-		}
+		TOKEN t = e[i];
 
 		if (std::regex_match(t, name_format_) || std::regex_match(t, integer_format_)) {
 			// add to postfix expr if is a factor
@@ -271,15 +299,6 @@ POSTFIX_EXPR QueryPreProcessor::infixToPostfix(INFIX_EXPR e) {
 				op_stack.push_back(t);
 			}
 		}
-
-		token_end_index = remaining_e.find(" ");
-
-		if (token_end_index == -1 && remaining_e.compare("") != 0 &&!is_last) {
-			is_last = true;
-		}
-		else if (is_last) {
-			is_last = false;
-		}
 	}
 
 	while (op_stack.size() != 0) {
@@ -307,7 +326,8 @@ QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
 		std::string trimmed_expr = trimWhitespaces(e.substr(open_quote_index + 1,
 			close_quote_index - open_quote_index - 1));
 
-		POSTFIX_EXPR postfix_expr = infixToPostfix(trimmed_expr);
+		INFIX_EXPR infix_expr = tokenizeExpression(trimmed_expr);
+		POSTFIX_EXPR postfix_expr = infixToPostfix(infix_expr);
 
 		if (!QueryValidator::isValidPostfixExpr(postfix_expr)) {
 			is_valid = false;

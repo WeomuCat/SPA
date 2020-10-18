@@ -973,6 +973,7 @@ namespace IntegrationTesting
 			CLAUSES c7 = "Select v pattern a(v, \"1\")";
 			CLAUSES c8 = "Select v pattern a(v, _\"3 * a\"_)";
 			CLAUSES c9 = "Select v pattern a(v, \"3 + b / ( c - d )\")";
+			CLAUSES c10 = "Select v pattern a(v, \"3+bark/    (c-d)\")";
 
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
 			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
@@ -983,7 +984,8 @@ namespace IntegrationTesting
 			PROCESSED_CLAUSES proc_c7 = qpp.preProcessClauses(proc_s, c7);
 			PROCESSED_CLAUSES proc_c8 = qpp.preProcessClauses(proc_s, c8);
 			PROCESSED_CLAUSES proc_c9 = qpp.preProcessClauses(proc_s, c9);
-			
+			PROCESSED_CLAUSES proc_c10 = qpp.preProcessClauses(proc_s, c10);
+
 			Assert::IsTrue(proc_c1.getChildren()[1].getNodeType() == QueryNodeType::pattern);
 			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
 			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
@@ -1087,6 +1089,25 @@ namespace IntegrationTesting
 			std::shared_ptr<ExpressionNode> expr_node_c9_3 = std::static_pointer_cast<ExpressionNode>(expr_node_c9_2->getRightAstNode());
 			Assert::IsTrue(expr_node_c9_3->getLeftAstNode()->getNodeType() == NodeTypeEnum::variableNode);
 			Assert::IsTrue(expr_node_c9_3->getRightAstNode()->getNodeType() == NodeTypeEnum::variableNode);
+
+			Assert::IsTrue(proc_c10.getChildren()[1].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c10.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c10.getChildren()[1].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c10.getChildren()[1].getChildren()[0].getString().compare("a") == 0);
+			Assert::IsTrue(proc_c10.getChildren()[1].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c10.getChildren()[1].getChildren()[1].getSynonymType() == QuerySynonymType::variable);
+			Assert::IsTrue(proc_c10.getChildren()[1].getChildren()[1].getString().compare("v") == 0);
+			Assert::IsTrue(proc_c10.getChildren()[1].getChildren()[2].getNodeType() == QueryNodeType::expression);
+			Assert::IsTrue(proc_c10.getChildren()[1].getChildren()[2].getAstNode()->getNodeType() == NodeTypeEnum::expressionNode);
+			std::shared_ptr<ExpressionNode> expr_node_c10_1 = std::static_pointer_cast<ExpressionNode>(proc_c10.getChildren()[1].getChildren()[2].getAstNode());
+			Assert::IsTrue(expr_node_c10_1->getLeftAstNode()->getNodeType() == NodeTypeEnum::constantNode);
+			Assert::IsTrue(expr_node_c10_1->getRightAstNode()->getNodeType() == NodeTypeEnum::expressionNode);
+			std::shared_ptr<ExpressionNode> expr_node_c10_2 = std::static_pointer_cast<ExpressionNode>(expr_node_c10_1->getRightAstNode());
+			Assert::IsTrue(expr_node_c10_2->getLeftAstNode()->getNodeType() == NodeTypeEnum::variableNode);
+			Assert::IsTrue(expr_node_c10_2->getRightAstNode()->getNodeType() == NodeTypeEnum::expressionNode);
+			std::shared_ptr<ExpressionNode> expr_node_c10_3 = std::static_pointer_cast<ExpressionNode>(expr_node_c10_2->getRightAstNode());
+			Assert::IsTrue(expr_node_c10_3->getLeftAstNode()->getNodeType() == NodeTypeEnum::variableNode);
+			Assert::IsTrue(expr_node_c10_3->getRightAstNode()->getNodeType() == NodeTypeEnum::variableNode);
 		}
 
 		TEST_METHOD(preProcessClauses_Pattern_If_Valid_Success) {
