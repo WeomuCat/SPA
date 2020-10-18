@@ -1,0 +1,15 @@
+procedure proc1 {
+	a = b + 1;
+	read a;
+	call proc2;
+
+	while(a > 2) {
+		read c;
+		call proc2;
+	}
+}
+
+procedure proc2 {
+	print x;
+	y = z + 2;
+}

@@ -1,0 +1,7 @@
+procedure simpleIf {
+	if (a < b) then {
+		read c;
+	} else {
+		print d;
+	}
+}
