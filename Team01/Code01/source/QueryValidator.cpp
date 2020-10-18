@@ -11,7 +11,9 @@ const std::regex brac_tuple_format_("<\\s*([a-zA-Z][a-zA-Z0-9]*|[a-zA-Z][a-zA-Z0
 const std::regex declaration_format_("(stmt|read|print|while|if|assign|variable|constant|prog_line|procedure)\\s+[a-zA-Z][a-zA-Z0-9]*\\s*(\\,\\s*[a-zA-Z][a-zA-Z0-9]*)*\\s*");
 const std::regex clause_select_format_("Select\\s+([a-zA-Z][a-zA-Z0-9]*|<.*>).*");
 const std::regex clause_relation_format_("(Follows|Follows\\*|Parent|Parent\\*|Uses|Modifies|Calls|Calls\\*|Next|Next\\*)\\s*\\(\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*,\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*\\)");
-const std::regex clause_pattern_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*(_\\s*\"\\s*[^\\s].*\\s*\"\\s*_|_)\\s*\\)");
+const std::regex clause_pattern_assign_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*(\"\\s*[^\\s].*\\s*\"|_\\s*\"\\s*[^\\s].*\\s*\"\\s*_|_)\\s*\\)");
+const std::regex clause_pattern_if_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)");
+const std::regex clause_pattern_with_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)");
 const std::regex stmt_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
 const std::regex ent_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\")");
 const std::regex line_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
@@ -150,7 +152,7 @@ List of synonyms that return statement number:
 	- assign
 	- prog_line
 */
-VALIDATION_RESULT QueryValidator::isStatementRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
+VALIDATION_RESULT QueryValidator::isStatementRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a) {
 	if (!std::regex_match(a, stmt_ref_format_)) {
 		return false;
 	}
@@ -199,7 +201,7 @@ List of synonyms that return entity refernces:
 	- variable
 	- procedure
 */
-VALIDATION_RESULT QueryValidator::isEntityRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
+VALIDATION_RESULT QueryValidator::isEntityRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a) {
 	if (!std::regex_match(a, ent_ref_format_)) {
 		return false;
 	}
@@ -229,7 +231,7 @@ VALIDATION_RESULT QueryValidator::isEntityRef(PROCESSED_SYNONYMS proc_s, ARGUMEN
 List of synonyms that return line refernces:
 	- prog_line
 */
-VALIDATION_RESULT QueryValidator::isLineRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
+VALIDATION_RESULT QueryValidator::isLineRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a) {
 	if (!std::regex_match(a, line_ref_format_)) {
 		return false;
 	}
@@ -275,7 +277,10 @@ Validation rules:
 
 */
 VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
-	ARGUMENT first_arg, ARGUMENT second_arg) {
+	ARGUMENTS args) {
+
+	SINGLE_ARGUMENT first_arg = args[0];
+	SINGLE_ARGUMENT second_arg = args[1];
 
 	if (std::regex_match(first_arg, name_format_) && !isSynonymDeclared(proc_s, first_arg)) {
 		return false;
@@ -419,9 +424,10 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 /*
 Validation rules:
 	- Check if pattern has correct format+number of arguments
+	* note pattern-while format is a subset of pattern-assign format
 */
 VALIDATION_RESULT QueryValidator::isValidPatternFormat(SINGLE_CLAUSE single_c) {
-	if (!std::regex_match(single_c, clause_pattern_format_)) {
+	if (!std::regex_match(single_c, clause_pattern_assign_format_) && !std::regex_match(single_c, clause_pattern_if_format_)) {
 		return false;
 	}
 	else {
@@ -438,7 +444,10 @@ Validation rules:
 	- Check if type of arguments are correct
 */
 VALIDATION_RESULT QueryValidator::isValidPatternArguments(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
-	ARGUMENT first_arg, ARGUMENT second_arg) {
+	ARGUMENTS args) {
+
+	SINGLE_ARGUMENT first_arg = args[0];
+	SINGLE_ARGUMENT second_arg = args[1];
 
 	if (!isSynonymDeclared(proc_s, s)) {
 		return false;
@@ -470,6 +479,6 @@ static VALIDATION_RESULT isValidWithFormat(SINGLE_CLAUSE single_c) {
 Validation rules:
 	- 
 */
-static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a) {
+static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a) {
 	return true;
 }

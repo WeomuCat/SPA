@@ -75,7 +75,7 @@ QueryNode QueryPreProcessor::createElemNode(PROCESSED_SYNONYMS proc_s, ELEMENT e
 
 QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT r) {
 	//returns Querynode of QueryNodeType::unassigned if result is invalid
-	bool isValid = true;
+	bool is_valid = true;
 	QueryNode result_node = QueryNode();
 
 	if (r.compare("BOOLEAN") == 0) {
@@ -91,7 +91,7 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 			result_node.setChildren(result_child, 1);
 		}
 		else {
-			isValid = false;
+			is_valid = false;
 		}
 	}
 	else {
@@ -112,7 +112,7 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 				result_node.setChildren(result_child, 1);
 			}
 			else {
-				isValid = false;
+				is_valid = false;
 			}
 		}
 		else {
@@ -133,7 +133,7 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 					comma_index = r.find(",", curr_index);
 				}
 				else {
-					isValid = false;
+					is_valid = false;
 					break;
 				}
 			}
@@ -147,12 +147,12 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 				result_node.setChildren(result_child, 1);
 			}
 			else {
-				isValid = false;
+				is_valid = false;
 			}
 		}
 	}
 
-	if (isValid) {
+	if (is_valid) {
 		return result_node;
 	}
 	else {
@@ -176,6 +176,29 @@ INDEX QueryPreProcessor::getNextClauseIndex(CLAUSES c, INDEX current_index, INDE
 	}
 
 	return next_index;
+}
+
+ARGUMENTS QueryPreProcessor::getArguments(SINGLE_CLAUSE c) {
+	ARGUMENTS args;
+
+	int open_brac_index = c.find("(");
+	int comma_index = c.find(",");
+	int closed_brac_index = c.find(")");
+
+	int curr_index = open_brac_index + 1;
+
+	while (comma_index != -1) {
+		SINGLE_ARGUMENT a = trimWhitespaces(c.substr(curr_index, comma_index - curr_index));
+		args.push_back(a);
+
+		curr_index = comma_index + 1;
+		comma_index = c.find(",", curr_index);
+	}
+
+	SINGLE_ARGUMENT a = trimWhitespaces(c.substr(curr_index, closed_brac_index - curr_index));
+	args.push_back(a);
+
+	return args;
 }
 
 QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
@@ -212,7 +235,7 @@ QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
 	return exp_node;
 }
 
-QueryNode QueryPreProcessor::createArgumentNode(PROCESSED_SYNONYMS proc_s, ARGUMENT arg) {
+QueryNode QueryPreProcessor::createArgumentNode(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT arg) {
 	QueryNode arg_node = QueryNode();
 
 	if (std::regex_match(arg, name_format_)) {
@@ -238,56 +261,99 @@ QueryNode QueryPreProcessor::createArgumentNode(PROCESSED_SYNONYMS proc_s, ARGUM
 
 }
 
-QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
-	ARGUMENT first_arg, ARGUMENT second_arg) {
-
+QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c) {
+	//returns Querynode of QueryNodeType::unassigned if clause is invalid
+	bool is_valid = true;
 	QueryNode relation_node = QueryNode();
-	
-	if (rel.compare("Uses") == 0 || rel.compare("Modifies") == 0) {
-		if (QueryValidator::isStatementRef(proc_s, first_arg)) {
-			if (rel.compare("Uses") == 0) {
-				relation_node.setNodeType("UsesS");
+
+	int open_brac_index = c.find("(");
+	/*
+	int comma_index = c.find(",");
+	int closed_brac_index = c.find(")");
+	ARGUMENT first_arg = trimWhitespaces(c.substr(open_brac_index + 1,
+		comma_index - open_brac_index - 1));
+	ARGUMENT second_arg = trimWhitespaces(c.substr(comma_index + 1,
+		closed_brac_index - comma_index - 1));
+	*/
+	// get relation
+	RELATIONSHIP rel = trimWhitespaces(c.substr(0, open_brac_index));
+	ARGUMENTS args = getArguments(c);
+
+	if (!QueryValidator::isValidRelationArguments(proc_s, rel, args)) {
+		is_valid = false;
+	}
+
+	if (is_valid) {
+		if (rel.compare("Uses") == 0 || rel.compare("Modifies") == 0) {
+			if (QueryValidator::isStatementRef(proc_s, args[0])) {
+				if (rel.compare("Uses") == 0) {
+					relation_node.setNodeType("UsesS");
+				}
+				else {
+					relation_node.setNodeType("ModifiesS");
+				}
 			}
 			else {
-				relation_node.setNodeType("ModifiesS");
+				if (std::regex_match(rel, std::regex("Uses"))) {
+					relation_node.setNodeType("UsesP");
+				}
+				else {
+					relation_node.setNodeType("ModifiesP");
+				}
 			}
 		}
 		else {
-			if (std::regex_match(rel, std::regex("Uses"))) {
-				relation_node.setNodeType("UsesP");
-			}
-			else {
-				relation_node.setNodeType("ModifiesP");
-			}
+			relation_node.setNodeType((NODE_TYPE_STRING)rel);
 		}
+
+		QueryNode first_arg_node = createArgumentNode(proc_s, args[0]);
+		QueryNode second_arg_node = createArgumentNode(proc_s, args[1]);
+
+		QueryNode relation_node_children[2] = { first_arg_node, second_arg_node };
+		relation_node.setChildren(relation_node_children, 2);
+
+		return relation_node;
 	}
 	else {
-		relation_node.setNodeType((NODE_TYPE_STRING)rel);
+		return null_node_;
 	}
-
-	QueryNode first_arg_node = createArgumentNode(proc_s, first_arg);
-	QueryNode second_arg_node = createArgumentNode(proc_s, second_arg);
-
-	QueryNode relation_node_children[2] = { first_arg_node, second_arg_node };
-	relation_node.setChildren(relation_node_children, 2);
-
-	return relation_node;
 }
 
-QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
-	ARGUMENT first_arg, ARGUMENT second_arg) {
-
+QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c) {
+	//returns Querynode of QueryNodeType::unassigned if clause is invalid
+	bool is_valid = true;
 	QueryNode pattern_node = QueryNode();
 	pattern_node.setNodeType({ QueryNodeType::pattern });
 
-	QueryNode syn_node = createArgumentNode(proc_s, s);
-	QueryNode first_arg_node = createArgumentNode(proc_s, first_arg);
-	QueryNode second_arg_node = createExpressionNode(second_arg);
+	// maybe refactor this into createPatternNode + createRelationNode
+	// need to check the synonym - assign/while has 2, if has 3
+	// maybe take in vector for arguments here??
 
-	QueryNode pattern_node_children[3] = { syn_node, first_arg_node, second_arg_node };
-	pattern_node.setChildren(pattern_node_children, 3);
+	// get synonym
+	int syn_start_index = c.find(" ");
+	int open_brac_index = c.find("(");
+	SYNONYM_NAME s = trimWhitespaces(c.substr(syn_start_index,
+		open_brac_index - syn_start_index));
 
-	return pattern_node;
+	ARGUMENTS args = getArguments(c);
+
+	if (!QueryValidator::isValidPatternArguments(proc_s, s, args)) {
+		is_valid = false;
+	}
+
+	if (is_valid) {
+		QueryNode syn_node = createArgumentNode(proc_s, s);
+		QueryNode first_arg_node = createArgumentNode(proc_s, args[0]);
+		QueryNode second_arg_node = createExpressionNode(args[1]);
+
+		QueryNode pattern_node_children[3] = { syn_node, first_arg_node, second_arg_node };
+		pattern_node.setChildren(pattern_node_children, 3);
+
+		return pattern_node;
+	}
+	else {
+		return null_node_;
+	}
 
 }
 
@@ -460,29 +526,18 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 					QueryNode such_that_node = QueryNode();
 					such_that_node.setNodeType({ QueryNodeType::such_that });
 
-					// might want to refactor this part into another func?
-					int open_brac_index = current_c.find("(");
-					int comma_index = current_c.find(",");
-					int closed_brac_index = current_c.find(")");
-					ARGUMENT first_arg = trimWhitespaces(current_c.substr(open_brac_index + 1,
-						comma_index - open_brac_index - 1));
-					ARGUMENT second_arg = trimWhitespaces(current_c.substr(comma_index + 1,
-						closed_brac_index - comma_index - 1));
+					QueryNode relation_node = createRelationNode(proc_s, current_c);
 
-					// get relation
-					RELATIONSHIP rel = trimWhitespaces(current_c.substr(0, open_brac_index));
-
-					if (!QueryValidator::isValidRelationArguments(proc_s, rel, first_arg, second_arg)) {
+					if (relation_node.getNodeType() != QueryNodeType::unassigned) {
+						QueryNode such_that_node_children[1] = { relation_node };
+						such_that_node.setChildren(such_that_node_children, 1);
+						select_children[child_index] = such_that_node;
+						child_index++;
+					}
+					else {
 						is_valid = false;
 						break;
 					}
-
-					QueryNode relation_node = createRelationNode(proc_s, rel, first_arg, second_arg);
-
-					QueryNode such_that_node_children[1] = { relation_node };
-					such_that_node.setChildren(such_that_node_children, 1);
-					select_children[child_index] = such_that_node;
-					child_index++;
 				}
 				else {
 					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(next_index, such_that_index - next_index));
@@ -492,28 +547,16 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						break;
 					}
 
-					int open_brac_index = current_c.find("(");
-					int comma_index = current_c.find(",");
-					int closed_brac_index = current_c.find(")");
-					ARGUMENT first_arg = trimWhitespaces(current_c.substr(open_brac_index + 1,
-						comma_index - open_brac_index - 1));
-					ARGUMENT second_arg = trimWhitespaces(current_c.substr(comma_index + 1,
-						closed_brac_index - comma_index - 1));
+					QueryNode pattern_node = createPatternNode(proc_s, current_c);
 
-					// get synonym
-					int syn_start_index = current_c.find(" ");
-					SYNONYM_NAME pattern_syn = trimWhitespaces(current_c.substr(syn_start_index,
-						open_brac_index - syn_start_index));
-
-					if (!QueryValidator::isValidPatternArguments(proc_s, pattern_syn, first_arg, second_arg)) {
+					if (pattern_node.getNodeType() != QueryNodeType::unassigned) {
+						select_children[child_index] = pattern_node;
+						child_index++;
+					}
+					else {
 						is_valid = false;
 						break;
 					}
-
-					QueryNode pattern_node = createPatternNode(proc_s, pattern_syn, first_arg, second_arg);
-
-					select_children[child_index] = pattern_node;
-					child_index++;
 				}
 
 				such_that_index = c.find("such that", next_index + 1);
