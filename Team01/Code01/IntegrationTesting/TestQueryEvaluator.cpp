@@ -1286,7 +1286,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage("Evaluate exception caught");
 			}
-			STRING_RESULT correct_result = "a, a, a, a, b, b, b, b, c, c, c, c, d, d, d, d, e, e, e, e";
+			STRING_RESULT correct_result = "a, b, c, d, e";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -1384,7 +1384,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage("Evaluate exception caught");
 			}
-			STRING_RESULT correct_result = "2, 3, 3, 4, 4, 4, 5, 5, 5, 5";
+			STRING_RESULT correct_result = "2, 3, 4, 5, 3, 4, 5, 4, 5, 5";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -1434,7 +1434,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage("Evaluate exception caught");
 			}
-			STRING_RESULT correct_result = "a, a, b, b, c, c, d, d, e, e";
+			STRING_RESULT correct_result = "a, b, c, d, e";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -4285,7 +4285,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "2, 3, 3, 4, 4, 4";
+			STRING_RESULT correct_result = "2, 3, 4, 3, 4, 4";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);

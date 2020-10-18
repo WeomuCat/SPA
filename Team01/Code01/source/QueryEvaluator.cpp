@@ -6,13 +6,7 @@ QueryEvaluator::QueryEvaluator(PKB pkb) {
 }
 
 QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSED_CLAUSES clauses) {
-	ResultList result_list;
-	BOOLEAN only_true_false_clauses = true;
-	const QUERY_RESULT no_result = QUERY_RESULT();
-	const QUERY_RESULT boolean_true_result = { "TRUE" };
-	const QUERY_RESULT boolean_false_result = { "FALSE" };
-
-
+	
 	// If root of clauses tree is unassigned, then the clause is syntactically incorrect. Return no result.
 	if (clauses.getNodeType() == QueryNodeType::unassigned) {
 		return no_result;
@@ -25,50 +19,17 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 
 	/* NOTE FOR ITER 2: NEED TO CHECK RETURN_SYNONYM FIRST, MIGHT BE BOOLEAN AND NOT SYNONYM */
 	QueryNode return_value = children[0];
+	this->result_clause = return_value;
+	this->return_synonym_names = return_value.getString();
 	setEvaluatorReturnType(return_value);
-	if (return_type == QueryEvaluatorReturnType::synonym) {
 
-		// If no synonyms are declared, Query is INVALID. Return no result.
-		if (synonyms.size() == 0) {
-			return no_result;
-		}
-
-		// Get return type and return synonym name
-		QueryNode return_synonym = return_value;
-		QuerySynonymType return_synonym_type = return_synonym.getSynonymType();
-		SYNONYM_NAME return_synonym_name = return_synonym.getString(); // "v"
-		this->return_synonym_names = return_synonym_name;
-
-		// fill resultList with return_synonym_name
-		fillWithReturnSynonym(return_synonym_type, return_synonym_name, result_list);
-	}
-	else if (return_type == QueryEvaluatorReturnType::tuple) {
-
-		// If no synonyms are declared, Query is INVALID. Return no result.
-		if (synonyms.size() == 0) {
-			return no_result;
-		}
-
-		// Check with hui ming the data structure of how multiple return synonym names will be stored
-		
-		/*
-		std::vector<std::string> all_return_synonyms = ...
-		this->return_synonym_names = all_return_synonyms;
-
-		// fill resultList with ALL return_synonym_names
-		fillWithAllReturnSynonyms(...); //this method needs to make a separate ResultList for each synonym and merge pairwise
-		*/
-	} else if (return_type == QueryEvaluatorReturnType::boolean) {
-		// if there are no clauses, automatically return true. For BOOLEAN, synonyms need not be declared.
-		if (children.size() == 1) {
-			return boolean_true_result;
-		}
-
-	}
-	else {
-		throw "QE: Return type is invalid";
+	// Only Result Clause, no other clauses to evaluate
+	if (children.size() == 1) {
+		QUERY_RESULT final_result = evaluateResultClause();
+		return final_result;
 	}
 
+	
 
 	// for all clauses in Select (not including the synonym)
 	for (size_t i = 1; i < children.size(); i++) {
@@ -126,27 +87,12 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 				return boolean_false_result;
 			}
 		}
+
+		evaluated_clauses = true;
 	}
 
-	if (return_type == QueryEvaluatorReturnType::synonym) {
-		// convert result_list to string output
-		return ResultListManager::getSynonymValues(result_list, return_synonym_names);
-
-	}
-	else if (return_type == QueryEvaluatorReturnType::boolean) {
-		
-		if (only_true_false_clauses) {
-			return boolean_true_result;
-		}
-		else if (result_list.getNumRows() > 0) {
-			return boolean_true_result;
-		} else {
-			return boolean_false_result;
-		}
-	}
-	else {
-		//handle tuple return result here
-	}
+	QUERY_RESULT final_result = obtainFinalQueryResult();
+	return final_result;
 }
 
 void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList &result_list) {
@@ -198,4 +144,54 @@ void QueryEvaluator::setEvaluatorReturnType(QueryNode select_return) {
 	else {
 		throw "QE: Select's return type is not synonym, tuple, boolean";
 	}
+}
+
+QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
+
+	// only 1 return value
+	if (return_type == QueryEvaluatorReturnType::synonym) {
+		
+		if (!result_list.containsSynonym(return_synonym_names)) {
+			// if only true_false_clause, for it to reach here, it means that all clauses are true -> return synonym
+			// if not true_false, then consider num_rows to see if synonym should be returned
+			if (only_true_false_clauses || result_list.getNumRows() != 0) {
+				ResultList final_result_list;
+				QuerySynonymType return_synonym_type = result_clause.getSynonymType();
+				fillWithReturnSynonym(return_synonym_type, return_synonym_names, final_result_list);
+				return ResultListManager::getSynonymValues(final_result_list, return_synonym_names);
+			}
+		}
+		else {
+			return ResultListManager::getSynonymValues(result_list, return_synonym_names);
+		}
+	}
+	else if (return_type == QueryEvaluatorReturnType::boolean) {
+
+		if (only_true_false_clauses) {
+			return boolean_true_result;
+		}
+		else if (result_list.getNumRows() > 0) {
+			return boolean_true_result;
+		}
+		else {
+			return boolean_false_result;
+		}
+	}
+	else {
+		//handle tuple return result here
+	}
+}
+
+QUERY_RESULT QueryEvaluator::evaluateResultClause() {
+	if (return_type == QueryEvaluatorReturnType::boolean) {
+		return boolean_true_result;
+	}
+	else {
+		ResultList final_result_list;
+		QuerySynonymType return_synonym_type = result_clause.getSynonymType();
+		fillWithReturnSynonym(return_synonym_type, return_synonym_names, final_result_list);
+
+		return ResultListManager::getSynonymValues(final_result_list, return_synonym_names);
+	}
+	
 }

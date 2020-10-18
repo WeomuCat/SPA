@@ -39,8 +39,15 @@ public:
 
 private:
 	PKB pkb = (PKBBuilder().build()); // because PKB has no default constructor
+	ResultList result_list;
+	QueryNode result_clause;
 	RETURN_SYNONYMS return_synonym_names;
 	QueryEvaluatorReturnType return_type;
+	BOOLEAN only_true_false_clauses = true;
+	BOOLEAN evaluated_clauses = false;
+	const QUERY_RESULT no_result = QUERY_RESULT();
+	const QUERY_RESULT boolean_true_result = { "TRUE" };
+	const QUERY_RESULT boolean_false_result = { "FALSE" };
 
 	void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList& result_list);
 	/*
@@ -48,4 +55,8 @@ private:
 	*/
 	
 	void setEvaluatorReturnType(QueryNode select_return);
+
+	QUERY_RESULT obtainFinalQueryResult();
+
+	QUERY_RESULT evaluateResultClause();
 };
