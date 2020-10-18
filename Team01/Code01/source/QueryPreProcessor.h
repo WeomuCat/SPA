@@ -7,20 +7,12 @@
 #include "QueryNode.h"
 #include "QueryValidator.h"
 
-typedef std::string QUERY;
 typedef std::vector<std::string> SPLIT_QUERY;
 typedef std::string DECLARATIONS;
 typedef std::vector<std::string> SPLIT_DECLARATIONS;
-typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
-typedef std::string ELEMENT;
-typedef std::string RESULT;
-typedef std::string CLAUSES;
-typedef std::string SINGLE_CLAUSE;
 typedef QueryNode PROCESSED_CLAUSES;
-typedef std::string RELATIONSHIP;
-typedef std::string SINGLE_ARGUMENT;
-typedef std::vector<SINGLE_ARGUMENT> ARGUMENTS;
 typedef std::string EXPRESSION;
+typedef std::string INFIX_EXPR;
 typedef std::string STRING;
 typedef int INDEX;
 
@@ -73,6 +65,17 @@ private:
 	Description: Returns a vector of arguments for a clause.
 	*/
 	ARGUMENTS getArguments(SINGLE_CLAUSE c);
+
+	/*
+	Description: Returns priotity of TOKEN.
+				 The larger the number, the higher the priority.
+	*/
+	int getTokenPriority(TOKEN t);
+
+	/*
+	Description: Returns a POSTFIX_EXPR.
+	*/
+	POSTFIX_EXPR infixToPostfix(INFIX_EXPR e);
 
 	/*
 	Description: Returns a QueryNode for the expression.

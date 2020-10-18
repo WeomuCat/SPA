@@ -470,18 +470,6 @@ namespace UnitTesting
 			prog_pl.setSynonymNode("prog_line", "pl");
 			proc_s.insert({ "pl", prog_pl });
 
-			SINGLE_ARGUMENT arg1 = "1";
-			SINGLE_ARGUMENT arg2 = "_";
-			SINGLE_ARGUMENT arg3 = "pl";
-
-			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg1));
-			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg2));
-			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg3));
-		}
-
-		TEST_METHOD(isLineRef_Invalid_Success) {
-			PROCESSED_SYNONYMS proc_s;
-
 			QueryNode stmt_s = QueryNode();
 			stmt_s.setSynonymNode("stmt", "s");
 			proc_s.insert({ "s", stmt_s });
@@ -510,6 +498,32 @@ namespace UnitTesting
 			call_cl.setSynonymNode("call", "cl");
 			proc_s.insert({ "cl", call_cl });
 
+			SINGLE_ARGUMENT arg1 = "1";
+			SINGLE_ARGUMENT arg2 = "_";
+			SINGLE_ARGUMENT arg3 = "pl";
+			SINGLE_ARGUMENT arg4 = "s";
+			SINGLE_ARGUMENT arg5 = "r";
+			SINGLE_ARGUMENT arg6 = "pn";
+			SINGLE_ARGUMENT arg7 = "w";
+			SINGLE_ARGUMENT arg8 = "ifs";
+			SINGLE_ARGUMENT arg9 = "a";
+			SINGLE_ARGUMENT arg10 = "cl";
+
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg1));
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg2));
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg3));
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg4));
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg5));
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg6));
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg7));
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg8));
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg9));
+			Assert::IsTrue(QueryValidator::isLineRef(proc_s, arg10));
+		}
+
+		TEST_METHOD(isLineRef_Invalid_Success) {
+			PROCESSED_SYNONYMS proc_s;
+
 			QueryNode var_v = QueryNode();
 			var_v.setSynonymNode("variable", "v");
 			proc_s.insert({ "v", var_v });
@@ -521,29 +535,14 @@ namespace UnitTesting
 			QueryNode procedure_p = QueryNode();
 			procedure_p.setSynonymNode("procedure", "p");
 			proc_s.insert({ "p", procedure_p });
-
-
-			SINGLE_ARGUMENT arg1 = "s";
-			SINGLE_ARGUMENT arg2 = "r";
-			SINGLE_ARGUMENT arg3 = "pn";
-			SINGLE_ARGUMENT arg4 = "w";
-			SINGLE_ARGUMENT arg5 = "ifs";
-			SINGLE_ARGUMENT arg6 = "a";
-			SINGLE_ARGUMENT arg7 = "cl";
-			SINGLE_ARGUMENT arg8 = "v";
-			SINGLE_ARGUMENT arg9 = "c";
-			SINGLE_ARGUMENT arg10 = "p";
+			
+			SINGLE_ARGUMENT arg1 = "v";
+			SINGLE_ARGUMENT arg2 = "c";
+			SINGLE_ARGUMENT arg3 = "p";
 
 			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg1));
 			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg2));
 			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg3));
-			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg4));
-			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg5));
-			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg6));
-			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg7));
-			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg8));
-			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg1));
-			Assert::IsFalse(QueryValidator::isLineRef(proc_s, arg1));
 		}
 
 		TEST_METHOD(isValidRelationArguments_Follows_Valid_Success) {
@@ -2023,9 +2022,9 @@ namespace UnitTesting
 			prog_pl.setSynonymNode("prog_line", "pl");
 			proc_s.insert({ "pl", prog_pl });
 
-			QueryNode stmt_s = QueryNode();
-			stmt_s.setSynonymNode("stmt", "s");
-			proc_s.insert({ "s", stmt_s });
+			QueryNode var_v = QueryNode();
+			var_v.setSynonymNode("variable", "v");
+			proc_s.insert({ "v", var_v });
 
 			RELATIONSHIP r = "Next";
 
@@ -2035,14 +2034,14 @@ namespace UnitTesting
 			SINGLE_ARGUMENT arg2_1 = "\"identity\"";
 			SINGLE_ARGUMENT arg2_2 = "pl";
 
-			SINGLE_ARGUMENT arg3_1 = "s";
+			SINGLE_ARGUMENT arg3_1 = "v";
 			SINGLE_ARGUMENT arg3_2 = "pl";
 
 			SINGLE_ARGUMENT arg4_1 = "pl";
 			SINGLE_ARGUMENT arg4_2 = "\"identity\"";
 
 			SINGLE_ARGUMENT arg5_1 = "pl";
-			SINGLE_ARGUMENT arg5_2 = "s";
+			SINGLE_ARGUMENT arg5_2 = "v";
 
 			ARGUMENTS args1;
 			args1.push_back(arg1_1);
@@ -2133,9 +2132,9 @@ namespace UnitTesting
 			prog_pl.setSynonymNode("prog_line", "pl");
 			proc_s.insert({ "pl", prog_pl });
 
-			QueryNode stmt_s = QueryNode();
-			stmt_s.setSynonymNode("stmt", "s");
-			proc_s.insert({ "s", stmt_s });
+			QueryNode var_v = QueryNode();
+			var_v.setSynonymNode("variable", "v");
+			proc_s.insert({ "v", var_v });
 
 			RELATIONSHIP r = "Next*";
 
@@ -2145,14 +2144,14 @@ namespace UnitTesting
 			SINGLE_ARGUMENT arg2_1 = "\"identity\"";
 			SINGLE_ARGUMENT arg2_2 = "pl";
 
-			SINGLE_ARGUMENT arg3_1 = "s";
+			SINGLE_ARGUMENT arg3_1 = "v";
 			SINGLE_ARGUMENT arg3_2 = "pl";
 
 			SINGLE_ARGUMENT arg4_1 = "pl";
 			SINGLE_ARGUMENT arg4_2 = "\"identity\"";
 
 			SINGLE_ARGUMENT arg5_1 = "pl";
-			SINGLE_ARGUMENT arg5_2 = "s";
+			SINGLE_ARGUMENT arg5_2 = "v";
 
 			ARGUMENTS args1;
 			args1.push_back(arg1_1);

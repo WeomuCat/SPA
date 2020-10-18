@@ -245,6 +245,27 @@ VALIDATION_RESULT QueryValidator::isLineRef(PROCESSED_SYNONYMS proc_s, SINGLE_AR
 		if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::prog_line) {
 			return true;
 		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::stmt) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::assign) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::call) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::read) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::print) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::whiles) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::ifs) {
+			return true;
+		}
 		else {
 			return false;
 		}
@@ -475,7 +496,7 @@ VALIDATION_RESULT QueryValidator::isValidPatternArguments(PROCESSED_SYNONYMS pro
 	}
 	else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::ifs && args_no == 3) {
 		SINGLE_ARGUMENT third_arg = args[2];
-		if (std::regex_match(first_arg, ent_ref_format_) && second_arg.compare("_") == 0 && second_arg.compare("_") == 0) {
+		if (std::regex_match(first_arg, ent_ref_format_) && second_arg.compare("_") == 0 && third_arg.compare("_") == 0) {
 			return true;
 		}
 		else {
@@ -494,6 +515,45 @@ VALIDATION_RESULT QueryValidator::isValidPatternArguments(PROCESSED_SYNONYMS pro
 		return false;
 	}
 
+}
+
+/*
+Validation rules:
+	- first two elements are values
+	- last element is an operator
+	- there are n values and n-1 operators
+
+	alternatively,
+	- stack does not underflow
+	- at the end, only one value is left on the stack
+*/
+VALIDATION_RESULT QueryValidator::isValidPostfixExpr(POSTFIX_EXPR e) {
+	int counter = 0;
+	bool is_valid = true;
+
+	for (int i = 0; i < e.size(); i++) {
+		TOKEN t = e[i];
+
+		if (std::regex_match(t, name_format_) || std::regex_match(t, integer_format_)) {
+			counter++;
+		}
+		else {
+			counter = counter - 2;
+
+			if (counter < 0) {
+				is_valid = false;
+				break;
+			}
+
+			counter++;
+		}
+	}
+
+	if (counter != 1) {
+		is_valid = false;
+	}
+
+	return is_valid;
 }
 
 /*

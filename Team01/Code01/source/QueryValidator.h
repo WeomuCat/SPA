@@ -16,6 +16,8 @@ typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 typedef std::string SINGLE_ARGUMENT;
 typedef std::vector<SINGLE_ARGUMENT> ARGUMENTS;
 typedef std::string RELATIONSHIP;
+typedef std::string TOKEN;
+typedef std::vector<TOKEN> POSTFIX_EXPR;
 
 /*
 Overview: Checks if queries adheres to grammar rules
@@ -89,10 +91,11 @@ public:
 	*/
 	static VALIDATION_RESULT isValidPatternArguments(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
 		ARGUMENTS args);
+
 	/*
 	Description: Returns a VALIDATION_RESULT based on the validity of the postfix expression.
 	*/
-	//static VALIDATION_RESULT isValidPostfixExpr(POSTFIX_EXPR e);
+	static VALIDATION_RESULT isValidPostfixExpr(POSTFIX_EXPR e);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on with format.

@@ -6,6 +6,7 @@
 
 #include "PKB/ASTNode/ConstantNode.h"
 #include "PKB/ASTNode/VariableNode.h"
+#include "PKB/ASTNode/ExpressionTypeEnum.h"
 #include "PKB/ASTNode/ExpressionNode.h"
 #include "QueryNode.h"
 #include "QueryNodeType.h"
@@ -201,40 +202,197 @@ ARGUMENTS QueryPreProcessor::getArguments(SINGLE_CLAUSE c) {
 	return args;
 }
 
+int QueryPreProcessor::getTokenPriority(TOKEN t) {
+	// var & const < '+' & '-' < '*' & '/'
+
+	if (t.compare("+") == 0 || t.compare("-") == 0) {
+		return 1;
+	}
+	else if (t.compare("*") == 0 || t.compare("/") == 0 || t.compare("%") == 0) {
+		return 2;
+	}
+	else {
+		return 0;
+	}
+}
+
+POSTFIX_EXPR QueryPreProcessor::infixToPostfix(INFIX_EXPR e) {
+	POSTFIX_EXPR postfix_e;
+	INFIX_EXPR remaining_e = e;
+	std::vector<TOKEN> op_stack;
+
+	bool is_last = false;
+	int token_end_index = remaining_e.find(" ");
+
+	if (token_end_index == -1) {
+		// there is only one var/const for the entire expr
+		is_last = true;
+	}
+	
+
+	while (token_end_index != -1 || is_last ) {
+		// get token
+		TOKEN t = trimWhitespaces(remaining_e.substr(0, token_end_index));
+
+		if (!is_last) {
+			remaining_e = trimWhitespaces(remaining_e.substr(token_end_index + 1));
+		}
+
+		if (std::regex_match(t, name_format_) || std::regex_match(t, integer_format_)) {
+			// add to postfix expr if is a factor
+			postfix_e.push_back(t);
+		}
+		else if (t.compare("(")) {
+			// add to stack if is '('
+			op_stack.push_back(t);
+		}
+		else if (t.compare(")")) {
+			// pop and add from stack to postfix expr until '('
+			while (op_stack.size() != 0 && op_stack.back().compare("(") != 0) {
+				postfix_e.push_back(op_stack.back());
+				op_stack.pop_back();
+			}
+
+			// pop '(' from stack
+			op_stack.pop_back();
+		}
+		else {
+			if (getTokenPriority(t) > getTokenPriority(op_stack.back())) {
+				// push onto stack if token has higher priority
+				op_stack.push_back(t);
+			}
+			else {
+				while (op_stack.size() != 0 && getTokenPriority(t) <= getTokenPriority(op_stack.back())) {
+					// while stack is not empty & token has lower priority
+					// pop and add from stack to postfix expr
+					postfix_e.push_back(op_stack.back());
+					op_stack.pop_back();
+				}
+				// push the token onto the stack
+				op_stack.push_back(t);
+			}
+		}
+
+		token_end_index = remaining_e.find(" ");
+
+		if (token_end_index == -1 && remaining_e.compare("") != 0 &&!is_last) {
+			is_last = true;
+		}
+		else if (is_last) {
+			is_last = false;
+		}
+	}
+
+	while (op_stack.size() != 0) {
+		// pop and add remaining from stack to postfix expr
+		postfix_e.push_back(op_stack.back());
+		op_stack.pop_back();
+	}
+
+	return postfix_e;
+}
+
 QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
-	QueryNode exp_node = QueryNode();
+	//returns Querynode of QueryNodeType::unassigned if result is invalid
+	bool is_valid = true;
+	QueryNode q_expr_node = QueryNode();
 
 	if (e.compare("_") == 0) {
 		// is wild card
-		exp_node.setNodeType({ QueryNodeType::wild_card });
+		q_expr_node.setNodeType({ QueryNodeType::wild_card });
 	}
 	else {
 		// get expression
 		int open_quote_index = e.find("\"");
 		int close_quote_index = e.rfind("\"");
-		std::string trimmed_exp = trimWhitespaces(e.substr(open_quote_index + 1,
+		std::string trimmed_expr = trimWhitespaces(e.substr(open_quote_index + 1,
 			close_quote_index - open_quote_index - 1));
 
-		// create expression
-		std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+		POSTFIX_EXPR postfix_expr = infixToPostfix(trimmed_expr);
 
-		if (std::regex_match(trimmed_exp, std::regex(name_format_))) {
-			// expression is a var_name
-			std::shared_ptr<VariableNode> var_node = std::make_shared<VariableNode>();
-			var_node->setVariableName(trimmed_exp);
-			expr_node->setLeftAstNode(var_node);
-			exp_node.setASTNode(expr_node);
+		if (!QueryValidator::isValidPostfixExpr(postfix_expr)) {
+			is_valid = false;
 		}
-		else {
-			// expression is a const_value
-			std::shared_ptr<ConstantNode> const_node = std::make_shared<ConstantNode>();
-			const_node->setValue(trimmed_exp);
-			expr_node->setLeftAstNode(const_node);
-			exp_node.setASTNode(expr_node);
+		
+		if (is_valid) {
+			std::vector<std::shared_ptr<ASTNode>> term_stack;
+
+			for (int i = 0; i < postfix_expr.size(); i++) {
+				// create expression by going through postfix expression tokens
+				TOKEN t = postfix_expr[i];
+
+				if (std::regex_match(t, name_format_)) {
+					// token is var
+					std::shared_ptr<VariableNode> var_node = std::make_shared<VariableNode>();
+					var_node->setVariableName(t);
+					term_stack.push_back(var_node);
+				}
+				else if (std::regex_match(t, integer_format_)) {
+					//token is const
+					std::shared_ptr<ConstantNode> const_node = std::make_shared<ConstantNode>();
+					const_node->setValue(t);
+					term_stack.push_back(const_node);
+				}
+				else {
+					//token is expr
+					std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+
+					if (t.compare("+") == 0) {
+						expr_node->setExpressionType({ ExpressionTypeEnum::plus });
+					}
+					else if (t.compare("-") == 0) {
+						expr_node->setExpressionType({ ExpressionTypeEnum::min });
+					}
+					else if (t.compare("*") == 0) {
+						expr_node->setExpressionType({ ExpressionTypeEnum::times });
+					}
+					else if (t.compare("/") == 0) {
+						expr_node->setExpressionType({ ExpressionTypeEnum::div });
+					}
+					else {
+						// operator is '%'
+						expr_node->setExpressionType({ ExpressionTypeEnum::mod });
+					}
+
+					expr_node->setRightAstNode(term_stack.back());
+					term_stack.pop_back();
+					expr_node->setLeftAstNode(term_stack.back());
+					term_stack.pop_back();
+					term_stack.push_back(expr_node);
+				}
+			}
+
+			// set ast node as child
+
+			if (e.find("_") != -1) {
+				// partial matching expression
+				q_expr_node.setNodeType({ QueryNodeType::partial_expression });
+			}
+			else {
+				// full matching expression
+				q_expr_node.setNodeType({ QueryNodeType::expression });
+			}
+
+			if (term_stack.back()->getNodeType() == NodeTypeEnum::variableNode || term_stack.back()->getNodeType() == NodeTypeEnum::constantNode) {
+				// if final node is a single var/const
+				// create expr ast node and set final node as left node
+				std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+				expr_node->setLeftAstNode(term_stack.back());
+				term_stack.pop_back();
+				term_stack.push_back(expr_node);
+			}
+
+			q_expr_node.setASTNode(term_stack.back());
+			term_stack.pop_back();
 		}
 	}
-	
-	return exp_node;
+
+	if (is_valid) {
+		return q_expr_node;
+	}
+	else {
+		return null_node_;
+	}
 }
 
 QueryNode QueryPreProcessor::createArgumentNode(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT arg) {
@@ -269,15 +427,6 @@ QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, SINGL
 	QueryNode relation_node = QueryNode();
 
 	int open_brac_index = c.find("(");
-	/*
-	int comma_index = c.find(",");
-	int closed_brac_index = c.find(")");
-	ARGUMENT first_arg = trimWhitespaces(c.substr(open_brac_index + 1,
-		comma_index - open_brac_index - 1));
-	ARGUMENT second_arg = trimWhitespaces(c.substr(comma_index + 1,
-		closed_brac_index - comma_index - 1));
-	*/
-	// get relation
 	RELATIONSHIP rel = trimWhitespaces(c.substr(0, open_brac_index));
 	ARGUMENTS args = getArguments(c);
 
@@ -351,9 +500,15 @@ QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE
 			pattern_node.setChildren(pattern_node_children, 4);
 		}
 		else {
-			// pattern-assign & pattern-while has 3 arguments
-			QueryNode pattern_node_children[] = { syn_node, first_arg_node, second_arg_node };
-			pattern_node.setChildren(pattern_node_children, 3);
+			// pattern-assign & pattern-while has 3 argument
+			// check if expr is valid for pattern-assign (done in createExpressionNode)
+			if (second_arg_node.getNodeType() != QueryNodeType::unassigned) {
+				QueryNode pattern_node_children[] = { syn_node, first_arg_node, second_arg_node };
+				pattern_node.setChildren(pattern_node_children, 3);
+			}
+			else {
+				return null_node_;
+			}
 		}
 
 		return pattern_node;
@@ -421,13 +576,13 @@ PROCESSED_SYNONYMS QueryPreProcessor::preProcessSynonyms(DECLARATIONS d) {
 			proc_s.insert({ syn_name, new_node });
 		}
 		else {
-			bool isNotLast = true;
+			bool is_not_last = true;
 
 			while (split_index != -1) {
 				QueryNode new_node = QueryNode();
 				SYNONYM_NAME syn_name;
 
-				if (isNotLast) {
+				if (is_not_last) {
 					syn_name = trimWhitespaces(single_d.substr(index, split_index - index));
 				}
 				else {
@@ -440,9 +595,9 @@ PROCESSED_SYNONYMS QueryPreProcessor::preProcessSynonyms(DECLARATIONS d) {
 				index = split_index + 1;
 				split_index = single_d.find(delimiter, index);
 
-				if (split_index == -1 && isNotLast) {
+				if (split_index == -1 && is_not_last) {
 					split_index = index;
-					isNotLast = false;
+					is_not_last = false;
 				}
 			}
 		}
