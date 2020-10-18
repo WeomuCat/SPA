@@ -126,6 +126,26 @@ void PKBBuilder::setProgramNode(PROGRAM_NODE_PTR program_node_ptr) {
     program_node_ptr_ = program_node_ptr;
 }
 
+BOOLEAN_TYPE PKBBuilder::isUses(STMT_NUM s, VAR_NAME v) {
+    return uses_table_.isUses(s, v);
+}
+
+BOOLEAN_TYPE PKBBuilder::isUses(PROC_NAME p, VAR_NAME v) {
+    return uses_table_.isUses(p, v);
+}
+
+BOOLEAN_TYPE PKBBuilder::isModifies(STMT_NUM s, VAR_NAME v) {
+    return modifies_table_.isModifies(s, v);
+}
+
+BOOLEAN_TYPE PKBBuilder::isModifies(PROC_NAME p, VAR_NAME v) {
+    return modifies_table_.isModifies(p, v);
+}
+
+BOOLEAN_TYPE PKBBuilder::isCalls(PROC_NAME p1, PROC_NAME p2) {
+    return calls_table_.isCalls(p1, p2);
+}
+
 PKB PKBBuilder::build() {
     return PKB(*this);
 }

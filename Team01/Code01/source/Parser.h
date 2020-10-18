@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <deque>
+#include <unordered_map>
+#include <set>
 
 #include "../source/PKB.h"
 #include "OperatorTypeEnum.h"
@@ -38,13 +40,14 @@ private:
 	void parseWhile();
 	void parseIfThen();
 	void parseElse();
-	//int parseCall(STRING str);
+	void parseCall();
 	void parseStmtListClose();
 
 	STRING getNextToken(FILE_ITER_PTR iter, FILE_ITER eos);
 
 	PROGRAM_NODE_PTR program_node_;
 	AST_NODE_PTR current_parent_node_;
+	PROC_NODE_PTR current_parent_proc_node_;
 	PKBBuilder pkb_builder_;
 
 	STMT_TOKEN_QUEUE stmt_token_queue_;
@@ -65,5 +68,10 @@ private:
 	BOOLEAN_TYPE isArithmeticOp(REL_OP_TYPE_ENUM op);
 	BOOLEAN_TYPE isRelationOp(REL_OP_TYPE_ENUM op);
 	BOOLEAN_TYPE isBooleanOp(REL_OP_TYPE_ENUM op);
+
+	//Helper functions to Topologically Sort Procedure Nodes
+	void topoSort(std::unordered_map<PROC_NAME, std::set<PROC_NAME>>& graph, std::deque<PROC_NAME>& sorted_procs);
+	void topoSortHelper(PROC_NAME caller_proc, std::unordered_map<PROC_NAME, bool>& visited
+		, std::unordered_map<PROC_NAME, std::set<PROC_NAME>> &graph, std::deque<PROC_NAME>& sorted_procs);
 };
 
