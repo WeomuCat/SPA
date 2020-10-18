@@ -194,7 +194,7 @@
 		}
 		
 		
-		//TODO: Add Uses & Modifies relationships that are a result of Call to their respective tables
+		//Add Uses & Modifies relationships that are a result of Call to their respective tables
 		std::set<PROC_NAME> called_procs;
 		std::unordered_map<PROC_NAME, std::set<PROC_NAME>> proc_call_graph;
 		//For each proc create a proc,vector pair
@@ -218,23 +218,7 @@
 		
 		topoSort(proc_call_graph, sorted_procs);
 		
-		//TODO: Test topo sort with fake
-
-		for (auto ele : proc_call_graph) {
-			std::cout << "CALLER: " << ele.first << " | CALLED: ";
-			for (auto called : ele.second) {
-				std::cout << called << ", ";
-			}
-			std::cout << "\n";
-		}
-
-		while (!sorted_procs.empty()) {
-			std::cout << sorted_procs.front();
-			std::cout << " ";
-			sorted_procs.pop_front();
-		}
-		
-		//
+		//Add Uses & Modifies relationships that result from Calls
 		while (!sorted_procs.empty()) {
 			PROC_NAME caller_proc_name = sorted_procs.front();
 			sorted_procs.pop_front();
