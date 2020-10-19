@@ -149,15 +149,18 @@ void QueryEvaluator::fillWithReturnValue(QueryNode elem_node, ResultList& result
 	if (elem_node_type == QueryNodeType::synonym) {
 		fillWithReturnSynonym(elem_node, result_list);
 	}
-	/*
 	else if (elem_node_type == QueryNodeType::attr) {
 		SYNONYM_NAME synonym_name = elem_node.getString();
+		QueryNode synonym_node = processed_synonyms.find(synonym_name)->second;
+		SYNONYM_TYPE synonym_type = synonym_node.getSynonymType();
 		ATTRIBUTE attribute = elem_node.getAttr();
-		ATTRREF_VALUES_LIST attr_ref_values = AttrRefManager::getAttrRefValues(synonym_name, attribute);
+		ATTR_REF_VALUES_LIST attr_ref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
 
-		result_list = ResultListManager::addSynonymAndValues(result_list, synonym_name, attr_ref_values);
+		result_list = ResultListManager::addSynonymAndValues(&result_list, synonym_name, attr_ref_values);
 	}
-	*/
+	else {
+		throw "QE: fillwithReturnValue: Return type is not synonym or attrRef";
+	}
 }
 
 

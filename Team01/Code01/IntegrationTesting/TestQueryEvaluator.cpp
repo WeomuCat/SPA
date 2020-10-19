@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+
 #include "../source/QueryEvaluator.h"
 #include "../source/QueryNode.h"
 #include "../source/QueryNodeType.h"

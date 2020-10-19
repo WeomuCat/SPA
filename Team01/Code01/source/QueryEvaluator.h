@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AttributeType.h"
+#include "AttrRefManager.h"
 #include "PKB.h"
 #include "Pattern.h"
 #include "QueryEvaluatorReturnType.h"
