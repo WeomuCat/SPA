@@ -125,10 +125,8 @@ namespace UnitTesting
 
 		TEST_METHOD(isValidClause_Invalid_Success) {
 			CLAUSES c1 = "Select";
-			CLAUSES c2 = "Select s such that Follows(1, s) such that Follows(1, s)";
 
 			Assert::IsFalse(QueryValidator::isValidClause(c1));
-			Assert::IsFalse(QueryValidator::isValidClause(c2));
 		}
 
 		TEST_METHOD(isSynonymDeclared_Valid_Success) {
@@ -153,6 +151,119 @@ namespace UnitTesting
 			proc_s.insert({ "s", stmt_s });
 
 			Assert::IsFalse(QueryValidator::isSynonymDeclared(proc_s, syn));
+		}
+
+		TEST_METHOD(isValidAttr_Valid_Success) {
+			PROCESSED_SYNONYMS proc_s;
+
+			QueryNode stmt_s = QueryNode();
+			stmt_s.setSynonymNode("stmt", "s");
+			proc_s.insert({ "s", stmt_s });
+
+			QueryNode procedure_p = QueryNode();
+			procedure_p.setSynonymNode("procedure", "p");
+			proc_s.insert({ "p", procedure_p });
+
+			QueryNode variable_v = QueryNode();
+			variable_v.setSynonymNode("variable", "v");
+			proc_s.insert({ "v", variable_v });
+
+			QueryNode constant_c = QueryNode();
+			constant_c.setSynonymNode("constant", "c");
+			proc_s.insert({ "c", constant_c });
+
+			QueryNode call_cl = QueryNode();
+			call_cl.setSynonymNode("call", "cl");
+			proc_s.insert({ "cl", call_cl });
+
+			QueryNode read_r = QueryNode();
+			read_r.setSynonymNode("read", "r");
+			proc_s.insert({ "r", read_r });
+
+			QueryNode print_pr = QueryNode();
+			print_pr.setSynonymNode("print", "pr");
+			proc_s.insert({ "pr", print_pr });
+
+			QueryNode while_w = QueryNode();
+			while_w.setSynonymNode("while", "w");
+			proc_s.insert({ "w", while_w });
+
+			QueryNode if_ifs = QueryNode();
+			if_ifs.setSynonymNode("if", "ifs");
+			proc_s.insert({ "ifs", if_ifs });
+
+			QueryNode assign_a = QueryNode();
+			assign_a.setSynonymNode("assign", "a");
+			proc_s.insert({ "a", assign_a });
+
+			SINGLE_ARGUMENT a1 = "p.procName";
+			SINGLE_ARGUMENT a2 = "cl.procName";
+
+			SINGLE_ARGUMENT a3 = "v.varName";
+			SINGLE_ARGUMENT a4 = "r.varName";
+			SINGLE_ARGUMENT a5 = "pr.varName";
+
+			SINGLE_ARGUMENT a6 = "c.value";
+
+			SINGLE_ARGUMENT a7 = "s.stmt#";
+			SINGLE_ARGUMENT a8 = "r.stmt#";
+			SINGLE_ARGUMENT a9 = "pr.stmt#";
+			SINGLE_ARGUMENT a10 = "cl.stmt#";
+			SINGLE_ARGUMENT a11 = "w.stmt#";
+			SINGLE_ARGUMENT a12 = "ifs.stmt#";
+			SINGLE_ARGUMENT a13 = "a.stmt#";
+
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a1));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a2));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a3));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a4));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a5));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a6));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a7));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a8));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a9));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a10));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a11));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a12));
+			Assert::IsTrue(QueryValidator::isValidElem(proc_s, a13));
+		}
+
+		TEST_METHOD(isValidAttr_Invalid_Success) {
+			PROCESSED_SYNONYMS proc_s;
+
+			QueryNode stmt_s = QueryNode();
+			stmt_s.setSynonymNode("stmt", "s");
+			proc_s.insert({ "s", stmt_s });
+
+			QueryNode procedure_p = QueryNode();
+			procedure_p.setSynonymNode("procedure", "p");
+			proc_s.insert({ "p", procedure_p });
+
+			QueryNode variable_v = QueryNode();
+			variable_v.setSynonymNode("variable", "v");
+			proc_s.insert({ "v", variable_v });
+
+			QueryNode constant_c = QueryNode();
+			constant_c.setSynonymNode("constant", "c");
+			proc_s.insert({ "c", constant_c });
+
+			SINGLE_ARGUMENT a1 = "p1.procName";
+			SINGLE_ARGUMENT a2 = "v.procName";
+			SINGLE_ARGUMENT a3 = "v1.varName";
+			SINGLE_ARGUMENT a4 = "a.varName";
+			SINGLE_ARGUMENT a5 = "c1.value";
+			SINGLE_ARGUMENT a6 = "p.value";
+			SINGLE_ARGUMENT a7 = "s1.stmt#";
+			SINGLE_ARGUMENT a8 = "v.stmt#";
+
+			Assert::IsFalse(QueryValidator::isValidElem(proc_s, a1));
+			Assert::IsFalse(QueryValidator::isValidElem(proc_s, a2));
+			Assert::IsFalse(QueryValidator::isValidElem(proc_s, a3));
+			Assert::IsFalse(QueryValidator::isValidElem(proc_s, a4));
+			Assert::IsFalse(QueryValidator::isValidElem(proc_s, a5));
+			Assert::IsFalse(QueryValidator::isValidElem(proc_s, a6));
+			Assert::IsFalse(QueryValidator::isValidElem(proc_s, a7));
+			Assert::IsFalse(QueryValidator::isValidElem(proc_s, a8));
 		}
 
 		TEST_METHOD(isValidElem_Valid_Success) {
@@ -2423,25 +2534,10 @@ namespace UnitTesting
 			SINGLE_ARGUMENT arg3_2 = "1";
 
 			SINGLE_ARGUMENT arg4_1 = "_";
-			SINGLE_ARGUMENT arg4_2 = "\"x\"_";
+			SINGLE_ARGUMENT arg4_2 = "v";
 
-			SINGLE_ARGUMENT arg5_1 = "_";
-			SINGLE_ARGUMENT arg5_2 = "_\"x\"";
-
-			SINGLE_ARGUMENT arg6_1 = "_";
-			SINGLE_ARGUMENT arg6_2 = "v";
-
-			SINGLE_ARGUMENT arg7_1 = "_\"x\"_";
-			SINGLE_ARGUMENT arg7_2 = "_";
-
-			SINGLE_ARGUMENT arg8_1 = "_";
-			SINGLE_ARGUMENT arg8_2 = "\"2 +\"";
-
-			SINGLE_ARGUMENT arg9_1 = "_";
-			SINGLE_ARGUMENT arg9_2 = "\"( 1 + 2\"";
-
-			SINGLE_ARGUMENT arg10_1 = "_";
-			SINGLE_ARGUMENT arg10_2 = "\"/\"";
+			SINGLE_ARGUMENT arg5_1 = "_\"x\"_";
+			SINGLE_ARGUMENT arg5_2 = "_";
 
 			ARGUMENTS args1;
 			args1.push_back(arg1_1);
@@ -2463,36 +2559,11 @@ namespace UnitTesting
 			args5.push_back(arg5_1);
 			args5.push_back(arg5_2);
 
-			ARGUMENTS args6;
-			args6.push_back(arg6_1);
-			args6.push_back(arg6_2);
-
-			ARGUMENTS args7;
-			args7.push_back(arg7_1);
-			args7.push_back(arg7_2);
-
-			ARGUMENTS args8;
-			args8.push_back(arg8_1);
-			args8.push_back(arg8_2);
-
-			ARGUMENTS args9;
-			args9.push_back(arg9_1);
-			args9.push_back(arg9_2);
-
-			ARGUMENTS args10;
-			args10.push_back(arg10_1);
-			args10.push_back(arg10_2);
-
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn2, args1));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args2));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args3));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args4));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args5));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args6));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args7));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args8));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args9));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args10));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn2, args1));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args2));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args3));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args4));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args5));
 		}
 
 		TEST_METHOD(isValidPatternArguments_If_Invalid_Success) {
@@ -2574,13 +2645,13 @@ namespace UnitTesting
 			args7.push_back(arg7_2);
 			args7.push_back(arg7_3);
 
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn2, args1));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args2));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args3));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args4));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args5));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args6));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args7));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn2, args1));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args2));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args3));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args4));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args5));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args6));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args7));
 		}
 
 		TEST_METHOD(isValidPatternArguments_While_Invalid_Success) {
@@ -2650,13 +2721,13 @@ namespace UnitTesting
 			args7.push_back(arg7_1);
 			args7.push_back(arg7_2);
 
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn2, args1));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args2));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args3));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args4));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args5));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args6));
-			Assert::IsFalse(QueryValidator::isValidRelationArguments(proc_s, syn1, args7));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn2, args1));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args2));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args3));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args4));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args5));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args6));
+			Assert::IsFalse(QueryValidator::isValidPatternArguments(proc_s, syn1, args7));
 		}
 
 		TEST_METHOD(isValidPostfixExpr_Valid_Success) {
@@ -2710,6 +2781,222 @@ namespace UnitTesting
 			Assert::IsFalse(QueryValidator::isValidPostfixExpr(e1));
 			Assert::IsFalse(QueryValidator::isValidPostfixExpr(e2));
 			Assert::IsFalse(QueryValidator::isValidPostfixExpr(e3));
+		}
+
+		TEST_METHOD(isValidWithFormat_Valid_Success) {
+			SINGLE_CLAUSE p1 = "a = a";
+			SINGLE_CLAUSE p2 = "12 = 12";
+			SINGLE_CLAUSE p3 = "\"x\" = \"x\"";
+			SINGLE_CLAUSE p4 = "p.procName = p.procName";
+			SINGLE_CLAUSE p5 = "a = 12";
+			SINGLE_CLAUSE p6 = "v = \"hello\"";
+			SINGLE_CLAUSE p7 = "c.value = 1";
+
+			Assert::IsTrue(QueryValidator::isValidWithFormat(p1));
+			Assert::IsTrue(QueryValidator::isValidWithFormat(p2));
+			Assert::IsTrue(QueryValidator::isValidWithFormat(p3));
+			Assert::IsTrue(QueryValidator::isValidWithFormat(p4));
+			Assert::IsTrue(QueryValidator::isValidWithFormat(p5));
+			Assert::IsTrue(QueryValidator::isValidWithFormat(p6));
+			Assert::IsTrue(QueryValidator::isValidWithFormat(p7));
+		}
+
+		TEST_METHOD(isValidWithFormat_Invalid_Success) {
+			SINGLE_CLAUSE p1 = "a";
+			SINGLE_CLAUSE p2 = "a=";
+			SINGLE_CLAUSE p3 = "=1";
+			SINGLE_CLAUSE p4 = "c.undeclared = a";
+			SINGLE_CLAUSE p5 = "a = c.undeclared";
+			SINGLE_CLAUSE p6 = "\"x + y\" = 1";
+			SINGLE_CLAUSE p7 = "1 = \"x + y\"";
+			SINGLE_CLAUSE p8 = "=";
+
+			Assert::IsFalse(QueryValidator::isValidWithFormat(p1));
+			Assert::IsFalse(QueryValidator::isValidWithFormat(p2));
+			Assert::IsFalse(QueryValidator::isValidWithFormat(p3));
+			Assert::IsFalse(QueryValidator::isValidWithFormat(p4));
+			Assert::IsFalse(QueryValidator::isValidWithFormat(p5));
+			Assert::IsFalse(QueryValidator::isValidWithFormat(p6));
+			Assert::IsFalse(QueryValidator::isValidWithFormat(p7));
+			Assert::IsFalse(QueryValidator::isValidWithFormat(p8));
+		}
+
+		TEST_METHOD(isValidWithArguments_Valid_Success) {
+			PROCESSED_SYNONYMS proc_s;
+
+			QueryNode stmt_s = QueryNode();
+			stmt_s.setSynonymNode("stmt", "s");
+			proc_s.insert({ "s", stmt_s });
+
+			QueryNode procedure_p = QueryNode();
+			procedure_p.setSynonymNode("procedure", "p");
+			proc_s.insert({ "p", procedure_p });
+
+			QueryNode variable_v = QueryNode();
+			variable_v.setSynonymNode("variable", "v");
+			proc_s.insert({ "v", variable_v });
+
+			QueryNode constant_c = QueryNode();
+			constant_c.setSynonymNode("constant", "c");
+			proc_s.insert({ "c", constant_c });
+
+			QueryNode call_cl = QueryNode();
+			call_cl.setSynonymNode("call", "cl");
+			proc_s.insert({ "cl", call_cl });
+
+			QueryNode read_r = QueryNode();
+			read_r.setSynonymNode("read", "r");
+			proc_s.insert({ "r", read_r });
+
+			QueryNode print_pr = QueryNode();
+			print_pr.setSynonymNode("print", "pr");
+			proc_s.insert({ "pr", print_pr });
+
+			QueryNode while_w = QueryNode();
+			while_w.setSynonymNode("while", "w");
+			proc_s.insert({ "w", while_w });
+
+			QueryNode if_ifs = QueryNode();
+			if_ifs.setSynonymNode("if", "ifs");
+			proc_s.insert({ "ifs", if_ifs });
+
+			QueryNode assign_a = QueryNode();
+			assign_a.setSynonymNode("assign", "a");
+			proc_s.insert({ "a", assign_a });
+
+			SINGLE_ARGUMENT arg1_1 = "a";
+			SINGLE_ARGUMENT arg1_2 = "s";
+
+			SINGLE_ARGUMENT arg2_1 = "1";
+			SINGLE_ARGUMENT arg2_2 = "2";
+
+			SINGLE_ARGUMENT arg3_1 = "\"identity\"";
+			SINGLE_ARGUMENT arg3_2 = "\"test\"";
+
+			SINGLE_ARGUMENT arg4_1 = "s.stmt#";
+			SINGLE_ARGUMENT arg4_2 = "a.stmt#";
+
+			SINGLE_ARGUMENT arg5_1 = "p.procName";
+			SINGLE_ARGUMENT arg5_2 = "\"hello\"";
+
+			SINGLE_ARGUMENT arg6_1 = "v";
+			SINGLE_ARGUMENT arg6_2 = "\"variable\"";
+
+			SINGLE_ARGUMENT arg7_1 = "c.value";
+			SINGLE_ARGUMENT arg7_2 = "1";
+
+			SINGLE_ARGUMENT arg8_1 = "1";
+			SINGLE_ARGUMENT arg8_2 = "s";
+
+			ARGUMENTS args1;
+			args1.push_back(arg1_1);
+			args1.push_back(arg1_2);
+
+			ARGUMENTS args2;
+			args2.push_back(arg2_1);
+			args2.push_back(arg2_2);
+
+			ARGUMENTS args3;
+			args3.push_back(arg3_1);
+			args3.push_back(arg3_2);
+
+			ARGUMENTS args4;
+			args4.push_back(arg4_1);
+			args4.push_back(arg4_2);
+
+			ARGUMENTS args5;
+			args5.push_back(arg5_1);
+			args5.push_back(arg5_2);
+
+			ARGUMENTS args6;
+			args6.push_back(arg6_1);
+			args6.push_back(arg6_2);
+
+			ARGUMENTS args7;
+			args7.push_back(arg7_1);
+			args7.push_back(arg7_2);
+
+			ARGUMENTS args8;
+			args8.push_back(arg8_1);
+			args8.push_back(arg8_2);
+
+			Assert::IsTrue(QueryValidator::isValidWithArguments(proc_s, args1));
+			Assert::IsTrue(QueryValidator::isValidWithArguments(proc_s, args2));
+			Assert::IsTrue(QueryValidator::isValidWithArguments(proc_s, args3));
+			Assert::IsTrue(QueryValidator::isValidWithArguments(proc_s, args4));
+			Assert::IsTrue(QueryValidator::isValidWithArguments(proc_s, args5));
+			Assert::IsTrue(QueryValidator::isValidWithArguments(proc_s, args6));
+			Assert::IsTrue(QueryValidator::isValidWithArguments(proc_s, args7));
+			Assert::IsTrue(QueryValidator::isValidWithArguments(proc_s, args8));
+		}
+
+		TEST_METHOD(isValidWithArguments_Invalid_Success) {
+			PROCESSED_SYNONYMS proc_s;
+
+			QueryNode stmt_s = QueryNode();
+			stmt_s.setSynonymNode("stmt", "s");
+			proc_s.insert({ "s", stmt_s });
+
+			QueryNode var_v = QueryNode();
+			var_v.setSynonymNode("variable", "v");
+			proc_s.insert({ "v", var_v });
+
+			QueryNode assign_a = QueryNode();
+			assign_a.setSynonymNode("assign", "a");
+			proc_s.insert({ "a", assign_a });
+
+			QueryNode procedure_p = QueryNode();
+			procedure_p.setSynonymNode("procedure", "p");
+			proc_s.insert({ "p", procedure_p });
+
+			SINGLE_ARGUMENT arg1_1 = "_";
+			SINGLE_ARGUMENT arg1_2 = "a";
+
+			SINGLE_ARGUMENT arg2_1 = "1";
+			SINGLE_ARGUMENT arg2_2 = "v";
+
+			SINGLE_ARGUMENT arg3_1 = "p.varName";
+			SINGLE_ARGUMENT arg3_2 = "\"test\"";
+
+			SINGLE_ARGUMENT arg4_1 = "p.procName";
+			SINGLE_ARGUMENT arg4_2 = "1";
+
+			SINGLE_ARGUMENT arg5_1 = "\"hello\"";
+			SINGLE_ARGUMENT arg5_2 = "1";
+
+			SINGLE_ARGUMENT arg6_1 = "a";
+			SINGLE_ARGUMENT arg6_2 = "v";
+
+			ARGUMENTS args1;
+			args1.push_back(arg1_1);
+			args1.push_back(arg1_2);
+
+			ARGUMENTS args2;
+			args2.push_back(arg2_1);
+			args2.push_back(arg2_2);
+
+			ARGUMENTS args3;
+			args3.push_back(arg3_1);
+			args3.push_back(arg3_2);
+
+			ARGUMENTS args4;
+			args4.push_back(arg4_1);
+			args4.push_back(arg4_2);
+
+			ARGUMENTS args5;
+			args5.push_back(arg5_1);
+			args5.push_back(arg5_2);
+
+			ARGUMENTS args6;
+			args6.push_back(arg6_1);
+			args6.push_back(arg6_2);
+
+			Assert::IsFalse(QueryValidator::isValidWithArguments(proc_s, args1));
+			Assert::IsFalse(QueryValidator::isValidWithArguments(proc_s, args2));
+			Assert::IsFalse(QueryValidator::isValidWithArguments(proc_s, args3));
+			Assert::IsFalse(QueryValidator::isValidWithArguments(proc_s, args4));
+			Assert::IsFalse(QueryValidator::isValidWithArguments(proc_s, args5));
+			Assert::IsFalse(QueryValidator::isValidWithArguments(proc_s, args6));
 		}
 	};
 }
