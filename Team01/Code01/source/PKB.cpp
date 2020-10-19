@@ -79,6 +79,10 @@ STMT_NUM_LIST PKB::getCallNumList() {
     return call_table_.getCallNumList();
 }
 
+PROC_NAME_LIST PKB::getCallProcNameList() {
+    return call_table_.getCallProcNameList();
+}
+
 STMT_NUM_LIST PKB::getIfNumList() {
     return if_table_.getIfNumList();
 }

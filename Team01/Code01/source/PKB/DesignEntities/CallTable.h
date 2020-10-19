@@ -22,4 +22,9 @@ public:
     Description: Returns a STMT_NUM_LIST of the CALL_NODE_PTR from the table.
     */
     STMT_NUM_LIST getCallNumList();
+
+    /*
+    Description: Returns a PROC_NAME_LIST of the PROC_NAME of each CALL_NODE_PTR from the table.
+    */
+    PROC_NAME_LIST getCallProcNameList();
 };
