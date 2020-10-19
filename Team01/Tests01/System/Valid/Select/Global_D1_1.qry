@@ -148,3 +148,33 @@ read r1, r2;
 Select <r1.varName, r2.varName>
 avar avar,avar evar,evar avar,evar evar
 1000
+31 - Select Tuple Print
+print p;
+Select <p, p>
+5 5,8 8,10 10,12 12,18 18,24 24
+1000
+32 - Select Tuple Print
+print p1, p2;
+Select <p1, p2>
+5 5,5 8,5 10,5 12,5 18,5 24,8 5,8 8,8 10,8 12,8 18,8 24,10 5,10 8,10 10,10 12,10 18,10 24,12 10,12 12,12 18,12 24,12 5,12 8,18 5,18 8,18 10,18 12,18 18,18 24,24 5,24 8,24 10,24 12,24 18,24 24
+1000
+33 - Select Tuple Print Number
+print p;
+Select <p.stmt#, p.stmt#>
+5 5,8 8,10 10,12 12,18 18,24 24
+1000
+34 - Select Tuple Print Number
+print p1, p2;
+Select <p1.stmt#, p2.stmt#>
+5 5,5 8,5 10,5 12,5 18,5 24,8 5,8 8,8 10,8 12,8 18,8 24,10 5,10 8,10 10,10 12,10 18,10 24,12 10,12 12,12 18,12 24,12 5,12 8,18 5,18 8,18 10,18 12,18 18,18 24,24 5,24 8,24 10,24 12,24 18,24 24
+1000
+35 - Select Tuple Print Name
+print p;
+Select <p.varName, p.varName>
+avar avar,cvar cvar,dvar dvar,evar evar
+1000
+36 - Select Tuple Print Name
+print p1, p2;
+Select <p1.varName, p2.varName>
+avar avar,avar cvar,avar dvar,avar evar,cvar avar,cvar cvar,cvar dvar,cvar evar,dvar avar,dvar cvar,dvar dvar,dvar evar,evar avar,evar cvar,evar dvar,evar evar
+1000
