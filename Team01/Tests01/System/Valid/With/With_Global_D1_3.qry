@@ -61,17 +61,17 @@ Select a.stmt# with a.stmt# = 1
 13 - Synonnym Call
 call cl;
 Select <cl.stmt#, cl.procName> with cl.stmt# = 8 and cl.procName = "secondElement"
-<8, secondElement>
+8 secondElement
 1000
 14 - Synonnym Print
 print pn;
 Select <pn.stmt#, pn.varName> with pn.stmt# = 2 and pn.varName = "water"
-<2, water>
+2 water
 1000
 15 - Synonnym Read
 read r;
 Select <r.stmt#, r.varName> with r.stmt# = 3 and r.varName = "earth"
-<2, earth>
+2 earth
 1000
 16 - Synonnym Statement
 stmt s;
@@ -121,10 +121,10 @@ TRUE
 25 - Synonym Constant Procedure Variable Program Line
 constant cs; procedure pd; variable v; prog_line n;
 Select <cs.value, pd.procName, v, n> with cs.value = 4 and pd.procName = "firstElement" and v.varName = "fire" and n = 7
-<4, firstElement, fire, 7>
+4 firstElement fire 7
 3000
 26 - Synonym Everything
 assign a; call cl; constant cs; print pn; procedure pd; read r; stmt s; if i; while w; variable v; prog_line n;
 Select <a, cl.procName, cs, pn.varName, pd, r.stmt#, s, i.stmt#, w, v.varName, n> with a.stmt# = 1 and cl.stmt# = 8 and cs.value = 4 and pn.stmt# = 2 and pd.procName = "firstElement" and r.varName = "wind" and s.stmt# = 1 and i.stmt# = 4 and w.stmt# = 7 and v.varName = "fire" and n = 17
-<1, secondElement, 4, water, firstElement, 15, 1, 4, 7, fire, 17>
+1 secondElement 4 water firstElement 15 1 4 7 fire 17
 5000
