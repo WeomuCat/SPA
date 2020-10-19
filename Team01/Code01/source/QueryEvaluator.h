@@ -99,4 +99,8 @@ private:
 	Description: Computes the final query result string from the result_list. Results depend on the return_type (BOOLEAN/Tuple/Synonym)
 	*/
 
+	void replaceSynonymsWithAttrRefValues();
+	/*
+	Description: Replaces the values of attrRef types in Result List to the appropriate values.
+	*/
 };

@@ -27,6 +27,7 @@ public:
 	void addColumn(SYNONYM_NAME column_name, SYNONYM_INT_VALUES_LIST column_values);
 	void addRow(ROW row);
 	void removeColumn(SYNONYM_NAME column_name);
+	void replaceColumnValues(SYNONYM_NAME column_name, SYNONYM_VALUES_LIST new_values);
 	SYNONYM_NAME_LIST getAllSynonyms();
 	ROW_LIST getRowList();
 	SYNONYM_VALUES_LIST getValuesOfSynonym(SYNONYM_NAME column_name);

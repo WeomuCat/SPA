@@ -278,6 +278,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 		}
 
 		//get all the values of tuples from this final result list
+		replaceSynonymsWithAttrRefValues();
 		return ResultListManager::getTupleValues(result_list, tuple_return_synonyms);
 
 	}
@@ -300,9 +301,14 @@ QUERY_RESULT QueryEvaluator::getReturnValue(ResultList result_list, QueryNode sy
 		2. Read			-> varName | stmtNum (default)
 		3. Print		-> varName | stmtNum (default)
 		*/
+
 		SYNONYM_NAME synonym_name = synonym_node.getString();
 		SYNONYM_TYPE synonym_type = getSynonymType(synonym_name);
 		ATTRIBUTE attribute = synonym_node.getAttr();
+
+		if (!AttrRefManager::isValidAttrRef(synonym_type, attribute)) {
+			return no_result;
+		}
 
 		if ((synonym_type == QuerySynonymType::call) && (attribute == AttributeType::procName)) {
 			SYNONYM_VALUES_LIST calls_stmtnum = result_list.getValuesOfSynonym(synonym_name);
@@ -318,6 +324,16 @@ QUERY_RESULT QueryEvaluator::getReturnValue(ResultList result_list, QueryNode sy
 		}
 
 		return ResultListManager::getSynonymValues(result_list, synonym_name);
+	}
+}
+
+void QueryEvaluator::replaceSynonymsWithAttrRefValues() {
+	for (QueryNode child : result_clause.getChildren()) {
+		if (child.getNodeType() == QueryNodeType::attr) {
+			SYNONYM_VALUES_LIST new_values = getReturnValue(result_list, child);
+			SYNONYM_NAME synonym_name = child.getString();
+			result_list.replaceColumnValues(synonym_name, new_values);
+		}
 	}
 }
 

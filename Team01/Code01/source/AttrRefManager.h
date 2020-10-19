@@ -82,6 +82,67 @@ public:
 		return call_procname_list;
 	}
 
+	static bool isValidAttrRef(SYNONYM_TYPE synonym_type, ATTRIBUTE attribute) {
+		bool isValid = false;
+
+		switch (synonym_type) {
+		case QuerySynonymType::assign:
+			if (attribute == AttributeType::stmtNum) {
+				isValid = true;
+			}
+			break;
+		case QuerySynonymType::call:
+			if (attribute == AttributeType::stmtNum || attribute == AttributeType::procName) {
+				isValid = true;
+			}
+			break;
+		case QuerySynonymType::constant:
+			if (attribute == AttributeType::value) {
+				isValid = true;
+			}
+			break;
+		case QuerySynonymType::ifs:
+			if (attribute == AttributeType::stmtNum) {
+				isValid = true;
+			}
+			break;
+		case QuerySynonymType::print:
+			if (attribute == AttributeType::stmtNum || attribute == AttributeType::varName) {
+				isValid = true;
+			}
+			break;
+		case QuerySynonymType::procedure:
+			if (attribute == AttributeType::procName) {
+				isValid = true;
+			}
+			break;
+		case QuerySynonymType::prog_line:
+			break;
+		case QuerySynonymType::read:
+			if (attribute == AttributeType::stmtNum || attribute == AttributeType::varName) {
+				isValid = true;
+			}
+			break;
+		case QuerySynonymType::stmt:
+			if (attribute == AttributeType::stmtNum) {
+				isValid = true;
+			}
+			break;
+		case QuerySynonymType::variable:
+			if (attribute == AttributeType::varName) {
+				isValid = true;
+			}
+			break;
+		case QuerySynonymType::whiles:
+			if (attribute == AttributeType::stmtNum) {
+				isValid = true;
+			}
+			break;
+		}
+
+		return isValid;
+	}
+
 
 private:
 	static ATTR_REF_VALUES_LIST getAssignValues(PKB pkb, ATTRIBUTE attribute) {
