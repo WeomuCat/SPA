@@ -6,6 +6,7 @@ QueryEvaluator::QueryEvaluator(PKB pkb) {
 }
 
 QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSED_CLAUSES clauses) {
+	this->processed_synonyms = synonyms;
 	
 	// If root of clauses tree is unassigned, then the clause is syntactically incorrect. Return no result.
 	if (clauses.getNodeType() == QueryNodeType::unassigned) {
@@ -97,9 +98,9 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 	return final_result;
 }
 
-void QueryEvaluator::fillWithReturnSynonym(QueryNode result_clause, ResultList &result_list) {
-	SYNONYM_NAME return_synonym_name = result_clause.getString();
-	SYNONYM_TYPE return_synonym_type = result_clause.getSynonymType();
+void QueryEvaluator::fillWithReturnSynonym(QueryNode synonym_node, ResultList &result_list) {
+	SYNONYM_NAME return_synonym_name = synonym_node.getString();
+	SYNONYM_TYPE return_synonym_type = synonym_node.getSynonymType();
 
 	if (return_synonym_type == QuerySynonymType::assign) {
 		result_list.addColumn(return_synonym_name, pkb.getAssignNumList());
@@ -134,6 +135,8 @@ void QueryEvaluator::fillWithReturnSynonym(QueryNode result_clause, ResultList &
 	
 }
 
+
+
 void QueryEvaluator::setEvaluatorReturnType() {
 	QueryNodeType return_type = result_clause.getNodeType();
 
@@ -154,7 +157,7 @@ void QueryEvaluator::setEvaluatorReturnType() {
 		}
 	}
 	else {
-		throw "QE: Select's return type is not tuple or boolean";
+		throw "QE: setEvaluatorReturnType: Select's return type is not tuple or boolean";
 	}
 }
 
@@ -197,8 +200,34 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 			return boolean_false_result;
 		}
 	}
+	else if (return_type == QueryEvaluatorReturnType::tuple) {
+		QUERY_NODE_LIST all_children = result_clause.getChildren();
+		std::vector<SYNONYM_NAME> missing_synonyms;
+
+		// find all the missing synonyms not in current result list
+		for (SYNONYM_NAME return_synonym : tuple_return_synonyms) {
+			if (!result_list.containsSynonym(return_synonym)) {
+				missing_synonyms.push_back(return_synonym);
+			}
+		}
+
+		// merge missing synonyms with current result list
+		if (!missing_synonyms.empty()) {
+			for (SYNONYM_NAME missing_synonym : missing_synonyms) {
+				ResultList current_synonym;
+				QueryNode missing_synonym_node = processed_synonyms.find(missing_synonym)->second;
+				fillWithReturnSynonym(missing_synonym_node, current_synonym);
+
+				ResultListManager::merge(result_list, current_synonym);
+			}
+		}
+
+		//get all the values of tuples from this final result list
+		return ResultListManager::getTupleValues(result_list, tuple_return_synonyms);
+
+	}
 	else {
-		//handle tuple return result here
+		throw "QE: obtainFinalQueryResult: Return type is not synonym, tuple, boolean.";
 	}
 }
 

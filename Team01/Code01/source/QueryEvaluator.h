@@ -38,6 +38,7 @@ public:
 
 private:
 	PKB pkb = (PKBBuilder().build());						// because PKB has no default constructor
+	PROCESSED_SYNONYMS processed_synonyms;					// stores all the synonyms from QueryPreProcessor
 	ResultList result_list;									// stores the results of evaluation
 	QueryNode result_clause;								// Stores the entire QueryNode BOOLEAN | Tuple
 	QueryEvaluatorReturnType return_type;					// BOOLEAN | Tuple | Synonym (tuple of 1 element)
@@ -50,7 +51,7 @@ private:
 	const QUERY_RESULT boolean_false_result = { "FALSE" };	// Result representing BOOLEAN = FALSE
 
 
-	void QueryEvaluator::fillWithReturnSynonym(QueryNode result_clause, ResultList& result_list);
+	void fillWithReturnSynonym(QueryNode result_clause, ResultList& result_list);
 	/*
 	Description: Fills the given result_list with all values of the given synonym_type, attached to the column name of the given synonym_name.
 	*/
