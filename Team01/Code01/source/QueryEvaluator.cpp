@@ -144,6 +144,19 @@ void QueryEvaluator::fillWithReturnSynonym(QueryNode synonym_node, ResultList &r
 	
 }
 
+/* Throws Exception if attrRef is not valid for the given synonym.
+* Have  to try catch this method:
+
+	catch (const char* msg) {
+		// Invalid attrRef for the given synonym. Semantically incorrect. Terminate.
+		if (return_type == QueryEvaluatorReturnType::boolean) {
+			return boolean_false_result;
+		}
+		else {
+			return no_result;
+		}
+	}
+*/
 void QueryEvaluator::fillWithReturnValue(QueryNode elem_node, ResultList& result_list) {
 	QueryNodeType elem_node_type = elem_node.getNodeType();
 	if (elem_node_type == QueryNodeType::synonym) {
@@ -154,7 +167,9 @@ void QueryEvaluator::fillWithReturnValue(QueryNode elem_node, ResultList& result
 		QueryNode synonym_node = processed_synonyms.find(synonym_name)->second;
 		SYNONYM_TYPE synonym_type = synonym_node.getSynonymType();
 		ATTRIBUTE attribute = elem_node.getAttr();
+		
 		ATTR_REF_VALUES_LIST attr_ref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+
 
 		result_list = ResultListManager::addSynonymAndValues(&result_list, synonym_name, attr_ref_values);
 	}
@@ -208,7 +223,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 			if (only_true_false_clauses || result_list.getNumRows() != 0) {
 				ResultList final_result_list;
 				QuerySynonymType return_synonym_type = synonym.getSynonymType();
-				fillWithReturnSynonym(synonym, final_result_list);
+				fillWithReturnValue(synonym, final_result_list);
 				return ResultListManager::getSynonymValues(final_result_list, return_synonym_name);
 			}
 		}
@@ -244,7 +259,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 			for (SYNONYM_NAME missing_synonym : missing_synonyms) {
 				ResultList current_synonym;
 				QueryNode missing_synonym_node = processed_synonyms.find(missing_synonym)->second;
-				fillWithReturnSynonym(missing_synonym_node, current_synonym);
+				fillWithReturnValue(missing_synonym_node, current_synonym);
 
 				result_list = ResultListManager::merge(result_list, current_synonym);
 			}
@@ -268,7 +283,7 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 		QueryNode return_synonym = (result_clause.getChildren())[0];
 		SYNONYM_NAME return_synonym_name = return_synonym.getString();
 		
-		fillWithReturnSynonym(return_synonym, final_result_list);
+		fillWithReturnValue(return_synonym, final_result_list);
 
 		return ResultListManager::getSynonymValues(final_result_list, return_synonym_name);
 	}
@@ -278,7 +293,7 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 		
 		for (QueryNode child : children) {
 			ResultList child_result_list;
-			fillWithReturnSynonym(child, child_result_list);
+			fillWithReturnValue(child, child_result_list);
 
 			final_result_list = ResultListManager::merge(final_result_list, child_result_list);
 		}
