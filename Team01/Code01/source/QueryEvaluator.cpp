@@ -157,21 +157,21 @@ void QueryEvaluator::fillWithReturnSynonym(QueryNode synonym_node, ResultList &r
 		}
 	}
 */
-void QueryEvaluator::fillWithReturnValue(QueryNode elem_node, ResultList& result_list) {
+void QueryEvaluator::fillWithReturnValue(QueryNode elem_node, ResultList& current_result_list) {
 	QueryNodeType elem_node_type = elem_node.getNodeType();
 	if (elem_node_type == QueryNodeType::synonym) {
-		fillWithReturnSynonym(elem_node, result_list);
+		fillWithReturnSynonym(elem_node, current_result_list);
 	}
 	else if (elem_node_type == QueryNodeType::attr) {
 		SYNONYM_NAME synonym_name = elem_node.getString();
 		QueryNode synonym_node = processed_synonyms.find(synonym_name)->second;
-		SYNONYM_TYPE synonym_type = synonym_node.getSynonymType();
+		SYNONYM_TYPE synonym_type = getSynonymType(synonym_name);
 		ATTRIBUTE attribute = elem_node.getAttr();
 		
 		ATTR_REF_VALUES_LIST attr_ref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
 
 
-		result_list = ResultListManager::addSynonymAndValues(&result_list, synonym_name, attr_ref_values);
+		current_result_list = ResultListManager::addSynonymAndValues(&current_result_list, synonym_name, attr_ref_values);
 	}
 	else {
 		throw "QE: fillwithReturnValue: Return type is not synonym or attrRef";
@@ -253,19 +253,26 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 	else if (return_type == QueryEvaluatorReturnType::tuple) {
 		QUERY_NODE_LIST all_children = result_clause.getChildren();
 		std::vector<SYNONYM_NAME> missing_synonyms;
+		std::vector<int> missing_synonym_indexes;
 
 		// find all the missing synonyms not in current result list
-		for (SYNONYM_NAME return_synonym : tuple_return_synonyms) {
+		for (auto it = tuple_return_synonyms.begin(); it != tuple_return_synonyms.end(); ++it) {
+			SYNONYM_NAME return_synonym = *it;
 			if (!result_list.containsSynonym(return_synonym)) {
 				missing_synonyms.push_back(return_synonym);
+				int index = std::distance(tuple_return_synonyms.begin(), it);
+				missing_synonym_indexes.push_back(index);
 			}
 		}
 
 		// merge missing synonyms with current result list
+		int count = 0;
 		if (!missing_synonyms.empty()) {
 			for (SYNONYM_NAME missing_synonym : missing_synonyms) {
 				ResultList current_synonym;
-				QueryNode missing_synonym_node = processed_synonyms.find(missing_synonym)->second;
+				int missing_synonym_index = missing_synonym_indexes[count];
+				QueryNode missing_synonym_node = all_children[missing_synonym_index];
+				count = count + 1;
 
 				try {
 					fillWithReturnValue(missing_synonym_node, current_synonym);
@@ -277,10 +284,21 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 			}
 		}
 
-		//get all the values of tuples from this final result list
-		replaceSynonymsWithAttrRefValues();
-		return ResultListManager::getTupleValues(result_list, tuple_return_synonyms);
+		if (result_list.getNumRows() == 0) {
+			return no_result;
+		}
 
+		// replace all the synonym values with the attrRef value, if applicable
+		// throws exception if any attrRef is not valid for the synonym.
+		try {
+			replaceSynonymsWithAttrRefValues();
+		}
+		catch (const char* msg) {
+			return no_result;
+		}
+
+		//get all the values of tuples from this final result list
+		return ResultListManager::getTupleValues(result_list, tuple_return_synonyms);
 	}
 	else {
 		throw "QE: obtainFinalQueryResult: Return type is not synonym, tuple, boolean.";
@@ -307,7 +325,7 @@ QUERY_RESULT QueryEvaluator::getReturnValue(ResultList result_list, QueryNode sy
 		ATTRIBUTE attribute = synonym_node.getAttr();
 
 		if (!AttrRefManager::isValidAttrRef(synonym_type, attribute)) {
-			return no_result;
+			throw "QE: Invalid AttrRef for this synonym";
 		}
 
 		if ((synonym_type == QuerySynonymType::call) && (attribute == AttributeType::procName)) {
@@ -316,11 +334,13 @@ QUERY_RESULT QueryEvaluator::getReturnValue(ResultList result_list, QueryNode sy
 		}
 
 		if ((synonym_type == QuerySynonymType::read) && (attribute == AttributeType::varName)) {
-
+			SYNONYM_VALUES_LIST read_stmtnum = result_list.getValuesOfSynonym(synonym_name);
+			return AttrRefManager::getReadVarname(pkb, read_stmtnum);
 		}
 
 		if ((synonym_type == QuerySynonymType::print) && (attribute == AttributeType::varName)) {
-
+			SYNONYM_VALUES_LIST print_stmtnum = result_list.getValuesOfSynonym(synonym_name);
+			return AttrRefManager::getPrintVarname(pkb, print_stmtnum);
 		}
 
 		return ResultListManager::getSynonymValues(result_list, synonym_name);
@@ -330,9 +350,13 @@ QUERY_RESULT QueryEvaluator::getReturnValue(ResultList result_list, QueryNode sy
 void QueryEvaluator::replaceSynonymsWithAttrRefValues() {
 	for (QueryNode child : result_clause.getChildren()) {
 		if (child.getNodeType() == QueryNodeType::attr) {
-			SYNONYM_VALUES_LIST new_values = getReturnValue(result_list, child);
-			SYNONYM_NAME synonym_name = child.getString();
-			result_list.replaceColumnValues(synonym_name, new_values);
+			
+			if (!AttrRefManager::resultMatches(result_list, child)) {
+				SYNONYM_VALUES_LIST new_values = getReturnValue(result_list, child); // throws exception if invalid attrRef for the synonym
+				SYNONYM_NAME synonym_name = child.getString();
+				result_list.replaceColumnValues(synonym_name, new_values);
+			}
+
 		}
 	}
 }

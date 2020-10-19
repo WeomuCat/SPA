@@ -71,15 +71,78 @@ public:
 		ATTR_REF_VALUES_LIST call_procname_list;
 		CALL_NODE_PTR_LIST call_nodes = pkb.getCalls();
 		
-		for (std::shared_ptr<CallNode> call_node : call_nodes) {
-			STMT_NUM stmt_num = call_node->getStatementNumber();
-			if (std::find(stmtnum_values.begin(), stmtnum_values.end(), std::to_string(stmt_num)) != stmtnum_values.end()) {
-				PROC_NAME procname = call_node->getCalleeProcedureName();
-				call_procname_list.push_back(procname);
+		for (SYNONYM_VALUE stmtnum_string : stmtnum_values) {
+			for (std::shared_ptr<CallNode> call_node : call_nodes) {
+				STMT_NUM stmt_num = call_node->getStatementNumber();
+				if (stmtnum_string == std::to_string(stmt_num)) {
+					PROC_NAME procname = call_node->getCalleeProcedureName();
+					call_procname_list.push_back(procname);
+				}
+			}
+		}
+
+		
+		return call_procname_list;
+	}
+
+	static ATTR_REF_VALUES_LIST getReadVarname(PKB pkb, SYNONYM_VALUES_LIST stmtnum_values) {
+		ATTR_REF_VALUES_LIST read_varname_list;
+		READ_NODE_PTR_LIST read_nodes = pkb.getReads();
+
+		for (SYNONYM_VALUE stmtnum_string : stmtnum_values) {
+			for (std::shared_ptr<ReadNode> read_node : read_nodes) {
+				STMT_NUM stmt_num = read_node->getStatementNumber();
+				if (stmtnum_string == std::to_string(stmt_num)) {
+					std::shared_ptr<VariableNode> var_node = read_node->getVariableNode();
+					VAR_NAME varname = var_node->getVariableName();
+					read_varname_list.push_back(varname);
+				}
 			}
 		}
 		
-		return call_procname_list;
+
+		return read_varname_list;
+	}
+
+	static ATTR_REF_VALUES_LIST getPrintVarname(PKB pkb, SYNONYM_VALUES_LIST stmtnum_values) {
+		ATTR_REF_VALUES_LIST print_varname_list;
+		PRINT_NODE_PTR_LIST print_nodes = pkb.getPrints();
+
+		for (SYNONYM_VALUE stmtnum_string : stmtnum_values) {
+			for (std::shared_ptr<PrintNode> print_node : print_nodes) {
+				STMT_NUM stmt_num = print_node->getStatementNumber();
+				if (stmtnum_string == std::to_string(stmt_num)) {
+					std::shared_ptr<VariableNode> var_node = print_node->getVariableNode();
+					VAR_NAME varname = var_node->getVariableName();
+					print_varname_list.push_back(varname);
+				}
+			}
+		}
+
+
+		return print_varname_list;
+	}
+
+	static bool resultMatches(ResultList result_list, QueryNode synonym_node) {
+		bool result_matches = false;
+		SYNONYM_NAME synonym_name = synonym_node.getString();
+		ATTRIBUTE attribute_type = synonym_node.getAttr();
+		SYNONYM_VALUES_LIST values_list = result_list.getValuesOfSynonym(synonym_name);
+		SYNONYM_VALUE one_value = values_list[0];
+
+		if (attribute_type == AttributeType::stmtNum || attribute_type == AttributeType::value) {
+			if (isDigit(one_value)) {
+				result_matches = true;
+			}
+		}
+
+		if (attribute_type == AttributeType::procName || attribute_type == AttributeType::varName) {
+			if (!isDigit(one_value)) {
+				result_matches = true;
+			}
+		}
+
+		return result_matches;
 	}
 
 	static bool isValidAttrRef(SYNONYM_TYPE synonym_type, ATTRIBUTE attribute) {
@@ -257,5 +320,9 @@ private:
 
 	static void throwsInvalidAttrRefException() {
 		throw "AttrRefManager: Attribute is invalid for this given synonym type.";
+	}
+
+	static bool isDigit(SYNONYM_VALUE string) {
+		return std::isdigit(*string.begin());
 	}
 };
