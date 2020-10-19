@@ -777,7 +777,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 			}
 
 			while (clause_start_index != -1) {
-				// check if next clause is "such that" or "pattern"
+				// check type of clause
 				// get clause
 				// check format validity
 				// get clause arguments
@@ -785,14 +785,9 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 				// create clause node
 				// add to children of select node
 				if (c[clause_start_index] == 's') {
+					// suchthat-cl
 					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index + 9,
 						clause_end_index - (clause_start_index + 9)));
-
-					if (!QueryValidator::isValidRelationFormat(current_c)) {
-						is_valid = false;
-						is_syntax_valid = false;
-						break;
-					}
 
 					bool is_last = false;
 					INDEX split_index = 0;
@@ -804,6 +799,12 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 					while (is_valid && (and_index != -1 || is_last)) {
 						SINGLE_CLAUSE rel_c = trimWhitespaces(current_c.substr(split_index, and_index - split_index));
+
+						if (!QueryValidator::isValidRelationFormat(rel_c)) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
 
 						QueryNode such_that_node = QueryNode();
 						such_that_node.setNodeType({ QueryNodeType::such_that });
@@ -825,19 +826,23 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 							such_that_node.setChildren(such_that_node_children, 1);
 							select_node.addChild(such_that_node);
 						}
-
-						split_index = and_index + 3;
-						and_index = current_c.find("and", split_index);
-
-						if (and_index == -1 && is_last == false) {
-							is_last = true;
-						}
-						else if (is_last) {
+						
+						
+						if (is_last) {
 							is_last = false;
+						}
+						else {
+							split_index = and_index + 3;
+							and_index = current_c.find("and", split_index);
+
+							if (and_index == -1) {
+								is_last = true;
+							}
 						}
 					}
 				}
 				else {
+					// pattern-cl
 					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index, clause_end_index - clause_start_index));
 
 					if (!QueryValidator::isValidPatternFormat(current_c)) {
@@ -846,43 +851,22 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						break;
 					}
 
-					bool is_last = false;
-					INDEX split_index = 0;
-					INDEX and_index = current_c.find("and", split_index);
+					QueryNode pattern_node = createPatternNode(proc_s, current_c);
 
-					if (and_index == -1) {
-						is_last = true;
+					if (pattern_node.getNodeType() == QueryNodeType::unassigned) {
+						is_valid = false;
+						is_syntax_valid = false;
+						break;
 					}
+					else if (pattern_node.getNodeType() == QueryNodeType::pattern && pattern_node.getChildren().size() == 0) {
+						is_valid = false;
+						break;
 
-					while (is_valid && (and_index != -1 || is_last)) {
-						SINGLE_CLAUSE pat_c = trimWhitespaces(current_c.substr(split_index, and_index - split_index));
-
-						QueryNode pattern_node = createPatternNode(proc_s, pat_c);
-
-						if (pattern_node.getNodeType() == QueryNodeType::unassigned) {
-							is_valid = false;
-							is_syntax_valid = false;
-							break;
-						}
-						else if (pattern_node.getNodeType() == QueryNodeType::pattern && pattern_node.getChildren().size() == 0) {
-							is_valid = false;
-							break;
-
-						}
-						else {
-							select_node.addChild(pattern_node);
-						}
-
-						split_index = and_index + 3;
-						and_index = current_c.find("and", split_index);
-
-						if (and_index == -1 && is_last == false) {
-							is_last = true;
-						}
-						else if (is_last) {
-							is_last = false;
-						}
 					}
+					else {
+						select_node.addChild(pattern_node);
+					}
+				
 				}
 
 				next_indices = getNextClauseIndex(c, clause_end_index);
