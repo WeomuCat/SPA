@@ -29,6 +29,8 @@ namespace UnitTesting {
 			PKBBuilder pkb_builder;
 			CALL_NODE_PTR expected = std::make_shared<CallNode>();
 			int expected_num = 1;
+			PROC_NAME expected_proc_name = "main";
+			expected->setCalleeProcedureName(expected_proc_name);
 			expected->setStatementNumber(expected_num);
 			pkb_builder.addCallNode(expected);
 			PKB pkb = pkb_builder.build();
@@ -40,6 +42,9 @@ namespace UnitTesting {
 
 			int num = pkb.getCallNumList().at(0);
 			Assert::AreEqual(expected_num, num);
+
+			std::string actual_var_name = pkb.getCallProcNameList().at(0);
+			Assert::AreEqual(expected_proc_name, actual_var_name);
 		}
 		
 		TEST_METHOD(addConstant_getConstants_True) {

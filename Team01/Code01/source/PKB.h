@@ -126,6 +126,13 @@ public:
     STMT_NUM_LIST getCallNumList();
 
     /*
+    Description: Returns the PROC_NAME_LIST stored in CALL_TABLE.
+                 If there are no elements in the collection, returns an empty
+                 PROC_NAME_LIST.
+    */
+    PROC_NAME_LIST getCallProcNameList();
+
+    /*
     Description: Returns the STMT_NUM_LIST stored in IF_TABLE.
                  If there are no elements in the collection, returns an empty
                  STMT_NUM_LIST.
