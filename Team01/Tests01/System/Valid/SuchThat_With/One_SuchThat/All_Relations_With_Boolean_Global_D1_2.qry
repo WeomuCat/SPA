@@ -40,11 +40,11 @@ TRUE
 5000
 9 - Next
 prog_line n;
-Select BOOLEAN such that Next (n, 7) with n.stmt# = 5
+Select BOOLEAN such that Next (n, 7) with n = 5
 TRUE
 5000
 10 - NextT
 prog_line n;
-Select BOOLEAN such that Next* (22, n) with n.stmt# = 23
+Select BOOLEAN such that Next* (22, n) with n = 23
 FALSE
 5000

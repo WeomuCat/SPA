@@ -20,10 +20,14 @@ private:
 public:
 	/*==== Constructor ====*/
 	QueryProcessor(PKB pkb);
+	/*
+	Description: Creates a QueryProcessor for the given PKB.
+	*/
 
+
+	QUERY_RESULT processQuery(QUERY q);
 	/*
 	Description: Returns the QUERY_RESULT.
 				 If 'q' is not a valid query, throws an exception.
 	*/
-	QUERY_RESULT processQuery(QUERY q);
 };

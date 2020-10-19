@@ -1,147 +1,22 @@
-procedure main {
-    read name;
-    print name;
-    if (name == cat) then {
-        read a;
-        read b;
-        read c;
-        read d;
-    } else {
-        if (((a <= b) && (c >= d)) || ((a < b) && (c > d))) then {
-            read x;
-            read y;
-            read z;
-            while (!(x + y + z < ((a * b * c) / d) % 2)) {
-                x = 1 + 2 + 3 + 4 + 5;
-                y = 11 + 12 + 13 + 14 + 15;
-                d = b * b - 4 * a * c;
-                c = cat;
-                cat = a / b / c / d;
-                dog = d;
-                while (((dog == cat) || (dog != cat)) && ((name == dog) || (name == cat))) {
-                    z = cat + dog + a + b + c + d;
-                    d = 21 - 22 - 23 - 24 - 25;
-                    c = a;
-                    b = c;
-                    a = a;
-                    cat = cat + 1;
-                    dog = ((((dog % 5) % 15) % 25) % 35) + woof;
-                }
-                while (woof < dog) {
-                    woof = woof * woof + c * b * a + d / (a * b) - dog;
-                }
-                while (5 == 5) {
-                    if (((meow + cat) > woof - dog) && (0 >= dog * cat % (meow + woof))) then {
-                        a = meow;
-                        b = meow;
-                        c = meow;
-                        d = meow;
-                    } else {
-                        a = woof;
-                        b = woof;
-                        c = woof;
-                        d = woof;
-                    }
-                }
-            }
+procedure procmain {
+    print apple;
+    read banana;
+    ant = 0;
+    while (coconut > dragonfruit) {
+        print apple;
+        if (elderberry == fig) then {
+            apple = 3 * banana + apple;
+            call procsub;
+            chimpanzee = 4;
         } else {
-            print a;
+            print coconut;
+            apple = 10 * banana + apple;
+            call procdenyaffects;
+            gorillas = 1;
+            hawks = 3;
         }
+        dragonfruit = dragonfruit + 1 * apple;
     }
-    a = a + b * c + d;
-    b = cat + dog;
-    name = (meow * woof) % (cat + dog);
-    print cat;
-    print dog;
-    print meow;
-    print woof;
-    while (((woof > meow) && ((a < b) && (c > d))) && (cat >= dog)) {
-        while ((((a < b) || (c < d)) || (cat == dog)) || (a + b != c + d)) {
-            while ((!(meow == woof)) && (!(cat + dog > meow + woof))) {
-                if (a == b) then {
-                    while (c == d) {
-                        while ((cat - dog) % 50 > woof + meow) {
-                            while (woof % (a * b / c * d) != 0) {
-                                while (meow == 12345) {
-                                    while (a + b + c + d > 0) {
-                                        print a;
-                                        print b;
-                                        print c;
-                                        print d;
-                                    }
-                                }
-                            }
-                        }
-                        c = a * b - c * d;
-                        d = (a + b) % (c + d);
-                    }
-                    d = d + b;
-                } else {
-                    cat = cat - dog;
-                    dog = cat + dog;
-                    read cat;
-                    read dog;
-                    read meow;
-                    read woof;
-                }
-            }
-        }
-        read a;
-        read b;
-        read c;
-        read d;
-        while (!(cat + dog == 0)) {
-            if (cat / meow / woof / a / b / c / d / dog <= 0) then {
-                a = a + (((c + b) + a) + d) + ((dog + meow) + woof) + dog % 2 + 2 % dog / cat * woof + meow * cat;
-                b = b + 1;
-                c = c / 2;
-                d = d * 2;
-                while (a - b - c - d - e == 0) {
-                    a = e - 1;
-                    b = e + 1;
-                    c = e * 0;
-                    d = e / 0;
-                }
-            } else {
-                print meow;
-                print woof;
-                cat = meow + woof;
-                dog = meow - woof;
-                while (a + b == c - d) {
-                    while (b - c - d - e == 0) {
-                        e = 0;
-                    }
-                }
-            }
-        }
-        read meow;
-        read woof;
-        if (meow == a) then {
-            if (woof == b) then {
-                if (cat == c) then {
-                    if (dog == d) then {
-                        name = e;
-                    } else {
-                        dog = 0;
-                    }
-                } else {
-                    cat = 0;
-                }
-            } else {
-                woof = 0;
-            }
-        } else {
-            meow = 0;
-        }
-        x = 12345;
-        y = 67890;
-        z = x + y * (x - y) / (x % y);
-        while (a + b + c > 0) {
-            while (!(4 + 6 == 10)) {
-                print x;
-                print y;
-                print z;
-            }
-        }
-    }
+    print apple;
+    boar = 2011;
 }

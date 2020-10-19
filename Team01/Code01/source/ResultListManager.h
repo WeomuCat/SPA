@@ -13,6 +13,7 @@ class ResultListManager;
 
 typedef std::string STRING_RESULT;
 typedef std::vector<std::string> VALUE_LIST;
+typedef std::vector<SYNONYM_NAME> TUPLE_RETURN_SYNONYMS;
 
 class ResultListManager {
 // Note to self: for methods that change result_list, return ResultList!
@@ -26,6 +27,29 @@ public:
 
 	static VALUE_LIST getSynonymValues(ResultList result_list, SYNONYM_NAME target_synonym) {
 		return result_list.getValuesOfSynonym(target_synonym);
+	}
+	
+	static VALUE_LIST getTupleValues(ResultList result_list, TUPLE_RETURN_SYNONYMS target_synonyms) {
+		VALUE_LIST final_results;
+		std::vector<SYNONYM_VALUES_LIST> target_synonym_list;
+
+		for (SYNONYM_NAME target_synonym : target_synonyms) {
+			target_synonym_list.push_back(result_list.getValuesOfSynonym(target_synonym));
+		}
+
+		for (int i = 0; i < result_list.getNumRows(); i++) {
+			std::string row_result = "";
+			for (int j = 0; j < target_synonym_list.size(); j++) {
+				std::string synonym_value = target_synonym_list[j][i];
+				row_result = row_result + synonym_value + " ";
+			}
+			if (row_result.size() > 0) {
+				row_result.pop_back(); // remove extra whitespace behind
+			}
+			final_results.push_back(row_result);
+		}
+
+		return final_results;
 	}
 
 	static STRING_RESULT getStringValues(VALUE_LIST result_list) {
@@ -60,7 +84,8 @@ public:
 	}
 	
 	static ResultList merge(ResultList list1, ResultList list2) {
-		// If either list is empty, return the other list
+		// If either list is empty (no columns), return the other list
+		// Note: if there is at least 1 column, but no rows for the column, it is not considered empty.
 		ROW_LIST rows1 = list1.getRowList();
 		ROW_LIST rows2 = list2.getRowList();
 		if (rows1.size() == 0) {
