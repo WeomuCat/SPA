@@ -218,7 +218,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 				QueryNode missing_synonym_node = processed_synonyms.find(missing_synonym)->second;
 				fillWithReturnSynonym(missing_synonym_node, current_synonym);
 
-				ResultListManager::merge(result_list, current_synonym);
+				result_list = ResultListManager::merge(result_list, current_synonym);
 			}
 		}
 
@@ -252,7 +252,7 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 			ResultList child_result_list;
 			fillWithReturnSynonym(child, child_result_list);
 
-			ResultListManager::merge(final_result_list, child_result_list);
+			final_result_list = ResultListManager::merge(final_result_list, child_result_list);
 		}
 
 		return ResultListManager::getTupleValues(final_result_list, tuple_return_synonyms);
