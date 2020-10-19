@@ -340,6 +340,535 @@ namespace UnitTesting {
 			Assert::IsTrue(RelationTypeEnum::eq == rel3_type);
 		}
 
+		/*
+		procedure simpleIf {
+			if (a < b) then {
+				read c;
+			} else {
+				print d;
+			}
+		}
+		*/
+		TEST_METHOD(parseIf_1) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-7.txt"));
 
+			// Check program node is made
+			PROGRAM_NODE_PTR actual_prog = actual_pkb->getProgramNode();
+			PROGRAM_NODE_PTR prog = std::make_shared<ProgramNode>();
+			Assert::IsTrue(typeid(prog) == typeid(actual_prog));
+
+			// Check procedure list is made, with correct procedure name
+			PROC_NODE_PTR_LIST actual_proc_list = actual_prog->getProcedureNodeList();
+			PROC_NODE_PTR actual_proc = actual_proc_list.at(0);
+			Assert::IsTrue(actual_proc->getProcedureName() == "simpleIf");
+
+			// Check statementlist is made with 1 statement(children)
+			STMT_LIST_NODE_PTR actual_stmtlist1 = actual_proc->getProcedureStatementListNode();
+			STMT_NODE_PTR_LIST actual_stmt_list = actual_stmtlist1->getStatementNodeList();
+			Assert::IsTrue(actual_stmt_list.size() == 1);
+
+			// Check if node validity
+			/*
+				If node, condition node (a < b), stmtlist
+				If -> condition(none) + stmtlist
+				condition(none) -> rel(lt) on left
+				rel(lt) -> var + var
+			*/
+			IfNode* actual_if = static_cast<IfNode*>(actual_stmt_list.at(0).get());
+			CONDITION_NODE_PTR actual_cond = actual_if->getConditionNode();
+			CONDITION_TYPE cond_type = actual_cond->getConditionType();			// none
+
+			AST_NODE_PTR temp_rel = actual_cond->getLeftAstNode();				// lt
+			RelationNode* actual_rel = static_cast<RelationNode*>(temp_rel.get());
+			RELATION_TYPE rel_type = actual_rel->getRelationType();
+
+			AST_NODE_PTR temp_var1 = actual_rel->getLeftAstNode();				// a
+			VariableNode* actual_var1 = static_cast<VariableNode*>(temp_var1.get());
+			AST_NODE_PTR temp_var2 = actual_rel->getRightAstNode();				// b
+			VariableNode* actual_var2 = static_cast<VariableNode*>(temp_var2.get());
+
+			Assert::IsTrue("a" == actual_var1->getVariableName());
+			Assert::IsTrue(RelationTypeEnum::lt == rel_type);
+			Assert::IsTrue("b" == actual_var2->getVariableName());
+			Assert::IsTrue(1 == actual_if->getStatementNumber());
+
+			// Check 2 stmtList nodes made
+			STMT_LIST_NODE_PTR actual_then = actual_if->getThenStatementListNode();
+			STMT_NODE_PTR_LIST actual_then_stmt_list = actual_then->getStatementNodeList();
+			ReadNode* actual_read = static_cast<ReadNode*>(actual_then_stmt_list.at(0).get());
+			AST_NODE_PTR temp_var3 = actual_read->getVariableNode();				// c
+			VariableNode* actual_var3 = static_cast<VariableNode*>(temp_var3.get());
+
+			STMT_LIST_NODE_PTR actual_else = actual_if->getElseStatementListNode();
+			STMT_NODE_PTR_LIST actual_else_stmt_list = actual_else->getStatementNodeList();
+			PrintNode* actual_print = static_cast<PrintNode*>(actual_else_stmt_list.at(0).get());
+			AST_NODE_PTR temp_var4 = actual_print->getVariableNode();				// d
+			VariableNode* actual_var4 = static_cast<VariableNode*>(temp_var4.get());
+
+			Assert::IsTrue("c" == actual_var3->getVariableName());
+			Assert::IsTrue("d" == actual_var4->getVariableName());
+		}
+
+		/*
+		procedure nestedWhile {
+			while (a < b) {
+				print x;
+				
+				while (c > d) {
+					read y;
+				}
+			}
+		}
+		*/
+		TEST_METHOD(parseNestedWhile_1) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-8.txt"));
+
+			// Check program node is made
+			PROGRAM_NODE_PTR actual_prog = actual_pkb->getProgramNode();
+			PROGRAM_NODE_PTR prog = std::make_shared<ProgramNode>();
+			Assert::IsTrue(typeid(prog) == typeid(actual_prog));
+
+			// Check procedure list is made, with correct procedure name
+			PROC_NODE_PTR_LIST actual_proc_list = actual_prog->getProcedureNodeList();
+			PROC_NODE_PTR actual_proc = actual_proc_list.at(0);
+			Assert::IsTrue(actual_proc->getProcedureName() == "nestedWhile");
+
+			// Check statementlist is made with 1 statement(children)
+			STMT_LIST_NODE_PTR actual_stmtlist1 = actual_proc->getProcedureStatementListNode();
+			STMT_NODE_PTR_LIST actual_stmt_list1 = actual_stmtlist1->getStatementNodeList();
+			Assert::IsTrue(actual_stmt_list1.size() == 1);
+
+			// Check first while node made
+			WhileNode* actual_while1 = static_cast<WhileNode*>(actual_stmt_list1.at(0).get());
+			CONDITION_NODE_PTR actual_cond1 = actual_while1->getConditionNode();
+			CONDITION_TYPE cond_type = actual_cond1->getConditionType();			// none
+
+			AST_NODE_PTR temp_rel1 = actual_cond1->getLeftAstNode();				// lt
+			RelationNode* actual_rel1 = static_cast<RelationNode*>(temp_rel1.get());
+			RELATION_TYPE rel_type1 = actual_rel1->getRelationType();
+
+			AST_NODE_PTR temp_var1 = actual_rel1->getLeftAstNode();					// a
+			VariableNode* actual_var1 = static_cast<VariableNode*>(temp_var1.get());
+			AST_NODE_PTR temp_var2 = actual_rel1->getRightAstNode();				// b
+			VariableNode* actual_var2 = static_cast<VariableNode*>(temp_var2.get());
+
+			Assert::IsTrue("a" == actual_var1->getVariableName());
+			Assert::IsTrue(RelationTypeEnum::lt == rel_type1);
+			Assert::IsTrue("b" == actual_var2->getVariableName());
+			Assert::IsTrue(1 == actual_while1->getStatementNumber());
+
+			// Check print node
+			STMT_LIST_NODE_PTR actual_stmtlist2 = actual_while1->getWhileStatementListNode();
+			STMT_NODE_PTR_LIST actual_stmt_list2 = actual_stmtlist2->getStatementNodeList();
+			PrintNode* actual_print = static_cast<PrintNode*>(actual_stmt_list2.at(0).get());
+			AST_NODE_PTR temp_var3 = actual_print->getVariableNode();				// x
+			VariableNode* actual_var3 = static_cast<VariableNode*>(temp_var3.get());
+
+			Assert::IsTrue("x" == actual_var3->getVariableName());
+			Assert::IsTrue(2 == actual_print->getStatementNumber());
+
+			// Check second while node
+			WhileNode* actual_while2 = static_cast<WhileNode*>(actual_stmt_list2.at(1).get());
+			CONDITION_NODE_PTR actual_cond2 = actual_while2->getConditionNode();
+			CONDITION_TYPE cond_type2 = actual_cond2->getConditionType();			// none
+
+			AST_NODE_PTR temp_rel2 = actual_cond2->getLeftAstNode();				// gt
+			RelationNode* actual_rel2 = static_cast<RelationNode*>(temp_rel2.get());
+			RELATION_TYPE rel_type2 = actual_rel2->getRelationType();
+
+			AST_NODE_PTR temp_var4 = actual_rel2->getLeftAstNode();					// c
+			VariableNode* actual_var4 = static_cast<VariableNode*>(temp_var4.get());
+			AST_NODE_PTR temp_var5 = actual_rel2->getRightAstNode();				// d
+			VariableNode* actual_var5 = static_cast<VariableNode*>(temp_var5.get());
+
+			Assert::IsTrue("c" == actual_var4->getVariableName());
+			Assert::IsTrue(RelationTypeEnum::gt == rel_type2);
+			Assert::IsTrue("d" == actual_var5->getVariableName());
+			Assert::IsTrue(3 == actual_while2->getStatementNumber());
+
+			// Check read node
+			STMT_LIST_NODE_PTR actual_stmtlist3 = actual_while2->getWhileStatementListNode();
+			STMT_NODE_PTR_LIST actual_stmt_list3 = actual_stmtlist3->getStatementNodeList();
+			ReadNode* actual_read = static_cast<ReadNode*>(actual_stmt_list3.at(0).get());
+			AST_NODE_PTR temp_var6 = actual_read->getVariableNode();				// y
+			VariableNode* actual_var6 = static_cast<VariableNode*>(temp_var6.get());
+
+			Assert::IsTrue("y" == actual_var6->getVariableName());
+			Assert::IsTrue(4 == actual_read->getStatementNumber());
+		}
+
+		/*
+		procedure proc1 {
+			print a;
+			call proc2;
+			print a;
+		}
+
+		procedure proc2 {
+			a = 5;
+		}
+		*/
+		TEST_METHOD(parseCall_1) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-10.txt"));
+			
+			// Check program node is made
+			PROGRAM_NODE_PTR actual_prog = actual_pkb->getProgramNode();
+			PROGRAM_NODE_PTR prog = std::make_shared<ProgramNode>();
+			Assert::IsTrue(typeid(prog) == typeid(actual_prog));
+
+			// Check procedure lists are made, with correct procedure name
+			PROC_NODE_PTR_LIST actual_proc_list = actual_prog->getProcedureNodeList();
+			PROC_NODE_PTR actual_proc1 = actual_proc_list.at(0);
+			Assert::IsTrue(actual_proc1->getProcedureName() == "proc1");
+
+			PROC_NODE_PTR actual_proc2 = actual_proc_list.at(1);
+			Assert::IsTrue(actual_proc2->getProcedureName() == "proc2");
+
+			// Check statementlist for proc1 is made with 3 statement(children)
+			STMT_LIST_NODE_PTR actual_stmtlist1 = actual_proc1->getProcedureStatementListNode();
+			STMT_NODE_PTR_LIST actual_stmt_list1 = actual_stmtlist1->getStatementNodeList();
+			Assert::IsTrue(actual_stmt_list1.size() == 3);
+
+			// Check correctly formed CallNode
+			CallNode* actual_call = static_cast<CallNode*>(actual_stmt_list1.at(1).get());
+			
+			Assert::IsTrue("proc1" == actual_call->getCallerProcedureName());
+			Assert::IsTrue("proc2" == actual_call->getCalleeProcedureName());
+		}
+
+		/*
+		procedure hasWhile {
+			print a;
+			while (b != 3) {
+				c = d - 1;
+			}
+		}
+		*/
+		TEST_METHOD(parseParent_1) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-5.txt"));
+
+			Assert::IsTrue(actual_pkb->isParent(2, 3));
+			Assert::IsFalse(actual_pkb->isParent(1, 2));
+			Assert::IsFalse(actual_pkb->isParent(1, 3));
+		}
+
+		TEST_METHOD(parseParent_2) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-9.txt"));
+
+			Assert::IsTrue(actual_pkb->isParent(3, 4));
+			Assert::IsTrue(actual_pkb->isParent(3, 5));
+			Assert::IsTrue(actual_pkb->isParent(3, 6));
+			Assert::IsTrue(actual_pkb->isParent(3, 7));
+			Assert::IsTrue(actual_pkb->isParent(3, 8));
+			Assert::IsTrue(actual_pkb->isParent(3, 9));
+			Assert::IsTrue(actual_pkb->isParent(3, 10));
+
+			Assert::IsFalse(actual_pkb->isParent(3, 11));
+
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 10));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 11));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 12));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 13));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 14));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 15));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 16));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 17));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 18));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 19));
+			Assert::IsTrue(actual_pkb->isParentTransitive(3, 20));
+
+			Assert::IsFalse(actual_pkb->isParent(9, 10));
+			Assert::IsFalse(actual_pkb->isParent(9, 11));
+			Assert::IsFalse(actual_pkb->isParent(9, 12));
+
+			Assert::IsFalse(actual_pkb->isParent(14, 15));
+			Assert::IsFalse(actual_pkb->isParent(14, 17));
+			Assert::IsFalse(actual_pkb->isParent(14, 18));
+			Assert::IsFalse(actual_pkb->isParent(14, 19));
+			Assert::IsFalse(actual_pkb->isParent(14, 20));
+		}
+
+		TEST_METHOD(parseCalls_1) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-11.txt"));
+			Assert::IsTrue(actual_pkb->isCalls("proc1", "proc2"));
+			Assert::IsFalse(actual_pkb->isCalls("proc2", "proc1"));
+		}
+
+		/*
+		The slightly complex source
+		1 calls 2, calls 3
+		3 calls 4
+		4 calls 2
+		*/
+		TEST_METHOD(parseCalls_2) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-9.txt"));
+			
+			Assert::IsTrue(actual_pkb->isCalls("proc1", "proc2"));
+			Assert::IsTrue(actual_pkb->isCalls("proc1", "proc3"));
+
+			Assert::IsFalse(actual_pkb->isCalls("proc1", "proc1"));
+			Assert::IsFalse(actual_pkb->isCalls("proc1", "proc4"));
+
+			Assert::IsFalse(actual_pkb->isCalls("proc2", "proc1"));
+			Assert::IsFalse(actual_pkb->isCalls("proc2", "proc3"));
+			Assert::IsFalse(actual_pkb->isCalls("proc2", "proc4"));
+
+			Assert::IsTrue(actual_pkb->isCalls("proc3", "proc4"));
+			
+			Assert::IsFalse(actual_pkb->isCalls("proc3", "proc1"));
+			Assert::IsFalse(actual_pkb->isCalls("proc3", "proc2"));
+			Assert::IsFalse(actual_pkb->isCalls("proc3", "proc3"));
+
+			Assert::IsTrue(actual_pkb->isCalls("proc4", "proc2"));
+
+			Assert::IsFalse(actual_pkb->isCalls("proc4", "proc1"));
+			Assert::IsFalse(actual_pkb->isCalls("proc4", "proc3"));
+			Assert::IsFalse(actual_pkb->isCalls("proc4", "proc4"));
+		}
+		
+
+		/*
+		procedure hasWhile {
+			print a;
+			while (b != 3) {
+				c = d - 1;
+			}
+		}
+		*/
+		TEST_METHOD(parseNext_1) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-5.txt"));
+			
+			Assert::IsTrue(actual_pkb->isNext(1, 2));
+			Assert::IsTrue(actual_pkb->isNext(2, 3));
+
+			Assert::IsFalse(actual_pkb->isNext(1, 3));
+
+			Assert::IsTrue(actual_pkb->isNextTransitive(1, 3));
+		}
+		
+		/*
+		procedure nestedWhile {
+			while (a < b) {
+				print x;
+
+				while (c > d) {
+					read y;
+				}
+			}
+		}
+		*/
+		TEST_METHOD(parseNext_2) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-8.txt"));
+			
+			Assert::IsTrue(actual_pkb->isNext(1, 2));
+			Assert::IsTrue(actual_pkb->isNext(2, 3));
+			Assert::IsTrue(actual_pkb->isNext(3, 4));
+			
+			Assert::IsTrue(actual_pkb->isNextTransitive(1, 2));
+			Assert::IsTrue(actual_pkb->isNextTransitive(1, 3));
+			Assert::IsTrue(actual_pkb->isNextTransitive(1, 4));
+			
+			Assert::IsTrue(actual_pkb->isNextTransitive(2, 3));
+			Assert::IsTrue(actual_pkb->isNextTransitive(2, 4));
+			
+			Assert::IsTrue(actual_pkb->isNextTransitive(3, 4));
+		}
+
+		/*
+			procedure proc1 {
+		1		a = b + 1;
+		2		print a;
+		3		call proc2;
+
+		4		while(a > 2) {
+		5			print c;
+		6			call proc2;
+				}
+			}
+
+			procedure proc2 {
+		7		read x;
+		8		y = z + 2;
+			}
+		*/
+		TEST_METHOD(parseUses_1) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-12.txt"));
+
+			// Test Procedures (including transcending Uses due to call stmt)
+			Assert::IsTrue(actual_pkb->isUses("proc1", "a"));
+			Assert::IsTrue(actual_pkb->isUses("proc1", "b"));
+			Assert::IsTrue(actual_pkb->isUses("proc1", "c"));
+			Assert::IsTrue(actual_pkb->isUses("proc1", "z"));
+			
+			Assert::IsTrue(actual_pkb->isUses("proc2", "z"));
+
+			// Test assign stmts
+			Assert::IsTrue(actual_pkb->isUses(1, "b"));
+			Assert::IsTrue(actual_pkb->isUses(6, "z"));
+			
+			Assert::IsFalse(actual_pkb->isUses(1, "a"));
+			Assert::IsFalse(actual_pkb->isUses(6, "y"));
+
+			// Test print stmt
+			Assert::IsTrue(actual_pkb->isUses(2, "a"));
+			Assert::IsTrue(actual_pkb->isUses(5, "c"));
+
+			// Test container stmt (condition and stmt list and due to call stmt)
+			Assert::IsTrue(actual_pkb->isUses(4, "a"));
+			Assert::IsTrue(actual_pkb->isUses(4, "c"));
+			Assert::IsTrue(actual_pkb->isUses(4, "z"));
+
+			// Test call stmt
+			Assert::IsTrue(actual_pkb->isUses(6, "z"));
+		}
+
+		/*
+			procedure proc1 {
+		1		a = b + 1;
+		2		read a;
+		3		call proc2;
+
+		4		while(a > 2) {
+		5			read c;
+		6			call proc2;
+				}
+			}
+
+			procedure proc2 {
+		7		print x;
+		8		y = z + 2;
+			}
+		*/
+		TEST_METHOD(parseModifies_1) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-13.txt"));
+
+			// Test Procedures (including transcending Uses due to call stmt)
+			Assert::IsTrue(actual_pkb->isModifies("proc1", "a"));
+			Assert::IsTrue(actual_pkb->isModifies("proc1", "c"));
+			Assert::IsTrue(actual_pkb->isModifies("proc1", "y"));
+
+			Assert::IsTrue(actual_pkb->isModifies("proc2", "y"));
+
+			// Test assign stmts
+			Assert::IsTrue(actual_pkb->isModifies(1, "a"));
+			Assert::IsTrue(actual_pkb->isModifies(6, "y"));
+
+			Assert::IsFalse(actual_pkb->isModifies(1, "b"));
+			Assert::IsFalse(actual_pkb->isModifies(6, "z"));
+
+			// Test print stmt
+			Assert::IsTrue(actual_pkb->isModifies(2, "a"));
+			Assert::IsTrue(actual_pkb->isModifies(5, "c"));
+
+			// Test container stmt (condition and stmt list and due to call stmt)
+			Assert::IsTrue(actual_pkb->isModifies(4, "c"));
+			Assert::IsTrue(actual_pkb->isModifies(4, "y"));
+
+			// Test call stmt
+			Assert::IsTrue(actual_pkb->isModifies(6, "y"));
+		}
+
+		/*
+			procedure main {
+		1		call sub1;
+		2		call sub2;
+			}
+
+			procedure sub1 {
+		3		print x;
+			}
+
+			procedure sub2 {
+		4		call subsub3;
+		5		call subsub4;
+			}
+
+			procedure subsub3 {
+		6		read y;
+			}
+
+			procedure subsub4 {
+		7		call subsubsub5;
+			}
+
+			procedure subsubsub5 {
+		8		print z;
+			}
+		*/
+		// Commented out sections are asserts to do with variables used/modified in called procedure, and currently fail.
+		TEST_METHOD(parseTopoSort_1) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/BryanTestParserTopoSort.txt"));
+
+			// Test procedure, call stmts in main
+			Assert::IsTrue(actual_pkb->isCalls("main", "sub1"));
+			Assert::IsTrue(actual_pkb->isCalls("main", "sub2"));
+			
+			Assert::IsTrue(actual_pkb->isCallsTransitive("main", "subsub3"));
+			Assert::IsTrue(actual_pkb->isCallsTransitive("main", "subsub4"));
+			Assert::IsTrue(actual_pkb->isCallsTransitive("main", "subsubsub5"));
+
+			Assert::IsTrue(actual_pkb->isUses("main", "x"));
+			Assert::IsTrue(actual_pkb->isModifies("main", "y"));
+			Assert::IsTrue(actual_pkb->isUses("main", "z"));
+			
+			Assert::IsTrue(actual_pkb->isUses(1, "x"));
+			Assert::IsTrue(actual_pkb->isModifies(2, "y"));
+			Assert::IsTrue(actual_pkb->isUses(2, "z"));
+
+			// Test procedure in sub1.
+			Assert::IsTrue(actual_pkb->isUses("sub1", "x"));
+			Assert::IsTrue(actual_pkb->isUses(3, "x"));
+
+			// Test procedure, call stmts in sub2
+			Assert::IsTrue(actual_pkb->isCalls("sub2", "subsub3"));
+			Assert::IsTrue(actual_pkb->isCalls("sub2", "subsub4"));
+			
+			Assert::IsTrue(actual_pkb->isCallsTransitive("sub2", "subsubsub5"));
+
+			Assert::IsTrue(actual_pkb->isModifies("sub2", "y"));
+			Assert::IsTrue(actual_pkb->isUses("sub2", "z"));
+			
+			Assert::IsTrue(actual_pkb->isModifies(4, "y"));
+			Assert::IsTrue(actual_pkb->isUses(5, "z"));
+
+			// Test procedure in subsub3.
+			Assert::IsTrue(actual_pkb->isModifies("subsub3", "y"));
+			Assert::IsTrue(actual_pkb->isModifies(6, "y"));
+
+			// Test procedure, call stmt in subsub4
+			Assert::IsTrue(actual_pkb->isCalls("subsub4", "subsubsub5"));
+
+			Assert::IsTrue(actual_pkb->isUses("subsub4", "z"));
+
+			Assert::IsTrue(actual_pkb->isUses(7, "z"));
+
+			// Test procedure in subsubsub5.
+			Assert::IsTrue(actual_pkb->isUses("subsubsub5", "z"));
+			Assert::IsTrue(actual_pkb->isUses(8, "z"));
+		}
 	};
 }

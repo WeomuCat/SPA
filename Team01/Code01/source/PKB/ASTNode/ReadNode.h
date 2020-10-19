@@ -1,11 +1,8 @@
 #pragma once
 
-#include <memory>
+#include "../../AbstractDataTypes.h"
 #include "StatementNode.h"
 #include "VariableNode.h"
-
-typedef std::shared_ptr<VariableNode> VAR_NODE_PTR;
-typedef bool BOOLEAN_TYPE;
 
 class ReadNode : public StatementNode, public std::enable_shared_from_this<ReadNode> {
 

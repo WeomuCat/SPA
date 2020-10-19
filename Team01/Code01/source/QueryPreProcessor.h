@@ -5,146 +5,92 @@
 #include <vector>
 
 #include "QueryNode.h"
+#include "QueryValidator.h"
 
 typedef std::string QUERY;
 typedef std::vector<std::string> SPLIT_QUERY;
 typedef std::string DECLARATIONS;
 typedef std::vector<std::string> SPLIT_DECLARATIONS;
-typedef std::string SINGLE_DECLARATION;
 typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
+typedef std::string ELEMENT;
+typedef std::string RESULT;
 typedef std::string CLAUSES;
-typedef std::string SINGLE_CLAUSE;
 typedef QueryNode PROCESSED_CLAUSES;
 typedef std::string RELATIONSHIP;
 typedef std::string ARGUMENT;
-typedef bool VALIDATION_RESULT;
 typedef std::string EXPRESSION;
 typedef std::string STRING;
 typedef int INDEX;
 
+/*
+Overview: Pre-processes queries into a suitable data structure for the evaluator.
+*/
 class QueryPreProcessor {
-	/* Overview: Pre-processes queries into a suitable data structure for the evaluator */
 
 public:
+	/*
+	Description: Returns a SPLIT_QUERY.
+	*/
 	SPLIT_QUERY splitQuery(QUERY q);
-	/*
-		Description:
-		  Normal: Returns a SPLIT_QUERY
-		*/
 
+	/*
+	Description: Returns PROCESSED_SYNONYMS.
+				 If synonyms are not valid, returns an empty map.
+	*/
 	PROCESSED_SYNONYMS preProcessSynonyms(DECLARATIONS d);
-	/*
-		Description:
-		  Normal: Returns PROCESSED_SYNONYMS
-		  Abnormal: If synonyms are not valid, returns an empty map
-		*/
 
-	PROCESSED_CLAUSES preProcessClauses(PROCESSED_SYNONYMS proc_s, CLAUSES c);
 	/*
-		Description:
-		  Normal: Returns PROCESSED_CLAUSES
-		  Abnormal: If clauses are not valid, returns a query node with a null NODE_TYPE
-		*/
+	Description: Returns PROCESSED_CLAUSES.
+				 If clauses are not valid, returns a query node with an unassigned NODE_TYPE.
+	*/
+	PROCESSED_CLAUSES preProcessClauses(PROCESSED_SYNONYMS proc_s, CLAUSES c);
 
 private:
+	/*
+	Description: Returns SPLIT_DECLARATIONS.
+	*/
 	SPLIT_DECLARATIONS splitDeclarations(DECLARATIONS d);
-	/*
-		Description:
-		  Normal: Returns SPLIT_DECLARATIONS
-		*/
 
+	/*
+	Description: Returns a QueryNode for the element.
+	*/
+	QueryNode createElemNode(PROCESSED_SYNONYMS proc_s, ELEMENT e);
+
+	/*
+	Description: Returns a QueryNode for the result clause.
+				 If result clause is not valid, returns a query node with an unassigned NODE_TYPE.
+	*/
+	QueryNode createResultNode(PROCESSED_SYNONYMS proc_s, RESULT r);
+
+	/*
+	Description: Returns the INDEX of the next clause.
+	*/
 	INDEX getNextClauseIndex(CLAUSES c, INDEX current_index, INDEX such_that_index, INDEX pattern_index);
-	/*
-		Description:
-		  Normal: Returns the INDEX of the next clause
-		*/
 
+	/*
+	Description: Returns a QueryNode for the expression.
+	*/
 	QueryNode createExpressionNode(EXPRESSION e);
-	/*
-		Description:
-		  Normal: Returns SPLIT_DECLARATIONS
-		*/
 
+	/*
+	Description: Returns a QueryNode for the argument.
+	*/
 	QueryNode createArgumentNode(PROCESSED_SYNONYMS proc_s, ARGUMENT arg);
-	/*
-		Description:
-		  Normal: Returns a QueryNode for the argument
-		*/
 
+	/*
+	Description: Returns a QueryNode for the relationship.
+	*/
 	QueryNode createRelationNode(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
 		ARGUMENT first_arg, ARGUMENT second_arg);
-	/*
-		Description:
-		  Normal: Returns a QueryNode for the relationship
-		*/
 
+	/*
+	Description: Returns a QueryNode for the pattern.
+	*/
 	QueryNode createPatternNode(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
 		ARGUMENT first_arg, ARGUMENT second_arg);
-	/*
-		Description:
-		  Normal: Returns a QueryNode for the pattern
-		*/
 
-
-	VALIDATION_RESULT isValidStructure(QUERY q);
 	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on general structure of input query
-		*/
-
-	VALIDATION_RESULT isValidDeclaration(SINGLE_DECLARATION single_d);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on grammer for declarations
-		*/
-
-	VALIDATION_RESULT isValidClause(CLAUSES c);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on grammar for clauses
-		*/
-
-	VALIDATION_RESULT isSynonymDeclared(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on whether synonym has been declared
-		*/
-
-	VALIDATION_RESULT isValidRelationFormat(SINGLE_CLAUSE single_c);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on relationship format
-		*/
-
-	VALIDATION_RESULT isStatementArgument(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on whether argument returns a statemenr number
-		*/
-
-	VALIDATION_RESULT isValidRelationArguments(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
-		ARGUMENT first_arg, ARGUMENT second_arg);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on relationship argument validity
-		*/
-
-	VALIDATION_RESULT isValidPatternFormat(SINGLE_CLAUSE single_c);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on pattern format
-		*/
-
-	VALIDATION_RESULT isValidPatternArguments(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
-		ARGUMENT first_arg, ARGUMENT second_arg);
-	/*
-		Description:
-		  Normal: Returns a VALIDATION_RESULT based on pattern argument validity
-		*/
-
-	STRING trimWhitespaces(STRING s);
-	/*
-		Description:
-		  Normal: Trims whitespaces from front and back of STRING and returns it
+	Description: Trims whitespaces from front and back of STRING and returns it.
 	*/
+	STRING trimWhitespaces(STRING s);
 };

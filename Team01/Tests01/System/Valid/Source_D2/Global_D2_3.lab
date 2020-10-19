@@ -1,0 +1,91 @@
+--- procedure parent {
+001     aaa = bbb - ccc;
+002     call middleone;
+003     bbb = aaa;
+004     aaa = bbb % 2;
+005     call middletwo;
+006     bbb = aaa - ccc;
+007     aaa = 2;
+008     call middlethree;
+009     ccc = aaa - bbb;
+010     aaa = 2 + aaa;
+011     call middlefour;
+012     bbb = ccc;
+013     aaa = bbb % bbb - ccc * ccc - aaa + aaa;
+014     call middlefive;
+015     read aaa;
+016     call middleone;
+017     print bbb;
+018     aaa = ccc;
+019     if (aaa != 0) then {
+020         call childone;
+---     } else {
+021         call childtwo;
+---     }
+022     ccc = aaa;
+023     bbb = ccc;
+--- }
+--- 
+--- procedure middleone {
+024     call childone;
+025     call childtwo;
+--- }
+--- 
+--- procedure middletwo {
+026     if (1 == 1) then {
+027         call childone;
+028         call childtwo;
+---     } else {
+029         aaa = 0;
+---     }
+--- }
+--- 
+--- procedure middlethree {
+030     while (1 <= 1) {
+031         call childone;
+032         call childtwo;
+---     }
+--- }
+--- 
+--- procedure middlefour {
+033     if (1 > 1) then {
+034         while (1 <= 1) {
+035             call childone;
+036             call childtwo;
+---         }
+---     } else {
+037         while (1 != 1) {
+038             call childone;
+039             call childtwo;
+---         }
+---     }
+--- }
+--- 
+--- procedure middlefive {
+040     while (1 < 1) {
+041         if (1 == 1) then {
+042             call childone;
+043             call childtwo;
+---         } else {
+044             aaa = 0;
+---         }
+---     }
+--- }
+--- 
+--- procedure childone {
+045     aaa = 1;
+046     bbb = 1;
+047     ccc = 1;
+--- }
+--- 
+--- procedure childtwo {
+048     if (aaa == 0) then {
+049         aaa = 1;
+050         bbb = 1;
+051         ccc = 1;
+---     } else {
+052         read aaa;
+053         read bbb;
+054         read ccc;
+---     }
+--- }

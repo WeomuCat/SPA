@@ -20,6 +20,7 @@ class QueryEvaluator;
 typedef std::vector<std::string> QUERY_RESULT;
 typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 typedef QueryNode PROCESSED_CLAUSES;
+typedef bool BOOLEAN;
 
 class QueryEvaluator {
 	/* Overview: Evaluates pre-processed queries and returns the corresponding result */

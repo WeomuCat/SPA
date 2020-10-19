@@ -840,7 +840,7 @@ namespace IntegrationTesting
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 			QueryNode root_children[] = { child1 };
 			root.setChildren(root_children, 1);
 
@@ -919,7 +919,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that
 			QueryNode child2 = QueryNode();
@@ -1015,7 +1015,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that
 			QueryNode child2 = QueryNode();
@@ -1857,7 +1857,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that
 			QueryNode child2 = QueryNode();
@@ -1957,7 +1957,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that
 			QueryNode child2 = QueryNode();
@@ -2009,7 +2009,7 @@ namespace IntegrationTesting
 
 			// Select: p1
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that 
 			QueryNode child2 = QueryNode();
@@ -2278,7 +2278,7 @@ namespace IntegrationTesting
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 			QueryNode root_children[] = { child1 };
 			root.setChildren(root_children, 1);
 
@@ -2399,7 +2399,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// pattern
 			QueryNode child2 = QueryNode();
@@ -2712,7 +2712,7 @@ namespace IntegrationTesting
 			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"a", assign_node} };
 
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::pattern });
@@ -2817,7 +2817,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// pattern
 			QueryNode child2 = QueryNode();
@@ -3652,7 +3652,7 @@ namespace IntegrationTesting
 
 			// Select: p1
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that 
 			QueryNode child2 = QueryNode();
@@ -3711,7 +3711,7 @@ namespace IntegrationTesting
 
 			// Select: p1
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that 
 			QueryNode child2 = QueryNode();
@@ -4164,7 +4164,7 @@ namespace IntegrationTesting
 
 			// Select: p1
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that 
 			QueryNode child2 = QueryNode();
@@ -4223,7 +4223,7 @@ namespace IntegrationTesting
 
 			// Select: p1
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that 
 			QueryNode child2 = QueryNode();
@@ -4678,7 +4678,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that 
 			QueryNode child2 = QueryNode();
@@ -4735,7 +4735,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that 
 			QueryNode child2 = QueryNode();
@@ -4921,7 +4921,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that 
 			QueryNode child2 = QueryNode();
@@ -4978,7 +4978,7 @@ namespace IntegrationTesting
 
 			// Select: BOOLEAN
 			QueryNode child1 = QueryNode();
-			child1.setBooleanNode(true);
+			child1.setBooleanNode();
 
 			// such that 
 			QueryNode child2 = QueryNode();

@@ -1,13 +1,9 @@
 #pragma once
 
-#include <string>
 #include <unordered_set>
-#include "../Hashing.h"
 
-typedef bool BOOLEAN_TYPE;
-typedef int STMT_NUM;
-typedef std::string PROC_NAME;
-typedef std::string VAR_NAME;
+#include "../../AbstractDataTypes.h"
+#include "../Hashing.h"
 
 class ModifiesTable {
 

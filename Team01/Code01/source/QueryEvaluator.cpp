@@ -176,6 +176,7 @@ void QueryEvaluator::setEvaluatorReturnType() {
 	}
 }
 
+
 void QueryEvaluator::setTupleReturnSynonyms() {
 	for (QueryNode child : result_clause.getChildren()) {
 		tuple_return_synonyms.push_back(child.getString());

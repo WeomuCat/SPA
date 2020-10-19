@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./PKB/ASTNode/ASTNode.h"
+#include "./AttributeType.h"
 #include <string>
 
 class QueryNodeContent;
@@ -8,7 +9,8 @@ class QueryNodeContent;
 typedef std::string STRING;
 typedef int INTEGER;
 typedef std::shared_ptr<ASTNode> AST_NODE;
-typedef bool BOOLEAN;
+typedef AttributeType ATTRIBUTE;
+typedef std::string ATTRIBUTE_STRING;
 typedef int MODIFIED_FLAG;
 
 class QueryNodeContent {
@@ -16,7 +18,7 @@ private:
 	STRING strings = "";
 	INTEGER integer = -1;
 	AST_NODE astnode;
-	BOOLEAN boolean = false;
+	ATTRIBUTE attribute;
 	MODIFIED_FLAG modified = -1;
 	
 public:
@@ -40,9 +42,10 @@ public:
 				 All other values will remain their default values.
 	*/
 
-	QueryNodeContent(BOOLEAN boolean);
+
+	QueryNodeContent(STRING syn, ATTRIBUTE_STRING attribute);
 	/*
-	Description: Creates a QueryNodeContent with the given boolean.
+	Description: Creates a QueryNodeContent with the given attribute and string.
 				 All other values will remain their default values.
 	*/
 
@@ -61,8 +64,9 @@ public:
 	Description: Returns this ASTNode.
 	*/
 
-	BOOLEAN getBool();
+	ATTRIBUTE getAttribute();
 	/*
-	Description: Returns this boolean value.
+	Description: Returns this attribute value.
 	*/
+
 };

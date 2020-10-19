@@ -1,9 +1,8 @@
 #pragma once
 
+#include "../../AbstractDataTypes.h"
 #include "RelationshipTransitiveTable.h"
 #include "RelationshipTransitiveTable.cpp"
-
-typedef std::string PROC_NAME;
 
 class CallsTable : public RelationshipTransitiveTable<PROC_NAME> {
 

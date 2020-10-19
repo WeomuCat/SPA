@@ -38,10 +38,10 @@
     <ClCompile Include="TestPKB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestQueryPreProcessor.cpp">
+    <ClCompile Include="TestParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestParser.cpp">
+    <ClCompile Include="TestQueryValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

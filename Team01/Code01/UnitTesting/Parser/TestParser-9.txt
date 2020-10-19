@@ -1,0 +1,109 @@
+procedure proc1 {
+	read eel;
+	lionfish = whale + shark;
+	while (turtle < eel) {
+		print stingray;
+		eel = 1;
+		whale = 2 + 3 - 4 % 5;
+		snake = 6 * 7 / 8 + (9 - 10);
+		turtle = lionfish + turtle + eel + 5;
+		call proc2;
+		if ((eel >= shark) || (lionfish == whale)) then {
+			read shark;
+			print eel;
+		} else {
+			turtle = 3 + 5;		
+		}
+
+		print turtle;
+
+		if (turtle != jellyfish) then {
+			while (flounder < stingray) {
+				call proc3;
+				read stingray;
+			}
+		} else {
+			eel = catfish;
+			whale = catfish;
+			stingray = catfish;
+			turtle = catfish;
+		}
+	}
+}
+
+procedure proc2 {
+	print eel;
+	print catfish;
+	print turtle;
+
+	while ((dolphin >= anemone) && (turtle != shark)) {
+		read dolphin;
+		read shark;
+		read eel;
+		read anemone;
+	}
+}
+
+procedure proc3 {
+	if (!(shark == shark)) then {
+		if (eel >= catfish) then {
+			if (turtle <= shark) then {
+				eel = 1;
+			} else {
+				turtle = 2;
+			}
+		} else {
+			shark = 3;
+		}
+	} else {
+		catfish = 4;
+		call proc4;
+	}
+}
+
+procedure proc4 {
+	a = anemone;
+	b = jellyfish;
+	c = catfish;
+	d = dolphin;
+	e = eel;
+	f = stingray;
+
+	if (((anemone == jellyfish) && (!(catfish < dolphin))) || (eel > stingray)) then {
+		while ((a < b) || ((c > d) && (e <= f))) {
+			read eel;
+			print eel;
+			stringray = a + b / c * (catfish - dolphin);
+			if ((turtle + jellyfish) <= (catfish - stingray)) then {
+				print shark;
+				shark = stingray + 10;
+				while (!((eel + eel) == anemone)) {
+					while ((dolphin * jellyfish) >= (dolphin / filefish)) {
+						if (turtle == anemone) then {
+							while (anemone != anemone) {
+							read anemone;
+							print anemone;
+							anemone = jellyfish + dolphin;
+							}
+						} else {
+							print filefish;
+							call proc2;
+						}
+						filefish = jellyfish % (dolphin - filefish);
+						read filefish;
+						print filefish;
+					}
+					read turtle;
+				}
+			} else {
+				read dolphin;
+				print dolphin;
+			}
+			read eel;
+			print eel;
+		}
+	} else {
+		read stingray;
+		print stingray;
+	}
+}

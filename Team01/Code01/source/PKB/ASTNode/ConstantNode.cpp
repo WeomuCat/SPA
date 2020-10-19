@@ -5,7 +5,7 @@ ConstantNode::ConstantNode() {
     value_ = "";
 }
 
-BOOLEAN_TYPE ConstantNode::setValue(VALUE value) {
+BOOLEAN_TYPE ConstantNode::setValue(CONSTANT_VALUE value) {
     try {
         value_ = value;
     }
@@ -16,6 +16,6 @@ BOOLEAN_TYPE ConstantNode::setValue(VALUE value) {
     return true;
 }
 
-VALUE ConstantNode::getValue() {
+CONSTANT_VALUE ConstantNode::getValue() {
     return value_;
 }

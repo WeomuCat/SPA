@@ -7,6 +7,7 @@
 #include <iterator>
 #include <deque>
 #include <set>
+#include <unordered_map>
 
 #include "PKB.h"
 #include "Parser.h"
@@ -107,6 +108,12 @@
 				continue;
 			}
 
+			if (stmt_token == "call") {
+				this->stmt_token_queue_.push_back(stmt_token); //This is "else" token
+				parseCall();
+				continue;
+			}
+
 			if (stmt_token == "}") {
 				parseStmtListClose();
 				continue;
@@ -116,8 +123,196 @@
 			throw "Unexpected Token Encountered.";
 		}
 
+		
+		// Add remaining next relationships to NextTable
+
+		// Remaining Next Relationships for WhileNodes
+		WHILE_NODE_PTR_LIST while_node_ptrs = this->pkb_builder_.getWhiles();
+		STMT_NODE_PTR whileblock_firststmt;
+		STMT_NODE_PTR whileblock_laststmt;
+		STMT_NODE_PTR stmt_after_while_block;
+
+		for (WHILE_NODE_PTR w_ptr : while_node_ptrs) {
+			STMT_NODE_PTR whileblock_firststmt = w_ptr->getWhileStatementListNode()->getStatementNodeList().front();
+			this->pkb_builder_.addNext(w_ptr->getStatementNumber(), whileblock_firststmt->getStatementNumber());
+			
+			STMT_NODE_PTR whileblock_laststmt = w_ptr->getWhileStatementListNode()->getStatementNodeList().back();
+			this->pkb_builder_.addNext(whileblock_laststmt->getStatementNumber(), w_ptr->getStatementNumber());
+
+			STMT_NODE_PTR_LIST nodes_in_parent_stmt_lst = w_ptr->getParentStatementListNode()->getStatementNodeList();
+			//Find stmt after while stmt
+			//No such stmt if while stmt is last stmt
+			int i = 0;
+			// Iterate all nodes in parent stmt list until while stmt node is found.
+			while (i < (nodes_in_parent_stmt_lst.size() - 1) && !(nodes_in_parent_stmt_lst[i] != w_ptr)) {
+				i++;
+			}
+			//Get stmt after while stmt and set relationship
+			if (i < (nodes_in_parent_stmt_lst.size() - 1)) {
+				i = i + 1;
+				stmt_after_while_block = nodes_in_parent_stmt_lst[i];
+				this->pkb_builder_.addNext(w_ptr->getStatementNumber(), stmt_after_while_block->getStatementNumber());
+			}
+		}
+		
+		// Remaining Next Relationships for IfNodes
+		IF_NODE_PTR_LIST if_node_ptrs = this->pkb_builder_.getIfs();
+		STMT_NODE_PTR ifblock_firststmt;
+		STMT_NODE_PTR ifblock_laststmt;
+		STMT_NODE_PTR elseblock_firststmt;
+		STMT_NODE_PTR elseblock_laststmt;
+		STMT_NODE_PTR stmt_after_if_block;
+
+		for (IF_NODE_PTR if_ptr : if_node_ptrs) {
+			STMT_NODE_PTR ifblock_firststmt = if_ptr->getThenStatementListNode()->getStatementNodeList().front();
+			this->pkb_builder_.addNext(if_ptr->getStatementNumber(), ifblock_firststmt->getStatementNumber());
+			
+			STMT_NODE_PTR elseblock_laststmt = if_ptr->getElseStatementListNode()->getStatementNodeList().front();
+			this->pkb_builder_.addNext(if_ptr->getStatementNumber(), elseblock_laststmt->getStatementNumber());
+
+
+
+			STMT_NODE_PTR_LIST nodes_in_parent_stmt_lst = if_ptr->getParentStatementListNode()->getStatementNodeList();
+			//Find stmt after if stmt
+			//No such stmt if if stmt is last stmt
+			int i = 0;
+			// Iterate all nodes in parent stmt list until while stmt node is found.
+			while (i < (nodes_in_parent_stmt_lst.size() - 1) && !(nodes_in_parent_stmt_lst[i] != if_ptr)) {
+				i++;
+			}
+			//Get stmt after if stmt and set relationship
+			if (i < (nodes_in_parent_stmt_lst.size() - 1)) {
+				i = i + 1;
+				stmt_after_while_block = nodes_in_parent_stmt_lst[i];
+				//Last stmts are dependent on the stmt_after_if_block existing
+				STMT_NODE_PTR ifblock_laststmt = if_ptr->getThenStatementListNode()->getStatementNodeList().back();
+				STMT_NODE_PTR elseblock_laststmt = if_ptr->getElseStatementListNode()->getStatementNodeList().back();
+				this->pkb_builder_.addNext(ifblock_laststmt->getStatementNumber(), stmt_after_while_block->getStatementNumber());
+				this->pkb_builder_.addNext(elseblock_laststmt->getStatementNumber(), stmt_after_while_block->getStatementNumber());
+			}
+			
+		}
+		
+		
+		//Add Uses & Modifies relationships that are a result of Call to their respective tables
+		std::set<PROC_NAME> called_procs;
+		std::unordered_map<PROC_NAME, std::set<PROC_NAME>> proc_call_graph;
+		//For each proc create a proc,vector pair
+		for (PROC_NODE_PTR p_ptr : this->pkb_builder_.getProcedures()) {
+			std::pair<PROC_NAME, std::set<PROC_NAME>> proc_call_node = std::pair<PROC_NAME, std::set<PROC_NAME>>(p_ptr->getProcedureName(), std::set<PROC_NAME>());
+			proc_call_graph.insert(proc_call_node);
+		}
+
+		CALL_NODE_PTR_LIST call_node_list = this->pkb_builder_.getCalls();
+		for (CALL_NODE_PTR c_ptr : call_node_list) {
+			PROC_NAME caller_proc = c_ptr->getCallerProcedureName();
+			PROC_NAME callee_proc = c_ptr->getCalleeProcedureName();
+
+			proc_call_graph[caller_proc].insert(callee_proc);
+			
+			called_procs.insert(callee_proc);
+		}
+
+		//Topo sort Procedures
+		std::deque<PROC_NAME> sorted_procs;
+		
+		topoSort(proc_call_graph, sorted_procs);
+		
+		//Add Uses & Modifies relationships that result from Calls
+		while (!sorted_procs.empty()) {
+			PROC_NAME caller_proc_name = sorted_procs.front();
+			sorted_procs.pop_front();
+			
+			if (called_procs.count(caller_proc_name) != 0) {
+				//Find proc_node
+				PROC_NODE_PTR proc_node_ptr;
+				for (PROC_NODE_PTR p_ptr : this->pkb_builder_.getProcedures()) {
+					if (p_ptr->getProcedureName().compare(caller_proc_name) == 0) {
+						proc_node_ptr = p_ptr;
+						break;
+					}
+				}
+				std::set<STRING> used_vars_set;
+				std::set<STRING> modified_vars_set;
+				
+				//Populate set of Used Vars
+				//Populate set of ModifiedVars
+				for (VAR_NODE_PTR v_ptr : this->pkb_builder_.getVariables()) {
+					if (this->pkb_builder_.isUses(proc_node_ptr->getProcedureName(), v_ptr->getVariableName())) {
+						used_vars_set.insert(v_ptr->getVariableName());
+					}
+					if (this->pkb_builder_.isModifies(proc_node_ptr->getProcedureName(), v_ptr->getVariableName())) {
+						modified_vars_set.insert(v_ptr->getVariableName());
+					}
+				}
+
+				//For each callnode in getCalls() that callee ==caller_proc_name
+				for (CALL_NODE_PTR c_ptr : this->pkb_builder_.getCalls()) {
+					if (c_ptr->getCalleeProcedureName().compare(caller_proc_name) == 0) {
+						//Set Uses/Modifies Relationship for call statement for all vars
+						for (VAR_NAME v_name : used_vars_set) {
+							this->pkb_builder_.addUses(c_ptr->getStatementNumber(), v_name);
+						}
+						for (VAR_NAME v_name : modified_vars_set) {
+							this->pkb_builder_.addModifies(c_ptr->getStatementNumber(), v_name);
+						}
+						
+						//Set Uses Relationship for all containers of this statement by going up 2 steps until we hit ProcedureNode.
+						std::shared_ptr<ASTNode> curr_container = c_ptr->getParentNode()->getParentNode();
+						STMT_NUM curr_stmtnum = 0;
+						while (curr_container->getNodeType() != NodeTypeEnum::procedureNode) {
+							//Get stmt number of container
+							if (curr_container->getNodeType() == NodeTypeEnum::whileNode) {
+								curr_stmtnum = std::static_pointer_cast<WhileNode>(curr_container)->getStatementNumber();
+							}
+							else if (curr_container->getNodeType() == NodeTypeEnum::ifNode) {
+								curr_stmtnum = std::static_pointer_cast<IfNode>(curr_container)->getStatementNumber();
+							}
+							
+							//Set Uses/Modifies Relationship for this statement for all vars
+							for (VAR_NAME v_name : used_vars_set) {
+								this->pkb_builder_.addUses(curr_stmtnum, v_name);
+							}
+							for (VAR_NAME v_name : modified_vars_set) {
+								this->pkb_builder_.addModifies(curr_stmtnum, v_name);
+							}
+
+							//Check if can go up 2 steps
+							if (curr_container->getParentNode()->getParentNode() == NULL) {
+								//Throw exception if cant
+								throw "Exception in parseWhile: curr_container missing grandparent node.";
+							}
+							else {
+								//curr_container = go up 2 steps
+								curr_container = curr_container->getParentNode()->getParentNode();
+							}
+						}
+						//call addUses for procedureNode
+						if (curr_container->getNodeType() != NodeTypeEnum::procedureNode) {
+							//Throw exception if cant
+							throw "Exception in parseWhile: curr_container should be ProcedureNode.";
+						}
+						else {
+							//Set Uses/Modifies Relationship for ProcedureNode for all vars 
+							PROC_NAME caller_name = std::static_pointer_cast<ProcedureNode>(curr_container)->getProcedureName();
+
+							
+							for (VAR_NAME v_name : used_vars_set) {
+								this->pkb_builder_.addUses(caller_name, v_name);
+							}
+							for (VAR_NAME v_name : modified_vars_set) {
+								this->pkb_builder_.addModifies(caller_name, v_name);
+							}
+						}
+					}
+				}
+			}
+		}
+		
 		PKB pkb = this->pkb_builder_.build();
 		
+
+
 		return pkb;
 	}
 
@@ -860,6 +1055,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_while_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_while_node->getStatementNumber());
 		}
 
 		//add Uses Relationship for all vars
@@ -1520,6 +1717,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_if_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_if_node->getStatementNumber());
 		}
 
 		//add Uses Relationship for all vars
@@ -1892,6 +2091,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_assign_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_assign_node->getStatementNumber());
 		}
 
 		//add Modifies Relationship for this statement
@@ -2029,6 +2230,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_read_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_read_node->getStatementNumber());
 		}
 
 		//Set Modifies Relationship for this statement
@@ -2124,6 +2327,8 @@
 
 			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
 				, new_print_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_print_node->getStatementNumber());
 		}
 
 		//Set Uses Relationship for this statement
@@ -2199,6 +2404,9 @@
 
 		std::static_pointer_cast<ProgramNode>(this->current_parent_node_)->addProcedureNode(new_procedure_node);
 
+		//Change parent procedure tracker to new_procedure_node
+		this->current_parent_proc_node_ = new_procedure_node;
+
 		//change parent tracker to stmtlistnode_ptr
 		this->current_parent_node_ = new_stmt_list_node;
 		
@@ -2207,11 +2415,65 @@
 		this->pkb_builder_.addStatementListNode(new_stmt_list_node);
 	}
 
-	/*
-	void Parser::parseCall(STRING str) {
+	
+	void Parser::parseCall() {
 		//We assume that this statement will terminate with ';'
+		//We take in two tokens, expecting a NAME and a ';'
+		if (this->stmt_token_queue_.front() != "call") {
+			throw "Error: Expected 'call' terminal but was not found.";
+		}
+		this->stmt_token_queue_.pop_front(); // Remove stmt type token
+
+		STRING name_token = this->process_token_stream_.front(); //Retrieves potential procedure name token
+		this->process_token_stream_.pop_front(); // Pops out NAME token
+		if (!isalpha(name_token.at(0))) {
+			throw "Error: Expected NAME token but was not found.";
+		}
+
+		if (this->process_token_stream_.front() != ";") {
+			throw "Error: Expected ';' terminal but was not found.";
+		}
+		this->process_token_stream_.pop_front(); // Pops out ';'
+
+		//Construct new_call_node
+		std::shared_ptr<CallNode> new_call_node = std::make_shared<CallNode>();
+		
+		new_call_node->setCallerProcedureName(this->current_parent_proc_node_->getProcedureName());
+		new_call_node->setCalleeProcedureName(name_token);
+
+		//Set PrintNode stmt_num
+		this->stmt_num_++;
+		new_call_node->setStatementNumber(this->stmt_num_);
+
+		std::static_pointer_cast<StatementListNode>(this->current_parent_node_)->addStatementNode(new_call_node);
+		new_call_node->setStatementListNode(std::static_pointer_cast<StatementListNode>(this->current_parent_node_));
+
+		//Need to add new_call_node PKB tables
+		this->pkb_builder_.addStatementNode(new_call_node);
+		this->pkb_builder_.addCallNode(new_call_node);
+
+		//add Calls relationship to PKB table
+		this->pkb_builder_.addCalls(new_call_node->getCallerProcedureName(), new_call_node->getCalleeProcedureName());
+
+		//add Parent relationship if this->current_parent_node_->getParentNode() is not procedureNode
+		if (this->current_parent_node_->getParentNode()->getNodeType() != NodeTypeEnum::procedureNode) {
+			this->pkb_builder_.addParent(std::static_pointer_cast<StatementNode>(this->current_parent_node_->getParentNode())->getStatementNumber()
+				, new_call_node->getStatementNumber());
+		}
+
+		//add Follows relationship if this statement is not the first statement of this->current_parent_node_
+		if (new_call_node != std::static_pointer_cast<StatementListNode>(this->current_parent_node_)->getStatementNodeList().at(0)) {
+			int this_stmt_num = new_call_node->getStatementNumber();
+			STMT_LIST_NODE_PTR stmtList = std::static_pointer_cast<StatementListNode>(this->current_parent_node_);
+			STMT_NODE_PTR prevStmt = std::static_pointer_cast<StatementNode>(stmtList->getChildrenNode().end()[-2]);
+
+			this->pkb_builder_.addFollows(prevStmt->getStatementNumber()
+				, new_call_node->getStatementNumber());
+			this->pkb_builder_.addNext(prevStmt->getStatementNumber()
+				, new_call_node->getStatementNumber());
+		}
 	}
-	*/
+	
 
 	void Parser::parseStmtListClose() {	
 		//Method 2: accounts for container statements
@@ -2445,3 +2707,33 @@
 	}
 
 	//===== END OF HELPER FUNCTIONS FOR RELATION NODE =====
+
+	//===== START OF HELPER FUNCTIONS FOR TOPOLOGICAL SORT OF PROCEDURE NODES =====
+	
+	void Parser::topoSort(std::unordered_map<PROC_NAME, std::set<PROC_NAME>>& graph, std::deque<PROC_NAME>& sorted_procs) {
+		std::unordered_map<PROC_NAME, bool> visited;
+		for (auto ele : graph) {
+			visited.insert(std::pair<PROC_NAME, bool>(ele.first, false));
+		}
+		
+		for (auto &ele : visited) {
+			if (ele.second == false) {
+				topoSortHelper(ele.first, visited, graph, sorted_procs);
+			}
+		}
+	}
+
+	void Parser::topoSortHelper(PROC_NAME caller_proc, std::unordered_map<PROC_NAME, bool> &visited, std::unordered_map<PROC_NAME
+		, std::set<PROC_NAME>> &graph, std::deque<PROC_NAME> &sorted_procs) {
+		visited[caller_proc] = true;
+
+		for (auto callee_proc : graph[caller_proc]) {
+			if (!visited[callee_proc]) {
+				topoSortHelper(callee_proc, visited, graph, sorted_procs);
+			}
+		}
+
+		sorted_procs.push_back(caller_proc);
+	}
+
+	//===== END OF HELPER FUNCTIONS FOR TOPOLOGICAL SORT OF PROCEDURE NODES =====

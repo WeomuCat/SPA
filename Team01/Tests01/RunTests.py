@@ -9,10 +9,11 @@ import re
 import signal
 import subprocess
 import sys
+import xml.etree.ElementTree as ElementTree
 
 
 
-AUTOTESTER_DIRECTORIES = [".", "../Code01/Debug"]
+AUTOTESTER_DIRECTORIES = [".", "../Code01/Release", "../Code01/Debug"]
 AUTOTESTER_FILE_NAME = "AutoTester.exe"
 OUTPUT_DIRECTORY = "./RunTestsOutput"
 PUBLISH_OUTPUT_DIRECTORY = os.path.join(OUTPUT_DIRECTORY, "Publish")
@@ -662,9 +663,9 @@ def publish():
             with open(queries_full_path) as q:
                 for line in q:
                     line = line.strip()
-                    if line == "":
-                        break
                     qry_lines.append(line)
+            while qry_lines[-1] == "":
+                qry_lines.pop()
 
         # Replace comment numbers
         count = 1
@@ -735,7 +736,15 @@ def run():
 
         if not process.returncode == 0:
             printerr("'{}' returned with non-zero exit code :(\nFull Command: {} {} {} {}"
-            .format(AUTOTESTER_FILE_NAME, autotester_path, source_full_path, queries_full_path, output_full_path))
+                .format(AUTOTESTER_FILE_NAME, autotester_path, source_full_path, queries_full_path, output_full_path))
+
+        # Parse output xml
+        queries = ElementTree.parse(output_full_path).find("queries")
+        passed = 0
+        for query in queries:
+            if query.find("passed") is not None:
+                passed += 1
+        printinfo("Passed queries: {}/{}\n".format(passed, len(queries)))
 
     printinfo("All tests done! :) Please check '{}' directory for all AutoTester outputs!".format(os.path.relpath(OUTPUT_DIRECTORY)))
 

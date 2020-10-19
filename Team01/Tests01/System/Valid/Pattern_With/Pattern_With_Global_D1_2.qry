@@ -1,0 +1,79 @@
+1 - Assign Pattern, Selected Variable
+assign a;
+Select BOOLEAN pattern a ("bulbul", _) with a.stmt# = 22
+TRUE
+5000
+2 - Assign Pattern, Assign same as Constants
+assign a; constant c;
+Select BOOLEAN pattern a (_, _) with a.stmt# = c.value
+TRUE
+5000
+3 - Asssign Pattern, Variable with name and statement number
+assign a; variable v;
+Select BOOLEAN pattern a (v, "2 - crow") with a.stmt# = 18 and v.varName = "albatross"
+TRUE
+5000
+4 - Assign Pattern, but wrong name
+Select BOOLEAN pattern a (v, _"duck"_) with v.varName = "eagle"
+FALSE
+500
+5 - Assign Pattern, Any assignment of statement number
+assign a;
+Select a pattern a (_, _) with a.stmt# = 2
+2
+5000
+6 - Assign Pattern, Assigned statements of statement number
+assign a; constant c;
+Select a pattern a ("albatross", _"crow - 1"_) with a.stmt# = c.value
+2
+5000
+7 - Assign Pattern, Variable with double with
+assign a; constant c; variable v;
+Select a pattern a (v, _"duck * bulbul"_) with a.stmt# = c.value and v.varName = "duck"
+3
+5000
+8 - Assign Pattern, Tuple Selection of variable name and statement
+assign a; variable v;
+Select <a, v> pattern a (v, _) with v.varName = "eagle"
+<20, eagle>, <23, eagle>
+5000
+9 - If Pattern, Selected Variable
+if i;
+Select BOOLEAN pattern i ("albatross", _, _) with i.stmt# = 4
+TRUE
+5000
+10 - If Patttern, Any Variable
+if i; variable v;
+Select v pattern i (v, _, _) with i.stmt# = 16
+albatross, bulbul, crow, eagle
+5000
+11 - If Pattern, Any Pattern
+if i; constant c;
+Select i pattern i (_, _, _) with i.stmt# = c.value
+none
+5000
+12 - While Pattern, Selected Left Variable
+while w;
+Select BOOLEAN pattern w ("bulbul", _) with w.stmt# = 10
+TRUE
+5000
+13 - While Pattern, Selected Right Variable
+while w;
+Select BOOLEAN pattern w ("albatross", _) with w.stmt# = 10
+TRUE
+5000
+14 - While Pattern Any Variable
+while w; variable v;
+Select w pattern w (v, _) with v.varName = "albatross"
+10
+5000
+15 - If and While Pattern, select variable
+if i; while w; variable v;
+Select i pattern i (v, _) and pattern w (v, _) with v.varName = "albatross"
+4, 16
+5000
+16 - Assign, If and While Pattern
+assign a; if i; while w; variable v;
+Select <a, i, w> pattern a (v, "duck") and pattern i (v, _) and pattern w (V, _) with v.varName = "bulbul"
+<22, 4, 10>, <22, 16, 10>
+5000

@@ -10,20 +10,24 @@ class QueryProcessor;
 typedef std::vector<std::string> QUERY_RESULT;
 typedef std::string QUERY;
 
+/*
+Overview: Oversees and drives the pre-processor and evaluator.
+*/
 class QueryProcessor {
-	/* Overview: Oversees and drives the pre-processor and evaluator*/
 
 private:
 	PKB pkb = (PKBBuilder().build()); // because PKB has no default constructor
 public:
-
+	/*==== Constructor ====*/
 	QueryProcessor(PKB pkb);
 	/*
 	Description: Creates a QueryProcessor for the given PKB.
 	*/
 
+
 	QUERY_RESULT processQuery(QUERY q);
 	/*
-	Description: Processes the given query and returns the query result.
+	Description: Returns the QUERY_RESULT.
+				 If 'q' is not a valid query, throws an exception.
 	*/
 };
