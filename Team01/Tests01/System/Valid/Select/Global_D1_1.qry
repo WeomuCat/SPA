@@ -178,3 +178,33 @@ print p1, p2;
 Select <p1.varName, p2.varName>
 avar avar,avar cvar,avar dvar,avar evar,cvar avar,cvar cvar,cvar dvar,cvar evar,dvar avar,dvar cvar,dvar dvar,dvar evar,evar avar,evar cvar,evar dvar,evar evar
 1000
+31 - Select Tuple Call
+call c;
+Select <c, c>
+7 7,11 11,21 21
+1000
+32 - Select Tuple Call
+call c1, c2;
+Select <c1, c2>
+7 11,7 21,7 7,11 11,11 21,11 7,21 11,21 21,21 7
+1000
+33 - Select Tuple Call Number
+call c;
+Select <c.stmt#, c.stmt#>
+7 7,11 11,21 21
+1000
+34 - Select Tuple Call Number
+call c1, c2;
+Select <c1.stmt#, c2.stmt#>
+7 11,7 21,7 7,11 11,11 21,11 7,21 11,21 21,21 7
+1000
+35 - Select Tuple Call Name
+call c;
+Select <c.procName, c.procName>
+bProc bProc,cProc cProc
+1000
+36 - Select Tuple Call Name
+call c1, c2;
+Select <c1.procName, c2.procName>
+bProc bProc,bProc cProc,cProc bProc,cProc cProc
+1000
