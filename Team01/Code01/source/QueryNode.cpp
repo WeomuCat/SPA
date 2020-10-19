@@ -81,8 +81,6 @@ INTEGER QueryNode::getInteger() {
 
 
 void QueryNode::setASTNode(AST_NODE astnode) {
-	this->node_type = { QueryNodeType::expression };
-
 	QueryNodeContent content = QueryNodeContent(astnode);
 	this->node_content = content;
 }

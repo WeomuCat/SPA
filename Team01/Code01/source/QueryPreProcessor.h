@@ -7,18 +7,12 @@
 #include "QueryNode.h"
 #include "QueryValidator.h"
 
-typedef std::string QUERY;
 typedef std::vector<std::string> SPLIT_QUERY;
 typedef std::string DECLARATIONS;
 typedef std::vector<std::string> SPLIT_DECLARATIONS;
-typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
-typedef std::string ELEMENT;
-typedef std::string RESULT;
-typedef std::string CLAUSES;
 typedef QueryNode PROCESSED_CLAUSES;
-typedef std::string RELATIONSHIP;
-typedef std::string ARGUMENT;
 typedef std::string EXPRESSION;
+typedef std::vector<TOKEN> INFIX_EXPR;
 typedef std::string STRING;
 typedef int INDEX;
 
@@ -68,6 +62,27 @@ private:
 	INDEX getNextClauseIndex(CLAUSES c, INDEX current_index, INDEX such_that_index, INDEX pattern_index);
 
 	/*
+	Description: Returns a vector of arguments for a clause.
+	*/
+	ARGUMENTS getArguments(SINGLE_CLAUSE c);
+
+	/*
+	Description: Returns a tokenized INFIX_EXPR.
+	*/
+	INFIX_EXPR tokenizeExpression(EXPRESSION e);
+
+	/*
+	Description: Returns priotity of TOKEN.
+				 The larger the number, the higher the priority.
+	*/
+	int getTokenPriority(TOKEN t);
+
+	/*
+	Description: Returns a POSTFIX_EXPR.
+	*/
+	POSTFIX_EXPR infixToPostfix(INFIX_EXPR e);
+
+	/*
 	Description: Returns a QueryNode for the expression.
 	*/
 	QueryNode createExpressionNode(EXPRESSION e);
@@ -75,19 +90,21 @@ private:
 	/*
 	Description: Returns a QueryNode for the argument.
 	*/
-	QueryNode createArgumentNode(PROCESSED_SYNONYMS proc_s, ARGUMENT arg);
+	QueryNode createArgumentNode(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT arg);
 
 	/*
 	Description: Returns a QueryNode for the relationship.
+				 If relationship clause is not valid syntatically, returns a query node with an unassigned NODE_TYPE.
+				 If result clause is not valid semantically, returns a query node with an follows NODE_TYPE, without children.
 	*/
-	QueryNode createRelationNode(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
-		ARGUMENT first_arg, ARGUMENT second_arg);
+	QueryNode createRelationNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c);
 
 	/*
 	Description: Returns a QueryNode for the pattern.
+				 If pattern clause is not valid syntatically, returns a query node with an unassigned NODE_TYPE.
+				 If result clause is not valid semantically, returns a query node with an pattern NODE_TYPE, without children.
 	*/
-	QueryNode createPatternNode(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
-		ARGUMENT first_arg, ARGUMENT second_arg);
+	QueryNode createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c);
 
 	/*
 	Description: Trims whitespaces from front and back of STRING and returns it.
