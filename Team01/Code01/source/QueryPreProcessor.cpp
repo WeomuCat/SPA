@@ -794,25 +794,47 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						break;
 					}
 
-					QueryNode such_that_node = QueryNode();
-					such_that_node.setNodeType({ QueryNodeType::such_that });
+					bool is_last = false;
+					INDEX split_index = 0;
+					INDEX and_index = current_c.find("and", split_index);
 
-					QueryNode relation_node = createRelationNode(proc_s, current_c);
-
-					if (relation_node.getNodeType() == QueryNodeType::unassigned) {
-						is_valid = false;
-						is_syntax_valid = false;
-						break;
+					if (and_index == -1) {
+						is_last = true;
 					}
-					else if (relation_node.getNodeType() == QueryNodeType::follows && relation_node.getChildren().size() == 0) {
-						is_valid = false;
-						break;
 
-					}
-					else {
-						QueryNode such_that_node_children[] = { relation_node };
-						such_that_node.setChildren(such_that_node_children, 1);
-						select_node.addChild(such_that_node);
+					while (is_valid && (and_index != -1 || is_last)) {
+						SINGLE_CLAUSE rel_c = trimWhitespaces(current_c.substr(split_index, and_index - split_index));
+
+						QueryNode such_that_node = QueryNode();
+						such_that_node.setNodeType({ QueryNodeType::such_that });
+
+						QueryNode relation_node = createRelationNode(proc_s, rel_c);
+
+						if (relation_node.getNodeType() == QueryNodeType::unassigned) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
+						else if (relation_node.getNodeType() == QueryNodeType::follows && relation_node.getChildren().size() == 0) {
+							is_valid = false;
+							break;
+
+						}
+						else {
+							QueryNode such_that_node_children[] = { relation_node };
+							such_that_node.setChildren(such_that_node_children, 1);
+							select_node.addChild(such_that_node);
+						}
+
+						split_index = and_index + 3;
+						and_index = current_c.find("and", split_index);
+
+						if (and_index == -1 && is_last == false) {
+							is_last = true;
+						}
+						else if (is_last) {
+							is_last = false;
+						}
 					}
 				}
 				else {
@@ -824,20 +846,42 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						break;
 					}
 
-					QueryNode pattern_node = createPatternNode(proc_s, current_c);
+					bool is_last = false;
+					INDEX split_index = 0;
+					INDEX and_index = current_c.find("and", split_index);
 
-					if (pattern_node.getNodeType() == QueryNodeType::unassigned) {
-						is_valid = false;
-						is_syntax_valid = false;
-						break;
+					if (and_index == -1) {
+						is_last = true;
 					}
-					else if (pattern_node.getNodeType() == QueryNodeType::pattern && pattern_node.getChildren().size() == 0) {
-						is_valid = false;
-						break;
 
-					}
-					else {
-						select_node.addChild(pattern_node);
+					while (is_valid && (and_index != -1 || is_last)) {
+						SINGLE_CLAUSE pat_c = trimWhitespaces(current_c.substr(split_index, and_index - split_index));
+
+						QueryNode pattern_node = createPatternNode(proc_s, pat_c);
+
+						if (pattern_node.getNodeType() == QueryNodeType::unassigned) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
+						else if (pattern_node.getNodeType() == QueryNodeType::pattern && pattern_node.getChildren().size() == 0) {
+							is_valid = false;
+							break;
+
+						}
+						else {
+							select_node.addChild(pattern_node);
+						}
+
+						split_index = and_index + 3;
+						and_index = current_c.find("and", split_index);
+
+						if (and_index == -1 && is_last == false) {
+							is_last = true;
+						}
+						else if (is_last) {
+							is_last = false;
+						}
 					}
 				}
 
