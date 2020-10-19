@@ -13,8 +13,11 @@ typedef std::string RESULT;
 typedef std::string SINGLE_DECLARATION;
 typedef std::string SINGLE_CLAUSE;
 typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
-typedef std::string ARGUMENT;
+typedef std::string SINGLE_ARGUMENT;
+typedef std::vector<SINGLE_ARGUMENT> ARGUMENTS;
 typedef std::string RELATIONSHIP;
+typedef std::string TOKEN;
+typedef std::vector<TOKEN> POSTFIX_EXPR;
 
 /*
 Overview: Checks if queries adheres to grammar rules
@@ -60,23 +63,23 @@ public:
 	/*
 	Description: Returns a VALIDATION_RESULT based on whether argument returns a statemenr number.
 	*/
-	static VALIDATION_RESULT isStatementRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
+	static VALIDATION_RESULT isStatementRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on whether argument returns an entity reference.
 	*/
-	static VALIDATION_RESULT isEntityRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
+	static VALIDATION_RESULT isEntityRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on whether argument returns a line reference.
 	*/
-	static VALIDATION_RESULT isLineRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
+	static VALIDATION_RESULT isLineRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on relationship argument validity.
 	*/
 	static VALIDATION_RESULT isValidRelationArguments(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
-		ARGUMENT first_arg, ARGUMENT second_arg);
+		ARGUMENTS args);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on pattern format.
@@ -87,7 +90,12 @@ public:
 	Description: Returns a VALIDATION_RESULT based on pattern argument validity.
 	*/
 	static VALIDATION_RESULT isValidPatternArguments(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s,
-		ARGUMENT first_arg, ARGUMENT second_arg);
+		ARGUMENTS args);
+
+	/*
+	Description: Returns a VALIDATION_RESULT based on the validity of the postfix expression.
+	*/
+	static VALIDATION_RESULT isValidPostfixExpr(POSTFIX_EXPR e);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on with format.
@@ -97,5 +105,5 @@ public:
 	/*
 	Description: Returns a VALIDATION_RESULT based on whether argument is a valid reference.
 	*/
-	static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, ARGUMENT a);
+	static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a);
 };
