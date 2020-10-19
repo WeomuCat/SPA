@@ -8,8 +8,17 @@ QueryEvaluator::QueryEvaluator(PKB pkb) {
 QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSED_CLAUSES clauses) {
 	this->processed_synonyms = synonyms;
 	
-	// If root of clauses tree is unassigned, then the clause is syntactically incorrect. Return no result.
+	/* Handle INVALID
+	- if syntax wrong (both boolean and tuple), root is unassigned with 0 children		-> return no result
+	- if semantics wrong (tuple), root is unassigned with 0 children					-> return no result
+	- if semantics wrong (boolean), root is unassigned with 1 child (boolean)			-> return FALSE
+	*/
 	if (clauses.getNodeType() == QueryNodeType::unassigned) {
+		if (clauses.getChildren().size() > 0) {
+			if (clauses.getChildren()[0].getNodeType() == QueryNodeType::boolean) {
+				return boolean_false_result;
+			}
+		}
 		return no_result;
 	}
 
