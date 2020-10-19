@@ -14,6 +14,7 @@ const std::regex clause_relation_format_("(Follows|Follows\\*|Parent|Parent\\*|U
 const std::regex clause_pattern_assign_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*(\"\\s*[^\\s].*\\s*\"|_\\s*\"\\s*[^\\s].*\\s*\"\\s*_|_)\\s*\\)");
 const std::regex clause_pattern_if_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)");
 const std::regex clause_pattern_while_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)");
+const std::regex clause_with_format_("(\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"|[a-zA-Z0-9].*)\\s*=\\s*(\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"|[a-zA-Z0-9].*)");
 const std::regex stmt_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
 const std::regex ent_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\")");
 const std::regex line_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
@@ -79,6 +80,94 @@ VALIDATION_RESULT QueryValidator::isSynonymDeclared(PROCESSED_SYNONYMS proc_s, S
 
 /*
 Validation rules:
+	- procName can only belong to:
+		- procedure
+		- call
+	- varName can only belong to:
+		- variable
+		- read
+		- print
+	- value can only belong to:
+		- constant
+	- stmt# can only belong to:
+		- stmt
+		- read
+		- print
+		- call
+		- while
+		- if
+		- assign
+*/
+VALIDATION_RESULT QueryValidator::isValidAttr(PROCESSED_SYNONYMS proc_s, ATTRIBUTE_STRING a) {
+	SYNONYM_NAME s = a.substr(0, a.find("."));
+	std::string attr_name = a.substr(a.find("."));
+
+	if (!isSynonymDeclared(proc_s, s)) {
+		return false;
+	}
+	else if (attr_name.compare("procName") == 0) {
+		if (proc_s.find(attr_name)->second.getSynonymType() == QuerySynonymType::procedure) {
+			return true;
+		}
+		else if (proc_s.find(attr_name)->second.getSynonymType() == QuerySynonymType::call) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else if (attr_name.compare("varName") == 0) {
+		if (proc_s.find(attr_name)->second.getSynonymType() == QuerySynonymType::variable) {
+			return true;
+		}
+		else if (proc_s.find(attr_name)->second.getSynonymType() == QuerySynonymType::read) {
+			return true;
+		}
+		else if (proc_s.find(attr_name)->second.getSynonymType() == QuerySynonymType::print) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else if (attr_name.compare("value") == 0) {
+		if (proc_s.find(attr_name)->second.getSynonymType() == QuerySynonymType::constant) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else if (attr_name.compare("stmt#") == 0) {
+		if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::stmt) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::read) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::print) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::call) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::whiles) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::ifs) {
+			return true;
+		}
+		else if (proc_s.find(a)->second.getSynonymType() == QuerySynonymType::assign) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+}
+
+/*
+Validation rules:
 	- Elements should either be a:
 		- synonym
 		- attribute reference
@@ -91,7 +180,7 @@ VALIDATION_RESULT QueryValidator::isValidElem(PROCESSED_SYNONYMS proc_s, ELEMENT
 	if (std::regex_match(elem, name_format_) && QueryValidator::isSynonymDeclared(proc_s, elem)) {
 		return true;
 	}
-	else if (std::regex_match(elem, attr_ref_format_) && QueryValidator::isSynonymDeclared(proc_s, elem.substr(0, elem.find(".")))) {
+	else if (std::regex_match(elem, attr_ref_format_) && isValidAttr(proc_s, elem)) {
 		return true;
 	}
 	else {
@@ -551,16 +640,170 @@ VALIDATION_RESULT QueryValidator::isValidPostfixExpr(POSTFIX_EXPR e) {
 
 /*
 Validation rules:
-	- 
+	- Check if pattern has correct format+number of references
 */
-static VALIDATION_RESULT isValidWithFormat(SINGLE_CLAUSE single_c) {
-	return true;
+VALIDATION_RESULT QueryValidator::isValidWithFormat(SINGLE_CLAUSE single_c) {
+	if (!std::regex_match(single_c, clause_relation_format_)) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }
 
 /*
 Validation rules:
-	- 
+	- References should either be a/an:
+		- integer
+		- identity
+		- synonym
+		- attribute reference
 */
-static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a) {
-	return true;
+VALIDATION_RESULT QueryValidator::isValidRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a) {
+	if (std::regex_match(a, integer_format_)) {
+		return true;
+	}
+	else if (std::regex_match(a, identity_format_)) {
+		return true;
+	}
+	else if (std::regex_match(a, name_format_) && isSynonymDeclared(proc_s, a)) {
+		return true;
+	}
+	else if (std::regex_match(a, attr_ref_format_) && isValidAttr(proc_s, a)) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+/*
+Validation rules:
+	- Arguments should have matching value types
+		- procName: NAME
+		- varName: NAME
+		- value: INTEGER
+		- stmt#: INTEGER
+*/
+VALIDATION_RESULT QueryValidator::isValidWithArguments(PROCESSED_SYNONYMS proc_s, ARGUMENTS args) {
+	SINGLE_ARGUMENT first_arg = args[0];
+	SINGLE_ARGUMENT second_arg = args[1];
+
+	if (std::regex_match(first_arg, integer_format_)) {
+		if (isStatementRef(proc_s, second_arg)) {
+			return true;
+		}
+		else if (std::regex_match(second_arg, attr_ref_format_)) {
+			std::string attr_name = second_arg.substr(second_arg.find("."));
+
+			if (attr_name.compare("value") == 0 || attr_name.compare("stmt#") == 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	else if (std::regex_match(first_arg, identity_format_)) {
+		if (isEntityRef(proc_s, second_arg)) {
+			return true;
+		}
+		else if (std::regex_match(second_arg, attr_ref_format_)) {
+			std::string attr_name = second_arg.substr(second_arg.find("."));
+
+			if (attr_name.compare("procName") == 0 || attr_name.compare("varName") == 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	else if (std::regex_match(first_arg, name_format_)) {
+		if (isEntityRef(proc_s, first_arg)) {
+			// entity ref synonym
+			if (isEntityRef(proc_s, second_arg)) {
+				return true;
+			}
+			else if (std::regex_match(second_arg, attr_ref_format_)) {
+				std::string attr_name = second_arg.substr(second_arg.find("."));
+
+				if (attr_name.compare("procName") == 0 || attr_name.compare("varName") == 0) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			// statement ref synonym
+			if (isStatementRef(proc_s, second_arg)) {
+				return true;
+			}
+			else if (std::regex_match(second_arg, attr_ref_format_)) {
+				std::string attr_name = second_arg.substr(second_arg.find("."));
+
+				if (attr_name.compare("value") == 0 || attr_name.compare("stmt#") == 0) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	else {
+		// first arg is attribute ref
+		std::string attr_name = second_arg.substr(second_arg.find("."));
+
+		if (attr_name.compare("value") == 0 || attr_name.compare("stmt#") == 0) {
+			if (isStatementRef(proc_s, second_arg)) {
+				return true;
+			}
+			else if (std::regex_match(second_arg, attr_ref_format_)) {
+				std::string attr_name = second_arg.substr(second_arg.find("."));
+
+				if (attr_name.compare("value") == 0 || attr_name.compare("stmt#") == 0) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			if (isEntityRef(proc_s, second_arg)) {
+				return true;
+			}
+			else if (std::regex_match(second_arg, attr_ref_format_)) {
+				std::string attr_name = second_arg.substr(second_arg.find("."));
+
+				if (attr_name.compare("procName") == 0 || attr_name.compare("varName") == 0) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+	}
 }

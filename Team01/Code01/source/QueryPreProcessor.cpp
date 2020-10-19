@@ -822,8 +822,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 						}
 						else {
-							QueryNode such_that_node_children[] = { relation_node };
-							such_that_node.setChildren(such_that_node_children, 1);
+							such_that_node.addChild(relation_node);
 							select_node.addChild(such_that_node);
 						}
 						
@@ -841,7 +840,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						}
 					}
 				}
-				else {
+				else if (c[clause_start_index] == 'p') {
 					// pattern-cl
 					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index, clause_end_index - clause_start_index));
 
@@ -867,6 +866,57 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						select_node.addChild(pattern_node);
 					}
 				
+				}
+				else {
+					// with-cl
+					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index + 4,
+						clause_end_index - (clause_start_index + 4)));
+
+					bool is_last = false;
+					INDEX split_index = 0;
+					INDEX and_index = current_c.find("and", split_index);
+
+					if (and_index == -1) {
+						is_last = true;
+					}
+
+					while (is_valid && (and_index != -1 || is_last)) {
+						SINGLE_CLAUSE with_c = trimWhitespaces(current_c.substr(split_index, and_index - split_index));
+
+						if (!QueryValidator::isValidWithFormat(with_c)) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
+
+						QueryNode with_node = createWithNode(proc_s, with_c);
+
+						if (with_node.getNodeType() == QueryNodeType::unassigned) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
+						else if (with_node.getNodeType() == QueryNodeType::follows && with_node.getChildren().size() == 0) {
+							is_valid = false;
+							break;
+
+						}
+						else {
+							select_node.addChild(with_node);
+						}
+
+						if (is_last) {
+							is_last = false;
+						}
+						else {
+							split_index = and_index + 3;
+							and_index = current_c.find("and", split_index);
+
+							if (and_index == -1) {
+								is_last = true;
+							}
+						}
+					}
 				}
 
 				next_indices = getNextClauseIndex(c, clause_end_index);

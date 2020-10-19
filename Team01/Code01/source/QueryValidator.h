@@ -46,6 +46,11 @@ public:
 	static VALIDATION_RESULT isSynonymDeclared(PROCESSED_SYNONYMS proc_s, SYNONYM_NAME s);
 
 	/*
+	Description: Returns a VALIDATION_RESULT based on grammar for attributes.
+	*/
+	static VALIDATION_RESULT isValidAttr(PROCESSED_SYNONYMS proc_s, ATTRIBUTE_STRING a);
+
+	/*
 	Description: Returns a VALIDATION_RESULT based on grammar for elements.
 	*/
 	static VALIDATION_RESULT isValidElem(PROCESSED_SYNONYMS proc_s, ELEMENT elem);
@@ -106,4 +111,9 @@ public:
 	Description: Returns a VALIDATION_RESULT based on whether argument is a valid reference.
 	*/
 	static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a);
+
+	/*
+	Description: Returns a VALIDATION_RESULT based on with argument validity.
+	*/
+	static VALIDATION_RESULT isValidWithArguments(PROCESSED_SYNONYMS proc_s, ARGUMENTS args);
 };

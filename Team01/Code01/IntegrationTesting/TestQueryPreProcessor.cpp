@@ -1601,17 +1601,27 @@ namespace IntegrationTesting
 		TEST_METHOD(preProcessClauses_And_Invalid_Success) {
 			QueryPreProcessor qpp = QueryPreProcessor();
 
-			DECLARATIONS d = "stmt s; assign a; variable v;";
+			DECLARATIONS d = "stmt s; assign a; variable v; while w;";
 			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
 
 			CLAUSES c1 = "Select s such that Follows(1, s) and such that Follows*(_, s)";
 			CLAUSES c2 = "Select s pattern a(v, _) and pattern ifs(_, _, )";
+			CLAUSES c3 = "Select a such that Parent* (w, a) and Modifies (a, “x”) and such that Next* (1, a)";
+			CLAUSES c4 = "Select a such that Parent* (w, a) and pattern a (“x”, _) such that Next* (1, a)";
+			CLAUSES c5 = "Select a such that Parent* (w, a) pattern a (“x”, _) and Next* (1, a)";
+
 
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
 			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
+			PROCESSED_CLAUSES proc_c3 = qpp.preProcessClauses(proc_s, c3);
+			PROCESSED_CLAUSES proc_c4 = qpp.preProcessClauses(proc_s, c4);
+			PROCESSED_CLAUSES proc_c5 = qpp.preProcessClauses(proc_s, c5);
 
 			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c2.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c3.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c4.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c5.getNodeType() == QueryNodeType::unassigned);
 		}
 	};
 }
