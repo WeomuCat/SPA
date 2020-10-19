@@ -658,6 +658,9 @@ QueryNode QueryPreProcessor::createWithNode(PROCESSED_SYNONYMS proc_s, SINGLE_CL
 	SINGLE_ARGUMENT first_ref = trimWhitespaces(c.substr(0, equals_index));;
 	SINGLE_ARGUMENT second_ref = trimWhitespaces(c.substr(equals_index+1));;
 
+	refs.push_back(first_ref);
+	refs.push_back(second_ref);
+
 	if (!QueryValidator::isValidWithArguments(proc_s, refs)) {
 		is_valid = false;
 
@@ -960,7 +963,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 					while (is_valid && (and_index != -1 || is_last)) {
 						SINGLE_CLAUSE with_c = trimWhitespaces(current_c.substr(split_index, and_index - split_index));
 
-						if (!QueryValidator::isValidWithFormat(with_c)) {
+ 						if (!QueryValidator::isValidWithFormat(with_c)) {
 							is_valid = false;
 							is_syntax_valid = false;
 							break;
