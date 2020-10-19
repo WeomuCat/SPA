@@ -48,6 +48,7 @@ public:
 	ATTRIBUTE getAttr();
 
 	void setChildren(QUERY_NODE_POINTERS children, int size); //need to add all children at once, in the right order
+	void addChild(QueryNode child); //add a single child to node
 	QUERY_NODE_LIST getChildren();
 
 	QUERY_NODE_CONTENT getQueryNodeContent(); //generic case to get all the node content

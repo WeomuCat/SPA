@@ -708,9 +708,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 					if (result_node.getNodeType() == QueryNodeType::boolean) {
 						is_bool = true;
 					}
-
-					QueryNode select_children[] = { result_node };
-					select_node.setChildren(select_children, 1);
+					select_node.addChild(result_node);
 				}
 			}
 			else {
@@ -718,8 +716,6 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 			}
 		}
 		else {
-			// select node will have maximum 3 children
-			QueryNode select_children[3];
 			int child_index = 0;
 
 			// extract result clause
@@ -737,7 +733,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						is_bool = true;
 					}
 
-					select_children[child_index] = result_node;
+					select_node.addChild(result_clause);
 					child_index++;
 				}
 			}
@@ -752,7 +748,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 				// get clause arguments
 				// check argument validity
 				// create clause node
-				// add to children array
+				// add to children of select node
 				if (next_index == such_that_index) {
 					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(next_index + 9, pattern_index - (next_index + 9)));
 
@@ -780,7 +776,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 					else {
 						QueryNode such_that_node_children[] = { relation_node };
 						such_that_node.setChildren(such_that_node_children, 1);
-						select_children[child_index] = such_that_node;
+						select_node.addChild(such_that_node);
 						child_index++;
 					}
 				}
@@ -806,7 +802,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 					}
 					else {
-						select_children[child_index] = pattern_node;
+						select_node.addChild(pattern_node);
 						child_index++;
 					}
 				}
@@ -815,9 +811,6 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 				pattern_index = c.find("pattern", next_index + 1);
 				next_index = getNextClauseIndex(c, next_index, such_that_index, pattern_index);
 			}
-
-			// set children of select node
-			select_node.setChildren(select_children, child_index);
 		}
 	}
 

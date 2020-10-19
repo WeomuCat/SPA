@@ -167,6 +167,10 @@ void QueryNode::setChildren(QUERY_NODE_POINTERS children, int size) {
 	}
 }
 
+void QueryNode::addChild(QueryNode child) {
+	this->children.push_back(child);
+}
+
 QUERY_NODE_LIST QueryNode::getChildren() {
 	return QUERY_NODE_LIST(children);
 }
