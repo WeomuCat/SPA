@@ -16,6 +16,8 @@
 const std::regex name_format_("[a-zA-Z][a-zA-Z0-9]*");
 const std::regex integer_format_("[0-9]+");
 const std::regex attr_ref_format_("[a-zA-Z][a-zA-Z0-9]*\\.(procName|varName|value|stmt#)");
+const std::regex clause_pattern_if_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)");
+const std::regex clause_pattern_while_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)");
 const QueryNode null_node_ = QueryNode();
 
 STRING QueryPreProcessor::trimWhitespaces(STRING s) {
@@ -441,8 +443,11 @@ QueryNode QueryPreProcessor::createArgumentNode(PROCESSED_SYNONYMS proc_s, SINGL
 }
 
 QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c) {
-	//returns Querynode of QueryNodeType::unassigned if clause is invalid
+	// returns QueryNode of QueryNodeType::unassigned if clause is invalid syntatically
+	// returns Follows QueryNode with no children if clause is invalid semantically
+
 	bool is_valid = true;
+	bool is_syntax_valid = true;
 	QueryNode relation_node = QueryNode();
 
 	int open_brac_index = c.find("(");
@@ -451,6 +456,13 @@ QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, SINGL
 
 	if (!QueryValidator::isValidRelationArguments(proc_s, rel, args)) {
 		is_valid = false;
+		
+		if (std::regex_match(args[0], name_format_) && !QueryValidator::isSynonymDeclared(proc_s, args[0])) {
+			is_syntax_valid = false;
+		}
+		else if (std::regex_match(args[1], name_format_) && !QueryValidator::isSynonymDeclared(proc_s, args[1])) {
+			is_syntax_valid = false;
+		}
 	}
 
 	if (is_valid) {
@@ -484,14 +496,26 @@ QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, SINGL
 
 		return relation_node;
 	}
+	else if (is_syntax_valid) {
+		// semantics invalid
+		QueryNode invalid_follows_node = QueryNode();
+		invalid_follows_node.setNodeType("Follows");
+
+		return invalid_follows_node;
+		
+	}
 	else {
+		// syntax invalid
 		return null_node_;
 	}
 }
 
 QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c) {
-	//returns Querynode of QueryNodeType::unassigned if clause is invalid
+	// returns QueryNode of QueryNodeType::unassigned if clause is invalid syntatically
+	// returns pattern QueryNode with no children if clause is invalid semantically
+
 	bool is_valid = true;
+	bool is_syntax_valid = true;
 	QueryNode pattern_node = QueryNode();
 	pattern_node.setNodeType({ QueryNodeType::pattern });
 
@@ -505,6 +529,19 @@ QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE
 
 	if (!QueryValidator::isValidPatternArguments(proc_s, s, args)) {
 		is_valid = false;
+
+		if (!QueryValidator::isSynonymDeclared(proc_s, s)) {
+			is_syntax_valid = false;
+		}
+		else if (std::regex_match(args[0], name_format_) && !QueryValidator::isSynonymDeclared(proc_s, args[0])) {
+			is_syntax_valid = false;
+		}
+		else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::ifs && !std::regex_match(args[0], clause_pattern_if_format_)) {
+			is_syntax_valid = false;
+		}
+		else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::whiles && std::regex_match(args[0], clause_pattern_while_format_)) {
+			is_syntax_valid = false;
+		}
 	}
 
 	if (is_valid) {
@@ -532,7 +569,16 @@ QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE
 
 		return pattern_node;
 	}
+	else if (is_syntax_valid) {
+		// semantics invalid
+		QueryNode invalid_pattern_node = QueryNode();
+		invalid_pattern_node.setNodeType("pattern");
+
+		return invalid_pattern_node;
+
+	}
 	else {
+		// syntax invalid
 		return null_node_;
 	}
 
@@ -635,6 +681,9 @@ PROCESSED_SYNONYMS QueryPreProcessor::preProcessSynonyms(DECLARATIONS d) {
 PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s, CLAUSES c) {
 	PROCESSED_CLAUSES select_node = QueryNode();
 	VALIDATION_RESULT is_valid = true;
+	VALIDATION_RESULT is_syntax_valid = true;
+	bool is_bool = false;
+
 
 	if (QueryValidator::isValidClause(c)) {
 		select_node.setNodeType({ QueryNodeType::select });
@@ -652,12 +701,16 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 				// create result clause node and set as child
 				QueryNode result_node = createResultNode(proc_s, result_clause);
 
-				if (result_node.getNodeType() != QueryNodeType::unassigned) {
-					QueryNode select_children[] = { result_node };
-					select_node.setChildren(select_children, 1);
+				if (result_node.getNodeType() == QueryNodeType::unassigned) {
+					is_valid = false;
 				}
 				else {
-					is_valid = false;
+					if (result_node.getNodeType() == QueryNodeType::boolean) {
+						is_bool = true;
+					}
+
+					QueryNode select_children[] = { result_node };
+					select_node.setChildren(select_children, 1);
 				}
 			}
 			else {
@@ -676,12 +729,16 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 				// create result clause node and set as first child
 				QueryNode result_node = createResultNode(proc_s, result_clause);
 
-				if (result_node.getNodeType() != QueryNodeType::unassigned) {
-					select_children[child_index] = result_node;
-					child_index++;
+				if (result_node.getNodeType() == QueryNodeType::unassigned) {
+					is_valid = false;
 				}
 				else {
-					is_valid = false;
+					if (result_node.getNodeType() == QueryNodeType::boolean) {
+						is_bool = true;
+					}
+
+					select_children[child_index] = result_node;
+					child_index++;
 				}
 			}
 			else {
@@ -701,6 +758,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 					if (!QueryValidator::isValidRelationFormat(current_c)) {
 						is_valid = false;
+						is_syntax_valid = false;
 						break;
 					}
 
@@ -709,15 +767,21 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 					QueryNode relation_node = createRelationNode(proc_s, current_c);
 
-					if (relation_node.getNodeType() != QueryNodeType::unassigned) {
-						QueryNode such_that_node_children[1] = { relation_node };
+					if (relation_node.getNodeType() == QueryNodeType::unassigned) {
+						is_valid = false;
+						is_syntax_valid = false;
+						break;
+					}
+					else if (relation_node.getNodeType() == QueryNodeType::follows && relation_node.getChildren().size() == 0) {
+						is_valid = false;
+						break;
+
+					}
+					else {
+						QueryNode such_that_node_children[] = { relation_node };
 						such_that_node.setChildren(such_that_node_children, 1);
 						select_children[child_index] = such_that_node;
 						child_index++;
-					}
-					else {
-						is_valid = false;
-						break;
 					}
 				}
 				else {
@@ -725,18 +789,25 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 					if (!QueryValidator::isValidPatternFormat(current_c)) {
 						is_valid = false;
+						is_syntax_valid = false;
 						break;
 					}
 
 					QueryNode pattern_node = createPatternNode(proc_s, current_c);
 
-					if (pattern_node.getNodeType() != QueryNodeType::unassigned) {
-						select_children[child_index] = pattern_node;
-						child_index++;
+					if (pattern_node.getNodeType() == QueryNodeType::unassigned) {
+						is_valid = false;
+						is_syntax_valid = false;
+						break;
 					}
-					else {
+					else if (pattern_node.getNodeType() == QueryNodeType::pattern && pattern_node.getChildren().size() == 0) {
 						is_valid = false;
 						break;
+
+					}
+					else {
+						select_children[child_index] = pattern_node;
+						child_index++;
 					}
 				}
 
@@ -752,6 +823,16 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 	if (is_valid) {
 		return select_node;
+	}
+	else if (is_bool && is_syntax_valid) {
+		// result-cl is bool and is semantically invalid
+		QueryNode unassigned_node = QueryNode();
+		QueryNode invalid_bool_node = QueryNode();
+		invalid_bool_node.setNodeType({ QueryNodeType::boolean });
+		QueryNode unassigned_node_children[] = { invalid_bool_node };
+		unassigned_node.setChildren(unassigned_node_children, 1);
+
+		return unassigned_node;
 	}
 	else {
 		return null_node_;

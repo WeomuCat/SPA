@@ -94,13 +94,15 @@ private:
 
 	/*
 	Description: Returns a QueryNode for the relationship.
-				 If relationship clause is not valid, returns a query node with an unassigned NODE_TYPE.
+				 If relationship clause is not valid syntatically, returns a query node with an unassigned NODE_TYPE.
+				 If result clause is not valid semantically, returns a query node with an follows NODE_TYPE, without children.
 	*/
 	QueryNode createRelationNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c);
 
 	/*
 	Description: Returns a QueryNode for the pattern.
-				 If pattern clause is not valid, returns a query node with an unassigned NODE_TYPE.
+				 If pattern clause is not valid syntatically, returns a query node with an unassigned NODE_TYPE.
+				 If result clause is not valid semantically, returns a query node with an pattern NODE_TYPE, without children.
 	*/
 	QueryNode createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c);
 

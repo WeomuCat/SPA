@@ -13,7 +13,7 @@ const std::regex clause_select_format_("Select\\s+([a-zA-Z][a-zA-Z0-9]*|<.*>).*"
 const std::regex clause_relation_format_("(Follows|Follows\\*|Parent|Parent\\*|Uses|Modifies|Calls|Calls\\*|Next|Next\\*)\\s*\\(\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*,\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*\\)");
 const std::regex clause_pattern_assign_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*(\"\\s*[^\\s].*\\s*\"|_\\s*\"\\s*[^\\s].*\\s*\"\\s*_|_)\\s*\\)");
 const std::regex clause_pattern_if_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)");
-const std::regex clause_pattern_with_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)");
+const std::regex clause_pattern_while_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)");
 const std::regex stmt_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
 const std::regex ent_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\")");
 const std::regex line_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
@@ -487,7 +487,7 @@ VALIDATION_RESULT QueryValidator::isValidPatternArguments(PROCESSED_SYNONYMS pro
 		return false;
 	}
 	else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::assign && args_no == 2) {
-		if (std::regex_match(first_arg, ent_ref_format_)) {
+		if (isEntityRef(proc_s, first_arg)) {
 			return true;
 		}
 		else {
@@ -496,7 +496,7 @@ VALIDATION_RESULT QueryValidator::isValidPatternArguments(PROCESSED_SYNONYMS pro
 	}
 	else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::ifs && args_no == 3) {
 		SINGLE_ARGUMENT third_arg = args[2];
-		if (std::regex_match(first_arg, ent_ref_format_) && second_arg.compare("_") == 0 && third_arg.compare("_") == 0) {
+		if (isEntityRef(proc_s, first_arg) && second_arg.compare("_") == 0 && third_arg.compare("_") == 0) {
 			return true;
 		}
 		else {
@@ -504,7 +504,7 @@ VALIDATION_RESULT QueryValidator::isValidPatternArguments(PROCESSED_SYNONYMS pro
 		}
 	}
 	else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::whiles && args_no == 2) {
-		if (std::regex_match(first_arg, ent_ref_format_) && second_arg.compare("_") == 0) {
+		if (isEntityRef(proc_s, first_arg) && second_arg.compare("_") == 0) {
 			return true;
 		}
 		else {

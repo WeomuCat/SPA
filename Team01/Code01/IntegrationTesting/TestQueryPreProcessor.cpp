@@ -1289,5 +1289,34 @@ namespace IntegrationTesting
 			Assert::IsTrue(proc_c5.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c6.getNodeType() == QueryNodeType::unassigned);
 		}
+
+		TEST_METHOD(preProcessClauses_Select_Bool_Invalid_Success) {
+			QueryPreProcessor qpp = QueryPreProcessor();
+
+			DECLARATIONS d = "while w; variable v; stmt s;";
+			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
+
+			CLAUSES c1 = "Select BOOLEAN such that Uses(a, v)";
+			CLAUSES c2 = "Select BOOLEAN such that Parent(v, _)";
+			CLAUSES c3 = "Select BOOLEAN pattern w(, _)";
+			CLAUSES c4 = "Select BOOLEAN pattern w(s, _)";
+
+			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
+			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
+			PROCESSED_CLAUSES proc_c3 = qpp.preProcessClauses(proc_s, c3);
+			PROCESSED_CLAUSES proc_c4 = qpp.preProcessClauses(proc_s, c4);
+
+			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c1.getChildren().size() == 0);
+
+			Assert::IsTrue(proc_c2.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c2.getChildren()[0].getNodeType() == QueryNodeType::boolean);
+
+			Assert::IsTrue(proc_c3.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c3.getChildren().size() == 0);
+
+			Assert::IsTrue(proc_c4.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c4.getChildren()[0].getNodeType() == QueryNodeType::boolean);
+		}
 	};
 }
