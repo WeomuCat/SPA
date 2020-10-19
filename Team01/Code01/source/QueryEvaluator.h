@@ -51,6 +51,11 @@ private:
 	const QUERY_RESULT boolean_false_result = { "FALSE" };	// Result representing BOOLEAN = FALSE
 
 
+	void fillWithReturnValue(QueryNode result_clause, ResultList& result_list);
+	/*
+	Description: Filles the given result_list with all values of the given synonym or attrRef.
+	*/
+
 	void fillWithReturnSynonym(QueryNode result_clause, ResultList& result_list);
 	/*
 	Description: Fills the given result_list with all values of the given synonym_type, attached to the column name of the given synonym_name.

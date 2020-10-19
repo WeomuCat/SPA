@@ -135,6 +135,21 @@ void QueryEvaluator::fillWithReturnSynonym(QueryNode synonym_node, ResultList &r
 	
 }
 
+void QueryEvaluator::fillWithReturnValue(QueryNode elem_node, ResultList& result_list) {
+	QueryNodeType elem_node_type = elem_node.getNodeType();
+	if (elem_node_type == QueryNodeType::synonym) {
+		fillWithReturnSynonym(elem_node, result_list);
+	}
+	/*
+	else if (elem_node_type == QueryNodeType::attr) {
+		SYNONYM_NAME synonym_name = elem_node.getString();
+		ATTRIBUTE attribute = elem_node.getAttr();
+		ATTRREF_VALUES_LIST attr_ref_values = AttrRefManager::getAttrRefValues(synonym_name, attribute);
+
+		result_list = ResultListManager::addSynonymAndValues(result_list, synonym_name, attr_ref_values);
+	}
+	*/
+}
 
 
 void QueryEvaluator::setEvaluatorReturnType() {
