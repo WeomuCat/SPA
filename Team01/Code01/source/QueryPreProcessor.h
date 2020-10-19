@@ -15,6 +15,7 @@ typedef std::string EXPRESSION;
 typedef std::vector<TOKEN> INFIX_EXPR;
 typedef std::string STRING;
 typedef int INDEX;
+typedef std::vector<INDEX> NEXT_INDICES;
 
 /*
 Overview: Pre-processes queries into a suitable data structure for the evaluator.
@@ -57,9 +58,9 @@ private:
 	QueryNode createResultNode(PROCESSED_SYNONYMS proc_s, RESULT r);
 
 	/*
-	Description: Returns the INDEX of the next clause.
+	Description: Returns NEXT_INDICES, the starting and ending indices of the next clause.
 	*/
-	INDEX getNextClauseIndex(CLAUSES c, INDEX current_index, INDEX such_that_index, INDEX pattern_index);
+	NEXT_INDICES getNextClauseIndex(CLAUSES c, INDEX current_index);
 
 	/*
 	Description: Returns a vector of arguments for a clause.

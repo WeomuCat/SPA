@@ -1318,5 +1318,231 @@ namespace IntegrationTesting
 			Assert::IsTrue(proc_c4.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c4.getChildren()[0].getNodeType() == QueryNodeType::boolean);
 		}
+
+		TEST_METHOD(preProcessClauses_Multiple_SuchThat_Valid_Success) {
+			QueryPreProcessor qpp = QueryPreProcessor();
+
+			DECLARATIONS d = "stmt s; assign a; variable v;";
+			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
+
+			CLAUSES c1 = "Select s such that Follows(1, s) such that Follows*(_, s)";
+			CLAUSES c2 = "Select s such that Follows(s, a) such that Parent(1, s) such that Uses(a, v)";
+
+			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
+			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
+			
+			// c1 follows
+			Assert::IsTrue(proc_c1.getChildren()[1].getNodeType() == QueryNodeType::such_that);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::follows);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::integer);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getChildren()[0].getInteger() == 1);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getChildren()[1].getSynonymType() == QuerySynonymType::stmt);
+			// c1 followsT
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getChildren()[1].getString().compare("s") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getNodeType() == QueryNodeType::followsT);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::wild_card);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[1].getSynonymType() == QuerySynonymType::stmt);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[1].getString().compare("s") == 0);
+
+			// c2 follows
+			Assert::IsTrue(proc_c2.getChildren()[1].getNodeType() == QueryNodeType::such_that);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::follows);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getChildren()[0].getSynonymType() == QuerySynonymType::stmt);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getChildren()[0].getString().compare("s") == 0);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getChildren()[1].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getChildren()[1].getString().compare("a") == 0);
+			// c2 parent
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[0].getNodeType() == QueryNodeType::parent);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::integer);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[0].getChildren()[0].getInteger() == 1);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[0].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[0].getChildren()[1].getSynonymType() == QuerySynonymType::stmt);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[0].getChildren()[1].getString().compare("s") == 0);
+			// c2 uses
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getNodeType() == QueryNodeType::usesS);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getChildren()[0].getString().compare("a") == 0);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getChildren()[1].getSynonymType() == QuerySynonymType::variable);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getChildren()[1].getString().compare("v") == 0);
+		}
+		
+		TEST_METHOD(preProcessClauses_Multiple_SuchThat_InValid_Success) {
+			QueryPreProcessor qpp = QueryPreProcessor();
+
+			DECLARATIONS d = "stmt s; assign a; variable v;";
+			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
+
+			CLAUSES c1 = "Select s such that Follows(1, s) Follows*(_, s)";
+			CLAUSES c2 = "Select s such that Follows(s, a) such that Parent(1, s) such that Uses(, v)";
+
+			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
+			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
+
+			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c2.getNodeType() == QueryNodeType::unassigned);
+		}
+		
+		TEST_METHOD(preProcessClauses_Multiple_Pattern_Valid_Success) {
+			QueryPreProcessor qpp = QueryPreProcessor();
+
+			DECLARATIONS d = "assign a; variable v; if ifs; while w;";
+			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
+
+			CLAUSES c1 = "Select v pattern a(v, _) pattern ifs(_, _, _)";
+			CLAUSES c2 = "Select v pattern a(v, \"3 + b / ( c - d )\") pattern ifs(v, _, _) pattern w(v, _)";
+
+			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
+			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
+
+			// c1 pattern-assign
+			Assert::IsTrue(proc_c1.getChildren()[1].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getString().compare("a") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[1].getSynonymType() == QuerySynonymType::variable);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[1].getString().compare("v") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
+			// c1 pattern-if
+			Assert::IsTrue(proc_c1.getChildren()[2].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getSynonymType() == QuerySynonymType::ifs);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getString().compare("ifs") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[1].getNodeType() == QueryNodeType::wild_card);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[3].getNodeType() == QueryNodeType::wild_card);
+
+			// c2 pattern-assign
+			Assert::IsTrue(proc_c2.getChildren()[1].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[0].getString().compare("a") == 0);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[1].getSynonymType() == QuerySynonymType::variable);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[1].getString().compare("v") == 0);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[2].getNodeType() == QueryNodeType::expression);
+			Assert::IsTrue(proc_c2.getChildren()[1].getChildren()[2].getAstNode()->getNodeType() == NodeTypeEnum::expressionNode);
+			std::shared_ptr<ExpressionNode> expr_node_c2_1 = std::static_pointer_cast<ExpressionNode>(proc_c2.getChildren()[1].getChildren()[2].getAstNode());
+			Assert::IsTrue(expr_node_c2_1->getLeftAstNode()->getNodeType() == NodeTypeEnum::constantNode);
+			Assert::IsTrue(expr_node_c2_1->getRightAstNode()->getNodeType() == NodeTypeEnum::expressionNode);
+			std::shared_ptr<ExpressionNode> expr_node_c2_2 = std::static_pointer_cast<ExpressionNode>(expr_node_c2_1->getRightAstNode());
+			Assert::IsTrue(expr_node_c2_2->getLeftAstNode()->getNodeType() == NodeTypeEnum::variableNode);
+			Assert::IsTrue(expr_node_c2_2->getRightAstNode()->getNodeType() == NodeTypeEnum::expressionNode);
+			std::shared_ptr<ExpressionNode> expr_node_c2_3 = std::static_pointer_cast<ExpressionNode>(expr_node_c2_2->getRightAstNode());
+			Assert::IsTrue(expr_node_c2_3->getLeftAstNode()->getNodeType() == NodeTypeEnum::variableNode);
+			Assert::IsTrue(expr_node_c2_3->getRightAstNode()->getNodeType() == NodeTypeEnum::variableNode);
+			// c2 pattern-if
+			Assert::IsTrue(proc_c2.getChildren()[2].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[0].getSynonymType() == QuerySynonymType::ifs);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[0].getString().compare("ifs") == 0);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[1].getSynonymType() == QuerySynonymType::variable);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[1].getString().compare("v") == 0);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
+			Assert::IsTrue(proc_c2.getChildren()[2].getChildren()[3].getNodeType() == QueryNodeType::wild_card);
+			// c2 pattern-while
+			Assert::IsTrue(proc_c2.getChildren()[3].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getSynonymType() == QuerySynonymType::whiles);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[0].getString().compare("w") == 0);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[1].getSynonymType() == QuerySynonymType::variable);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[1].getString().compare("v") == 0);
+			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
+		}
+
+		TEST_METHOD(preProcessClauses_Multiple_Pattern_InValid_Success) {
+			QueryPreProcessor qpp = QueryPreProcessor();
+
+			DECLARATIONS d = "assign a; variable v; if ifs; while w;";
+			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
+
+			CLAUSES c1 = "Select v pattern a(v, _) pattern ifs(_, _, )";
+			CLAUSES c2 = "Select v pattern a(v, \"3 + b / ( c - d \") pattern ifs(v, _, _) pattern w(v, _)";
+
+			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
+			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
+
+			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c2.getNodeType() == QueryNodeType::unassigned);
+
+		}
+
+		TEST_METHOD(preProcessClauses_Multiple_Mixed_Valid_Success) {
+			QueryPreProcessor qpp = QueryPreProcessor();
+
+			DECLARATIONS d = "stmt s; assign a; variable v; if ifs; while w;";
+			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
+
+			CLAUSES c1 = "Select v pattern a(v, _) such that Follows(s, a) pattern ifs(_, _, _) such that Parent(1, s) such that Uses(a, v)";
+
+			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
+			
+			// c1 pattern-assign
+			Assert::IsTrue(proc_c1.getChildren()[1].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getString().compare("a") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[1].getSynonymType() == QuerySynonymType::variable);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[1].getString().compare("v") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
+			//c1 follows
+			Assert::IsTrue(proc_c1.getChildren()[2].getNodeType() == QueryNodeType::such_that);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getNodeType() == QueryNodeType::follows);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[0].getSynonymType() == QuerySynonymType::stmt);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[0].getString().compare("s") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[1].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c1.getChildren()[2].getChildren()[0].getChildren()[1].getString().compare("a") == 0);
+			// c1 pattern-if
+			Assert::IsTrue(proc_c1.getChildren()[3].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c1.getChildren()[3].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[3].getChildren()[0].getSynonymType() == QuerySynonymType::ifs);
+			Assert::IsTrue(proc_c1.getChildren()[3].getChildren()[0].getString().compare("ifs") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[3].getChildren()[1].getNodeType() == QueryNodeType::wild_card);
+			Assert::IsTrue(proc_c1.getChildren()[3].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
+			Assert::IsTrue(proc_c1.getChildren()[3].getChildren()[3].getNodeType() == QueryNodeType::wild_card);
+			// c1 parent
+			Assert::IsTrue(proc_c1.getChildren()[4].getChildren()[0].getNodeType() == QueryNodeType::parent);
+			Assert::IsTrue(proc_c1.getChildren()[4].getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::integer);
+			Assert::IsTrue(proc_c1.getChildren()[4].getChildren()[0].getChildren()[0].getInteger() == 1);
+			Assert::IsTrue(proc_c1.getChildren()[4].getChildren()[0].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[4].getChildren()[0].getChildren()[1].getSynonymType() == QuerySynonymType::stmt);
+			Assert::IsTrue(proc_c1.getChildren()[4].getChildren()[0].getChildren()[1].getString().compare("s") == 0);
+			// c1 uses
+			Assert::IsTrue(proc_c1.getChildren()[5].getChildren()[0].getNodeType() == QueryNodeType::usesS);
+			Assert::IsTrue(proc_c1.getChildren()[5].getChildren()[0].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[5].getChildren()[0].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c1.getChildren()[5].getChildren()[0].getChildren()[0].getString().compare("a") == 0);
+			Assert::IsTrue(proc_c1.getChildren()[5].getChildren()[0].getChildren()[1].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c1.getChildren()[5].getChildren()[0].getChildren()[1].getSynonymType() == QuerySynonymType::variable);
+			Assert::IsTrue(proc_c1.getChildren()[5].getChildren()[0].getChildren()[1].getString().compare("v") == 0);
+
+		}
+
+		TEST_METHOD(preProcessClauses_Multiple_Mixed_InValid_Success) {
+			QueryPreProcessor qpp = QueryPreProcessor();
+
+			DECLARATIONS d = "stmt s; assign a; variable v; if ifs; while w;";
+			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
+
+			CLAUSES c1 = "Select v pattern a(v, _) such that Follows(, a) pattern ifs(_, _, _) such that Parent(1, s) such that Uses(a, v)";
+			CLAUSES c2 = "Select v pattern a(v, \"3 + b / ( c - d \") pattern ifs(v, _, _) pattern w(v, _) such that Parent(1, s)";
+
+			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
+			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
+
+			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c2.getNodeType() == QueryNodeType::unassigned);
+		}
 	};
 }

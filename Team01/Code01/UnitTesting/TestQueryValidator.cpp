@@ -125,10 +125,8 @@ namespace UnitTesting
 
 		TEST_METHOD(isValidClause_Invalid_Success) {
 			CLAUSES c1 = "Select";
-			CLAUSES c2 = "Select s such that Follows(1, s) such that Follows(1, s)";
 
 			Assert::IsFalse(QueryValidator::isValidClause(c1));
-			Assert::IsFalse(QueryValidator::isValidClause(c2));
 		}
 
 		TEST_METHOD(isSynonymDeclared_Valid_Success) {

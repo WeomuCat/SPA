@@ -62,16 +62,9 @@ VALIDATION_RESULT QueryValidator::isValidDeclaration(SINGLE_DECLARATION single_d
 /*
 Validation rules:
 	- There is a result clause after 'Select'
-	- Has at most one 'such that' and 'pattern' clauses
 */
 VALIDATION_RESULT QueryValidator::isValidClause(CLAUSES c) {
 	if (!std::regex_match(c, clause_select_format_)) {
-		return false;
-	}
-	else if (c.find("such that", c.find("such that") + 1) != -1) {
-		return false;
-	}
-	else if (c.find("pattern", c.find("pattern") + 1) != -1) {
 		return false;
 	}
 	else {
