@@ -16,3 +16,12 @@ STMT_NUM_LIST CallTable::getCallNumList() {
     }
     return result;
 }
+
+PROC_NAME_LIST CallTable::getCallProcNameList() {
+    PROC_NAME_LIST result;
+    for (CALL_NODE_PTR n : nodes_) {
+        PROC_NAME p = n.get()->getCalleeProcedureName();
+        result.push_back(p);
+    }
+    return result;
+}
