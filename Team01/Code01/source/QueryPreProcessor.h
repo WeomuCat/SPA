@@ -76,7 +76,7 @@ private:
 	Description: Returns priotity of TOKEN.
 				 The larger the number, the higher the priority.
 	*/
-	int getTokenPriority(TOKEN t);
+	INTEGER getTokenPriority(TOKEN t);
 
 	/*
 	Description: Returns a POSTFIX_EXPR.
@@ -106,6 +106,13 @@ private:
 				 If result clause is not valid semantically, returns a query node with an pattern NODE_TYPE, without children.
 	*/
 	QueryNode createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c);
+
+	/*
+	Description: Returns a QueryNode for the pattern.
+				 If with clause is not valid syntatically, returns a query node with an unassigned NODE_TYPE.
+				 If with clause is not valid semantically, returns a query node with a with NODE_TYPE, without children.
+	*/
+	QueryNode createWithNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c);
 
 	/*
 	Description: Trims whitespaces from front and back of STRING and returns it.

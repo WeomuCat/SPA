@@ -48,7 +48,7 @@ public:
 	/*
 	Description: Returns a VALIDATION_RESULT based on grammar for attributes.
 	*/
-	static VALIDATION_RESULT isValidAttr(PROCESSED_SYNONYMS proc_s, ATTRIBUTE_STRING a);
+	static VALIDATION_RESULT isValidAttr(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on grammar for elements.
