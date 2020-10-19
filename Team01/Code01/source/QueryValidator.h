@@ -108,11 +108,6 @@ public:
 	static VALIDATION_RESULT isValidWithFormat(SINGLE_CLAUSE single_c);
 
 	/*
-	Description: Returns a VALIDATION_RESULT based on whether argument is a valid reference.
-	*/
-	static VALIDATION_RESULT isValidRef(PROCESSED_SYNONYMS proc_s, SINGLE_ARGUMENT a);
-
-	/*
 	Description: Returns a VALIDATION_RESULT based on with argument validity.
 	*/
 	static VALIDATION_RESULT isValidWithArguments(PROCESSED_SYNONYMS proc_s, ARGUMENTS args);

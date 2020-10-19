@@ -571,7 +571,8 @@ VALIDATION_RESULT QueryValidator::isValidPatternArguments(PROCESSED_SYNONYMS pro
 		return false;
 	}
 	else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::assign && args_no == 2) {
-		if (isEntityRef(proc_s, first_arg)) {
+		if (isEntityRef(proc_s, first_arg) && !std::regex_match(second_arg, integer_format_) && 
+			!std::regex_match(second_arg, name_format_) && !std::regex_match(second_arg, attr_ref_format_)) {
 			return true;
 		}
 		else {
@@ -645,7 +646,7 @@ Validation rules:
 	- Check if pattern has correct format+number of references
 */
 VALIDATION_RESULT QueryValidator::isValidWithFormat(SINGLE_CLAUSE single_c) {
-	if (!std::regex_match(single_c, clause_relation_format_)) {
+	if (!std::regex_match(single_c, clause_with_format_)) {
 		return false;
 	}
 	else {
