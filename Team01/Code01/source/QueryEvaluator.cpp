@@ -17,13 +17,15 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 		throw "Error: Select has no children, it should have at least 1 child (ie Select v)";
 	}
 
-	/* NOTE FOR ITER 2: NEED TO CHECK RETURN_SYNONYM FIRST, MIGHT BE BOOLEAN AND NOT SYNONYM */
-	QueryNode return_value = children[0];
-	this->result_clause = return_value;
-	this->return_synonym_names = return_value.getString();
-	setEvaluatorReturnType(return_value);
+	// Get the ResultClause of Select -> BOOLEAN | tuple
+	this->result_clause = children[0];
+	setEvaluatorReturnType();
 
-	// Only Result Clause, no other clauses to evaluate
+	if (return_type == QueryEvaluatorReturnType::tuple) {
+		setTupleReturnSynonyms();
+	}
+
+	// No other clauses to evaluate (ie Select <p.procName, v>) -> evaluate ResultClause
 	if (children.size() == 1) {
 		QUERY_RESULT final_result = evaluateResultClause();
 		return final_result;
@@ -95,7 +97,10 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 	return final_result;
 }
 
-void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList &result_list) {
+void QueryEvaluator::fillWithReturnSynonym(QueryNode result_clause, ResultList &result_list) {
+	SYNONYM_NAME return_synonym_name = result_clause.getString();
+	SYNONYM_TYPE return_synonym_type = result_clause.getSynonymType();
+
 	if (return_synonym_type == QuerySynonymType::assign) {
 		result_list.addColumn(return_synonym_name, pkb.getAssignNumList());
 	}
@@ -129,20 +134,33 @@ void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type,
 	
 }
 
-void QueryEvaluator::setEvaluatorReturnType(QueryNode select_return) {
-	QueryNodeType return_type = select_return.getNodeType();
+void QueryEvaluator::setEvaluatorReturnType() {
+	QueryNodeType return_type = result_clause.getNodeType();
 
-	if (return_type == QueryNodeType::synonym) {
-		this->return_type = { QueryEvaluatorReturnType::synonym };
-	}
-	else if (return_type == QueryNodeType::tuple) {
-		this->return_type = { QueryEvaluatorReturnType::tuple };
-	}
-	else if(return_type == QueryNodeType::boolean) {
+	if (return_type == QueryNodeType::boolean) {
 		this->return_type = { QueryEvaluatorReturnType::boolean };
+		return;
+	}
+
+	// If it is not BOOLEAN, it is Tuple -> look at the number of children
+	int num_children = result_clause.getChildren().size();
+
+	if (return_type == QueryNodeType::tuple) {
+		if (num_children == 1) {
+			this->return_type = { QueryEvaluatorReturnType::synonym };
+		}
+		else {
+			this->return_type = { QueryEvaluatorReturnType::tuple };
+		}
 	}
 	else {
-		throw "QE: Select's return type is not synonym, tuple, boolean";
+		throw "QE: Select's return type is not tuple or boolean";
+	}
+}
+
+void QueryEvaluator::setTupleReturnSynonyms() {
+	for (QueryNode child : result_clause.getChildren()) {
+		tuple_return_synonyms.push_back(child.getString());
 	}
 }
 
@@ -151,26 +169,28 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 	// only 1 return value
 	if (return_type == QueryEvaluatorReturnType::synonym) {
 		
-		if (!result_list.containsSynonym(return_synonym_names)) {
+		QueryNode synonym = result_clause.getChildren()[0];
+		SYNONYM_NAME return_synonym_name = synonym.getString();
+		if (!result_list.containsSynonym(return_synonym_name)) {
 			// if only true_false_clause, for it to reach here, it means that all clauses are true -> return synonym
 			// if not true_false, then consider num_rows to see if synonym should be returned
 			if (only_true_false_clauses || result_list.getNumRows() != 0) {
 				ResultList final_result_list;
-				QuerySynonymType return_synonym_type = result_clause.getSynonymType();
-				fillWithReturnSynonym(return_synonym_type, return_synonym_names, final_result_list);
-				return ResultListManager::getSynonymValues(final_result_list, return_synonym_names);
+				QuerySynonymType return_synonym_type = synonym.getSynonymType();
+				fillWithReturnSynonym(synonym, final_result_list);
+				return ResultListManager::getSynonymValues(final_result_list, return_synonym_name);
 			}
 		}
 		else {
-			return ResultListManager::getSynonymValues(result_list, return_synonym_names);
+			return ResultListManager::getSynonymValues(result_list, return_synonym_name);
 		}
 	}
 	else if (return_type == QueryEvaluatorReturnType::boolean) {
 
-		if (only_true_false_clauses) {
+		if (only_true_false_clauses) {		// if evaluator reaches here, means all clause_bool were True. ResultList might be empty but we return TRUE.
 			return boolean_true_result;
 		}
-		else if (result_list.getNumRows() > 0) {
+		else if (result_list.getNumRows() > 0) {	// Not all clauses evaluated are True/False, thus there should be results.
 			return boolean_true_result;
 		}
 		else {
@@ -186,12 +206,27 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 	if (return_type == QueryEvaluatorReturnType::boolean) {
 		return boolean_true_result;
 	}
-	else {
+	else if (return_type == QueryEvaluatorReturnType::synonym) {
 		ResultList final_result_list;
-		QuerySynonymType return_synonym_type = result_clause.getSynonymType();
-		fillWithReturnSynonym(return_synonym_type, return_synonym_names, final_result_list);
+		QueryNode return_synonym = (result_clause.getChildren())[0];
+		SYNONYM_NAME return_synonym_name = return_synonym.getString();
+		
+		fillWithReturnSynonym(return_synonym, final_result_list);
 
-		return ResultListManager::getSynonymValues(final_result_list, return_synonym_names);
+		return ResultListManager::getSynonymValues(final_result_list, return_synonym_name);
+	}
+	else if (return_type == QueryEvaluatorReturnType::tuple) {
+		ResultList final_result_list;
+		QUERY_NODE_LIST children = result_clause.getChildren();
+		
+		for (QueryNode child : children) {
+			ResultList child_result_list;
+			fillWithReturnSynonym(child, child_result_list);
+
+			ResultListManager::merge(final_result_list, child_result_list);
+		}
+
+		return ResultListManager::getTupleValues(final_result_list, tuple_return_synonyms);
 	}
 	
 }

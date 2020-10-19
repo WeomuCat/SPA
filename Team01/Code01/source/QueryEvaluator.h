@@ -20,7 +20,6 @@ class QueryEvaluator;
 typedef std::vector<std::string> QUERY_RESULT;
 typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 typedef QueryNode PROCESSED_CLAUSES;
-typedef std::string RETURN_SYNONYMS; //ITER 2: change this to VECTOR
 
 class QueryEvaluator {
 	/* Overview: Evaluates pre-processed queries and returns the corresponding result */
@@ -38,25 +37,42 @@ public:
 	*/
 
 private:
-	PKB pkb = (PKBBuilder().build()); // because PKB has no default constructor
-	ResultList result_list;
-	QueryNode result_clause;
-	RETURN_SYNONYMS return_synonym_names;
-	QueryEvaluatorReturnType return_type;
-	BOOLEAN only_true_false_clauses = true;
-	BOOLEAN evaluated_clauses = false;
-	const QUERY_RESULT no_result = QUERY_RESULT();
-	const QUERY_RESULT boolean_true_result = { "TRUE" };
-	const QUERY_RESULT boolean_false_result = { "FALSE" };
+	PKB pkb = (PKBBuilder().build());						// because PKB has no default constructor
+	ResultList result_list;									// stores the results of evaluation
+	QueryNode result_clause;								// Stores the entire QueryNode BOOLEAN | Tuple
+	QueryEvaluatorReturnType return_type;					// BOOLEAN | Tuple | Synonym (tuple of 1 element)
+	TUPLE_RETURN_SYNONYMS tuple_return_synonyms;			// Stores all the names of synonyms in the tuple to be returned
 
-	void QueryEvaluator::fillWithReturnSynonym(QuerySynonymType return_synonym_type, SYNONYM_NAME return_synonym_name, ResultList& result_list);
+	BOOLEAN only_true_false_clauses = true;					// True if all clauses evaluated so far is true/false clause
+	BOOLEAN evaluated_clauses = false;						// True if at least 1 clause is evaluated
+	const QUERY_RESULT no_result = QUERY_RESULT();			// Empty result to be returned if short circuit
+	const QUERY_RESULT boolean_true_result = { "TRUE" };	// Result representing BOOLEAN = TRUE
+	const QUERY_RESULT boolean_false_result = { "FALSE" };	// Result representing BOOLEAN = FALSE
+
+
+	void QueryEvaluator::fillWithReturnSynonym(QueryNode result_clause, ResultList& result_list);
 	/*
 	Description: Fills the given result_list with all values of the given synonym_type, attached to the column name of the given synonym_name.
 	*/
 	
-	void setEvaluatorReturnType(QueryNode select_return);
-
-	QUERY_RESULT obtainFinalQueryResult();
+	void setEvaluatorReturnType();
+	/*
+	Description: Sets the return type of this Evaluator based on the result_clause. The types settable are BOOLEAN, Tuple, Synonym (Tuple of 1 element).
+	*/
 
 	QUERY_RESULT evaluateResultClause();
+	/*
+	Description: Evaluates the Result Clause given that no other clauses are present for evaluation.
+	*/
+	
+	QUERY_RESULT obtainFinalQueryResult();
+	/*
+	Description: Computes the final query result string from the result_list. Results depend on the return_type (BOOLEAN/Tuple/Synonym)
+	*/
+
+	void setTupleReturnSynonyms();
+	/*
+	Description: Sets the tuple_return_synonyms to the names of synonyms in this result_clause.
+	*/
+
 };

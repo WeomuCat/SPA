@@ -783,9 +783,13 @@ namespace IntegrationTesting
 
 			QueryNode child1 = QueryNode();
 			child1.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
 			QueryNode child2 = QueryNode();
 			child2.setSynonymNode({ QuerySynonymType::variable }, "v");
-			QueryNode child1_children[] = { child2 };
+			QueryNode tuple_children[] = { child2 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode child1_children[] = { tuple };
 			child1.setChildren(child1_children, 1);
 
 			QueryNode processed_clauses = child1; //stores root node of the tree
@@ -808,9 +812,13 @@ namespace IntegrationTesting
 
 			QueryNode child1 = QueryNode();
 			child1.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
 			QueryNode child2 = QueryNode();
 			child2.setSynonymNode({ QuerySynonymType::print }, "pn");
-			QueryNode child1_children[] = { child2 };
+			QueryNode tuple_children[] = { child2 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode child1_children[] = { tuple };
 			child1.setChildren(child1_children, 1);
 
 			QueryNode processed_clauses = child1; //stores root node of the tree
@@ -880,7 +888,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -974,7 +986,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1066,7 +1082,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1106,7 +1126,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1157,7 +1181,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1219,7 +1247,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1269,7 +1301,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1317,7 +1353,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1367,7 +1407,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1417,7 +1461,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1477,7 +1525,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1525,7 +1577,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1578,7 +1634,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1626,7 +1686,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1670,7 +1734,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1712,7 +1780,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1754,7 +1826,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -1850,7 +1926,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2005,7 +2085,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2047,7 +2131,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2089,7 +2177,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2131,7 +2223,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2221,7 +2317,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2269,7 +2369,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2370,7 +2474,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2421,7 +2529,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2463,7 +2575,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2512,7 +2628,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2563,7 +2683,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2663,7 +2787,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2773,7 +2901,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2826,7 +2958,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2910,7 +3046,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2951,7 +3091,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -2991,7 +3135,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3031,7 +3179,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3071,7 +3223,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3116,7 +3272,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3158,7 +3318,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3200,7 +3364,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3256,7 +3424,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3317,7 +3489,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3376,7 +3552,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3435,7 +3615,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3612,7 +3796,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3675,7 +3863,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3734,7 +3926,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3793,7 +3989,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -3974,7 +4174,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -4033,7 +4237,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -4092,7 +4300,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -4268,7 +4480,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -4327,7 +4543,11 @@ namespace IntegrationTesting
 
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
-			QueryNode root_children[] = { child1, child2 };
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
