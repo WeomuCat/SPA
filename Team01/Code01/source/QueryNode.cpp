@@ -157,6 +157,10 @@ ATTRIBUTE QueryNode::getAttr() {
 	return node_content.getAttribute();
 }
 
+void QueryNode::setBooleanNode() {
+	this->node_type = { QueryNodeType::boolean };
+}
+
 STRING QueryNode::getString() {
 	return node_content.getString();
 }

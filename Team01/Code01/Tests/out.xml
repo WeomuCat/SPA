@@ -1,6 +1,16 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
+<<<<<<< HEAD
+<name>AutoTester</name><parsing_time_taken>14.000000</parsing_time_taken>
+</info>
+<queries>
+<query>
+<id ReturnTuple="1" Uses="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">1</id><querystr><![CDATA[proc p; variable v; Select v such that Uses(p, v)]]></querystr>
+<stuans></stuans>
+<correct>a,b,c,d,e</correct>
+<time_taken>55.000000</time_taken>
+=======
 <name>Debug</name><parsing_time_taken>17.000000</parsing_time_taken>
 </info>
 <queries>
@@ -9,6 +19,7 @@
 <stuans></stuans>
 <correct>a,b,c,d,e</correct>
 <time_taken>81.000000</time_taken>
+>>>>>>> 6d16c40520801277db1f27e8f463d46d93702457
 <failed>
 <missing>a,b,c,d,e</missing>
 <additional></additional>

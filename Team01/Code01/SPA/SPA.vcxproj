@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\ClauseQueue.h" />
     <ClInclude Include="..\source\AbstractDataTypes.h" />
     <ClInclude Include="..\source\AttributeType.h" />
     <ClInclude Include="..\source\Parser.h" />
@@ -59,6 +60,7 @@
     <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\UsesTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
+    <ClInclude Include="..\source\QueryEvaluatorReturnType.h" />
     <ClInclude Include="..\source\QueryNode.h" />
     <ClInclude Include="..\source\QueryNodeContent.h" />
     <ClInclude Include="..\source\QueryNodeType.h" />
@@ -69,8 +71,11 @@
     <ClInclude Include="..\source\Relationship.h" />
     <ClInclude Include="..\source\ResultList.h" />
     <ClInclude Include="..\source\ResultListManager.h" />
+    <ClInclude Include="..\source\WithClause.h" />
+    <ClInclude Include="RelOperatorTypeEnum.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\ClauseQueue.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\ParserPrintTree.cpp" />
@@ -120,6 +125,7 @@
     <ClCompile Include="..\source\QueryValidator.cpp" />
     <ClCompile Include="..\source\Relationship.cpp" />
     <ClCompile Include="..\source\ResultList.cpp" />
+    <ClCompile Include="..\source\WithClause.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
