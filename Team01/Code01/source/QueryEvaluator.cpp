@@ -223,12 +223,19 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 			if (only_true_false_clauses || result_list.getNumRows() != 0) {
 				ResultList final_result_list;
 				QuerySynonymType return_synonym_type = synonym.getSynonymType();
-				fillWithReturnValue(synonym, final_result_list);
+
+				try {
+					fillWithReturnValue(synonym, final_result_list);
+				} catch (const char* msg) {
+					return getSemanticallyInvalidResult();
+				}
+
 				return ResultListManager::getSynonymValues(final_result_list, return_synonym_name);
 			}
 		}
 		else {
-			return ResultListManager::getSynonymValues(result_list, return_synonym_name);
+			//return ResultListManager::getSynonymValues(result_list, return_synonym_name);
+			return getReturnValue(result_list, synonym);
 		}
 	}
 	else if (return_type == QueryEvaluatorReturnType::boolean) {
@@ -259,7 +266,12 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 			for (SYNONYM_NAME missing_synonym : missing_synonyms) {
 				ResultList current_synonym;
 				QueryNode missing_synonym_node = processed_synonyms.find(missing_synonym)->second;
-				fillWithReturnValue(missing_synonym_node, current_synonym);
+
+				try {
+					fillWithReturnValue(missing_synonym_node, current_synonym);
+				} catch (const char* msg) {
+					return getSemanticallyInvalidResult();
+				}
 
 				result_list = ResultListManager::merge(result_list, current_synonym);
 			}
@@ -274,6 +286,42 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 	}
 }
 
+
+QUERY_RESULT QueryEvaluator::getReturnValue(ResultList result_list, QueryNode synonym_node) {
+	QUERY_NODE_TYPE node_type = synonym_node.getNodeType();
+
+	if (node_type == QueryNodeType::synonym) {
+		SYNONYM_NAME synonym_name = synonym_node.getString();
+		return ResultListManager::getSynonymValues(result_list, synonym_name);
+	}
+	else if (node_type == QueryNodeType::attr) {
+		/* Double attr:
+		1. Calls		-> procName | stmtNum (default)
+		2. Read			-> varName | stmtNum (default)
+		3. Print		-> varName | stmtNum (default)
+		*/
+		SYNONYM_NAME synonym_name = synonym_node.getString();
+		SYNONYM_TYPE synonym_type = getSynonymType(synonym_name);
+		ATTRIBUTE attribute = synonym_node.getAttr();
+
+		if ((synonym_type == QuerySynonymType::call) && (attribute == AttributeType::procName)) {
+			SYNONYM_VALUES_LIST calls_stmtnum = result_list.getValuesOfSynonym(synonym_name);
+			return AttrRefManager::getCallsProcname(pkb, calls_stmtnum);
+		}
+
+		if ((synonym_type == QuerySynonymType::read) && (attribute == AttributeType::varName)) {
+
+		}
+
+		if ((synonym_type == QuerySynonymType::print) && (attribute == AttributeType::varName)) {
+
+		}
+
+		return ResultListManager::getSynonymValues(result_list, synonym_name);
+	}
+}
+
+
 QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 	if (return_type == QueryEvaluatorReturnType::boolean) {
 		return boolean_true_result;
@@ -283,7 +331,11 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 		QueryNode return_synonym = (result_clause.getChildren())[0];
 		SYNONYM_NAME return_synonym_name = return_synonym.getString();
 		
-		fillWithReturnValue(return_synonym, final_result_list);
+		try {
+			fillWithReturnValue(return_synonym, final_result_list);
+		} catch (const char* msg) {
+			return getSemanticallyInvalidResult();
+		}
 
 		return ResultListManager::getSynonymValues(final_result_list, return_synonym_name);
 	}
@@ -293,7 +345,12 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 		
 		for (QueryNode child : children) {
 			ResultList child_result_list;
-			fillWithReturnValue(child, child_result_list);
+
+			try {
+				fillWithReturnValue(child, child_result_list);
+			} catch (const char* msg) {
+				return getSemanticallyInvalidResult();
+			}
 
 			final_result_list = ResultListManager::merge(final_result_list, child_result_list);
 		}
@@ -301,4 +358,20 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 		return ResultListManager::getTupleValues(final_result_list, tuple_return_synonyms);
 	}
 	
+}
+
+QUERY_RESULT QueryEvaluator::getSemanticallyInvalidResult() {
+	if (return_type == QueryEvaluatorReturnType::boolean) {
+		return boolean_false_result;
+	}
+	else {
+		return no_result;
+	}
+}
+
+SYNONYM_TYPE QueryEvaluator::getSynonymType(SYNONYM_NAME synonym_name) {
+	QueryNode synonym_node = processed_synonyms.find(synonym_name)->second;
+	SYNONYM_TYPE synonym_type = synonym_node.getSynonymType();
+
+	return synonym_type;
 }

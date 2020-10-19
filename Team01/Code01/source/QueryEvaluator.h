@@ -69,19 +69,34 @@ private:
 	Description: Sets the return type of this Evaluator based on the result_clause. The types settable are BOOLEAN, Tuple, Synonym (Tuple of 1 element).
 	*/
 
+	void setTupleReturnSynonyms();
+	/*
+	Description: Sets the tuple_return_synonyms to the names of synonyms in this result_clause.
+	*/
+
+	QUERY_RESULT getSemanticallyInvalidResult();
+	/*
+	Description: Returns the default result for semantically invalid responses. Mainly used for invalid attrRef for synonyms.
+	*/
+
+	QUERY_RESULT getReturnValue(ResultList result_list, QueryNode synonym_node);
+	/*
+	Desription: Returns the value to be returned from this result_list. Handles obtaining synonyms values and atrrRef value conversion.
+	*/
+
+	SYNONYM_TYPE getSynonymType(SYNONYM_NAME synonym_name);
+	/*
+	Desription: Returns the synonym_type of this synonym_name.
+	*/
+
 	QUERY_RESULT evaluateResultClause();
 	/*
 	Description: Evaluates the Result Clause given that no other clauses are present for evaluation.
 	*/
-	
+
 	QUERY_RESULT obtainFinalQueryResult();
 	/*
 	Description: Computes the final query result string from the result_list. Results depend on the return_type (BOOLEAN/Tuple/Synonym)
-	*/
-
-	void setTupleReturnSynonyms();
-	/*
-	Description: Sets the tuple_return_synonyms to the names of synonyms in this result_clause.
 	*/
 
 };

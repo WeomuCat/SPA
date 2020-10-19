@@ -1,22 +1,27 @@
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
 #include "PKB.h"
 #include "QuerySynonymType.h"
 #include "QueryNode.h"
+#include "ResultList.h"
 
 typedef std::vector<std::string> ATTR_REF_VALUES_LIST;
 
 class AttrRefManager {
-public:
 	/*
 	attrRef Types:
 	1. [procName]	- string	-> procedure.procName | call.procName
 	2. [varName]	- string	-> variable.varName | read.varName | print.varName
 	3. [value]		- int		-> constant.value
 	4. [stmt#]		- int		-> s.stmt# | read.stmt# | print.stmt# | assign.stmt# | call.stmt# | while.stmt# | if.stmt#
+	*/
+public:
+	/*
+	Description: Returns the values of the attrRef of this synonym type.
 	*/
 	static ATTR_REF_VALUES_LIST getAttrRefValues(PKB pkb, SYNONYM_TYPE synonym_type, ATTRIBUTE attribute) {
 		ATTR_REF_VALUES_LIST values;
@@ -59,6 +64,24 @@ public:
 		return values;
 	}
 
+	/*
+	Description: Returns the procName of calls, given the stmtNum of calls.
+	*/
+	static ATTR_REF_VALUES_LIST getCallsProcname(PKB pkb, SYNONYM_VALUES_LIST stmtnum_values) {
+		ATTR_REF_VALUES_LIST call_procname_list;
+		CALL_NODE_PTR_LIST call_nodes = pkb.getCalls();
+		
+		for (std::shared_ptr<CallNode> call_node : call_nodes) {
+			STMT_NUM stmt_num = call_node->getStatementNumber();
+			if (std::find(stmtnum_values.begin(), stmtnum_values.end(), std::to_string(stmt_num)) != stmtnum_values.end()) {
+				PROC_NAME procname = call_node->getCalleeProcedureName();
+				call_procname_list.push_back(procname);
+			}
+		}
+		
+		return call_procname_list;
+	}
+
 
 private:
 	static ATTR_REF_VALUES_LIST getAssignValues(PKB pkb, ATTRIBUTE attribute) {
@@ -75,7 +98,7 @@ private:
 			return stringifyIntList(pkb.getCallNumList());
 		}
 		else if (attribute == AttributeType::procName) {
-			// DO SMTH HERE
+			return pkb.getCallProcNameList();
 		}
 		else {
 			throwsInvalidAttrRefException();
