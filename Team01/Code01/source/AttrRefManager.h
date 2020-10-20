@@ -9,6 +9,7 @@
 #include "QueryNode.h"
 #include "ResultList.h"
 
+typedef std::string ATTR_REF_VALUE;
 typedef std::vector<std::string> ATTR_REF_VALUES_LIST;
 
 class AttrRefManager {
@@ -21,7 +22,7 @@ class AttrRefManager {
 	*/
 public:
 	/*
-	Description: Returns the values of the attrRef of this synonym type.
+	Description: Returns the values of the attrRef of this synonym type. Eg synonym_type.attribute -> s.stmt#
 	*/
 	static ATTR_REF_VALUES_LIST getAttrRefValues(PKB pkb, SYNONYM_TYPE synonym_type, ATTRIBUTE attribute) {
 		ATTR_REF_VALUES_LIST values;
@@ -65,7 +66,7 @@ public:
 	}
 
 	/*
-	Description: Returns the procName of calls, given the stmtNum of calls.
+	Description: Converts stmtNum of calls to the procName of calls.
 	*/
 	static ATTR_REF_VALUES_LIST getCallsProcname(PKB pkb, SYNONYM_VALUES_LIST stmtnum_values) {
 		ATTR_REF_VALUES_LIST call_procname_list;
@@ -85,6 +86,9 @@ public:
 		return call_procname_list;
 	}
 
+	/*
+	Description: Converts stmtNum of reads to the varName of reads.
+	*/
 	static ATTR_REF_VALUES_LIST getReadVarname(PKB pkb, SYNONYM_VALUES_LIST stmtnum_values) {
 		ATTR_REF_VALUES_LIST read_varname_list;
 		READ_NODE_PTR_LIST read_nodes = pkb.getReads();
@@ -104,6 +108,9 @@ public:
 		return read_varname_list;
 	}
 
+	/*
+	Description: Converts stmtNum of prints to the varName of prints.
+	*/
 	static ATTR_REF_VALUES_LIST getPrintVarname(PKB pkb, SYNONYM_VALUES_LIST stmtnum_values) {
 		ATTR_REF_VALUES_LIST print_varname_list;
 		PRINT_NODE_PTR_LIST print_nodes = pkb.getPrints();
@@ -123,6 +130,9 @@ public:
 		return print_varname_list;
 	}
 
+	/*
+	Description: Returns True if the result_list's result for this synonym matches the attrRef type.
+	*/
 	static bool resultMatches(ResultList result_list, QueryNode synonym_node) {
 		bool result_matches = false;
 		SYNONYM_NAME synonym_name = synonym_node.getString();
@@ -145,6 +155,9 @@ public:
 		return result_matches;
 	}
 
+	/*
+	Description: Checks if the attrRef is valid for the synonym type.
+	*/
 	static bool isValidAttrRef(SYNONYM_TYPE synonym_type, ATTRIBUTE attribute) {
 		bool isValid = false;
 
@@ -204,6 +217,28 @@ public:
 		}
 
 		return isValid;
+	}
+
+	/*
+	Description: Checks if the attrRef value is integer. (ie stmtNum, value)
+	*/
+	static bool isIntegerType(ATTRIBUTE attribute) {
+		bool isInteger = false;
+		if (attribute == AttributeType::stmtNum || attribute == AttributeType::value) {
+			isInteger = true;
+		}
+		return isInteger;
+	}
+
+	/*
+	Description: Checks if the attrRef value if string. (ie varName, procName)
+	*/
+	static bool isStringType(ATTRIBUTE attribute) {
+		bool isString = false;
+		if (attribute == AttributeType::varName || attribute == AttributeType::procName) {
+			isString = true;
+		}
+		return isString;
 	}
 
 
