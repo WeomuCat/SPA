@@ -432,10 +432,14 @@ QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
 						expr_node->setExpressionType({ ExpressionTypeEnum::mod });
 					}
 
-					expr_node->setRightAstNode(term_stack.back());
+					AST_NODE_PTR right_node = term_stack.back();
 					term_stack.pop_back();
-					expr_node->setLeftAstNode(term_stack.back());
+					AST_NODE_PTR left_node = term_stack.back();
 					term_stack.pop_back();
+
+					expr_node->setLeftAstNode(left_node);
+					expr_node->setRightAstNode(right_node);
+					
 					term_stack.push_back(expr_node);
 				}
 			}
