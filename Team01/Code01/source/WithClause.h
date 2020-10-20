@@ -29,6 +29,13 @@ private:
 	ResultList clause_result_list;
 
 	void getAttrrefIntResult(QueryNode attrref_node, QueryNode int_node, bool& clause_bool, ResultList& clause_result_list);
+	void getAttrrefStringResult(QueryNode attrref_node, QueryNode string_node, bool& clause_bool, ResultList& clause_result_list);
+	void getAttrrefSynonymResult(QueryNode attrref_node, QueryNode synonym_node, bool& clause_bool, ResultList& clause_result_list);
+	void getAttrrefAttrrefResult(QueryNode attrref_node, QueryNode int_node, bool& clause_bool, ResultList& clause_result_list);
+	void getIdentIdentResult(QueryNode attrref_node, QueryNode string_node, bool& clause_bool, ResultList& clause_result_list);
+	void getIntegerIntegerResult(QueryNode ident_node1, QueryNode ident_node2, bool& clause_bool, ResultList& clause_result_list);
+	void getIntegerSynonymResult(QueryNode int_node1, QueryNode int_node2, bool& clause_bool, ResultList& clause_result_list);
+
 	bool isValidWithClause();
 	bool bothAreIntegerTypes();
 	bool bothAreStringTypes();

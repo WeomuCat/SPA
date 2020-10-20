@@ -5980,7 +5980,7 @@ namespace IntegrationTesting
 		}
 
 		/*=================================  PKB 4: With =========================================*/
-		TEST_METHOD(evaluateQuery_SelectN_WithN3_ReturnsN)
+		TEST_METHOD(evaluateQuery_SelectS_WithN3_ReturnsN)
 		{
 			// Query: "prog_line n; stmt s; Select s such that with s.stmt# = 3"
 			// Get processed_synonyms and processed clauses
@@ -6039,7 +6039,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
-		TEST_METHOD(evaluateQuery_SelectN_With3N_ReturnsN)
+		TEST_METHOD(evaluateQuery_SelectS_With3N_ReturnsN)
 		{
 			// Query: "prog_line n; stmt s; Select s such that with 3 = s.stmt#"
 			// Get processed_synonyms and processed clauses
@@ -6093,6 +6093,462 @@ namespace IntegrationTesting
 				Logger::WriteMessage(msg);
 			}
 			STRING_RESULT correct_result = "3";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP_WithPIdent_ReturnsP)
+		{
+			// Query: "procedure p; stmt s; Select p such that with p.procName = night"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::procedure }, "p");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p", progline_node}, {"s", stmt_node} };
+
+			// Select: p
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: p.procName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("p", "procName");
+
+			// arg 2: night
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIdentityNode("night");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "night";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectN_WithCN_ReturnsEmpty)
+		{
+			// Query: "constant c; prog_line n; Select n such that with c.value = n"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::constant }, "c");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"n", progline_node}, {"c", stmt_node} };
+
+			// Select: n
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: p.procName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("c", "value");
+
+			// arg 2: night
+			QueryNode child_child2 = QueryNode();
+			child_child2.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP_WithPV_ReturnsP)
+		{
+			// Query: "procedure p; variable v; Select p such that with p.procName = v.varName"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::procedure }, "p");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::variable }, "v");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p", progline_node}, {"v", stmt_node} };
+
+			// Select: p
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: p.procName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("p", "procName");
+
+			// arg 2: night
+			QueryNode child_child2 = QueryNode();
+			child_child2.setAttrNode("v", "varName");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectS_WithSC_ReturnsS)
+		{
+			// Query: "stmt s; call c; Select s such that with s.stmt# = c.stmt#"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::call }, "c");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"s", progline_node}, {"c", stmt_node} };
+
+			// Select: p
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::stmt }, "s");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: s.stmt#
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("s", "stmt#");
+
+			// arg 2: c.stmt#
+			QueryNode child_child2 = QueryNode();
+			child_child2.setAttrNode("c", "stmt#");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "1, 2, 3, 4, 5, 6, 7, 8";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBoolean_WithIdentIdent_ReturnsTrue)
+		{
+			// Query: "procedure p; stmt s; Select boolean such that with night = night"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::procedure }, "p");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p", progline_node}, {"s", stmt_node} };
+
+			// Select: p
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode();
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: night
+			QueryNode child_child1 = QueryNode();
+			child_child1.setIdentityNode("night");
+
+			// arg 2: night
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIdentityNode("night");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "TRUE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBoolean_WithIdentIdent_ReturnsFalse)
+		{
+			// Query: "procedure p; stmt s; Select boolean such that with menu = night"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::procedure }, "p");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p", progline_node}, {"s", stmt_node} };
+
+			// Select: p
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode();
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: menu
+			QueryNode child_child1 = QueryNode();
+			child_child1.setIdentityNode("menu");
+
+			// arg 2: night
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIdentityNode("night");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "FALSE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBoolean_WithIntegerInteger_ReturnsTrue)
+		{
+			// Query: "procedure p; stmt s; Select boolean such that with 3 = 3"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::procedure }, "p");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p", progline_node}, {"s", stmt_node} };
+
+			// Select: p
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode();
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: 3
+			QueryNode child_child1 = QueryNode();
+			child_child1.setIntegerNode(3);
+
+			// arg 2: 3
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIntegerNode(3);
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "TRUE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBoolean_WithIntegerInteger_ReturnsFalse)
+		{
+			// Query: "procedure p; stmt s; Select boolean such that with 2 = 3"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::procedure }, "p");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p", progline_node}, {"s", stmt_node} };
+
+			// Select: p
+			QueryNode child1 = QueryNode();
+			child1.setBooleanNode();
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: 3
+			QueryNode child_child1 = QueryNode();
+			child_child1.setIntegerNode(2);
+
+			// arg 2: 3
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIntegerNode(3);
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode root_children[] = { child1, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "TRUE";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
