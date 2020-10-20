@@ -9,8 +9,8 @@ Select r.stmt# such that Parent (w, r) pattern w ("ichi", _) with w.stmt# = 2
 5
 5000
 3 - Modifies
-if i; assign a;
-Select a such that Modifies (i, a) pattern i ("yon", _, _) and pattern a ("hachi", _"4"_) with i.stmt# = 24
+if i;
+Select i such that Modifies (i, "yon") pattern i ("yon", _, _) with i.stmt# = 24
 27
 5000
 4 - Uses
@@ -20,26 +20,26 @@ Select a such that Uses (a, v) pattern a (v, _) with v.varName = "san"
 5000
 5 - Next
 assign a; while w;
-Select BOOLEAN such that Next(w, a) pattern a ("kyuu", _) with w.stmt# = 45 and a.stmt# = 46
-TRUE
+Select w such that Next(w, a) pattern a ("kyuu", _) with w.stmt# = 45 and a.stmt# = 46
+45
 5000
 6 - Calls and Uses and Modifies
 if i; procedure pd; variable v;
 Select v such that Calls (pd, "third") and Uses(i, v) and Modifies (pd, v) pattern i ("zero", _, _) with i.stmt# = 22
-zero, ichi, ni, san, go, nana, kyuu
+zero, ichi, ni, san, yon, go, roku, nana, hachi, kyuu
 5000
 7 - Next* and Next* and Next*
 assign a1, a2, a3, a4;
 Select <a1, a2, a3, a4> such that Next* (a1, a2) and Next* (a2, a3) and Next* (a3, a4) pattern a1 (_, _"ni"_) and pattern a2 ("roku", _) and pattern a3 (_, "3") and pattern a4 (_, _) with a1.stmt# = a2.stmt# and a2.stmt# = a3.stmt# and a3.stmt# = a4.stmt#
 50 50 50 50
 5000
-8 - Follows* and Parent*
+8 - Follows*, Parent* and Parent*
 if i; assign a; stmt s;
-Select <i, a> such that Follows* (s, a) and Parent* (i, a) and Parent* (i, s) pattern a (_, _"3"_) and pattern i ("go", _, _) with s.stmt# = 26
+Select <i, a> such that Follows* (s, a) and Parent* (i, a) and Parent* (i, s) pattern a (_, _"4"_) and pattern i ("go", _, _) with s.stmt# = 26
 22 27, 24, 27
 5000
 9 - Parent and Uses and Modifies and Calls*
-if i1, i2;
+if i1, i2; procedure p; variable v;
 Select <i1, i2> such that Parent (i1, i2) and Uses (i1, v) and Uses (p, v) and Calls (p, "fourth") pattern i1 ("zero", _, _) and pattern i2 ("yon", _, _) with p.procName = "third" and v.varName = "ichi"
 22 24
 5000

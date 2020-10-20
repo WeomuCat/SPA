@@ -1,10 +1,10 @@
 1 - Constant and Assign
 assign a;
-Select BOOLEAN such that Next* (2, a) pattern a ("charmander", _);
+Select BOOLEAN such that Next* (2, a) pattern a ("charmander", _)
 TRUE
 5000
 2 - Read and Assign synonym 
-assign a; read r; while w;
+assign a; read r;
 Select BOOLEAN such that Next* (a, r) pattern a (_, _"16"_)
 TRUE
 5000
@@ -21,7 +21,7 @@ Select i1 such that Next* (i1, i2) pattern i1 (_, _, _) and pattern i2 (_, _, _)
 5 - While and If synonym
 while w; if i;
 Select w such that Next* (w, i) pattern i ("bulbasaur", _, _)
-2, 50
+2, 50, 68
 5000
 6 - Multiple pattern
 assign a; if i;
@@ -31,7 +31,7 @@ Select i such that Next* (i, a) pattern a ("blastoise", _) and pattern a (_, _"i
 7 - Program line
 prog_line n; while w;
 Select n such that Next* (w, n) pattern w ("bulbasaur", _)
-45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 64, 65, 66, 67, 68, 69, 70
+45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72
 5000
 8 - Statement line
 assign a; stmt s;

@@ -1,7 +1,7 @@
 1 - Follows
 stmt s;
 Select BOOLEAN such that Follows (5, s) with s.stmt# = 6
-TRUE
+FALSE
 5000
 2 - FollowsT
 stmt s1, s2;
@@ -20,7 +20,7 @@ TRUE
 5000
 5 - Modifies
 variable v;
-Select BOOLEAN such that Modfiies (11, v) with v.varName = "duck"
+Select BOOLEAN such that Modifies (11, v) with v.varName = "duck"
 TRUE
 5000
 6 - Uses

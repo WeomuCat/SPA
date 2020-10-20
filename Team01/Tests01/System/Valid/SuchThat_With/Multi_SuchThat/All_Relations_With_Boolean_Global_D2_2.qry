@@ -5,12 +5,12 @@ FALSE
 5000
 2 - Modifies, Uses
 variable v;
-Select BOOLEAN such that Modifies (9, v) and Uses (23, v) with v.varName = "gold"
+Select BOOLEAN such that Modifies (9, v) and Uses (36, v) with v.varName = "gold"
 TRUE
 5000
 3 - Calls, Calls*, Modifies
 procedure p1, p2;
-Select BOOLEAN such that Modifies (p, "coal") and Calls ("thirdore", p1) and Calls (p1, p2) with p1.procName = "fourthore"
+Select BOOLEAN such that Modifies (p1, "coal") and Calls ("thirdore", p1) and Calls (p1, p2) with p1.procName = "fourthore"
 TRUE
 5000
 4 - Parent, Parent*, Next, Next*
@@ -21,7 +21,7 @@ FALSE
 5 - Follows*, Parent*, Modifies, Next*
 stmt s; assign a; variable v;
 Select BOOLEAN such that Follows* (21, s) and Parent* (23, v) and Modifies (s, v) and Next* (a, s) with a.stmt# = 24
-TRUE
+FALSE
 5000
 6 - Parent*, Uses, Modifies, Next, Calls*
 procedure p; variable v1, v2; call c;
