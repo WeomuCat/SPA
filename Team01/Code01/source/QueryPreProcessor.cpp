@@ -455,6 +455,7 @@ QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
 				// if final node is a single var/const
 				// create expr ast node and set final node as left node
 				std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+				expr_node->setExpressionType(ExpressionTypeEnum::none);
 				expr_node->setLeftAstNode(term_stack.back());
 				term_stack.pop_back();
 				term_stack.push_back(expr_node);
@@ -928,6 +929,17 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						is_valid = false;
 						is_syntax_valid = false;
 						break;
+					}
+					else if (current_c.find("and") != -1) {
+						// if has pattern 'and', next clause should be pattern
+
+						INDEX next_clause_start = getNextClauseIndex(c, clause_end_index)[0];
+
+						if (c[next_clause_start] != 'p') {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
 					}
 
 					QueryNode pattern_node = createPatternNode(proc_s, current_c);
