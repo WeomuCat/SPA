@@ -114,6 +114,9 @@ void QueryEvaluator::fillWithReturnSynonym(QueryNode synonym_node, ResultList &r
 	if (return_synonym_type == QuerySynonymType::assign) {
 		result_list.addColumn(return_synonym_name, pkb.getAssignNumList());
 	}
+	else if (return_synonym_type == QuerySynonymType::call) {
+		result_list.addColumn(return_synonym_name, pkb.getCallNumList());
+	}
 	else if (return_synonym_type == QuerySynonymType::constant) {
 		result_list.addColumn(return_synonym_name, pkb.getConstantValueList());
 	}
