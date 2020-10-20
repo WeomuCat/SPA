@@ -1,0 +1,12 @@
+procedure main {
+    b = x;
+    
+    x = 1;
+
+
+    read y;
+    
+    
+    
+    print z;
+}

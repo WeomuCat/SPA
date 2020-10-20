@@ -26,7 +26,7 @@ none
 6 - Uses
 stmt s; variable v;
 Select s such that Uses (s, v) with v.varName = "duck"
-3, 7, 22
+2, 3, 4, 5, 6, 7, 10, 12, 22
 5000
 7 - Calls
 procedure p1, p2;
@@ -35,7 +35,7 @@ secondbird, thirdbird
 5000
 8 - CallsT
 procedure p1, p2;
-Select p2 such that Calls (p1, p2) with p1.procName = "firstbird
+Select p2 such that Calls* (p1, p2) with p1.procName = "firstbird"
 secondbird, thirdbird, fourthbird
 5000
 9 - Next

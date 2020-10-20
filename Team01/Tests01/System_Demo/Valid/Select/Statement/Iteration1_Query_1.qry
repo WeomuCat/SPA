@@ -1,0 +1,10 @@
+1 - Simple Query for non-container statements (assg, read, print).
+stmt s;
+Select s
+1, 2, 3
+1000
+2 - Complex Query for non-container statements (assg, read, print).
+stmt s1, s2, s3; stmt s4, s5, s6; stmt s7, s8, s9; stmt s10, s11, s12;
+Select s9
+1, 2, 3
+1000

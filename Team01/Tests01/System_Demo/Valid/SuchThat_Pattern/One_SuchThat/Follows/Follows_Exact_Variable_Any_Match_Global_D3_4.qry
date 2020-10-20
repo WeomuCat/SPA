@@ -1,0 +1,50 @@
+1 - Assign and Constant, Select Assign
+assign a;
+Select a such that Follows (a, 5) pattern a ("hours", _)
+none
+5000
+2 - Constant and Assign, Select Assign
+assign a;
+Select a such that Follows (55, a) pattern a ("tired", _)
+56
+5000
+3 - Assign and Statement, Select Assign
+assign a; stmt s; variable v;
+Select a such that Follows (a, s) pattern a ("time", _)
+2, 39, 57, 84
+5000
+4 - Assign and Assign, Select Assign
+assign a1, a2; variable v;
+Select a1 such that Follows (a1, a2) pattern a1 ("happiness", _)
+26, 41, 54, 71, 83, 88
+5000
+5 - Assign and Print, Select Assign
+assign a; print p; variable v;
+Select a such that Follows (a, p) pattern a ("null", _)
+none
+5000
+6 - Assign and Read, Select Assign
+assign a; read r; variable v;
+Select a such that Follows (r, a) pattern a ("happiness", _)
+71, 83
+5000
+7 - Assign and If, Select Assign
+assign a; if i; variable v;
+Select a such that Follows (a, i) pattern a ("thirst", _)
+17, 21, 28
+5000
+8 - Assign and While, Select Assign
+assign a; while w; variable v;
+Select a such that Follows (a, w) pattern a ("messages", _)
+52
+5000
+9 - Wildcard and Assign
+assign a;
+Select a such that Follows (_, a) pattern a ("hours", _)
+5
+5000
+10 - Assign and Wildcard
+assign a;
+Select a such that Follows (a, _) pattern a ("age", _)
+6
+5000

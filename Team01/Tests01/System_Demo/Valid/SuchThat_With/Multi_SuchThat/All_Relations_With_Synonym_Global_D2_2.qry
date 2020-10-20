@@ -1,0 +1,35 @@
+1 - Follows, Follows*
+stmt s1, s2, s3;
+Select s1 such that Follows (s1, s2) and Follows (s2, s3) with s2.stmt# = 11
+10
+5000
+2 - Follows, Modifies, Uses
+stmt s1, s2; variable v1, v2;
+Select s1 such that Follows (s1, s2) and Modifies (s1, v1) and Uses (s2, v2) with v1.varName = "gold" and v2.varName = "lapis"
+10, 16
+5000
+3 - Modifies, Modfies, Calls, Calls*
+procedure p; variable v; stmt s;
+Select s such that Modifies (s, v) and Modifies (p, v) and Calls (p, "thirdore") and Calls* (p, "fifthore") with p.procName = "secondore"
+4, 7, 10, 11, 15, 16, 22, 28, 30, 32, 34, 35, 38, 39, 43, 46, 48, 49, 1,12,13,17,18,19,2,20,23,24,25,26,29,36,41,42,44,47,5,6,9
+5000
+5 - Modifies, Modfies, Calls
+variable v1, v2; procedure p1, p2;
+Select <v1, v2> such that Modifies (p1, v1) and Modifies (p2, v2) and Calls (p1, p2) with p1.procName = "firstore"
+coal coal, coal diamond,coal emerald,coal gold,coal iron,coal lapis,coal redstone,diamond coal,diamond diamond,diamond emerald,diamond gold,diamond iron,diamond lapis,diamond redstone,emerald coal,emerald diamond,emerald emerald,emerald gold,emerald iron,emerald lapis,emerald redstone,gold coal,gold diamond,gold emerald,gold gold,gold iron,gold lapis,gold redstone,iron coal,iron diamond,iron emerald,iron gold,iron iron,iron lapis,iron redstone,lapis coal,lapis diamond,lapis emerald,lapis gold,lapis iron,lapis lapis,lapis redstone,redstone coal,redstone diamond,redstone emerald,redstone gold,redstone iron,redstone lapis,redstone redstone
+5000
+6 - Calls*, Calls*
+procedure p1, p2, p3;
+Select p1.procName such that Calls* (p1, p2) and Calls* (p2, p3) with p2.procName = "thirdore"
+firstore, secondore
+5000
+8 - Modifies, Modifies, Uses, Uses
+assign a1, a2, a3, a4; variable v1, v2;
+Select <v1, v2> such that Modifies (a1, v1) and Modifies (a2, v2) and Uses (a3, v1) and Uses (a4, v2) with a1.stmt# = a2.stmt# and a3.stmt# = a4.stmt# and a1.stmt# = 35
+gold gold
+5000
+9 - Follows*, Next*
+stmt s1, s2;
+Select s1 such that Follows* (s1, s2) and Next* (s2, s1) with s2.stmt# = 38
+37
+5000

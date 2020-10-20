@@ -1,0 +1,45 @@
+1 - Constant and Assign, Select Assign
+assign a;
+Select a such that Parent* (14, a) pattern a ("ame", _)
+15, 17, 19, 23, 25
+5000
+2 - Statement and Assign, Select Assign
+assign a; stmt s;
+Select a such that Parent* (s, a) pattern a ("ina", _)
+21, 69, 70
+5000
+3 - If and Assign, Select Assign
+assign a; if i;
+Select a such that Parent* (i, a) pattern a ("gura", _)
+none
+5000
+4 - While and Assign, Select Assign
+assign a; while w;
+Select a such that Parent* (w, a) pattern a ("calli", _)
+7, 8, 49, 50
+5000
+5 - Statement and Assign, Select Statement
+assign a; stmt s;
+Select s such that Parent* (s, a) pattern a ("ame", _)
+4, 6, 9, 11, 14, 20, 39, 61
+5000
+6 - If and Assign, Select If
+assign a; if i;
+Select i such that Parent* (i, a) pattern a ("calli", _)
+4, 39, 40
+5000
+7 - While and Assign, Select While
+assign a; while w;
+Select w such that Parent* (w, a) pattern a ("ina", _)
+6, 9, 14, 68
+5000
+8 - Out of Scope, Constant and Assign
+assign a;
+Select a such that Parent* (51, a) pattern a ("gura", _)
+none
+5000
+9 - Wildcard and Assign
+assign a;
+Select a such that Parent* (_, a) pattern a ("ame", _)
+12, 15, 17, 19, 23, 25, 60, 62
+5000

@@ -1,0 +1,115 @@
+1 - Constant and Statement 1
+stmt s;
+Select s such that Follows*(s, 2)
+1
+1000
+2 - Constant and Statement 2
+stmt s;
+Select s such that Follows*(s, 8)
+1, 2, 3, 4
+1000
+3 - Constant and Statement 3
+stmt s;
+Select s such that Follows*(s, 10)
+9
+1000
+4 - Constant and Statement 4
+stmt s;
+Select s such that Follows*(s, 1)
+none
+1000
+5 - Constant and Statement 5
+stmt s;
+Select s such that Follows*(s, 5)
+none
+1000
+6 - Constant and Statement 6
+stmt s;
+Select s such that Follows*(s, 7)
+none
+1000
+7 - Statement and Constant 1
+stmt s;
+Select s such that Follows*(1, s)
+2, 3, 4, 8
+1000
+8 - Statement and Constant 2
+stmt s;
+Select s such that Follows*(9, s)
+10
+1000
+9 - Statement and Constant 3
+stmt s;
+Select s such that Follows*(6, s)
+none
+1000
+10 - Assign and Constant
+asssign a;
+Select a such that Follows*(a, 7)
+none
+1000
+11 - Constant and Assign
+asssign a;
+Select a such that Follows*(6, a)
+none
+1000
+12 - While and Constant 1
+while w;
+Select w such that Follows*(w, 8)
+4
+1000
+13 - While and Constant 2
+while w;
+Select w such that Follows*(w, 5)
+none
+1000
+14 - Constant and While 1
+while w;
+Select w such that Follows*(1, w)
+4
+1000
+15 - Constant and While 2
+while w;
+Select w such that Follows*(8, w)
+none
+1000
+16 - If and Constant 1
+if i;
+Select i such that Follows*(i, 1)
+none
+1000
+17 - If and Constant 2
+if i;
+Select i such that Follows*(1, i)
+8
+1000
+18 - Read and Constant
+read r;
+Select r such that Follows*(r, 8)
+1, 2, 3
+1000
+19 - Constant and Read
+read r;
+Select r such that Follows*(1, r)
+2, 3
+1000
+20 - Print and Constant
+print p;
+Select p such that Follows*(p, 8)
+none
+1000
+21 - Constant and Print
+print p;
+Select p such that Follows*(9, p)
+10
+1000
+22 - Statement and Statement 1
+stmt s1, s2;
+Select s1 such that Follows*(s1, s2)
+1, 2, 3, 4, 9, 11
+1000
+23 - Statement and Statement 1
+stmt s1, s2;
+Select s2 such that Follows*(s1, s2)
+2, 3, 4, 8, 10, 12
+1000

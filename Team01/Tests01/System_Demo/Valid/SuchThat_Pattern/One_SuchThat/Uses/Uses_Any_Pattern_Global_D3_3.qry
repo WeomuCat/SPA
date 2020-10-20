@@ -1,0 +1,100 @@
+1 - Uses Exact Variable, Select Assign, Any Variable, Any Match
+assign a;
+Select a such that Uses (a, "cat") pattern a (_, _)
+16, 20, 25, 41, 42, 63, 64, 75
+5000
+2 - Uses Exact Variable, Select Assign, Any Variable, Partial Single Match
+assign a;
+Select a such that Uses (a, "cat") pattern a (_, _"1"_)
+25
+5000
+3 - Uses Exact Variable, Select Assign, Exact Variable, Any Match
+assign a;
+Select a such that Uses (a, "e") pattern a ("a", _)
+80
+5000
+4 - Uses Exact Variable, Select Assign, Exact Variable, Partial Single Match
+assign a;
+Select a such that Uses (a, "meow") pattern a ("dog", _"woof"_)
+87
+5000
+5 - Uses Exact Variable, Select Assign, Synonym Variable, Any Match
+assign a; variable v;
+Select a such that Uses (a, "woof") pattern a (v, _)
+26, 28, 35, 36, 37, 38, 42, 75, 86, 87
+5000
+6 - Uses Exact Variable, Select Assign, Synonym Variable, Partial Single Match
+assign a; variable v;
+Select a such that Uses (a, "b") pattern a (v, _"4"_)
+15
+5000
+7 - Select Assign, Any Variable, Any Match
+assign a; variable v;
+Select a such that Uses (a, v) pattern a (_, _)
+15, 16, 17, 18, 20, 22, 23, 24, 25, 26, 28, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 60, 61, 62, 63, 64, 75, 76, 77, 78, 80, 81, 82, 83, 86, 87, 97, 104
+5000
+8 - Select Assign, Any Variable, Partial Single Match
+assign a; variable v;
+Select a such that Uses (a, v) pattern a (_, _"a"_)
+15, 17, 20, 22, 24, 28, 40, 60, 61, 75
+5000
+9 - Select Assign, Exact Variable, Any Match
+assign a; variable v;
+Select a such that Uses (a, v) pattern a ("x", _)
+none
+5000
+10 - Select Assign, Exact Variable, Partial Single Match
+assign a; variable v;
+Select a such that Uses (a, v) pattern a ("dog", _"25"_)
+26
+5000
+11 - Select Assign, Synonym Variable, Any Match
+assign a; variable v;
+Select a such that Uses (a, v) pattern a (v, _)
+24, 25, 26, 28, 40, 60, 61, 62, 63, 64, 75, 76, 77, 78
+5000
+12 - Select Assign, Synonym Variable, Partial Single Match
+assign a; variable v;
+Select a such that Uses (a, v) pattern a (v, _"dog"_)
+26, 28, 63, 64, 75
+5000
+13 - Select Variable, Any Variable, Any Match
+assign a; variable v;
+Select v such that Uses (a, v) pattern a (_, _)
+a, b, c, d, e, x, y, dog, woof, cat, meow
+5000
+14 - Select Variable, Any Variable, Partial Single Match
+assign a; variable v;
+Select v such that Uses (a, v) pattern a (_, _"1"_)
+e, b, cat
+5000
+15 - Select Variable, Exact Variable, Any Match
+assign a; variable v;
+Select v such that Uses (a, v) pattern a ("name", _)
+e, dog, woof, cat, meow
+5000
+16 - Select Variable, Exact Variable, Partial Single Match
+assign a; variable v;
+Select v such that Uses (a, v) pattern a ("a", _"b"_)
+a, b, c, d, dog, woof, cat, meow
+5000
+17 - Select Variable, Synonym Variable, Any Match
+assign a; variable v;
+Select v such that Uses (a, v) pattern a (v, _)
+a, b, c, d, dog, woof, cat
+5000
+18 - Select Variable, Synonym Variable, Partial Single Match
+assign a; variable v;
+Select v such that Uses (a, v) pattern a (v, _"35"_)
+dog
+5000
+19 - Out of Scope, Select Assign
+assign a;
+Select a such that Uses ("main", "horse") pattern a (_, _)
+none
+5000
+20 - Wildcard and Assign
+assign a; variable v;
+Select a such that Uses (a, _) pattern a (_, _"e"_)
+80, 81, 82, 83, 97
+5000

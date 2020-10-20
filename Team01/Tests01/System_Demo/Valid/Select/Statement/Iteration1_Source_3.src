@@ -1,0 +1,33 @@
+procedure main {
+    x = 1;
+    read y;
+    print z;
+    while (h == 2) {
+        a = x;
+        b = 1;
+        read y;
+        print z;
+        if (i !=3) then {
+            a = x;
+            while (j < 2) {
+                a = x;
+                if (k >= 4) then {
+                    a = x;
+                    b = 1;
+                    read y;
+                    print z;
+                } else {
+                    a = x;
+                    b = 1;
+                    read y;
+                    print z;                
+                }
+            }
+        } else {
+            a = x;
+            b = 1;
+            read y;
+            print z;
+        }
+    }
+}

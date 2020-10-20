@@ -1,0 +1,35 @@
+1 - Single variable
+variable v;
+Select v
+a, b, c
+1000
+2 - Many variable declarations
+variable v1; variable v2; variable v3; variable v4; variable v5;
+Select v1
+a, b, c
+1000
+3 - Capitalized synonym names
+variable V1; variable V2; variable V3;
+Select V1
+a, b, c
+1000
+4 - Rather long synonym names
+variable LoremipsumdolorsitametconsecteturadipiscingelitseddoeiusmodtemporincididuntutlaboreetdoloremagnaaliquaUtenimadminimveniamquisnostrudexercitationullamcolaborisnisiutaliquipexeacommodoconsequatDuisauteiruredolorinreprehenderitinvoluptatevelitessecillumdoloreeufugiatnullapariaturExcepteursintoccaecatcupidatatnonproidentsuntinculpaquiofficiadeseruntmollitanimidestlaborum1; variable LoremipsumdolorsitametconsecteturadipiscingelitseddoeiusmodtemporincididuntutlaboreetdoloremagnaaliquaUtenimadminimveniamquisnostrudexercitationullamcolaborisnisiutaliquipexeacommodoconsequatDuisauteiruredolorinreprehenderitinvoluptatevelitessecillumdoloreeufugiatnullapariaturExcepteursintoccaecatcupidatatnonproidentsuntinculpaquiofficiadeseruntmollitanimidestlaborum2;
+Select LoremipsumdolorsitametconsecteturadipiscingelitseddoeiusmodtemporincididuntutlaboreetdoloremagnaaliquaUtenimadminimveniamquisnostrudexercitationullamcolaborisnisiutaliquipexeacommodoconsequatDuisauteiruredolorinreprehenderitinvoluptatevelitessecillumdoloreeufugiatnullapariaturExcepteursintoccaecatcupidatatnonproidentsuntinculpaquiofficiadeseruntmollitanimidestlaborum1
+a, b, c
+1000
+5 - Weird whitespace
+   variable V1;		variable V2;variable V3;
+                   Select V3
+a, b, c
+1000
+6 - Comma separated synonyms
+variable v1, v2, v3; variable v4, v5;
+Select v5
+a, b, c
+1000
+7 - Ambiguous synonym names
+variable variable; variable Select;
+Select variable
+a, b, c
+1000

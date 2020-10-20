@@ -20,7 +20,7 @@ Select i such that Follows (s, i) and Modifies (s, v) pattern i (v, _, _)
 5000
 5 - Follows and Next* and Uses
 stmt s; assign a; variable v;
-Select a such that Follows (a, s) and Next* (s, a) and Uses (a, v) pattern a (v, _)
+Select a such that Follows (s, a) and Next* (a, s) and Uses (a, v) pattern a (v, _)
 none
 5000
 6 - Parent and Parent*
@@ -31,7 +31,7 @@ Select <i, w> such that Parent (i, w) and Parent* (i, 26) pattern w ("yon", _) a
 7 - Parent* and Modifies and Uses
 while w; if i; stmt s; variable v;
 Select v.varName such that Parent* (w, s) and Modifies (i, v) and Uses (s, v) pattern w ("ichi", _) and pattern i ("go", _, _)
-zero, ichi, ni, go, roku, nana, hachi, kyuu
+zero, ichi, ni, san, yon, go, roku, nana, hachi, kyuu
 5000
 8 - Modifies and Modfies and Modifies
 assign a1, a2, a3; variable v;
@@ -40,11 +40,11 @@ Select <a1, a2, a3> such that Modifies (a1, v) and Modifies (a2, v) and Modifies
 5000
 9 - Uses and Uses and Uses
 assign a1, a2, a3; variable v;
-Select v such that Uses (a1, v) and Uses (a2, v) and Uses (a3, v) pattern a1 (v, v) and pattern a2 (_, _) and pattern a3 ("hachi", _"kyuu"_)
-hachi
+Select v such that Uses (a1, v) and Uses (a2, v) and Uses (a3, v) pattern a1 ("nana", _) and pattern a2 (_, _) and pattern a3 ("hachi", _"kyuu"_)
+kyuu
 5000
 10 - Modifies and Uses and Calls
-call c; if i; variable v;
+procedure p; if i; variable v;
 Select i.stmt# such that Modifies (i, v) and Uses (p, v) and Calls (p, "ninth") pattern i (v, _, _)
 16, 22, 24, 58, 78, 87
 5000
@@ -56,10 +56,10 @@ Select <a1, a2.stmt#, a3, a4.stmt#, a5, a6.stmt#, a7> such that Follows (a1, a2)
 12 - If patterns
 if i1, i2, i3, i4, i5;
 Select <i1, i2, i3, i4, i5> such that Uses (i1, "ichi") and Uses (i2, "ni") and Uses (i3, "san") and Uses (i4, "yon") and Uses (i5, "go") pattern i1 ("go", _, _) and pattern i2 ("yon", _, _) and pattern i3 ("san", _, _) and pattern i4 ("ni", _, _) and pattern i5 ("ichi", _, _)
-none
+16 24 16 16 22, 16 24 16 22 22, 16 24 22 16 22, 16 24 22 22 22, 16 24 24 16 22, 16 24 24 22 22, 16 24 58 16 22, 16 24 58 22 22, 16 24 87 16 22, 16 24 87 22 22, 22 24 16 16 22, 22 24 16 22 22, 22 24 22 16 22, 22 24 22 22 22, 22 24 24 16 22, 22 24 24 22 22, 22 24 58 16 22, 22 24 58 22 22, 22 24 87 16 22, 22 24 87 22 22, 24 24 16 16 22, 24 24 16 22 22, 24 24 22 16 22, 24 24 22 22 22, 24 24 24 16 22, 24 24 24 22 22, 24 24 58 16 22, 24 24 58 22 22, 24 24 87 16 22, 24 24 87 22 22, 87 24 16 16 22, 87 24 16 22 22, 87 24 22 16 22, 87 24 22 22 22, 87 24 24 16 22, 87 24 24 22 22, 87 24 58 16 22, 87 24 58 22 22, 87 24 87 16 22, 87 24 87 22 22
 5000
 13 - While patterns
 while w1, w2, w3; variable v;
-Select w1 such that Modifies (w1, "ichi") and Modifies (w2, "ni") and Modifies (w3, v) pattern w1 (v, _) and pattern w2 (v, _) and pattern (v, _) 
+Select w1 such that Modifies (w1, "ichi") and Modifies (w2, "ni") and Modifies (w3, v) pattern w1 (v, _) and pattern w2 (v, _) and pattern w3 (v, _) 
 2, 40, 41, 49
 5000

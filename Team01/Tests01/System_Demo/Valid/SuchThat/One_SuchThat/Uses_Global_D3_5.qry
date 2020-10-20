@@ -1,0 +1,90 @@
+1 - Statement and Exact Variable, Select Statement
+stmt s;
+Select s such that Uses(s, "ina")
+2, 3, 4, 5, 6, 9, 11, 14, 15, 20, 22, 29, 37, 39, 40, 41, 44, 51, 61, 62, 64, 67, 68
+1000
+2 - Assign and Exact Variable, Select Assign
+assign a;
+Select a such that Uses(a, "calli")
+19, 29, 43, 49, 50, 69
+1000
+3 - Print and Exact Variable, Select Print
+print p;
+Select p such that Uses(p, "gura")
+10, 33, 35, 54, 55
+1000
+4 - If and Exact Variable, Select If
+if i;
+Select i such that Uses(i, "kiara")
+4, 11, 20, 39, 40
+1000
+5 - While and Exact Variable, Select While
+while w;
+Select w such that Uses(w, "ame")
+6, 9, 14, 41, 64, 68
+1000
+6 - Assign and Synonym Variable, Select Variable
+variable v; assign a;
+Select v such that Uses(a, v)
+ame, calli, gura, ina, kiara
+1000
+7 - Print and Synonym Variable, Select Variable
+variable v; print p;
+Select v such that Uses(p, v)
+ame, calli, gura, ina, kiara
+1000
+8 - If and Synonym Variable, Select Variable
+variable v; if i;
+Select v such that Uses(i, v)
+ame, calli, gura, ina, kiara
+1000
+9 - While and Synonym Variable, Select Variable
+variable v; while w;
+Select v such that Uses(w, v)
+ame, calli, gura, ina, kiara
+1000
+10 - Constant and Synonym Variable, Select None Variable
+variable v;
+Select v such that Uses(1, v)
+none
+1000
+11 - Constant and Synonym Variable, Assign Statement
+variable v;
+Select v such that Uses(1, v)
+none
+1000
+12 - Constant and Synonym Variable, If Statement
+variable v;
+Select v such that Uses(61, v)
+ame, ina
+1000
+13 - Constant and Synonym Variable, Print Statement
+variable v;
+Select v such that Uses(67, v)
+ina
+1000
+14 - Constant and Synonym Variable, While Statement
+variable v;
+Select v such that Uses(68, v)
+ame, ina, calli
+1000
+15 - Procedure and Exact Variable, Select Procedure
+procedure p;
+Select p such that Uses(p, "ina")
+vtuber
+1000
+16 - Procedure and Synonym Variable, Select Variable 
+variable v; procedure p;
+Select v such that Uses(p, v)
+ame, calli, gura, ina, kiara
+1000
+17 - Exact Procedure and Synonym Variable, Select Variable 
+variable v; procedure p;
+Select v such that Uses("vtuber", v)
+ame, calli, gura, ina, kiara
+1000
+18 - Statement and Exact Variable, Non-Existent Variable
+stmt s;
+Select s such that Uses(1, "main")
+none
+1000

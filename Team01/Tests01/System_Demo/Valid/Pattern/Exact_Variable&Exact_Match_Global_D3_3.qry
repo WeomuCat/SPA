@@ -1,0 +1,30 @@
+1 - Non Existing Variable, Non Existing Exact Match
+assign a;
+Select a pattern a ("main", "main")
+none
+1000
+2 - Non Existing Variable, Existing Exact Match
+assign a;
+Select a pattern a ("main", "cat + 1")
+none
+1000
+3 - Existing Variable, Non Existing Exact Match
+assign a;
+Select a pattern a ("cat", "main")
+none
+1000
+4 - Variable a, Exact Full Pattern
+assign a;
+Select a pattern a ("a", "a")
+24
+1000
+5 - Variable a, More Brackets Full Pattern
+assign a;
+Select a pattern a ("a", "((a + (b * c)) + d)")
+40
+1000
+6 - Variable a, Wrong Full Pattern
+assign a;
+Select a pattern a ("a", "a + b + c + d")
+none
+1000

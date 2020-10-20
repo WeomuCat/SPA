@@ -1,0 +1,50 @@
+1 - Assign and Constant, Select Assign
+assign a;
+Select a such that Follows* (a, 30) pattern a (_, _"ina"_)
+29
+5000
+2 - Constant and Assign, Select Assign
+assign a;
+Select a such that Follows* (40, a) pattern a (_, _"5"_)
+60
+5000
+3 - Assign and Statement, Select Assign
+assign a; stmt s;
+Select a such that Follows* (a, s) pattern a (_, _"gura"_)
+3, 8, 29, 32, 58
+5000
+4 - Assign and Assign, Select Assign
+assign a, a1;
+Select a such that Follows* (a, a1) pattern a (_, _"2"_)
+7
+5000
+5 - Assign and Print, Select Assign
+assign a; print p;
+Select a such that Follows* (a, p) pattern a (_, _"ame"_)
+7, 43
+5000
+6 - Assign and Read, Select Assign
+assign a; read r;
+Select a such that Follows* (a, r) pattern a (_, _"1"_)
+13, 27
+5000
+7 - Assign and If, Select Assign
+assign a; if i;
+Select a such that Follows* (a, i) pattern a (_, _"kiara"_)
+3, 17
+5000
+8 - Assign and While, Select Assign
+assign a; while w;
+Select a such that Follows* (a, w) pattern a (_, _"2"_)
+7
+5000
+9 - Wildcard and Assign
+assign a;
+Select a such that Follows* (_, a) pattern a (_, _"1"_)
+27
+5000
+10 - Assign and Wildcard
+assign a;
+Select a such that Follows* (a, _) pattern a (_, _"2"_)
+7
+5000

@@ -1,0 +1,10 @@
+1 - Simple Query for assignment statements at varying nested levels
+assign a;
+Select a
+2, 3, 5, 6, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18
+1000
+2 - Complex Query for assignment statements at varying nested levels
+assign a1, a2, a3; assign a4, a5, a6; assign a7, a8, a9; assign a10, a11, a12;
+Select a9
+2, 3, 5, 6, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18
+1000

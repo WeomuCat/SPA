@@ -1,0 +1,5 @@
+procedure sourceOne {
+    print a;
+    print b;
+    print c;
+}

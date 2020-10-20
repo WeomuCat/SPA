@@ -1,0 +1,5 @@
+--- procedure main {
+001     print a;
+002     print b;
+003     print c;
+--- }

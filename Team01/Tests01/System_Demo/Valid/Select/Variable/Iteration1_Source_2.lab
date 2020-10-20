@@ -1,0 +1,16 @@
+--- procedure procedure {
+001     read a;
+002     print a;
+003     while (a > 0) {
+004         a = a - 1;
+---     }
+005     if (b != c) then {
+006         print b;
+---     } else {
+007         print c;
+---     }
+008     d = e + f * g + h;
+009     i = j * k + l + m;
+010     n = (o + p) * (q + r);
+011     s = t + (u * v) + w;
+--- }

@@ -1,0 +1,28 @@
+--- procedure multipleIfWhile {
+001     start = 0;
+002     end = 100;
+003     if (start == 0) then {
+004         start = 0;
+---     } else {
+005         start = 0;
+---     }
+006     while (start < end) {
+007         start = start + 1;
+---     }
+008     start = start - end;
+009     middle = (start + end) / 2;
+010     if (middle > 0) then {
+011         print start;
+---     } else {
+012         print end;
+---     }
+013     if (middle < 0) then {
+014         print end;
+---     } else {
+015         print start;
+---     }
+016     while (middle < end) {
+017         end = end - 1;
+018         start = start + 1;
+---     }
+--- }

@@ -1,0 +1,16 @@
+procedure procedure {
+    read a;
+    print a;
+    while (a > 0) {
+        a = a - 1;
+    }
+    if (b != c) then {
+        print b;
+    } else {
+        print c;
+    }
+    d = e + f * g + h;
+    i = j * k + l + m;
+    n = (o + p) * (q + r);
+    s = t + (u * v) + w;
+}
