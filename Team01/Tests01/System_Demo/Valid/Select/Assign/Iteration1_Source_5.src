@@ -1,9 +1,0 @@
-procedure main {
-    x = 1 + 3;
-
-    y = a + b;
-
-
-    z = y + b;
-
-}
