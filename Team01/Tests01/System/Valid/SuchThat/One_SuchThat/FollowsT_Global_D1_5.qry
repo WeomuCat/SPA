@@ -44,13 +44,13 @@ Select s such that Follows*(6, s)
 none
 1000
 10 - Assign and Constant
-asssign a; 
-Select a such that Follows*(a, 7);
+asssign a;
+Select a such that Follows*(a, 7)
 none
 1000
 11 - Constant and Assign
-asssign a; 
-Select a such that Follows*(6, a);
+asssign a;
+Select a such that Follows*(6, a)
 none
 1000
 12 - While and Constant 1
@@ -65,51 +65,51 @@ none
 1000
 14 - Constant and While 1
 while w;
-Select w such that Follows*(1, w);
+Select w such that Follows*(1, w)
 4
 1000
 15 - Constant and While 2
 while w;
-Select w such that Follows*(8, w);
+Select w such that Follows*(8, w)
 none
 1000
 16 - If and Constant 1
 if i;
-Select i such that Follows*(i, 1);
+Select i such that Follows*(i, 1)
 none
 1000
 17 - If and Constant 2
 if i;
-Select i such that Follows*(1, i);
+Select i such that Follows*(1, i)
 8
 1000
 18 - Read and Constant
 read r;
-Select r such that Follows*(r, 8);
+Select r such that Follows*(r, 8)
 1, 2, 3
 1000
 19 - Constant and Read
 read r;
-Select r such that Follows*(1, r);
+Select r such that Follows*(1, r)
 2, 3
 1000
 20 - Print and Constant
 print p;
-Select p such that Follows*(p, 8);
+Select p such that Follows*(p, 8)
 none
 1000
 21 - Constant and Print
 print p;
-Select p such that Follows*(9, p);
+Select p such that Follows*(9, p)
 10
 1000
 22 - Statement and Statement 1
 stmt s1, s2;
-Select s1 such that Follows*(s1, s2);
+Select s1 such that Follows*(s1, s2)
 1, 2, 3, 4, 9, 11
 1000
 23 - Statement and Statement 1
 stmt s1, s2;
-Select s2 such that Follows*(s1, s2);
-2, 3, 4, 10, 12
+Select s2 such that Follows*(s1, s2)
+2, 3, 4, 8, 10, 12
 1000
