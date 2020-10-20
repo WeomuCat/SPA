@@ -90,7 +90,7 @@ dog
 5000
 19 - Out of Scope, Select Assign
 assign a;
-Select a such that Modifies ("main", "cat") pattern a (_, _)
+Select a such that Modifies ("main", "horse") pattern a (_, _)
 none
 5000
 20 - Out of Scope, Modifies but different Vairable

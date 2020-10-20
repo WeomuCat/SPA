@@ -26,7 +26,7 @@ bProc, cProc
 6 - Calls Procedure and Procedure
 procedure p1, p2;
 Select <p1, p2> such that Calls (p1, p2)
-aProc bProc, aProc cProc, bProc dProc, cProc dProc
+aProc bProc, aProc cProc, bProc cProc, bProc dProc, cProc dProc
 1000
 7 - Calls* Name and Name 1
 
@@ -46,15 +46,15 @@ FALSE
 10 - Calls* Procedure and Name
 procedure p;
 Select p such that Calls* (p, "dProc")
-aProc, bProc, cProc;
+aProc, bProc, cProc
 1000
 11 - Calls* Name and Procedure
 procedure p;
 Select p such that Calls* ("aProc", p)
-bProc, cProc, dProc;
+bProc, cProc, dProc
 1000
 12 - Calls* Procedure and Procedure
 procedure p1, p2;
-Select <p2, p1> such that Calls* (p1, p2)
-aProc bProc, aProc cProc, aProc dProc, bProc dProc, cProc dProc
-1000
+Select <p1, p2> such that Calls* (p1, p2)
+aProc bProc, aProc cProc, aProc dProc, bProc dProc, cProc dProc, bProc cProc
+2000
