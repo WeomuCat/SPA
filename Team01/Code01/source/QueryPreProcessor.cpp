@@ -1,3 +1,4 @@
+#include <queue>
 #include <regex>
 #include <string>
 #include <unordered_map>
@@ -15,6 +16,7 @@
 
 const std::regex name_format_("[a-zA-Z][a-zA-Z0-9]*");
 const std::regex integer_format_("[0-9]+");
+const std::regex identity_format_("\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"");
 const std::regex attr_ref_format_("[a-zA-Z][a-zA-Z0-9]*\\.(procName|varName|value|stmt#)");
 const std::regex clause_pattern_if_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)");
 const std::regex clause_pattern_while_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)");
@@ -163,22 +165,77 @@ QueryNode QueryPreProcessor::createResultNode(PROCESSED_SYNONYMS proc_s, RESULT 
 	}
 }
 
-INDEX QueryPreProcessor::getNextClauseIndex(CLAUSES c, INDEX current_index, INDEX such_that_index, INDEX pattern_index) {
-	int next_index;
+NEXT_INDICES QueryPreProcessor::getNextClauseIndex(CLAUSES c, INDEX current_index) {
+	NEXT_INDICES next_indices;
+	INDEX starting_index;
+	INDEX ending_index;
+	std::priority_queue<int, std::vector<int>, std::greater<int>> index_queue;
+	
+	if (current_index != -1) {
+		INDEX such_that_index = c.find("such that", current_index);
+		INDEX pattern_index = c.find("pattern", current_index);
+		INDEX with_index = c.find("with", current_index);
 
-	if (such_that_index != -1 && pattern_index != -1) {
-		next_index = std::min(such_that_index, pattern_index);
-	}
-	else if (such_that_index == -1) {
-		// 'such that' is not found
-		next_index = pattern_index;
+		if (such_that_index != -1) {
+			index_queue.push(such_that_index);
+		}
+		if (pattern_index != -1) {
+			index_queue.push(pattern_index);
+		}
+		if (with_index != -1) {
+			index_queue.push(with_index);
+		}
+
+		if (index_queue.empty()) {
+			starting_index = -1;
+		}
+		else {
+			starting_index = index_queue.top();
+			index_queue.pop();
+		}
+
+		if (starting_index == such_that_index) {
+			// check if two consec suchthat-cl
+			INDEX next_such_that = c.find("such that", starting_index + 1);
+
+			if (next_such_that != -1) {
+				index_queue.push(next_such_that);
+			}
+		}
+		else if (starting_index == pattern_index) {
+			// check if two consec pattern-cl
+			INDEX next_pattern = c.find("pattern", starting_index + 1);
+
+			if (next_pattern != -1) {
+				index_queue.push(next_pattern);
+			}
+		}
+		else {
+			// check if two consec with-cl
+			INDEX next_with = c.find("with", starting_index + 1);
+
+			if (next_with != -1) {
+				index_queue.push(next_with);
+			}
+		}
+
+		if (index_queue.empty()) {
+			ending_index = -1;
+		}
+		else {
+			ending_index = index_queue.top();
+			index_queue.pop();
+		}
 	}
 	else {
-		// 'pattern' is not found
-		next_index = such_that_index;
+		starting_index = -1;
+		ending_index = -1;
 	}
 
-	return next_index;
+	next_indices.push_back(starting_index);
+	next_indices.push_back(ending_index);
+
+	return next_indices;
 }
 
 ARGUMENTS QueryPreProcessor::getArguments(SINGLE_CLAUSE c) {
@@ -245,7 +302,7 @@ INFIX_EXPR QueryPreProcessor::tokenizeExpression(EXPRESSION e) {
 	return infix_e;
 }
 
-int QueryPreProcessor::getTokenPriority(TOKEN t) {
+INTEGER QueryPreProcessor::getTokenPriority(TOKEN t) {
 	// var & const < '+' & '-' < '*' & '/'
 
 	if (t.compare("+") == 0 || t.compare("-") == 0) {
@@ -432,14 +489,19 @@ QueryNode QueryPreProcessor::createArgumentNode(PROCESSED_SYNONYMS proc_s, SINGL
 		// argument is an integer
 		arg_node.setIntegerNode(std::stoi(arg));
 	}
-	else {
+	else if (std::regex_match(arg, identity_format_)) {
 		// argument is an identity
 		arg_node.setIdentityNode(arg.substr(1, arg.length() - 2));
 
 	}
+	else {
+		// argument is an attribute
+		SYNONYM_NAME s = arg.substr(0, arg.find("."));
+		ATTRIBUTE_STRING attr_name = arg.substr(arg.find(".") + 1);
+		arg_node.setAttrNode(s, attr_name);
+	}
 
 	return arg_node;
-
 }
 
 QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c) {
@@ -499,10 +561,9 @@ QueryNode QueryPreProcessor::createRelationNode(PROCESSED_SYNONYMS proc_s, SINGL
 	else if (is_syntax_valid) {
 		// semantics invalid
 		QueryNode invalid_follows_node = QueryNode();
-		invalid_follows_node.setNodeType("Follows");
+		invalid_follows_node.setNodeType({ QueryNodeType::follows });
 
 		return invalid_follows_node;
-		
 	}
 	else {
 		// syntax invalid
@@ -572,16 +633,73 @@ QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE
 	else if (is_syntax_valid) {
 		// semantics invalid
 		QueryNode invalid_pattern_node = QueryNode();
-		invalid_pattern_node.setNodeType("pattern");
+		invalid_pattern_node.setNodeType({ QueryNodeType::pattern });
 
 		return invalid_pattern_node;
-
 	}
 	else {
 		// syntax invalid
 		return null_node_;
 	}
 
+}
+
+QueryNode QueryPreProcessor::createWithNode(PROCESSED_SYNONYMS proc_s, SINGLE_CLAUSE c) {
+	// returns QueryNode of QueryNodeType::unassigned if clause is invalid syntatically
+	// returns pattern QueryNode with no children if clause is invalid semantically
+
+	bool is_valid = true;
+	bool is_syntax_valid = true;
+	QueryNode with_node = QueryNode();
+	with_node.setNodeType({ QueryNodeType::with });
+
+	int equals_index = c.find("=");
+	ARGUMENTS refs;
+	SINGLE_ARGUMENT first_ref = trimWhitespaces(c.substr(0, equals_index));;
+	SINGLE_ARGUMENT second_ref = trimWhitespaces(c.substr(equals_index+1));;
+
+	refs.push_back(first_ref);
+	refs.push_back(second_ref);
+
+	if (!QueryValidator::isValidWithArguments(proc_s, refs)) {
+		is_valid = false;
+
+		if (std::regex_match(first_ref, name_format_) && !QueryValidator::isSynonymDeclared(proc_s, first_ref)) {
+			is_syntax_valid = false;
+		}
+		else if (std::regex_match(second_ref, name_format_) && !QueryValidator::isSynonymDeclared(proc_s, second_ref)) {
+			is_syntax_valid = false;
+		}
+		else if (std::regex_match(first_ref, attr_ref_format_) &&
+			!QueryValidator::isSynonymDeclared(proc_s, first_ref.substr(0, first_ref.find(".")))) {
+			is_syntax_valid = false;
+		}
+		else if (std::regex_match(second_ref, attr_ref_format_) &&
+			!QueryValidator::isSynonymDeclared(proc_s, second_ref.substr(0, second_ref.find(".")))) {
+			is_syntax_valid = false;
+		}
+	}
+
+	if (is_valid) {
+		QueryNode first_ref_node = createArgumentNode(proc_s, first_ref);
+		QueryNode second_ref_node = createArgumentNode(proc_s, second_ref);
+
+		QueryNode with_node_children[] = { first_ref_node, second_ref_node };
+		with_node.setChildren(with_node_children, 2);
+
+		return with_node;
+	}
+	else if (is_syntax_valid) {
+		// semantics invalid
+		QueryNode invalid_with_node = QueryNode();
+		invalid_with_node.setNodeType({ QueryNodeType::with });
+
+		return invalid_with_node;
+	}
+	else {
+		// syntax invalid
+		return null_node_;
+	}
 }
 
 SPLIT_QUERY QueryPreProcessor::splitQuery(QUERY q) {
@@ -689,11 +807,11 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 		select_node.setNodeType({ QueryNodeType::select });
 
 		RESULT result_clause;
-		int such_that_index = c.find("such that");
-		int pattern_index = c.find("pattern");
-		int next_index = getNextClauseIndex(c, 0, such_that_index, pattern_index);
+		NEXT_INDICES next_indices = getNextClauseIndex(c, 0);
+		int clause_start_index = next_indices[0];
+		int clause_end_index = next_indices[1];
 
-		if (next_index == -1) {
+		if (clause_start_index == -1) {
 			// no such that nor pattern clause
 			result_clause = trimWhitespaces(c.substr(6));
 
@@ -708,9 +826,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 					if (result_node.getNodeType() == QueryNodeType::boolean) {
 						is_bool = true;
 					}
-
-					QueryNode select_children[] = { result_node };
-					select_node.setChildren(select_children, 1);
+					select_node.addChild(result_node);
 				}
 			}
 			else {
@@ -718,12 +834,8 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 			}
 		}
 		else {
-			// select node will have maximum 3 children
-			QueryNode select_children[3];
-			int child_index = 0;
-
 			// extract result clause
-			result_clause = trimWhitespaces(c.substr(6, next_index - 6));
+			result_clause = trimWhitespaces(c.substr(6, clause_start_index - 6));
 
 			if (QueryValidator::isValidResultFormat(result_clause)) {
 				// create result clause node and set as first child
@@ -737,55 +849,80 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						is_bool = true;
 					}
 
-					select_children[child_index] = result_node;
-					child_index++;
+					select_node.addChild(result_node);
 				}
 			}
 			else {
 				is_valid = false;
 			}
 
-			while (next_index != -1) {
-				// check if next clause is "such that" or "pattern"
+			while (clause_start_index != -1) {
+				// check type of clause
 				// get clause
 				// check format validity
 				// get clause arguments
 				// check argument validity
 				// create clause node
-				// add to children array
-				if (next_index == such_that_index) {
-					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(next_index + 9, pattern_index - (next_index + 9)));
+				// add to children of select node
+				if (c[clause_start_index] == 's') {
+					// suchthat-cl
+					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index + 9,
+						clause_end_index - (clause_start_index + 9)));
 
-					if (!QueryValidator::isValidRelationFormat(current_c)) {
-						is_valid = false;
-						is_syntax_valid = false;
-						break;
+					bool is_last = false;
+					INDEX split_index = 0;
+					INDEX and_index = current_c.find("and", split_index);
+
+					if (and_index == -1) {
+						is_last = true;
 					}
 
-					QueryNode such_that_node = QueryNode();
-					such_that_node.setNodeType({ QueryNodeType::such_that });
+					while (is_valid && (and_index != -1 || is_last)) {
+						SINGLE_CLAUSE rel_c = trimWhitespaces(current_c.substr(split_index, and_index - split_index));
 
-					QueryNode relation_node = createRelationNode(proc_s, current_c);
+						if (!QueryValidator::isValidRelationFormat(rel_c)) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
 
-					if (relation_node.getNodeType() == QueryNodeType::unassigned) {
-						is_valid = false;
-						is_syntax_valid = false;
-						break;
-					}
-					else if (relation_node.getNodeType() == QueryNodeType::follows && relation_node.getChildren().size() == 0) {
-						is_valid = false;
-						break;
+						QueryNode such_that_node = QueryNode();
+						such_that_node.setNodeType({ QueryNodeType::such_that });
 
-					}
-					else {
-						QueryNode such_that_node_children[] = { relation_node };
-						such_that_node.setChildren(such_that_node_children, 1);
-						select_children[child_index] = such_that_node;
-						child_index++;
+						QueryNode relation_node = createRelationNode(proc_s, rel_c);
+
+						if (relation_node.getNodeType() == QueryNodeType::unassigned) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
+						else if (relation_node.getNodeType() == QueryNodeType::follows && relation_node.getChildren().size() == 0) {
+							is_valid = false;
+							break;
+
+						}
+						else {
+							such_that_node.addChild(relation_node);
+							select_node.addChild(such_that_node);
+						}
+						
+						
+						if (is_last) {
+							is_last = false;
+						}
+						else {
+							split_index = and_index + 3;
+							and_index = current_c.find("and", split_index);
+
+							if (and_index == -1) {
+								is_last = true;
+							}
+						}
 					}
 				}
-				else {
-					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(next_index, such_that_index - next_index));
+				else if (c[clause_start_index] == 'p') {
+					// pattern-cl
+					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index, clause_end_index - clause_start_index));
 
 					if (!QueryValidator::isValidPatternFormat(current_c)) {
 						is_valid = false;
@@ -806,18 +943,66 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 					}
 					else {
-						select_children[child_index] = pattern_node;
-						child_index++;
+						select_node.addChild(pattern_node);
+					}
+				
+				}
+				else {
+					// with-cl
+					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index + 4,
+						clause_end_index - (clause_start_index + 4)));
+
+					bool is_last = false;
+					INDEX split_index = 0;
+					INDEX and_index = current_c.find("and", split_index);
+
+					if (and_index == -1) {
+						is_last = true;
+					}
+
+					while (is_valid && (and_index != -1 || is_last)) {
+						SINGLE_CLAUSE with_c = trimWhitespaces(current_c.substr(split_index, and_index - split_index));
+
+ 						if (!QueryValidator::isValidWithFormat(with_c)) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
+
+						QueryNode with_node = createWithNode(proc_s, with_c);
+
+						if (with_node.getNodeType() == QueryNodeType::unassigned) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
+						else if (with_node.getNodeType() == QueryNodeType::with && with_node.getChildren().size() == 0) {
+							is_valid = false;
+							break;
+
+						}
+						else {
+							select_node.addChild(with_node);
+						}
+
+						if (is_last) {
+							is_last = false;
+						}
+						else {
+							split_index = and_index + 3;
+							and_index = current_c.find("and", split_index);
+
+							if (and_index == -1) {
+								is_last = true;
+							}
+						}
 					}
 				}
 
-				such_that_index = c.find("such that", next_index + 1);
-				pattern_index = c.find("pattern", next_index + 1);
-				next_index = getNextClauseIndex(c, next_index, such_that_index, pattern_index);
+				next_indices = getNextClauseIndex(c, clause_end_index);
+				clause_start_index = next_indices[0];
+				clause_end_index = next_indices[1];
 			}
-
-			// set children of select node
-			select_node.setChildren(select_children, child_index);
 		}
 	}
 

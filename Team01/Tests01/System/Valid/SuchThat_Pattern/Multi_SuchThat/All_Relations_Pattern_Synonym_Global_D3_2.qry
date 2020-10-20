@@ -25,7 +25,7 @@ none
 6 - Parent and Parent*
 while w; if i;
 Select <i, w> such that Parent (i, w) and Parent* (i, 26) pattern w ("yon", _) and pattern i ("zero", _, _)
-<22, 30>
+22 30
 5000
 7 - Parent* and Modifies and Uses
 while w; if i; stmt s; variable v;
@@ -35,7 +35,7 @@ zero, ichi, ni, go, roku, nana, hachi, kyuu
 8 - Modifies and Modfies and Modifies
 assign a1, a2, a3; variable v;
 Select <a1, a2, a3> such that Modifies (a1, v) and Modifies (a2, v) and Modifies (a3, v) pattern a1 (v, "kyuu + hachi") and pattern a2 (_, "hachi + kyuu") and pattern a3 (v, _)
-<13, 98, 13>, <13, 98, 98>
+13 98 13, 13 98 98
 5000
 9 - Uses and Uses and Uses
 assign a1, a2, a3; variable v;
@@ -50,7 +50,7 @@ Select i.stmt# such that Modifies (i, v) and Uses (p, v) and Calls (p, "ninth") 
 11 - Assign patterns
 assign a1, a2, a3, a4, a5, a6, a7;
 Select <a1, a2.stmt#, a3, a4.stmt#, a5, a6.stmt#, a7> such that Follows (a1, a2) and Follows (a2, a3) and Next (a3, a4) and Next (a4, a5) and Follows (a5, a6) and Next (a6, a7) pattern a1 ("zero", _) and pattern a2 (_, _"ni + san"_) and pattern a3 ("ni", _"san + yon + go"_) and pattern a4 (_, _) and pattern a5 ("yon", "go + roku + nana + hachi + kyuu")
-<91, 92, 93, 94, 95, 96, 97>
+91 92 93 94 95 96 97
 5000
 12 - If patterns
 if i1, i2, i3, i4, i5;

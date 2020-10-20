@@ -328,4 +328,48 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{bd5c2441-f42e-4ddc-a072-fec4be426e5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\ASTNode">
+      <UniqueIdentifier>{6397e0a9-bc3d-48f6-be3b-2093e692c7e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Relationship">
+      <UniqueIdentifier>{018b0172-778d-4c05-a3be-f1b99b8b3246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\DesignEntity">
+      <UniqueIdentifier>{8ca6a5ec-9513-4eaf-aae5-a8d83bae7988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{11b38b39-cc97-4a22-8254-901153aea584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ASTNode">
+      <UniqueIdentifier>{898fbde7-7d93-40aa-b327-e6663cca54e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Relationship">
+      <UniqueIdentifier>{2d672646-8175-45f1-8686-6fb1656b604a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DesignEntity">
+      <UniqueIdentifier>{3078786e-0c57-4506-9331-cdd1579c1163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\PKB">
+      <UniqueIdentifier>{9a60f144-8eb3-4d4e-a193-44764b9b3e6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Parser">
+      <UniqueIdentifier>{befdde12-2173-4b0d-a11e-ef002bdacfd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\QP">
+      <UniqueIdentifier>{ab046819-d9a4-4ae4-8b6b-48904bbb1387}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\QP">
+      <UniqueIdentifier>{c41a6c6b-d2d1-41b5-a4a0-31688929f460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\PKB">
+      <UniqueIdentifier>{16a0555c-8653-4826-be5a-e7b041f794af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Parser">
+      <UniqueIdentifier>{430792d8-d5ba-4dd0-a3f1-4ad2cf440ee5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>

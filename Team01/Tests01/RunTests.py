@@ -119,6 +119,14 @@ def find_autotester_path():
 # Find all source files
 def get_source_paths():
     printinfo("Finding all source files...")
+
+    # If source_filter is None, match all file names
+    # Else, match from start of file name
+    if source_filter is None:
+        name_regex = ".+"
+    else:
+        name_regex = "{}.*".format(re.escape(source_filter))
+
     source_paths = []
     # BFS
     depth = 0
@@ -128,17 +136,20 @@ def get_source_paths():
         # No more directories to search
         if len(queue) == 0:
             return source_paths
-        # The maximum depth is non-negative, and
+
+        # The maximum depth is not None, and
         # The current depth exceeds the maximum depth
-        if max_source_depth >= 0 and depth > max_source_depth:
+        if max_source_depth is not None and depth > max_source_depth:
             return source_paths
+
         # Get current path
         root_path = queue.popleft()
         # Find all files and directories in the current path
         for file_name in os.listdir(root_path):
             path = os.path.join(root_path, file_name)
             if os.path.isfile(path):
-                match = re.search("^(.+)\\.([^.]+)$", file_name)
+                regex = "^({})\\.([^.]+)$".format(name_regex)
+                match = re.search(regex, file_name)
                 if not match:
                     continue
                 name = match.group(1)
@@ -860,7 +871,8 @@ parser.add_argument("-p", "--publish", action="store_true", help="Creates compil
 parser.add_argument("-r", "--run", action="store_true", help="Tests all .src files using AutoTester")
 parser.add_argument("-s", "--summarize", action="store_true", help="Summarize 'coverage' of all .qry and .src files")
 parser.add_argument("tests_dir_path", help="Path of directory containing tests")
-parser.add_argument("-d", "--depth", type=int, default=-1, help="Maximum folder depth of source files to include.")
+parser.add_argument("-d", "--depth", type=int, help="Maximum folder depth of source files to include.")
+parser.add_argument("-f", "--filter", help="Name of source files to include.")
 args = parser.parse_args()
 
 # If no options are selected, run by default
@@ -871,6 +883,7 @@ if not (args.check or args.label or args.publish or args.run or args.summarize):
 tests_dir_path = args.tests_dir_path
 tests_dir_path = os.path.abspath(tests_dir_path)
 max_source_depth = args.depth
+source_filter = args.filter
 if not os.path.isdir(tests_dir_path):
     printerr("'{}' is not a directory!".format(tests_dir_path))
 
