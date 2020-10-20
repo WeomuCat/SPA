@@ -70,7 +70,7 @@ FALSE
 5000
 15 - Follows* and Next*
 
-Select BOOLEAN such that Follows* (78, 80) and Next (71, 70)
+Select BOOLEAN such that Follows* (78, 80) and Next (58, 59)
 TRUE
 5000
 16 - Parent and Parent
@@ -101,7 +101,7 @@ TRUE
 21 - Parent and Next*
 
 Select BOOLEAN such that Parent (23, 25) and Next* (19, 23)
-FALSE
+TRUE
 5000
 22 - Parent* and Parent*
 
@@ -110,12 +110,12 @@ TRUE
 5000
 23 - Parent* and Modifies
 
-Select BOOLEAN such that Parent* (16, 19) and Modifies* (22, "eee")
+Select BOOLEAN such that Parent* (16, 19) and Modifies (22, "eee")
 TRUE
 5000
 24 - Parent* and Uses
 
-Select BOOLEAN such that Parent* (16, 19) and Uses* (21, "bbb")
+Select BOOLEAN such that Parent* (16, 19) and Uses (21, "bbb")
 TRUE
 5000
 25 - Parent* and Next
@@ -145,22 +145,22 @@ TRUE
 5000
 30 - Modifies and Next
 
-Select BOOLEAN such that Modifies (25, "aaa") and Next ("aProc", "bProc")
+Select BOOLEAN such that Modifies (25, "aaa") and Next (1, 2)
 TRUE
 5000
 31 - Uses and Uses
 
-Select BOOLEAN such that Uses (37, "fff") and Uses (45, "eee")
+Select BOOLEAN such that Uses (37, "eee") and Uses (44, "hhh")
 TRUE
 5000
 32 - Uses and Calls
 
-Select BOOLEAN such that Uses (37, "fff") and Calls ("aProc", "bProc")
+Select BOOLEAN such that Uses (37, "eee") and Calls ("aProc", "bProc")
 TRUE
 5000
 33 - Uses and Next
 
-Select BOOLEAN such that Uses (37, "fff") and Next (56, 47)
+Select BOOLEAN such that Uses (37, "eee") and Next (56, 57)
 TRUE
 5000
 34 - Calls and Calls
@@ -180,21 +180,21 @@ FALSE
 5000
 37 - Next and Next
 
-Select BOOLEAN such that Next (79, 80) and Next (84, 79)
-TRUE
+Select BOOLEAN such that Next (79, 80) and Next (84, 86)
+FALSE
 5000
 38 - Next and Next*
 
 Select BOOLEAN such that Next (79, 80) and Next* (84, 85)
-FALSE
+TRUE
 5000
 39 - Next* and Next*
 
-Select BOOLEAN such that Next* (63, 86) and Next* (102, 96)
+Select BOOLEAN such that Next* (8, 35) and Next* (51, 53)
 TRUE
 5000
 40 - All in One
 
-Select BOOLEAN such that Follows (90, 91) and Follows* (90, 107) and Parent (93, 94) and Parent* (92, 96) and Modifies (102, "fff") and Uses (98, "ccc") and Calls ("cProc", "dProc") and Calls* ("aProc", "dProc") and Next (74, 75) and Next* (7, 12)
+Select BOOLEAN such that Follows (80, 81) and Follows* (70, 81) and Parent (70, 71) and Parent* (16, 24) and Modifies (45, "fff") and Uses (33, "fff") and Calls ("cProc", "dProc") and Calls* ("aProc", "dProc") and Next (73, 75) and Next* (7, 12)
 TRUE
 5000

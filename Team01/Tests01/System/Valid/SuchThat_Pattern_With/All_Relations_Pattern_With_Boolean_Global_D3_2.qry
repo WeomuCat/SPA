@@ -10,7 +10,7 @@ TRUE
 5000
 3 - Modifies
 if i; assign a;
-Select BOOLEAN such that Modifies (i, a) pattern i ("yon", _, _) and pattern a ("hachi", _"4"_) with i.stmt# = 24
+Select BOOLEAN such that Modifies (i, "hachi") pattern i ("yon", _, _) and pattern a ("hachi", _"4"_) with i.stmt# = 24
 TRUE
 5000
 4 - Uses
@@ -35,7 +35,7 @@ FALSE
 5000
 8 - Modifies and Uses
 while w; if i; variable v;
-Select BOOLEAN such that Modifies (w, v) and Uses (i, v) pattern i (v, _, _) and pattern w (v, _) with v.varName = ichi
+Select BOOLEAN such that Modifies (w, v) and Uses (i, v) pattern i (v, _, _) and pattern w (v, _) with v.varName = "ichi"
 TRUE
 5000
 9 - Calls and Modifies and Uses

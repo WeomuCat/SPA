@@ -1,7 +1,7 @@
 procedure vtuber {
     read ame;
     print ina;
-    ina = ame + gura / cali % kiara - ina;
+    ina = ame + gura / calli % kiara - ina;
     if (kiara == calli) then {
         read ina;
         while (ina == 7) {

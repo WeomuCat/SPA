@@ -2516,7 +2516,10 @@
 	PRECEDENCE Parser::takesPrecedent(OP_TYPE_ENUM l_op, OP_TYPE_ENUM r_op) {
 		//Returns 1 if left operator takes precendence
 		if (l_op == OperatorTypeEnum::opMult || l_op == OperatorTypeEnum::opDiv || l_op == OperatorTypeEnum::opMod) {
-			if (r_op == OperatorTypeEnum::opPlus || l_op == OperatorTypeEnum::opMin) {
+			if (r_op == OperatorTypeEnum::opMult || r_op == OperatorTypeEnum::opDiv || r_op == OperatorTypeEnum::opMod) {
+				return 0;
+			}
+			else {
 				return 1;
 			}
 		}
@@ -2524,6 +2527,9 @@
 			if (r_op == OperatorTypeEnum::opMult || r_op == OperatorTypeEnum::opDiv || r_op == OperatorTypeEnum::opMod) {
 				//-1 if right operator takes precedence
 				return -1;
+			}
+			else {
+				return 0;
 			}
 		}
 		else {
