@@ -5,8 +5,9 @@ TRUE
 5000
 2 - Follows and Parent
 assign a; while w;
-Select BOOLEAN such that Follows (w, _) and Parent (w, a) pattern w (nana, _) and pattern a (_, _"2"_)
+Select BOOLEAN such that Follows (w, _) and Parent (w, a) pattern w ("nana", _) and pattern a (_, _"2"_)
 TRUE
+5000
 3 - Follows* and Modifies
 if i; variable v;
 Select BOOLEAN such that Follows* (12, i) and Modifies (i, v) pattern i (v, _, _)
@@ -19,8 +20,8 @@ TRUE
 5000
 5 - Follows and Next* and Uses
 stmt s; assign a; variable v;
-Select BOOLEAN such that Follows (a, s) and Next* (s, a) and Uses (a, v) pattern a (v, _)
-FALSE
+Select BOOLEAN such that Follows (a, s) and Next* (s, a) and Uses (a, v) pattern a (v, _"ichi"_)
+TRUE
 5000
 6 - Parent and Parent*
 while w; if i;

@@ -7,6 +7,7 @@ seventh
 assign a; while w;
 Select a.stmt# such that Follows (w, _) and Parent (w, a) pattern w (nana, _) and pattern a (_, _"2"_)
 44, 46
+5000
 3 - Follows* and Modifies
 if i; variable v;
 Select v such that Follows* (12, i) and Modifies (i, v) pattern i (v, _, _)
@@ -15,7 +16,7 @@ ni, go
 4 - Follows and Uses
 stmt s; if i; variable v;
 Select i such that Follows (s, i) and Modifies (s, v) pattern i (v, _, _)
-77
+16,24,58,78
 5000
 5 - Follows and Next* and Uses
 stmt s; assign a; variable v;
