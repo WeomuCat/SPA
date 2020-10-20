@@ -455,6 +455,7 @@ QueryNode QueryPreProcessor::createExpressionNode(EXPRESSION e) {
 				// if final node is a single var/const
 				// create expr ast node and set final node as left node
 				std::shared_ptr<ExpressionNode> expr_node = std::make_shared<ExpressionNode>();
+				expr_node->setExpressionType(ExpressionTypeEnum::none);
 				expr_node->setLeftAstNode(term_stack.back());
 				term_stack.pop_back();
 				term_stack.push_back(expr_node);
