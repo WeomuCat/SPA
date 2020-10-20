@@ -208,3 +208,8 @@ call c1, c2;
 Select <c1.procName, c2.procName>
 bProc bProc,bProc cProc,cProc bProc,cProc cProc
 1000
+37 - Select BOOLEAN
+
+Select BOOLEAN
+FALSE
+1000
