@@ -134,6 +134,16 @@ void WithClause::getWithResult(PKB pkb, bool& clause_bool, ResultList& clause_re
 		getIntegerSynonymResult(lhs, rhs, clause_bool, clause_result_list);
 		return;
 	}
+	if (rhs_type == QueryNodeType::integer && lhs_type == QueryNodeType::synonym && lhs.getSynonymType() == QuerySynonymType::prog_line) {
+		getIntegerSynonymResult(rhs, lhs, clause_bool, clause_result_list);
+		return;
+	}
+
+	// 10. synonym + synonym		-> [int] with n1 = n2
+	if (lhs_type == QueryNodeType::synonym && lhs.getSynonymType() == QuerySynonymType::prog_line && rhs_type == QueryNodeType::synonym && rhs.getSynonymType() == QuerySynonymType::prog_line) {
+		getSynonymSynonymResult(lhs, rhs, clause_bool, clause_result_list);
+		return;
+	}
 
 }
 
@@ -186,6 +196,7 @@ void WithClause::getAttrrefStringResult(QueryNode attrref_node, QueryNode string
 
 void WithClause::getAttrrefSynonymResult(QueryNode attrref_node, QueryNode synonym_node, bool& clause_bool, ResultList& clause_result_list) {
 	//3. attrRef + synonym		->[int] with n = c.value | with c.value = n		->the only synonym is prog_line
+	
 	SYNONYM_NAME synonym_name = attrref_node.getString();
 	SYNONYM_TYPE synonym_type = processed_synonyms.find(synonym_name)->second.getSynonymType();
 	ATTRIBUTE attribute = attrref_node.getAttr();
@@ -276,6 +287,44 @@ void WithClause::getIntegerIntegerResult(QueryNode int_node1, QueryNode int_node
 		clause_bool = true;
 	}
 	else {
+		clause_bool = true;
+	}
+}
+
+void WithClause::getIntegerSynonymResult(QueryNode int_node, QueryNode synonym_node, bool& clause_bool, ResultList& clause_result_list) {
+	// 9. INTEGER + synonym		->[int] with n = 10 | with 10 = n
+	INTEGER int_num = int_node.getInteger();
+	std::string int_num_string = std::to_string(int_num);
+
+	STMT_NUM_LIST prog_line_values = pkb.getStatementNumList();
+	SYNONYM_NAME prog_line_synonym_name = synonym_node.getString();
+
+	SYNONYM_VALUES_LIST final_values;
+	for (int prog_line_value : prog_line_values) {
+		std::string prog_line_value_string = std::to_string(prog_line_value);
+		if (prog_line_value_string.compare(int_num_string) == 0) {
+			final_values.push_back(prog_line_value_string);
+		}
+	}
+	clause_result_list.addColumn(prog_line_synonym_name, final_values);
+	
+	if (final_values.size() > 0) {
+		clause_bool = true;
+	}
+}
+
+void WithClause::getSynonymSynonymResult(QueryNode synonym_node1, QueryNode synonym_node2, bool& clause_bool, ResultList& clause_result_list) {
+	// 10. synonym + synonym		-> [int] with n1 = n2
+
+	STMT_NUM_LIST prog_line_values = pkb.getStatementNumList();
+	SYNONYM_NAME synonym1_name = synonym_node1.getString();
+	SYNONYM_NAME synonym2_name = synonym_node1.getString();
+	
+	clause_result_list.addColumn(synonym1_name, prog_line_values);
+	clause_result_list.addColumn(synonym2_name, prog_line_values);
+
+
+	if (prog_line_values.size() > 0) {
 		clause_bool = true;
 	}
 }

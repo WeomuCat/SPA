@@ -6553,5 +6553,182 @@ namespace IntegrationTesting
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
+
+		TEST_METHOD(evaluateQuery_SelectN_WithIntegerN_ReturnsN)
+		{
+			// Query: "constant c; prog_line n; Select n such that with 3 = n"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::constant }, "c");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"n", progline_node}, {"c", stmt_node} };
+
+			// Select: n
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: 3
+			QueryNode child_child1 = QueryNode();
+			child_child1.setIntegerNode(3);
+
+			// arg 2: n
+			QueryNode child_child2 = QueryNode();
+			child_child2.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "3";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectN_WithIntegerN_ReturnsEmpty)
+		{
+			// Query: "constant c; prog_line n; Select n such that with 100 = n"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::constant }, "c");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"n", progline_node}, {"c", stmt_node} };
+
+			// Select: n
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: 3
+			QueryNode child_child1 = QueryNode();
+			child_child1.setIntegerNode(100);
+
+			// arg 2: n
+			QueryNode child_child2 = QueryNode();
+			child_child2.setSynonymNode({ QuerySynonymType::prog_line }, "n");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectN1_WithN1N2_ReturnsN1)
+		{
+			// Query: "prog_line n1, n2; Select n1 such that with n1 = n2"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::prog_line }, "n1");
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::prog_line }, "n2");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"n1", progline_node}, {"n2", stmt_node} };
+
+			// Select: n1
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::prog_line }, "n1");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: n1
+			QueryNode child_child1 = QueryNode();
+			child_child1.setSynonymNode({ QuerySynonymType::prog_line }, "n1");
+
+			// arg 2: n2
+			QueryNode child_child2 = QueryNode();
+			child_child2.setSynonymNode({ QuerySynonymType::prog_line }, "n2");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
 	};
 }
