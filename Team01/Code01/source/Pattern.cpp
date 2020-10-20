@@ -196,7 +196,7 @@ VAR_NAME_LIST Pattern::getVarNameListFromAst(AST_NODE_PTR ast) {
 }
 
 bool Pattern::exactExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle) {
-    // Do BFS for both trees concurrently
+    // Algorithm: BFS
     std::queue<AST_NODE_PTR> queue1;
     std::queue<AST_NODE_PTR> queue2;
     queue1.push(haystack);
@@ -212,18 +212,22 @@ bool Pattern::exactExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR nee
             return false;
         }
 
-        // Push children of current nodes to queues
-        for (AST_NODE_PTR c : getExpressionNodeChildren(n1)) {
-            queue1.push(c);
+        // If both nodes are nullptr, skip as they have no children!
+        if (n1 == nullptr && n2 == nullptr) {
+            continue;
         }
-        for (AST_NODE_PTR c : getExpressionNodeChildren(n2)) {
-            queue2.push(c);
-        }
+
+        // Push children of nodes to queues
+        queue1.push(getExpressionNodeLeft(n1));
+        queue1.push(getExpressionNodeRight(n1));
+
+        queue2.push(getExpressionNodeLeft(n2));
+        queue2.push(getExpressionNodeRight(n2));
     }
 
-    // If both queues are empty, we have traversed both trees, and they are exactly equal
-    // If one queue is non empty, there are extra children in one of the trees, and they are not exactly equal
-    return queue1.empty() && queue2.empty();
+    // Both queues always have the same length!
+    // If both queues are empty, it means that both trees are equal :)
+    return true;
 }
 
 bool Pattern::partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle) {
