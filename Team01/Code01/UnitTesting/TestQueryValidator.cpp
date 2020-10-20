@@ -22,6 +22,7 @@ namespace UnitTesting
 			QUERY q7 = "stmt s; Select s pattern a(_, _)";
 			QUERY q8 = "stmt s; Select s such that Follows(1, s) pattern a(_, _)";
 			QUERY q9 = "stmt s; Select s pattern a(_, _) such that Follows(1, s)";
+			QUERY q10 = "Select BOOLEAN";
 
 			Assert::IsTrue(QueryValidator::isValidStructure(q1));
 			Assert::IsTrue(QueryValidator::isValidStructure(q2));
@@ -32,6 +33,7 @@ namespace UnitTesting
 			Assert::IsTrue(QueryValidator::isValidStructure(q7));
 			Assert::IsTrue(QueryValidator::isValidStructure(q8));
 			Assert::IsTrue(QueryValidator::isValidStructure(q9));
+			Assert::IsTrue(QueryValidator::isValidStructure(q10));
 		}
 
 		TEST_METHOD(isValidStructure_Invalid_Success) {

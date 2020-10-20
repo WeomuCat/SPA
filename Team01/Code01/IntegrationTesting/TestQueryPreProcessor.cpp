@@ -237,6 +237,9 @@ namespace IntegrationTesting
 			DECLARATIONS d = "stmt s; read re; print pr; while w; if ifs; assign a; variable v; constant c; procedure p";
 			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
 
+			DECLARATIONS d_empty = "";
+			PROCESSED_SYNONYMS proc_s_empty = qpp.preProcessSynonyms(d_empty);
+
 			CLAUSES c1 = "Select s";
 			CLAUSES c2 = "Select ifs";
 			CLAUSES c3 = "Select v";
@@ -251,7 +254,8 @@ namespace IntegrationTesting
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
 			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
 			PROCESSED_CLAUSES proc_c3 = qpp.preProcessClauses(proc_s, c3);
-			PROCESSED_CLAUSES proc_c4 = qpp.preProcessClauses(proc_s, c4);
+			PROCESSED_CLAUSES proc_c4_1 = qpp.preProcessClauses(proc_s, c4);
+			PROCESSED_CLAUSES proc_c4_2 = qpp.preProcessClauses(proc_s_empty, c4);
 			PROCESSED_CLAUSES proc_c5 = qpp.preProcessClauses(proc_s, c5);
 			PROCESSED_CLAUSES proc_c6 = qpp.preProcessClauses(proc_s, c6);
 			PROCESSED_CLAUSES proc_c7 = qpp.preProcessClauses(proc_s, c7);
@@ -277,8 +281,11 @@ namespace IntegrationTesting
 			Assert::IsTrue(proc_c3.getChildren()[0].getChildren()[0].getSynonymType() == QuerySynonymType::variable);
 			Assert::IsTrue(proc_c3.getChildren()[0].getChildren()[0].getString().compare("v") == 0);
 
-			Assert::IsTrue(proc_c4.getNodeType() == QueryNodeType::select);
-			Assert::IsTrue(proc_c4.getChildren()[0].getNodeType() == QueryNodeType::boolean);
+			Assert::IsTrue(proc_c4_1.getNodeType() == QueryNodeType::select);
+			Assert::IsTrue(proc_c4_1.getChildren()[0].getNodeType() == QueryNodeType::boolean);
+
+			Assert::IsTrue(proc_c4_2.getNodeType() == QueryNodeType::select);
+			Assert::IsTrue(proc_c4_2.getChildren()[0].getNodeType() == QueryNodeType::boolean);
 
 			Assert::IsTrue(proc_c5.getNodeType() == QueryNodeType::select);
 			Assert::IsTrue(proc_c5.getChildren()[0].getNodeType() == QueryNodeType::tuple);
@@ -335,6 +342,9 @@ namespace IntegrationTesting
 			DECLARATIONS d = "stmt s; read re; print pr; while w; if ifs; assign a; variable v; constant c; procedure p";
 			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
 
+			DECLARATIONS d_empty = "";
+			PROCESSED_SYNONYMS proc_s_empty = qpp.preProcessSynonyms(d_empty);
+
 			CLAUSES c1 = "Select";
 			CLAUSES c2 = "Select s1";
 			CLAUSES c3 = "select v";
@@ -346,6 +356,11 @@ namespace IntegrationTesting
 			CLAUSES c9 = "<s1.unknown, s2>";
 			CLAUSES c10 = "<s1, s2.unknown>";
 			CLAUSES c11 = "<s1.unknown>";
+
+			CLAUSES c12 = "Select s";
+			CLAUSES c13 = "Select p.procName";
+			CLAUSES c14 = "Select <s>";
+			CLAUSES c15 = "Select <s, v>";
 
 
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
@@ -360,6 +375,11 @@ namespace IntegrationTesting
 			PROCESSED_CLAUSES proc_c10 = qpp.preProcessClauses(proc_s, c10);
 			PROCESSED_CLAUSES proc_c11 = qpp.preProcessClauses(proc_s, c11);
 
+			PROCESSED_CLAUSES proc_c12 = qpp.preProcessClauses(proc_s_empty, c12);
+			PROCESSED_CLAUSES proc_c13 = qpp.preProcessClauses(proc_s_empty, c13);
+			PROCESSED_CLAUSES proc_c14 = qpp.preProcessClauses(proc_s_empty, c14);
+			PROCESSED_CLAUSES proc_c15 = qpp.preProcessClauses(proc_s_empty, c15);
+
 			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c2.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c3.getNodeType() == QueryNodeType::unassigned);
@@ -371,6 +391,11 @@ namespace IntegrationTesting
 			Assert::IsTrue(proc_c9.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c10.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c11.getNodeType() == QueryNodeType::unassigned);
+
+			Assert::IsTrue(proc_c12.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c13.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c14.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c15.getNodeType() == QueryNodeType::unassigned);
 		}
 
 		TEST_METHOD(preProcessClauses_Follows_Valid_Success) {
