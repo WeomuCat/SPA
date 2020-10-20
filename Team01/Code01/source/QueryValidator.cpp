@@ -25,17 +25,17 @@ const std::regex expression_spec_format_("(\"\\s*([a-zA-Z][a-zA-Z0-9]*|[0-9]+)\\
 /*
 Validation rules:
 		- Query is not empty
-		- Has a declaration
 		- Has 'Select'
+		- If is not 'Select BOOLEAN', should have declarations
 */
 VALIDATION_RESULT QueryValidator ::isValidStructure(QUERY q) {
 	if (q.length() <= 0) {
 		return false;
 	}
-	else if (q.find(";") == -1) {
+	else if (q.find("Select") == -1) {
 		return false;
 	}
-	else if (q.find("Select") == -1) {
+	else if (q.find("BOOLEAN") == -1 && q.find(";") == -1) {
 		return false;
 	}
 	else {
