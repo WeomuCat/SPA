@@ -20,7 +20,7 @@ Select a pattern a ("a", "a")
 1000
 5 - Variable a, Some Brackets Full Pattern
 assign a;
-Select a pattern a ("a", "a + ((c + b + a) + d) + ((dog + meow) + woof) + dog % 2 + 2 % dog / cat * woof + meow * cat;")
+Select a pattern a ("a", "a + ((c + b + a) + d) + ((dog + meow) + woof) + dog % 2 + 2 % dog / cat * woof + meow * cat")
 75
 1000
 6 - Variable a, More Brackets Full Pattern
