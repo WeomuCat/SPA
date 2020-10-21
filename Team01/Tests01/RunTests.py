@@ -566,12 +566,12 @@ def check():
         try:
             ast = parse_source(content)
         except Exception as err:
-            printwarn("Invalid grammar!\nError Message: {}".format(err))
+            printwarn("Invalid grammar! :(\nError Message: {}".format(err))
             continue
 
         printinfo("Valid grammar :)\n")
 
-    printinfo("All checking done! :)")
+    printinfoaccent("All checking done! :)\n")
 
 # Generate .lab files from existing .src files
 def label():
@@ -600,7 +600,7 @@ def label():
         with open(label_full_path, "w") as l:
             l.write("{}\n".format(label_string))
 
-    printinfo("All labelling done! :)")
+    printinfoaccent("All labelling done! :)\n")
 
 def ast_to_lines(ast, indent=0):
     result = []
@@ -664,28 +664,10 @@ def publish():
         printwarn("No source files were found!")
         return
 
+    total_queries = 0
     deps = get_deps_paths(source_paths)
     for index, (source_path, deps_paths) in enumerate(deps):
         source_full_path = "{}.{}".format(source_path, SOURCE_EXTENSION)
-
-        qry_lines = []
-        for queries_path in deps_paths:
-            queries_full_path = "{}.{}".format(queries_path, QUERIES_EXTENSION)
-            with open(queries_full_path) as q:
-                for line in q:
-                    line = line.strip()
-                    qry_lines.append(line)
-            while qry_lines[-1] == "":
-                qry_lines.pop()
-
-        # Replace comment numbers
-        count = 1
-        for i in range(0, len(qry_lines), 5):
-            line = qry_lines[i]
-            line = re.sub(r"^\d+(.*)", r"\1", line)
-            qry_lines[i] = "{}{}".format(count, line)
-            count += 1
-        qry_string = "\n".join(qry_lines)
 
         # Write files to PUBLISH_OUTPUT_DIRECTORY
         output_name = os.path.relpath(source_path, tests_dir_path)
@@ -699,16 +681,42 @@ def publish():
         output_src_full_path = os.path.abspath(output_src_full_path)
 
         printinfoaccent("Publishing test ({}/{}): {}".format(index+1, len(deps), output_name))
+
+        # Read files
         with open(source_full_path) as s:
             src_content = s.read()
 
+        qry_lines = []
+        for queries_path in deps_paths:
+            queries_full_path = "{}.{}".format(queries_path, QUERIES_EXTENSION)
+            with open(queries_full_path) as q:
+                for line in q:
+                    line = line.strip()
+                    qry_lines.append(line)
+            while qry_lines[-1] == "":
+                qry_lines.pop()
+
+        # Replace comment numbers
+        count = 0
+        for i in range(0, len(qry_lines), 5):
+            count += 1
+            line = qry_lines[i]
+            line = re.sub(r"^\d+(.*)", r"\1", line)
+            qry_lines[i] = "{}{}".format(count, line)
+        qry_string = "\n".join(qry_lines)
+        total_queries += count
+
+        # Write files
         with open(output_src_full_path, "w") as s:
             s.write(src_content)
 
         with open(output_qry_full_path, "w") as q:
             q.write("{}\n".format(qry_string))
 
-    printinfo("All tests published! :) Please check '{}' directory for all published files!".format(os.path.relpath(PUBLISH_OUTPUT_DIRECTORY)))
+        printinfo("Queries: {}\n".format(count))
+
+    printinfoaccent("All tests published! :) Please check '{}' directory for all published files!".format(os.path.relpath(PUBLISH_OUTPUT_DIRECTORY)))
+    printinfo("Total queries published: {}\n".format(total_queries))
 
 # Tests all .src files using AutoTester
 def run():
@@ -726,6 +734,9 @@ def run():
 
     # Test each source file with it's queries
     printinfo("Testing all source files...")
+
+    total_queries = 0
+    total_queries_passed = 0
     for index, (source_path, queries_path) in enumerate(tests):
         source_full_path = "{}.{}".format(source_path, SOURCE_EXTENSION)
         queries_full_path = "{}.{}".format(queries_path, QUERIES_EXTENSION)
@@ -751,13 +762,21 @@ def run():
 
         # Parse output xml
         queries = ElementTree.parse(output_full_path).find("queries")
-        passed = 0
+        num_passed = 0
+        num_queries = len(queries)
         for query in queries:
             if query.find("passed") is not None:
-                passed += 1
-        printinfo("Passed queries: {}/{}\n".format(passed, len(queries)))
+                num_passed += 1
+        printinfo("Passed queries: {}/{}\n".format(num_passed, num_queries))
 
-    printinfo("All tests done! :) Please check '{}' directory for all AutoTester outputs!".format(os.path.relpath(OUTPUT_DIRECTORY)))
+        # Update total queries
+        total_queries_passed += num_passed
+        total_queries += num_queries
+
+    printinfoaccent("All tests done! :) Please check '{}' directory for all AutoTester outputs!".format(os.path.relpath(OUTPUT_DIRECTORY)))
+
+    percentage = total_queries_passed / total_queries
+    printinfo("Total passed queries: {}/{} ({:.0%})\n".format(total_queries_passed, total_queries, percentage))
 
 # Summarize 'coverage' of all .qry and .src files
 def summarize():
@@ -810,7 +829,7 @@ def summarize():
             infos.append("{}(s): {}".format(v, count))
         printinfo("{}\n".format(", ".join(infos)))
 
-    printinfo("All summarizing done! :)")
+    printinfoaccent("All summarizing done! :)\n")
 
 def summarize_ast(ast):
     result = collections.Counter()
