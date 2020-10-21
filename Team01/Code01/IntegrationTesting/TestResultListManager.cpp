@@ -917,5 +917,56 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string2.compare(target_synonym_2_result) == 0);
 
 		}
+
+		TEST_METHOD(merge_CallVarnamePrintStmtnum_ReadEmpty_NoSameRowValues_Success)
+		{
+			SYNONYM_NAME target_synonym = "c";
+			SYNONYM_NAME target_synonym_2 = "pn";
+			SYNONYM_NAME target_synonym_3 = "r";
+
+			ResultList r1;
+			SYNONYM_VALUES_LIST values1 = { "daddy", "mummy" };					// StmtNum: 4, 5
+			SYNONYM_VALUES_LIST values1_2 = { "7", "3" };						// StmtNum: 7, 3
+			r1.addColumn(target_synonym, values1);
+			r1.addColumn(target_synonym_2, values1_2);
+
+			ResultList r2;
+			SYNONYM_VALUES_LIST values2 = {};
+			r2.addColumn(target_synonym_3, values2);
+
+
+			int expected_num_rows = 0;
+			int expected_num_cols = 3;
+			std::string target_synonym_result = "";
+			std::string target_synonym_2_result = "";
+
+
+			ResultList result = ResultListManager::merge(r1, r2, *processed_synonyms, *pkb);
+
+			int num_rows = result.getNumRows();
+			int num_cols = result.getNumColumns();
+			std::string result_string1 = ResultListManager::getStringValues(result.getValuesOfSynonym(target_synonym)); // get target_synonym
+			std::string result_string2 = ResultListManager::getStringValues(result.getValuesOfSynonym(target_synonym_2)); // get target_synonym_2
+
+
+			// Log results
+			std::string mes1 = "numRows: " + std::to_string(num_rows) + "\n";
+			std::string mes2 = "numCols: " + std::to_string(num_cols) + "\n";
+			std::string print_result_string = "Target Synonym 1: " + result_string1 + "\n";
+			std::string print_result_string2 = "Target Synonym 2: " + result_string2 + "\n";
+
+			Logger::WriteMessage(mes1.c_str());
+			Logger::WriteMessage(mes2.c_str());
+			Logger::WriteMessage(print_result_string.c_str());
+			Logger::WriteMessage(print_result_string2.c_str());
+
+
+			// Assert Results
+			Assert::IsTrue(num_rows == expected_num_rows);
+			Assert::IsTrue(num_cols == expected_num_cols);
+			Assert::IsTrue(result_string1.compare(target_synonym_result) == 0);
+			Assert::IsTrue(result_string2.compare(target_synonym_2_result) == 0);
+
+		}
 	};
 }
