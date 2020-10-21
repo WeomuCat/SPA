@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "ResultListManager.h"
+
+#include "../source/ResultList.h"
+#include "../source/ResultListManager.h"
+
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -111,5 +114,6 @@ namespace UnitTesting
 
 			Assert::IsTrue(test_results.compare(correct_results) == 0);
 		}
+
 	};
 }

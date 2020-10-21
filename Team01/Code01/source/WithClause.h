@@ -9,7 +9,6 @@
 #include "ResultList.h"
 #include "AttrRefManager.h"
 
-typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 
 class WithClause {
 public:
