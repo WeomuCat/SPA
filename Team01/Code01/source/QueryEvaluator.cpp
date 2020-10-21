@@ -90,7 +90,7 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 				only_true_false_clauses = false;
 			}
 			
-			result_list = ResultListManager::merge(result_list, clause_result_list, processed_synonyms);
+			result_list = ResultListManager::merge(result_list, clause_result_list, processed_synonyms, pkb);
 		}
 		else {
 			if (return_type == QueryEvaluatorReturnType::synonym) {
@@ -239,7 +239,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 		}
 		else {
 			//return ResultListManager::getSynonymValues(result_list, return_synonym_name);
-			return getReturnValue(result_list, synonym);
+			return getFinalQueryResultReturnValue(result_list, synonym);
 		}
 	}
 	else if (return_type == QueryEvaluatorReturnType::boolean) {
@@ -284,7 +284,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 					return getSemanticallyInvalidResult();
 				}
 
-				result_list = ResultListManager::merge(result_list, current_synonym, processed_synonyms);
+				result_list = ResultListManager::merge(result_list, current_synonym, processed_synonyms, pkb);
 			}
 		}
 
@@ -310,7 +310,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 }
 
 
-QUERY_RESULT QueryEvaluator::getReturnValue(ResultList result_list, QueryNode synonym_node) {
+QUERY_RESULT QueryEvaluator::getFinalQueryResultReturnValue(ResultList result_list, QueryNode synonym_node) {
 	QUERY_NODE_TYPE node_type = synonym_node.getNodeType();
 
 	if (node_type == QueryNodeType::synonym) {
@@ -356,7 +356,7 @@ void QueryEvaluator::replaceSynonymsWithAttrRefValues() {
 		if (child.getNodeType() == QueryNodeType::attr) {
 			
 			if (!AttrRefManager::resultMatches(result_list, child)) {
-				SYNONYM_VALUES_LIST new_values = getReturnValue(result_list, child); // throws exception if invalid attrRef for the synonym
+				SYNONYM_VALUES_LIST new_values = getFinalQueryResultReturnValue(result_list, child); // throws exception if invalid attrRef for the synonym
 				SYNONYM_NAME synonym_name = child.getString();
 				result_list.replaceColumnValues(synonym_name, new_values);
 			}
@@ -396,7 +396,7 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 				return getSemanticallyInvalidResult();
 			}
 
-			final_result_list = ResultListManager::merge(final_result_list, child_result_list, processed_synonyms);
+			final_result_list = ResultListManager::merge(final_result_list, child_result_list, processed_synonyms, pkb);
 		}
 
 		return ResultListManager::getTupleValues(final_result_list, tuple_return_synonyms);

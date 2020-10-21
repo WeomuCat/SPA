@@ -90,8 +90,10 @@ public:
 	Description: Safe Merge for QueryEvaluator. Accounts for attrRef conflict in result lists.
 				 Eg Handles { call, {1, 2, 3}} and { call, {main, woof }}
 	*/
-	static ResultList merge(ResultList list1, ResultList list2, PROCESSED_SYNONYMS processed_synonyms) {
-		dropSameSynonymDifferentValueColumn(list1, list2, processed_synonyms);
+	static ResultList merge(ResultList list1, ResultList list2, PROCESSED_SYNONYMS processed_synonyms, PKB pkb) {
+		replaceAllAttrRefWithDefaultValue(list1, processed_synonyms, pkb);
+		replaceAllAttrRefWithDefaultValue(list2, processed_synonyms, pkb);
+
 		return merge(list1, list2);
 	}
 
@@ -136,6 +138,45 @@ public:
 			}
 		}
 		return result;
+	}
+
+	/*
+	Description: Replace all values of attrRef columns with their default value type.
+	Input: ResultList - { call, {main, woof }}
+	Output: ResultList - { call, {2, 3}}	where 2, 3 corresponds to the stmtNum of main, woof
+	*/
+	static void replaceAllAttrRefWithDefaultValue(ResultList& list, PROCESSED_SYNONYMS processed_synonyms, PKB pkb) {
+		// check if there a column in the list that is not the default value of that synonym type (ie calls column storing string)
+		if (!list.isEmpty()) {
+			SYNONYM_NAME_LIST all_synonym_names = list.getAllSynonyms();
+			for (SYNONYM_NAME synonym_name : all_synonym_names) {
+				QueryNode synonym_node = processed_synonyms.find(synonym_name)->second;
+				QueryNodeType node_type = synonym_node.getNodeType();
+
+				if (node_type == QueryNodeType::attr) {
+					SYNONYM_VALUES_LIST synonym_values = list.getValuesOfSynonym(synonym_name);
+					SYNONYM_VALUE one_synonym_value = synonym_values[0];
+					SYNONYM_TYPE synonym_type = synonym_node.getSynonymType();
+
+					// If the synonym value is not the default type (string/int) of this synonym type, replace the result list value with the default value
+					if (!AttrRefManager::isDefaultAttrValueForSynonymType(one_synonym_value, synonym_type)) {
+						STMT_NUM_LIST default_values;
+						if (synonym_type == QuerySynonymType::call) {
+							default_values = pkb.getCallNumList();
+						}
+						if (synonym_type == QuerySynonymType::read) {
+							default_values = pkb.getReadNumList();
+						}
+						if (synonym_type == QuerySynonymType::print) {
+							default_values = pkb.getPrintNumList();
+						}
+						
+						SYNONYM_VALUES_LIST default_values_string = convertIntToStringValues(default_values);
+						list.replaceColumnValues(synonym_name, default_values_string);
+					}
+				}
+			}
+		}
 	}
 
 
@@ -208,6 +249,9 @@ private:
 		return true;
 	}
 
+	/*
+	Description: Returns the final result string from this list of values.
+	*/
 	static STRING_RESULT processReturnResult(SYNONYM_VALUES_LIST raw_results) {
 		std::string processed_results = "";
 		for (std::string result : raw_results) {
@@ -216,4 +260,15 @@ private:
 		processed_results = processed_results.substr(0, processed_results.size() - 2);
 		return processed_results;
 	};
+
+	/*
+	Description: Converts an int list to a string list.
+	*/
+	static SYNONYM_VALUES_LIST convertIntToStringValues(STMT_NUM_LIST int_list) {
+		SYNONYM_VALUES_LIST string_list;
+		for (int i : int_list) {
+			string_list.push_back(std::to_string(i));
+		}
+		return string_list;
+	}
 };

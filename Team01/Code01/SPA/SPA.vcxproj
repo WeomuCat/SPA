@@ -75,6 +75,7 @@
     <ClInclude Include="RelOperatorTypeEnum.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\AttrRefManager.cpp" />
     <ClCompile Include="..\source\ClauseQueue.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />

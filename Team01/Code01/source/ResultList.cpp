@@ -84,3 +84,7 @@ INTEGER ResultList::getNumRows() {
 INTEGER ResultList::getNumColumns() {
 	return results.size();
 }
+
+bool ResultList::isEmpty() {
+	return (num_rows == 0);
+}
