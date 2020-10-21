@@ -1,5 +1,0 @@
---- procedure main {
-001     x = a;
-002     y = x;
-003     z = b;
---- }

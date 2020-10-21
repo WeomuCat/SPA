@@ -1,8 +1,0 @@
-procedure noIfWhile {
-	start = 0;
-	end = 100;
-	print end;
-	print start;
-	average = (start + end) / 2;
-	print average;
-}
