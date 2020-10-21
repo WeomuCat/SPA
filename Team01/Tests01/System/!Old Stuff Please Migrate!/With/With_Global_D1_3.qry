@@ -1,6 +1,6 @@
 1 - Boolean Assign
 assign a;
-Select BOOLEAN with a.stmt# = 1 
+Select BOOLEAN with a.stmt# = 1
 TRUE
 1000
 2 - Boolean Call
@@ -55,7 +55,7 @@ TRUE
 1000
 12 - Synonnym Assign
 assign a;
-Select a.stmt# with a.stmt# = 1 
+Select a.stmt# with a.stmt# = 1
 1
 1000
 13 - Synonnym Call
@@ -110,12 +110,12 @@ Select n with n = 3
 1000
 23 - Boolean Assign Call Print
 assign a; call cl; print pn;
-Select BOOLEAN with a.stmt# = 12 and cl.procName = "firstElement" and pn.varName = "earth"
+Select BOOLEAN with a.stmt# = 12 and cl.procName = "secondElement" and pn.varName = "earth"
 TRUE
 2000
 24 - Boolean Read Statement If While
 read r; stmt s; if i; while w;
-Select BOOLEAN with r.varName = "widn" and s.stmt# = 6 and i.stmt# = 4 and w.stmt# = 7
+Select BOOLEAN with r.varName = "wind" and s.stmt# = 6 and i.stmt# = 4 and w.stmt# = 7
 TRUE
 2000
 25 - Synonym Constant Procedure Variable Program Line
