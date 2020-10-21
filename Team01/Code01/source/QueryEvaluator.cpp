@@ -151,15 +151,15 @@ void QueryEvaluator::fillWithReturnSynonym(QueryNode synonym_node, ResultList &r
 /* Throws Exception if attrRef is not valid for the given synonym.
 * Have  to try catch this method:
 
-	catch (const char* msg) {
-		// Invalid attrRef for the given synonym. Semantically incorrect. Terminate.
-		if (return_type == QueryEvaluatorReturnType::boolean) {
-			return boolean_false_result;
-		}
-		else {
-			return no_result;
-		}
+catch (const char* msg) {
+	// Invalid attrRef for the given synonym. Semantically incorrect. Terminate.
+	if (return_type == QueryEvaluatorReturnType::boolean) {
+		return boolean_false_result;
 	}
+	else {
+		return no_result;
+	}
+}
 */
 void QueryEvaluator::fillWithReturnValue(QueryNode elem_node, ResultList& current_result_list) {
 	QueryNodeType elem_node_type = elem_node.getNodeType();
@@ -238,7 +238,6 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 			}
 		}
 		else {
-			//return ResultListManager::getSynonymValues(result_list, return_synonym_name);
 			return getFinalQueryResultReturnValue(result_list, synonym);
 		}
 	}

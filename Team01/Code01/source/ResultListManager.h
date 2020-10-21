@@ -146,7 +146,6 @@ public:
 			SYNONYM_NAME_LIST all_synonym_names = list.getAllSynonyms();
 			for (SYNONYM_NAME synonym_name : all_synonym_names) {
 				QueryNode synonym_node = processed_synonyms.find(synonym_name)->second;
-				//QueryNodeType node_type = synonym_node.getNodeType();
 
 				SYNONYM_VALUES_LIST synonym_values = list.getValuesOfSynonym(synonym_name);
 				SYNONYM_VALUE one_synonym_value = synonym_values[0];
@@ -207,30 +206,6 @@ public:
 
 
 private:
-
-	static void dropSameSynonymDifferentValueColumn(ResultList& list1, ResultList& list2, PROCESSED_SYNONYMS processed_synonyms) {
-		for (SYNONYM_NAME n1 : list1.getAllSynonyms()) {
-			for (SYNONYM_NAME n2 : list2.getAllSynonyms()) {
-				SYNONYM_VALUE n1_val = list1.getValuesOfSynonym(n1)[0];
-				SYNONYM_VALUE n2_val = list2.getValuesOfSynonym(n2)[0];
-
-				// if same synonym name but different value type	-> ie { call, {1, 2, 3}} and { call, {main, woof }}
-				if (n1 == n2 && !AttrRefManager::isSameValueType(n1_val, n2_val)) {
-					SYNONYM_TYPE synonym_type = processed_synonyms.find(n1)->second.getSynonymType();
-
-					int index = AttrRefManager::getIndexOfDefaultValue(n1_val, n2_val, synonym_type);
-
-					if (index == 1) {
-						list2.removeColumn(n2);
-					}
-					else {
-						list1.removeColumn(n1);
-					}
-				}
-			}
-		}
-	}
-
 	static SYNONYM_NAME_LIST getCommonSynonyms(ResultList list1, ResultList list2) {
 		SYNONYM_NAME_LIST common_synonyms;
 		for (SYNONYM_NAME n1 : list1.getAllSynonyms()) {

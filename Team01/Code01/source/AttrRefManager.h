@@ -78,7 +78,8 @@ public:
 	static bool isDefaultValueTypeForSynonymType(SYNONYM_VALUE synonym_value, SYNONYM_TYPE synonym_type);
 	/*
 	Description: Returns true if the value given is the default value type for this synonym type.
-				 Eg True if stmtNum is provided since stmtNum is the default value for Calls. Print, Read.
+				 Eg True if int is provided for assign, call, if, while, read, print, prog_line, stmt, constant.
+					True if string is provided for procedure, variable
 	*/
 
 private:
