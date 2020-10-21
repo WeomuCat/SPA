@@ -6735,7 +6735,7 @@ namespace IntegrationTesting
 
 		TEST_METHOD(evaluateQuery_SelectC_WithC3_WithCV_ReturnsC)
 		{
-			// Query: "call c1; Select c1 such that with c1.stmt# = 3 and c1.varName = evening"
+			// Query: "call c1; Select c1 such that with c1.stmt# = 3 and c1.procName = evening"
 			// Get processed_synonyms and processed clauses
 			QueryNode call_node = QueryNode();
 			call_node.setSynonymNode({ QuerySynonymType::call }, "c1");
@@ -6761,13 +6761,13 @@ namespace IntegrationTesting
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::with });
 
-			// arg 1: c1.stmt#
+			// arg 1: c1.varName
 			QueryNode child_child2_1 = QueryNode();
-			child_child2_1.setAttrNode("c1", "stmt#");
+			child_child2_1.setAttrNode("c1", "procName");
 
-			// arg 2: 3
+			// arg 2: evening
 			QueryNode child_child2_2 = QueryNode();
-			child_child2_2.setIntegerNode(3);
+			child_child2_2.setIdentityNode("evening");
 
 
 			// set children, make tree
