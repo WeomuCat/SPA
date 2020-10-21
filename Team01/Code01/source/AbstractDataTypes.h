@@ -3,6 +3,7 @@
 #include<memory>
 #include<vector>
 #include<string>
+#include<unordered_map>
 
 // Forward Declaration
 
@@ -52,6 +53,12 @@ class UsesTable;
 class ModifiesTable;
 class CallsTable;
 class NextTable;
+
+// QP
+class QueryNode;
+enum class QueryNodeType;
+enum class QuerySynonymType;
+class QueryNodeContent;
 
 // PKB
 typedef PKBBuilder PKB_BUILDER;
@@ -113,6 +120,31 @@ typedef UsesTable USES_TABLE;
 typedef ModifiesTable MODIFIES_TABLE;
 typedef CallsTable CALLS_TABLE;
 typedef NextTable NEXT_TABLE;
+
+// QP
+typedef std::vector<std::string> QUERY_RESULT;
+typedef QueryNode PROCESSED_CLAUSES;
+typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
+
+// AttrRef
+typedef std::string ATTR_REF_VALUE;
+typedef std::vector<std::string> ATTR_REF_VALUES_LIST;
+
+// QueryNode
+typedef QueryNodeType QUERY_NODE_TYPE;
+typedef std::string NODE_TYPE_STRING;
+typedef QueryNode* QUERY_NODE_POINTERS;
+typedef QuerySynonymType SYNONYM_TYPE;
+typedef std::string SYNONYM_TYPE_STRING;
+typedef std::string SYNONYM_NAME;
+typedef QueryNodeContent QUERY_NODE_CONTENT;
+typedef std::vector<QueryNode> QUERY_NODE_LIST;
+
+// ResultListManager
+typedef std::string STRING_RESULT;
+typedef std::vector<std::string> VALUE_LIST;
+typedef std::vector<SYNONYM_NAME> TUPLE_RETURN_SYNONYMS;
+typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 
 // General
 typedef bool BOOLEAN_TYPE;

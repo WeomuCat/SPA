@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\AttrRefManager.h" />
     <ClInclude Include="..\source\ClauseQueue.h" />
     <ClInclude Include="..\source\AbstractDataTypes.h" />
     <ClInclude Include="..\source\AttributeType.h" />
@@ -72,7 +73,6 @@
     <ClInclude Include="..\source\ResultList.h" />
     <ClInclude Include="..\source\ResultListManager.h" />
     <ClInclude Include="..\source\WithClause.h" />
-    <ClInclude Include="RelOperatorTypeEnum.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AttrRefManager.cpp" />

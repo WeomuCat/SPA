@@ -21,7 +21,6 @@
 #include "../source/ResultList.cpp"
 #include "../source/ResultListManager.h"
 #include "../source/Relationship.cpp"
-#include "../source/AttrRefManager.cpp"
 #include "../source/PKB.cpp"
 #include "../source/PKBBuilder.cpp"
 #include "../source/PKB/ASTNode/VariableNode.cpp"

@@ -11,12 +11,6 @@
 #include <string>
 #include <iterator>
 
-class ResultListManager;
-
-typedef std::string STRING_RESULT;
-typedef std::vector<std::string> VALUE_LIST;
-typedef std::vector<SYNONYM_NAME> TUPLE_RETURN_SYNONYMS;
-typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 
 class ResultListManager {
 // Note to self: for methods that change result_list, return ResultList!
@@ -151,30 +145,29 @@ public:
 			SYNONYM_NAME_LIST all_synonym_names = list.getAllSynonyms();
 			for (SYNONYM_NAME synonym_name : all_synonym_names) {
 				QueryNode synonym_node = processed_synonyms.find(synonym_name)->second;
-				QueryNodeType node_type = synonym_node.getNodeType();
+				//QueryNodeType node_type = synonym_node.getNodeType();
 
-				if (node_type == QueryNodeType::attr) {
-					SYNONYM_VALUES_LIST synonym_values = list.getValuesOfSynonym(synonym_name);
-					SYNONYM_VALUE one_synonym_value = synonym_values[0];
-					SYNONYM_TYPE synonym_type = synonym_node.getSynonymType();
+				SYNONYM_VALUES_LIST synonym_values = list.getValuesOfSynonym(synonym_name);
+				SYNONYM_VALUE one_synonym_value = synonym_values[0];
+				SYNONYM_TYPE synonym_type = synonym_node.getSynonymType();
 
-					// If the synonym value is not the default type (string/int) of this synonym type, replace the result list value with the default value
-					if (!AttrRefManager::isDefaultAttrValueForSynonymType(one_synonym_value, synonym_type)) {
-						STMT_NUM_LIST default_values;
-						if (synonym_type == QuerySynonymType::call) {
-							default_values = pkb.getCallNumList();
-						}
-						if (synonym_type == QuerySynonymType::read) {
-							default_values = pkb.getReadNumList();
-						}
-						if (synonym_type == QuerySynonymType::print) {
-							default_values = pkb.getPrintNumList();
-						}
-						
-						SYNONYM_VALUES_LIST default_values_string = convertIntToStringValues(default_values);
-						list.replaceColumnValues(synonym_name, default_values_string);
+				// If the synonym value is not the default type (string/int) of this synonym type, replace the result list value with the default value
+				if (!AttrRefManager::isDefaultAttrValueForSynonymType(one_synonym_value, synonym_type)) {
+					STMT_NUM_LIST default_values;
+					if (synonym_type == QuerySynonymType::call) {
+						default_values = pkb.getCallNumList();
 					}
+					if (synonym_type == QuerySynonymType::read) {
+						default_values = pkb.getReadNumList();
+					}
+					if (synonym_type == QuerySynonymType::print) {
+						default_values = pkb.getPrintNumList();
+					}
+						
+					SYNONYM_VALUES_LIST default_values_string = convertIntToStringValues(default_values);
+					list.replaceColumnValues(synonym_name, default_values_string);
 				}
+				
 			}
 		}
 	}

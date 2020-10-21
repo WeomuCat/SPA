@@ -148,9 +148,13 @@
     <ClCompile Include="..\source\QueryValidator.cpp">
       <Filter>Source\QP</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ClauseQueue.cpp" />
-    <ClCompile Include="..\source\WithClause.cpp" />
     <ClCompile Include="..\source\AttrRefManager.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ClauseQueue.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\WithClause.cpp">
       <Filter>Source\QP</Filter>
     </ClCompile>
   </ItemGroup>
@@ -329,10 +333,18 @@
     <ClInclude Include="..\source\AttributeType.h">
       <Filter>Header\QP</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ClauseQueue.h" />
-    <ClInclude Include="..\source\QueryEvaluatorReturnType.h" />
-    <ClInclude Include="..\source\WithClause.h" />
-    <ClInclude Include="RelOperatorTypeEnum.h" />
+    <ClInclude Include="..\source\QueryEvaluatorReturnType.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ClauseQueue.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\WithClause.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AttrRefManager.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

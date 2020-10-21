@@ -4647,7 +4647,9 @@ namespace IntegrationTesting
 			var_node.setSynonymNode({ QuerySynonymType::variable }, "v");
 			QueryNode const_node = QueryNode();
 			const_node.setSynonymNode({ QuerySynonymType::constant }, "c");
-			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"v", var_node}, {"c", const_node} };
+			QueryNode proc_node = QueryNode();
+			proc_node.setSynonymNode({ QuerySynonymType::procedure }, "p1");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"v", var_node}, {"c", const_node}, {"p1", proc_node} };
 
 			// Select: <v, c>
 			QueryNode child1_2 = QueryNode();

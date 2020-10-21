@@ -9,8 +9,6 @@
 #include "QueryNode.h"
 #include "ResultList.h"
 
-typedef std::string ATTR_REF_VALUE;
-typedef std::vector<std::string> ATTR_REF_VALUES_LIST;
 
 class AttrRefManager {
 	/*

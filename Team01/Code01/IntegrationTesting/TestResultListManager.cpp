@@ -4,6 +4,7 @@
 #include "../source/PKB.h"
 #include "../source/ResultListManager.h"
 #include "../source/QueryNode.h"
+#include "../source/QuerySynonymType.h"
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
