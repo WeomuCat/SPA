@@ -241,6 +241,72 @@ public:
 		return isString;
 	}
 
+	/*
+	Description: Checks if the value type of the ATTRIBUTES are the same. (ie String/int)
+	*/
+	static bool isSameAttrValueType(ATTRIBUTE attr1, ATTRIBUTE attr2) {
+		bool isSameValueType = false;
+
+		if (isIntegerType(attr1) && isIntegerType(attr2)) {
+			isSameValueType - true;
+		}
+
+		if (isStringType(attr1) && isStringType(attr2)) {
+			isSameValueType = true;
+		}
+
+		return isSameValueType;
+	}
+
+	/*
+	Description: Checks if the string is Digit or Name
+	*/
+	static bool isSameValueType(SYNONYM_VALUE val1, SYNONYM_VALUE val2) {
+		bool isSameValueType = false;
+
+		if (isDigit(val1) && isDigit(val2)) {
+			isSameValueType = true;
+		}
+
+		if (!isDigit(val1) && !isDigit(val2)) {
+			isSameValueType = true;
+		}
+
+		return isSameValueType;
+	}
+
+
+	/*
+	Description: Returns 1 if val1 is the default value for this synonym type. For calls, read, print only (types with 2 attrRefs).
+				 If both values are not the default value, return 1.
+	*/
+	static int getIndexOfDefaultValue(STRING val1, STRING val2, SYNONYM_TYPE synonym_type) {
+		switch (synonym_type) {
+		case QuerySynonymType::call:	// default value of calls is stmtNum
+			if (isDigit(val2)) {
+				return 2;
+			}
+			else {
+				return 1;
+			}
+			break;
+		case QuerySynonymType::read:	// default value of read is stmtNum
+			if (isDigit(val2)) {
+				return 2;
+			}
+			else {
+				return 1;
+			}
+			break;
+		case QuerySynonymType::print:	// default value of print is stmtNum
+			if (isDigit(val2)) {
+				return 2;
+			}
+			else {
+				return 1;
+			}
+		}
+	}
 
 private:
 	static ATTR_REF_VALUES_LIST getAssignValues(PKB pkb, ATTRIBUTE attribute) {

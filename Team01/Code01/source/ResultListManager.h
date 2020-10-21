@@ -1,6 +1,8 @@
 #pragma once
 
+#include "AttrRefManager.h"
 #include "ResultList.h"
+#include "QueryNode.h"
 
 #include <iostream>
 #include <vector>
@@ -14,6 +16,7 @@ class ResultListManager;
 typedef std::string STRING_RESULT;
 typedef std::vector<std::string> VALUE_LIST;
 typedef std::vector<SYNONYM_NAME> TUPLE_RETURN_SYNONYMS;
+typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
 
 class ResultListManager {
 // Note to self: for methods that change result_list, return ResultList!
@@ -83,6 +86,18 @@ public:
 		}
 	}
 	
+	/*
+	Description: Safe Merge for QueryEvaluator. Accounts for attrRef conflict in result lists.
+				 Eg Handles { call, {1, 2, 3}} and { call, {main, woof }}
+	*/
+	static ResultList merge(ResultList list1, ResultList list2, PROCESSED_SYNONYMS processed_synonyms) {
+		dropSameSynonymDifferentValueColumn(list1, list2, processed_synonyms);
+		return merge(list1, list2);
+	}
+
+	/*
+	Description: Unsafe Merge, do not use in QueryEvaluator. Does not account for attrRef conflict in result lists.
+	*/
 	static ResultList merge(ResultList list1, ResultList list2) {
 		// If either list is empty (no columns), return the other list
 		// Note: if there is at least 1 column, but no rows for the column, it is not considered empty.
@@ -103,7 +118,8 @@ public:
 		for (SYNONYM_NAME n2 : list2.getAllSynonyms()) {
 			result.addColumn(n2);
 		}
-		
+
+
 		// Get Common Synonyms
 		SYNONYM_NAME_LIST common_synonyms = getCommonSynonyms(list1, list2);
 
@@ -115,20 +131,48 @@ public:
 				if (common_synonyms.size() > 0 && !sameValuesForTheSameCommonSynonyms(r1, r2, common_synonyms)) {
 					continue;
 				}
+
 				result.addRow(joinRows(r1, r2));
 			}
 		}
 		return result;
 	}
 
+
 private:
+
+	static void dropSameSynonymDifferentValueColumn(ResultList& list1, ResultList& list2, PROCESSED_SYNONYMS processed_synonyms) {
+		for (SYNONYM_NAME n1 : list1.getAllSynonyms()) {
+			for (SYNONYM_NAME n2 : list2.getAllSynonyms()) {
+				SYNONYM_VALUE n1_val = list1.getValuesOfSynonym(n1)[0];
+				SYNONYM_VALUE n2_val = list2.getValuesOfSynonym(n2)[0];
+
+				// if same synonym name but different value type	-> ie { call, {1, 2, 3}} and { call, {main, woof }}
+				if (n1 == n2 && !AttrRefManager::isSameValueType(n1_val, n2_val)) {
+					SYNONYM_TYPE synonym_type = processed_synonyms.find(n1)->second.getSynonymType();
+
+					int index = AttrRefManager::getIndexOfDefaultValue(n1_val, n2_val, synonym_type);
+
+					if (index == 1) {
+						list2.removeColumn(n2);
+					}
+					else {
+						list1.removeColumn(n1);
+					}
+				}
+			}
+		}
+	}
+
 	static SYNONYM_NAME_LIST getCommonSynonyms(ResultList list1, ResultList list2) {
 		SYNONYM_NAME_LIST common_synonyms;
 		for (SYNONYM_NAME n1 : list1.getAllSynonyms()) {
 			for (SYNONYM_NAME n2 : list2.getAllSynonyms()) {
+
 				if (n1 == n2) {
 					common_synonyms.push_back(n1);
 				}
+
 			}
 		}
 		return common_synonyms;
@@ -147,9 +191,19 @@ private:
 
 	static bool sameValuesForTheSameCommonSynonyms(ROW r1, ROW r2, SYNONYM_NAME_LIST common_synonyms) {
 		for (SYNONYM_NAME n : common_synonyms) {
+			SYNONYM_VALUE r1_value = r1[n];
+			SYNONYM_VALUE r2_value = r2[n];
+
+			/*
+			if (AttrRefManager::isSameValueType(r1_value, r2_value) && r1[n] != r2[n]) {
+				return false;
+			}
+			*/
+			
 			if (r1[n] != r2[n]) {
 				return false;
 			}
+			
 		}
 		return true;
 	}

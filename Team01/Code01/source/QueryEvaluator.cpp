@@ -89,7 +89,8 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 			if (clause_result_list.getNumColumns() != 0) {
 				only_true_false_clauses = false;
 			}
-			result_list = ResultListManager::merge(result_list, clause_result_list);
+			
+			result_list = ResultListManager::merge(result_list, clause_result_list, processed_synonyms);
 		}
 		else {
 			if (return_type == QueryEvaluatorReturnType::synonym) {
@@ -283,7 +284,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 					return getSemanticallyInvalidResult();
 				}
 
-				result_list = ResultListManager::merge(result_list, current_synonym);
+				result_list = ResultListManager::merge(result_list, current_synonym, processed_synonyms);
 			}
 		}
 
@@ -395,7 +396,7 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 				return getSemanticallyInvalidResult();
 			}
 
-			final_result_list = ResultListManager::merge(final_result_list, child_result_list);
+			final_result_list = ResultListManager::merge(final_result_list, child_result_list, processed_synonyms);
 		}
 
 		return ResultListManager::getTupleValues(final_result_list, tuple_return_synonyms);

@@ -66,6 +66,44 @@ namespace UnitTesting
 			Assert::IsTrue(result.getRowList().size() == r1.getRowList().size());
 		}
 
+		TEST_METHOD(merge_OneCommonSynonymSameType_SameNumRows_Success)
+		{
+			ResultList r1;
+			r1.addColumn("c");
+			r1.addRow({ {"c", "1"} });
+			r1.addRow({ {"c", "1"} });
+			r1.addRow({ {"c", "6"} });
+			r1.addRow({ {"c", "6"} });
+			r1.addRow({ {"c", "7"} });
+
+			ResultList r2;
+			r1.addColumn("c");
+			r1.addRow({ {"c", "woof"} });
+			r1.addRow({ {"c", "meow"} });
+			r1.addRow({ {"c", "baaa"} });
+			r1.addRow({ {"c", "mehh"} });
+			r1.addRow({ {"c", "neigh"} });
+
+			QueryNode call_node = QueryNode();
+			call_node.setSynonymNode({ QuerySynonymType::call }, "c");
+			PROCESSED_SYNONYMS ps = { {"c", call_node} };
+
+			ResultList result = ResultListManager::merge(r1, r2, ps);
+
+			int numRows = result.getNumRows();
+			int numCols = result.getNumColumns();
+
+			std::string mes1 = "numRows: " + std::to_string(numRows) + "\n";
+			std::string mes2 = "numCols: " + std::to_string(numCols) + "\n";
+			std::string result_string = "Result: " + ResultListManager::getStringValues(result.getValuesOfSynonym("c"));
+			Logger::WriteMessage(mes1.c_str());
+			Logger::WriteMessage(mes2.c_str());
+			Logger::WriteMessage(result_string.c_str());
+
+
+			Assert::IsTrue(numRows == 5);
+			Assert::IsTrue(numCols == 1);
+		}
 		TEST_METHOD(getTupleValues_2synonyms_Success) 
 		{
 			ResultList r1;
@@ -111,5 +149,6 @@ namespace UnitTesting
 
 			Assert::IsTrue(test_results.compare(correct_results) == 0);
 		}
+
 	};
 }

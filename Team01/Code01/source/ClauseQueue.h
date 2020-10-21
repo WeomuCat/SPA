@@ -5,8 +5,10 @@
 #include <utility>
 
 typedef QueryNode CLAUSE;
+typedef int RANK;
 typedef std::pair<int, CLAUSE> RANKED_CLAUSE;
 typedef std::vector<CLAUSE> CLAUSE_LIST;
+typedef std::vector<SYNONYM_NAME> SYNONYM_NAMES;
 
 // if c1's rank is larger, return true. Arrange from largest to smallest, min heap returns smallest. 
 struct CompareRankedClauses {
@@ -66,4 +68,11 @@ private:
 	/*
 	Description: Returns True if the unsorted input clause_list is non-empty.
 	*/
+
+	RANK getClauseRank(CLAUSE clause, SYNONYM_NAMES& current_synonyms);
+	/*
+	Description: Gets the rank of this clause.
+	*/
+
+	bool isTrueFalseClause(CLAUSE clause);
 };
