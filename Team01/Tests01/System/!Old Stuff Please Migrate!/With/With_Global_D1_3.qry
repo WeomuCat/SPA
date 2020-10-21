@@ -1,6 +1,6 @@
 1 - Boolean Assign
 assign a;
-Select BOOLEAN with a.stmt# = 1
+Select BOOLEAN with a.stmt# = 1 
 TRUE
 1000
 2 - Boolean Call
@@ -55,7 +55,7 @@ TRUE
 1000
 12 - Synonnym Assign
 assign a;
-Select a.stmt# with a.stmt# = 1
+Select a.stmt# with a.stmt# = 1 
 1
 1000
 13 - Synonnym Call

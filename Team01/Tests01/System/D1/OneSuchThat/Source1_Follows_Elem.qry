@@ -1,4 +1,4 @@
-1 - Follows Constant
+1 - Follows Integer
 constant c;
 Select c such that Follows(1, 2)
 we didn't write the result for this query
@@ -140,12 +140,12 @@ we didn't write the result for this query
 1000
 1 - Follows Call
 call c;
-Select BOOLEAN such that Follows(c, _)
+Select c such that Follows(c, _)
 we didn't write the result for this query
 1000
 1 - Follows Call
 call c;
-Select BOOLEAN such that Follows(_, c)
+Select c such that Follows(_, c)
 we didn't write the result for this query
 1000
 1 - Follows Call

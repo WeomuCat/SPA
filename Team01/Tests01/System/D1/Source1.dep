@@ -5,3 +5,9 @@ Select/Source1_Tuple_Many
 OneSuchThat/Source1_Follows_Boolean
 OneSuchThat/Source1_Follows_Elem
 OneSuchThat/Source1_Follows_Tuple
+OnePattern/Source1_Boolean
+OnePattern/Source1_Elem
+OnePattern/Source1_Tuple
+OneWith/Source1_Boolean
+OneWith/Source1_Elem
+OneWith/Source1_Tuple

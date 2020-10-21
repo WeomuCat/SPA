@@ -23,3 +23,13 @@ stmt s1, s2;
 Select <s1, s2, s1.stmt#, s2.stmt#> such that Follows(s1, s2)
 we didn't write the result for this query
 1000
+1 - Follows Statement
+stmt s1, s2, s3;
+Select <s1, s2> such that Follows(s2, s3)
+we didn't write the result for this query
+1000
+1 - Follows Statement
+stmt s1, s2, s3, s4;
+Select <s1, s2> such that Follows(s3, s4)
+we didn't write the result for this query
+1000

@@ -30,7 +30,7 @@ Select a pattern a ("a", "((a + (b * c)) + d)")
 1000
 7 - Variable a, Wrong Brackets Full Pattern
 assign a;
-Select a pattern a ("a", "a + ((c + (b + a)) + d) + ((dog + meow) + woof) + dog % 2 + 2 % dog / cat * woof + meow * cat")
+Select a pattern a ("a", "a + c + (b + a) + d + ((dog + meow) + woof) + dog % 2 + 2 % dog / cat * woof + meow * cat")
 none
 1000
 8 - Variable a, Wrong Full Pattern

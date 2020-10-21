@@ -1,4 +1,4 @@
-1 - Follows Constant
+1 - Follows Integer
 
 Select BOOLEAN such that Follows(1, 2)
 we didn't write the result for this query
