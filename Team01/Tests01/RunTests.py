@@ -4,6 +4,7 @@
 
 import argparse
 import collections
+import glob
 import os
 import re
 import signal
@@ -664,6 +665,12 @@ def publish():
         printwarn("No source files were found!")
         return
 
+    # Clean up previous txt files
+    printinfo("Cleaning up previous txt files...")
+    files = glob.glob("{}/*.txt".format(PUBLISH_OUTPUT_DIRECTORY))
+    for f in files:
+        os.unlink(f)
+
     total_queries = 0
     deps = get_deps_paths(source_paths)
     for index, (source_path, deps_paths) in enumerate(deps):
@@ -732,6 +739,12 @@ def run():
         for queries_path in deps_paths:
             tests.append((source_path, queries_path))
 
+    # Clean up previous xml files
+    printinfo("Cleaning up previous xml files...")
+    files = glob.glob("{}/*.xml".format(OUTPUT_DIRECTORY))
+    for f in files:
+        os.unlink(f)
+
     # Test each source file with it's queries
     printinfo("Testing all source files...")
 
@@ -740,6 +753,7 @@ def run():
     for index, (source_path, queries_path) in enumerate(tests):
         source_full_path = "{}.{}".format(source_path, SOURCE_EXTENSION)
         queries_full_path = "{}.{}".format(queries_path, QUERIES_EXTENSION)
+        test_no = index+1
 
         # Output Name Format: Source Path (Relative Query Path)
         s_name = os.path.relpath(source_path, tests_dir_path)
@@ -748,12 +762,12 @@ def run():
         q_name = os.path.relpath(queries_path, os.path.dirname(source_path))
         q_name = os.path.normpath(q_name)
         q_name = "-".join(q_name.split(os.sep))
-        output_full_path = "{} ({}).xml".format(s_name, q_name)
+        output_full_path = "{}. {} ({}).xml".format(test_no, s_name, q_name)
         output_full_path = os.path.join(OUTPUT_DIRECTORY, output_full_path)
         output_full_path = os.path.abspath(output_full_path)
 
         # Run AutoTester
-        printinfoaccent("Running test ({}/{}): {} ({})".format(index+1, len(tests), s_name, q_name))
+        printinfoaccent("Running test ({}/{}): {} ({})".format(test_no, len(tests), s_name, q_name))
         process = subprocess.run([autotester_path, source_full_path, queries_full_path, output_full_path], stdout=subprocess.DEVNULL)
 
         if not process.returncode == 0:
