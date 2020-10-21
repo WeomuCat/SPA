@@ -1,5 +1,5 @@
 ﻿#include "QueryEvaluator.h"
-#include <queue>
+
 
 QueryEvaluator::QueryEvaluator(PKB pkb) {
 	this->pkb = pkb;

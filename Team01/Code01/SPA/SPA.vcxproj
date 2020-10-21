@@ -126,6 +126,7 @@
     <ClCompile Include="..\source\QueryValidator.cpp" />
     <ClCompile Include="..\source\Relationship.cpp" />
     <ClCompile Include="..\source\ResultList.cpp" />
+    <ClCompile Include="..\source\ResultListManager.cpp" />
     <ClCompile Include="..\source\WithClause.cpp" />
   </ItemGroup>
   <ItemGroup>
