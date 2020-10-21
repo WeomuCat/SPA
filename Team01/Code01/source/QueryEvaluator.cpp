@@ -254,6 +254,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 		}
 	}
 	else if (return_type == QueryEvaluatorReturnType::tuple) {
+		/*
 		QUERY_NODE_LIST all_children = result_clause.getChildren();
 		std::vector<SYNONYM_NAME> missing_synonyms;
 		std::vector<int> missing_synonym_indexes;
@@ -293,15 +294,18 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 
 		// replace all the synonym values with the attrRef value, if applicable
 		// throws exception if any attrRef is not valid for the synonym.
+		/*
 		try {
 			replaceSynonymsWithAttrRefValues();
 		}
 		catch (const char* msg) {
 			return no_result;
 		}
+		*/
+		
 
 		//get all the values of tuples from this final result list
-		return ResultListManager::getTupleValues(result_list, tuple_return_synonyms);
+		return QueryEvaluator::getTupleValues();
 	}
 	else {
 		throw "QE: obtainFinalQueryResult: Return type is not synonym, tuple, boolean.";
@@ -398,7 +402,7 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 			final_result_list = ResultListManager::merge(final_result_list, child_result_list, processed_synonyms, pkb);
 		}
 
-		return ResultListManager::getTupleValues(final_result_list, tuple_return_synonyms);
+		return QueryEvaluator::getTupleValues();
 	}
 	
 }
@@ -418,3 +422,89 @@ SYNONYM_TYPE QueryEvaluator::getSynonymType(SYNONYM_NAME synonym_name) {
 
 	return synonym_type;
 }
+
+VALUE_LIST QueryEvaluator::getTupleValues() {
+	VALUE_LIST final_results;
+	std::vector<SYNONYM_VALUES_LIST> target_synonym_list;
+
+	for (QueryNode return_node : result_clause.getChildren()) {
+		if (return_node.getNodeType() == QueryNodeType::attr) {
+
+			// if return type is calls.procName
+			if (return_node.getSynonymType() == QuerySynonymType::call && return_node.getAttr() == AttributeType::procName) {
+				SYNONYM_NAME synonym_name = return_node.getString();
+
+				// if result list contains this synonym, return the result list values. Otherwise, get from PKB.
+				if (result_list.containsSynonym(synonym_name)) {
+					SYNONYM_VALUES_LIST stmtnum_values = result_list.getValuesOfSynonym(synonym_name);
+					SYNONYM_VALUES_LIST procname_values = AttrRefManager::getCallsProcname(pkb, stmtnum_values);
+					target_synonym_list.push_back(procname_values);
+				}
+				else {
+					SYNONYM_VALUES_LIST procname_values = pkb.getCallProcNameList();
+					target_synonym_list.push_back(procname_values);
+				}
+			}
+
+			// if return type is read.varName
+			if (return_node.getSynonymType() == QuerySynonymType::read && return_node.getAttr() == AttributeType::varName) {
+				SYNONYM_NAME synonym_name = return_node.getString();
+
+				// if result list contains this synonym, return the result list values. Otherwise, get from PKB.
+				if (result_list.containsSynonym(synonym_name)) {
+					SYNONYM_VALUES_LIST stmtnum_values = result_list.getValuesOfSynonym(synonym_name);
+					SYNONYM_VALUES_LIST varname_values = AttrRefManager::getReadVarname(pkb, stmtnum_values);
+					target_synonym_list.push_back(varname_values);
+				}
+				else {
+					SYNONYM_VALUES_LIST varname_values = pkb.getReadVarNameList();
+					target_synonym_list.push_back(varname_values);
+				}
+			}
+
+			// if return type is print.varName
+			if (return_node.getSynonymType() == QuerySynonymType::read && return_node.getAttr() == AttributeType::varName) {
+				SYNONYM_NAME synonym_name = return_node.getString();
+
+				// if result list contains this synonym, return the result list values. Otherwise, get from PKB.
+				if (result_list.containsSynonym(synonym_name)) {
+					SYNONYM_VALUES_LIST stmtnum_values = result_list.getValuesOfSynonym(synonym_name);
+					SYNONYM_VALUES_LIST varname_values = AttrRefManager::getPrintVarname(pkb, stmtnum_values);
+					target_synonym_list.push_back(varname_values);
+				}
+				else {
+					SYNONYM_VALUES_LIST varname_list = pkb.getPrintVarNameList();
+					target_synonym_list.push_back(varname_list);
+				}
+			}
+
+		}
+		else {
+			SYNONYM_NAME synonym_name = return_node.getString();
+			if (result_list.containsSynonym(synonym_name)) {
+				target_synonym_list.push_back(result_list.getValuesOfSynonym(synonym_name));
+			}
+			else {
+				ResultList synonym_value_result;
+				fillWithReturnSynonym(return_node, synonym_value_result);
+				SYNONYM_VALUES_LIST synonym_values = synonym_value_result.getValuesOfSynonym(synonym_name);
+				target_synonym_list.push_back(synonym_values);
+			}
+		}
+	}
+
+	for (int i = 0; i < result_list.getNumRows(); i++) {
+		std::string row_result = "";
+		for (int j = 0; j < target_synonym_list.size(); j++) {
+			std::string synonym_value = target_synonym_list[j][i];
+			row_result = row_result + synonym_value + " ";
+		}
+		if (row_result.size() > 0) {
+			row_result.pop_back(); // remove extra whitespace behind
+		}
+		final_results.push_back(row_result);
+	}
+
+	return final_results;
+}
+
