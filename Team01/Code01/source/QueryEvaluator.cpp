@@ -1,5 +1,5 @@
 ﻿#include "QueryEvaluator.h"
-#include <queue>
+
 
 QueryEvaluator::QueryEvaluator(PKB pkb) {
 	this->pkb = pkb;
@@ -89,7 +89,8 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 			if (clause_result_list.getNumColumns() != 0) {
 				only_true_false_clauses = false;
 			}
-			result_list = ResultListManager::merge(result_list, clause_result_list);
+			
+			result_list = ResultListManager::merge(result_list, clause_result_list, processed_synonyms, pkb);
 		}
 		else {
 			if (return_type == QueryEvaluatorReturnType::synonym) {
@@ -150,15 +151,15 @@ void QueryEvaluator::fillWithReturnSynonym(QueryNode synonym_node, ResultList &r
 /* Throws Exception if attrRef is not valid for the given synonym.
 * Have  to try catch this method:
 
-	catch (const char* msg) {
-		// Invalid attrRef for the given synonym. Semantically incorrect. Terminate.
-		if (return_type == QueryEvaluatorReturnType::boolean) {
-			return boolean_false_result;
-		}
-		else {
-			return no_result;
-		}
+catch (const char* msg) {
+	// Invalid attrRef for the given synonym. Semantically incorrect. Terminate.
+	if (return_type == QueryEvaluatorReturnType::boolean) {
+		return boolean_false_result;
 	}
+	else {
+		return no_result;
+	}
+}
 */
 void QueryEvaluator::fillWithReturnValue(QueryNode elem_node, ResultList& current_result_list) {
 	QueryNodeType elem_node_type = elem_node.getNodeType();
@@ -237,8 +238,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 			}
 		}
 		else {
-			//return ResultListManager::getSynonymValues(result_list, return_synonym_name);
-			return getReturnValue(result_list, synonym);
+			return getFinalQueryResultReturnValue(result_list, synonym);
 		}
 	}
 	else if (return_type == QueryEvaluatorReturnType::boolean) {
@@ -283,7 +283,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 					return getSemanticallyInvalidResult();
 				}
 
-				result_list = ResultListManager::merge(result_list, current_synonym);
+				result_list = ResultListManager::merge(result_list, current_synonym, processed_synonyms, pkb);
 			}
 		}
 
@@ -309,7 +309,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 }
 
 
-QUERY_RESULT QueryEvaluator::getReturnValue(ResultList result_list, QueryNode synonym_node) {
+QUERY_RESULT QueryEvaluator::getFinalQueryResultReturnValue(ResultList result_list, QueryNode synonym_node) {
 	QUERY_NODE_TYPE node_type = synonym_node.getNodeType();
 
 	if (node_type == QueryNodeType::synonym) {
@@ -355,7 +355,7 @@ void QueryEvaluator::replaceSynonymsWithAttrRefValues() {
 		if (child.getNodeType() == QueryNodeType::attr) {
 			
 			if (!AttrRefManager::resultMatches(result_list, child)) {
-				SYNONYM_VALUES_LIST new_values = getReturnValue(result_list, child); // throws exception if invalid attrRef for the synonym
+				SYNONYM_VALUES_LIST new_values = getFinalQueryResultReturnValue(result_list, child); // throws exception if invalid attrRef for the synonym
 				SYNONYM_NAME synonym_name = child.getString();
 				result_list.replaceColumnValues(synonym_name, new_values);
 			}
@@ -395,7 +395,7 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 				return getSemanticallyInvalidResult();
 			}
 
-			final_result_list = ResultListManager::merge(final_result_list, child_result_list);
+			final_result_list = ResultListManager::merge(final_result_list, child_result_list, processed_synonyms, pkb);
 		}
 
 		return ResultListManager::getTupleValues(final_result_list, tuple_return_synonyms);

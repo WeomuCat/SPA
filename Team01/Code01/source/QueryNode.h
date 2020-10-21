@@ -7,16 +7,6 @@
 #include <string>
 #include <vector>
 
-class QueryNode;
-
-typedef QueryNodeType QUERY_NODE_TYPE;
-typedef std::string NODE_TYPE_STRING;
-typedef QueryNode* QUERY_NODE_POINTERS;
-typedef QuerySynonymType SYNONYM_TYPE;
-typedef std::string SYNONYM_TYPE_STRING;
-typedef std::string SYNONYM_NAME;
-typedef QueryNodeContent QUERY_NODE_CONTENT;
-typedef std::vector<QueryNode> QUERY_NODE_LIST;
 
 class QueryNode {
 private:

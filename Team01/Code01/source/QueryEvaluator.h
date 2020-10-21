@@ -16,12 +16,11 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <queue>
 
 class QueryEvaluator;
 
-typedef std::vector<std::string> QUERY_RESULT;
-typedef std::unordered_map<std::string, QueryNode> PROCESSED_SYNONYMS;
-typedef QueryNode PROCESSED_CLAUSES;
+
 typedef bool BOOLEAN;
 
 class QueryEvaluator {
@@ -79,7 +78,7 @@ private:
 	Description: Returns the default result for semantically invalid responses. Mainly used for invalid attrRef for synonyms.
 	*/
 
-	QUERY_RESULT getReturnValue(ResultList result_list, QueryNode synonym_node);
+	QUERY_RESULT getFinalQueryResultReturnValue(ResultList result_list, QueryNode synonym_node);
 	/*
 	Desription: Returns the value to be returned from this result_list. Handles obtaining synonyms values and atrrRef value conversion.
 	*/

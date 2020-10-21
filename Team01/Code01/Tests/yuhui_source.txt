@@ -1,22 +1,26 @@
-procedure procmain {
-    print apple;
-    read banana;
-    ant = 0;
-    while (coconut > dragonfruit) {
-        print apple;
-        if (elderberry == fig) then {
-            apple = 3 * banana + apple;
-            call procsub;
-            chimpanzee = 4;
-        } else {
-            print coconut;
-            apple = 10 * banana + apple;
-            call procdenyaffects;
-            gorillas = 1;
-            hawks = 3;
+procedure firstElement {
+    wind = earth + fire;
+    print water;
+    read earth;
+    if ((!(earth == water)) && (wind <= fire)) then {
+        fire = water - 4;
+        read water;
+        while (water < earth) {
+            call secondElement;
         }
-        dragonfruit = dragonfruit + 1 * apple;
+    } else {
+        water = earth * water;
+        print water;
+        call secondElement;
+        water = 4;
     }
-    print apple;
-    boar = 2011;
+
+}
+
+procedure secondElement {
+    water = earth * water;
+    water = 4;
+    read wind;
+    read fire;
+    print earth;
 }

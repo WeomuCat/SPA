@@ -34,4 +34,6 @@ public:
 	bool containsSynonym(SYNONYM_NAME column_name);
 	INTEGER getNumRows();
 	INTEGER getNumColumns();
+	bool hasNoRows();
+	bool hasNoCols();
 };

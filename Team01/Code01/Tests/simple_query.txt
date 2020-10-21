@@ -1,5 +1,5 @@
-1 - comment
-proc p; variable v;
-Select v such that Uses(p, v)
-a, b, c, d, e
-5000
+2 - Boolean Call
+call cl;
+Select BOOLEAN with cl.stmt# = 8 and cl.procName = "secondElement"
+TRUE
+1000
