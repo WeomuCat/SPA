@@ -170,6 +170,7 @@
     </ClCompile>
     <ClCompile Include="TestAST.cpp" />
     <ClCompile Include="TestParser.cpp" />
+    <ClCompile Include="TestPattern.cpp" />
     <ClCompile Include="TestQueryValidator.cpp" />
     <ClCompile Include="TestResultListManager.cpp" />
     <ClCompile Include="TestQueryNode.cpp" />
