@@ -75,7 +75,7 @@ public:
 				 If both values are not the default value, return 1.
 	*/
 	
-	static bool isDefaultAttrValueForSynonymType(SYNONYM_VALUE synonym_value, SYNONYM_TYPE synonym_type);
+	static bool isDefaultValueTypeForSynonymType(SYNONYM_VALUE synonym_value, SYNONYM_TYPE synonym_type);
 	/*
 	Description: Returns true if the value given is the default value type for this synonym type.
 				 Eg True if stmtNum is provided since stmtNum is the default value for Calls. Print, Read.

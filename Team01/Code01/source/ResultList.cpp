@@ -85,6 +85,10 @@ INTEGER ResultList::getNumColumns() {
 	return results.size();
 }
 
-bool ResultList::isEmpty() {
+bool ResultList::hasNoRows() {
 	return (num_rows == 0);
+}
+
+bool ResultList::hasNoCols() {
+	return (results.size() == 0);
 }

@@ -250,9 +250,30 @@ int AttrRefManager::getIndexOfDefaultValue(STRING val1, STRING val2, SYNONYM_TYP
 	}
 }
 
-bool AttrRefManager::isDefaultAttrValueForSynonymType(SYNONYM_VALUE synonym_value, SYNONYM_TYPE synonym_type) {
-	if (isDigit(synonym_value)) {	// default value of call/print/read is stmtNum
-		return true;
+bool AttrRefManager::isDefaultValueTypeForSynonymType(SYNONYM_VALUE synonym_value, SYNONYM_TYPE synonym_type) {
+	switch (synonym_type) {
+	case QuerySynonymType::assign:
+		return isDigit(synonym_value);
+	case QuerySynonymType::call:
+		return isDigit(synonym_value);
+	case QuerySynonymType::constant:
+		return isDigit(synonym_value);
+	case QuerySynonymType::ifs:
+		return isDigit(synonym_value);
+	case QuerySynonymType::print:
+		return isDigit(synonym_value);
+	case QuerySynonymType::prog_line:
+		return isDigit(synonym_value);
+	case QuerySynonymType::read:
+		return isDigit(synonym_value);
+	case QuerySynonymType::stmt:
+		return isDigit(synonym_value);
+	case QuerySynonymType::whiles:
+		return isDigit(synonym_value);
+	case QuerySynonymType::procedure:
+		return !isDigit(synonym_value);
+	case QuerySynonymType::variable:
+		return !isDigit(synonym_value);
 	}
 }
 

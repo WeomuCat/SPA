@@ -99,10 +99,11 @@ public:
 		// Note: if there is at least 1 column, but no rows for the column, it is not considered empty.
 		ROW_LIST rows1 = list1.getRowList();
 		ROW_LIST rows2 = list2.getRowList();
-		if (rows1.size() == 0) {
+
+		if (list1.hasNoCols()) {
 			return list2;
 		}
-		if (rows2.size() == 0) {
+		if (list2.hasNoCols()) {
 			return list1;
 		}
 
@@ -141,7 +142,7 @@ public:
 	*/
 	static void replaceAllAttrRefWithDefaultValue(ResultList& list, PROCESSED_SYNONYMS processed_synonyms, PKB pkb) {
 		// check if there a column in the list that is not the default value of that synonym type (ie calls column storing string)
-		if (!list.isEmpty()) {
+		if (!list.hasNoRows()) {
 			SYNONYM_NAME_LIST all_synonym_names = list.getAllSynonyms();
 			for (SYNONYM_NAME synonym_name : all_synonym_names) {
 				QueryNode synonym_node = processed_synonyms.find(synonym_name)->second;
@@ -152,20 +153,52 @@ public:
 				SYNONYM_TYPE synonym_type = synonym_node.getSynonymType();
 
 				// If the synonym value is not the default type (string/int) of this synonym type, replace the result list value with the default value
-				if (!AttrRefManager::isDefaultAttrValueForSynonymType(one_synonym_value, synonym_type)) {
-					STMT_NUM_LIST default_values;
+				if (!AttrRefManager::isDefaultValueTypeForSynonymType(one_synonym_value, synonym_type)) {
+					SYNONYM_VALUES_LIST new_values;
+
+					// If the synonym type is call, replace varName with stmtNum
 					if (synonym_type == QuerySynonymType::call) {
-						default_values = pkb.getCallNumList();
+						CALL_NODE_PTR_LIST call_nodes = pkb.getCalls();
+						for (SYNONYM_VALUE synonym_value : synonym_values) {
+							for (CALL_NODE_PTR call_node : call_nodes) {
+								if (call_node->getCalleeProcedureName().compare(synonym_value) == 0) {
+									STMT_NUM new_value = call_node->getStatementNumber();
+									new_values.push_back(std::to_string(new_value));
+								}
+							}
+						}
 					}
+
+					// If the synonym type is read, replace varName with stmtNum
 					if (synonym_type == QuerySynonymType::read) {
-						default_values = pkb.getReadNumList();
+						READ_NODE_PTR_LIST read_nodes = pkb.getReads();
+						for (SYNONYM_VALUE synonym_value : synonym_values) {
+							for (READ_NODE_PTR read_node : read_nodes) {
+								VAR_NODE_PTR var_node = read_node->getVariableNode();
+								VAR_NAME variable_name = var_node->getVariableName();
+								if (variable_name.compare(synonym_value) == 0) {
+									STMT_NUM new_value = read_node->getStatementNumber();
+									new_values.push_back(std::to_string(new_value));
+								}
+							}
+						}
 					}
+
+					// If the synonym type is print, replace varName with stmtNum
 					if (synonym_type == QuerySynonymType::print) {
-						default_values = pkb.getPrintNumList();
+						PRINT_NODE_PTR_LIST print_nodes = pkb.getPrints();
+						for (SYNONYM_VALUE synonym_value : synonym_values) {
+							for (PRINT_NODE_PTR print_node : print_nodes) {
+								if (print_node->getVariableNode()->getVariableName().compare(synonym_value) == 0) {
+									STMT_NUM new_value = print_node->getStatementNumber();
+									new_values.push_back(std::to_string(new_value));
+								}
+							}
+						}
 					}
-						
-					SYNONYM_VALUES_LIST default_values_string = convertIntToStringValues(default_values);
-					list.replaceColumnValues(synonym_name, default_values_string);
+					
+					
+					list.replaceColumnValues(synonym_name, new_values);
 				}
 				
 			}
@@ -228,11 +261,6 @@ private:
 			SYNONYM_VALUE r1_value = r1[n];
 			SYNONYM_VALUE r2_value = r2[n];
 
-			/*
-			if (AttrRefManager::isSameValueType(r1_value, r2_value) && r1[n] != r2[n]) {
-				return false;
-			}
-			*/
 			
 			if (r1[n] != r2[n]) {
 				return false;
