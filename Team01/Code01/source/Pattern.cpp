@@ -196,7 +196,7 @@ VAR_NAME_LIST Pattern::getVarNameListFromAst(AST_NODE_PTR ast) {
 }
 
 bool Pattern::exactExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle) {
-    // Do BFS for both trees concurrently
+    // Algorithm: BFS
     std::queue<AST_NODE_PTR> queue1;
     std::queue<AST_NODE_PTR> queue2;
     queue1.push(haystack);
@@ -212,24 +212,51 @@ bool Pattern::exactExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR nee
             return false;
         }
 
-        // Push children of current nodes to queues
-        for (AST_NODE_PTR c : getExpressionNodeChildren(n1)) {
-            queue1.push(c);
+        // If both nodes are nullptr, skip as they have no children!
+        if (n1 == nullptr && n2 == nullptr) {
+            continue;
         }
-        for (AST_NODE_PTR c : getExpressionNodeChildren(n2)) {
-            queue2.push(c);
-        }
+
+        // Push children of nodes to queues
+        queue1.push(getExpressionNodeLeft(n1));
+        queue1.push(getExpressionNodeRight(n1));
+
+        queue2.push(getExpressionNodeLeft(n2));
+        queue2.push(getExpressionNodeRight(n2));
     }
 
-    // If both queues are empty, we have traversed both trees, and they are exactly equal
-    // If one queue is non empty, there are extra children in one of the trees, and they are not exactly equal
-    return queue1.empty() && queue2.empty();
+    // Both queues always have the same length!
+    // If both queues are empty, it means that both trees are equal :)
+    return true;
 }
 
 bool Pattern::partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle) {
-    // Do BFS
-    bool matching = false;
-    AST_NODE_PTR match_start = nullptr;
+    // Algorithm: BFS
+    // Traverse the entire haystack tree
+    // For every node, check if a partial top match with the needle exists
+    std::queue<AST_NODE_PTR> queue;
+    queue.push(haystack);
+    while (!queue.empty()) {
+        AST_NODE_PTR n = queue.front();
+        queue.pop();
+
+        if (partialTopExpressionTreeMatch(n, needle)) {
+            return true;
+        }
+
+        // Push children of current node to queues
+        for (AST_NODE_PTR c : getExpressionNodeChildren(n)) {
+            queue.push(c);
+        }
+    }
+    
+    // If the queue is empty, there is no partial match in the entire haystack tree :(
+    return false;
+}
+
+bool Pattern::partialTopExpressionTreeMatch(AST_NODE_PTR haystack, AST_NODE_PTR needle) {
+    // Algorithm: BFS
+    // Partial top match means that the needle is compared only at the root of the haystack
     std::queue<AST_NODE_PTR> queue1;
     std::queue<AST_NODE_PTR> queue2;
     queue1.push(haystack);
@@ -237,57 +264,43 @@ bool Pattern::partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR n
     while (!queue1.empty() && !queue2.empty()) {
         AST_NODE_PTR n1 = queue1.front();
         AST_NODE_PTR n2 = queue2.front();
-
-        bool equal = areExpressionNodesEqual(n1, n2);
-
-        // If we are currently matching, but the current nodes are not equal:
-        // 1. clear both queues
-        // 2. push children of match_start to queue1
-        // 3. push needle to queue2
-        if (matching && !equal) {
-            matching = false;
-            queue1 = {};
-            queue2 = {};
-            for (AST_NODE_PTR c : getExpressionNodeChildren(match_start)) {
-                queue1.push(c);
-            }
-            queue2.push(needle);
-            continue;
-        }
-
-        // If we not matching and the current nodes are not equal, traverse haystack tree
-        if (!matching && !equal) {
-            queue1.pop();
-            // Push children of current nodes to queues
-            for (AST_NODE_PTR c : getExpressionNodeChildren(n1)) {
-                queue1.push(c);
-            }
-            continue;
-        }
-
-        // If the current nodes are equal, we traverse both queues
-        // Indicate that we are matching starting from this node
-        if (!matching) {
-            matching = true;
-            match_start = n1;
-        }
-
         queue1.pop();
         queue2.pop();
-        // Push children of current nodes to queues
-        for (AST_NODE_PTR c : getExpressionNodeChildren(n1)) {
-            queue1.push(c);
+
+        if (!areExpressionNodesEqual(n1, n2)) {
+            return false;
         }
-        for (AST_NODE_PTR c : getExpressionNodeChildren(n2)) {
-            queue2.push(c);
+
+        // We check by traversing based on the needle's tree
+        // For the current needle node,
+        // 1. If it has a left child, append both n1 & n2's left child
+        // 2. If it has a right child, append both n1 & n2's right child
+        AST_NODE_PTR needle_left = getExpressionNodeLeft(n2);
+        AST_NODE_PTR needle_right = getExpressionNodeRight(n2);
+        if (needle_left != nullptr) {
+            queue1.push(getExpressionNodeLeft(n1));
+            queue2.push(needle_left);
+        }
+        if (needle_right != nullptr) {
+            queue1.push(getExpressionNodeRight(n1));
+            queue2.push(needle_right);
         }
     }
     
-    // If queue2 is empty, we have completely traversed the needle tree, and thus there is a partial match!
-    return queue2.empty();
+    // Both queues always have the same length!
+    // If both queues are empty, it means that all needle nodes can be found in the haystack :)
+    return true;
 }
 
 bool Pattern::areExpressionNodesEqual(AST_NODE_PTR n1, AST_NODE_PTR n2) {
+    // Check if nodes are nullptr...
+    if (n1 == nullptr && n2 == nullptr) {
+        return true;
+    }
+    if (n1 == nullptr || n2 == nullptr) {
+        return false;
+    }
+
     // Handles weird expression node with none type...
     if (n1->getNodeType() == NODE_TYPE::expressionNode) {
         EXPR_NODE_PTR e1 = std::static_pointer_cast<ExpressionNode>(n1);
@@ -345,4 +358,32 @@ AST_NODE_PTR_LIST Pattern::getExpressionNodeChildren(AST_NODE_PTR n) {
     result.push_back(e->getLeftAstNode());
     result.push_back(e->getRightAstNode());
     return result;
+}
+
+AST_NODE_PTR Pattern::getExpressionNodeLeft(AST_NODE_PTR n) {
+    if (n->getNodeType() != NODE_TYPE::expressionNode) {
+        return nullptr;
+    }
+
+    EXPR_NODE_PTR e = std::static_pointer_cast<ExpressionNode>(n);
+    // Handles weird expression node with none type...
+    if (e->getExpressionType() == EXPR_TYPE::none) {
+        return nullptr;
+    }
+
+    return e->getLeftAstNode();
+}
+
+AST_NODE_PTR Pattern::getExpressionNodeRight(AST_NODE_PTR n) {
+    if (n->getNodeType() != NODE_TYPE::expressionNode) {
+        return nullptr;
+    }
+
+    EXPR_NODE_PTR e = std::static_pointer_cast<ExpressionNode>(n);
+    // Handles weird expression node with none type...
+    if (e->getExpressionType() == EXPR_TYPE::none) {
+        return nullptr;
+    }
+
+    return e->getRightAstNode();
 }

@@ -1,27 +1,27 @@
 1 - Follows and Follows*
 stmt s1, s2;
-Select s1 such that Follows (s1, s2) and Follows* (s1, 5)
-3
+Select s1 such that Follows (s1, s2) and Follows* (s1, 7)
+5, 6
 5000
 2 - Follows* and Parent
 stmt s1, s2;
-Select s1 such that Follows* (s1, s2) and Parent (5, s1)
+Select s1 such that Follows* (s1, s2) and Parent (4, s1)
 5, 6
 5000
 3 - Follows and Modifies
 stmt s1, s2;
 Select s1 such that Follows (s1, s2) and Modifies (s1, "bvar")
-1, 15, 16
+2, 15, 16, 17
 5000
 4 - Follows* and Uses
 stmt s1, s2;
 Select s1 such that Follows* (s1, s2) and Uses (s1, "dvar")
-1, 2, 4, 8, 14, 15, 17, 18
+1, 2, 8, 14, 15, 17, 18
 5000
 5 - Follows and Next
 assign a; stmt s; prog_line n;
 Select n such that Follows (s, a) and Next (a, n)
-15, 21 
+10, 15, 21
 5000
 6 - Parent and Parent*
 stmt s; if i; print p;
@@ -30,13 +30,13 @@ Select i such that Parent (i, 8) and Parent* (s, p)
 5000
 7 - Parent* and Modifies
 while w; read r; variable v;
-Select v such that Parent* (w, r) and Modifies (w, v)
+Select v.varName such that Parent* (w, r) and Modifies (w, v)
 avar, bvar, evar
 5000
 8 - Parent and Uses
 while w; read r; variable v;
-Select r such that Parent (w, r) and Uses (w, v)
-avar, cvar, evar
+Select r.varName such that Parent (w, r) and Uses (w, v)
+evar
 5000
 9 - Parent* and Next
 stmt s; print p; prog_line n;
@@ -46,17 +46,17 @@ Select s such that Parent* (s, p) and Next (s, 22)
 10 - Modifies and Modifies
 stmt s; variable v;
 Select s such that Modifies (s, "avar") and Modifies (s, v)
-1, 25
+1, 25, 11, 13, 15, 2, 21, 4, 7
 5000
 11 - Modifies and Uses
 stmt s;
-Select s such that Modifies (s, "bvar") and Uses (s, "3")
-16
+Select s such that Modifies (s, "bvar") and Uses (s, "bvar")
+9, 16, 11, 15, 2
 5000
 12 - Modifies and Calls
 assign a; procedure p;
 Select p such that Modifies (p, "cvar") and Calls (p, "cProc")
-aProc
+aProc, bProc
 5000
 13 - Modifies and Next
 assign a; variable v; prog_line n;
@@ -81,12 +81,12 @@ avar, bvar, cvar, dvar, evar
 17 - Calls and Calls*
 procedure p1, p2;
 Select p1 such that Calls (p1, p2) and Calls* (p1, p2)
-aProc
+aProc, bProc
 5000
 18 - Next and Next*
 prog_line n1, n2, n3;
 Select n1 such that Next (n1, n2) and Next* (n2, n3)
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24
+1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23
 5000
 19 - More Such that
 stmt s; assign a; variable v; procedure p1, p2;

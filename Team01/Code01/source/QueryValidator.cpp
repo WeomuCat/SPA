@@ -12,9 +12,9 @@ const std::regex declaration_format_("(stmt|read|print|call|while|if|assign|vari
 
 const std::regex clause_select_format_("Select\\s+([a-zA-Z][a-zA-Z0-9]*|<.*>).*");
 const std::regex clause_relation_format_("(Follows|Follows\\*|Parent|Parent\\*|Uses|Modifies|Calls|Calls\\*|Next|Next\\*)\\s*\\(\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*,\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*\\)");
-const std::regex clause_pattern_assign_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*(\"\\s*[^\\s].*\\s*\"|_\\s*\"\\s*[^\\s].*\\s*\"\\s*_|_)\\s*\\)");
-const std::regex clause_pattern_if_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)");
-const std::regex clause_pattern_while_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)");
+const std::regex clause_pattern_assign_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*(\"\\s*[^\\s].*\\s*\"|_\\s*\"\\s*[^\\s].*\\s*\"\\s*_|_)\\s*\\)(\\s+and)?");
+const std::regex clause_pattern_if_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)(\\s+and)?");
+const std::regex clause_pattern_while_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)(\\s+and)?");
 const std::regex clause_with_format_("(\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"|[0-9]+|[a-zA-Z][a-zA-Z0-9]*(.(procName|varName|value|stmt#))?)\\s*=\\s*(\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"|[0-9]+|[a-zA-Z][a-zA-Z0-9]*(.(procName|varName|value|stmt#))?)");
 
 const std::regex stmt_ref_format_("([a-zA-Z][a-zA-Z0-9]*|_|[0-9]+)");
@@ -25,17 +25,17 @@ const std::regex expression_spec_format_("(\"\\s*([a-zA-Z][a-zA-Z0-9]*|[0-9]+)\\
 /*
 Validation rules:
 		- Query is not empty
-		- Has a declaration
 		- Has 'Select'
+		- If is not 'Select BOOLEAN', should have declarations
 */
 VALIDATION_RESULT QueryValidator ::isValidStructure(QUERY q) {
 	if (q.length() <= 0) {
 		return false;
 	}
-	else if (q.find(";") == -1) {
+	else if (q.find("Select") == -1) {
 		return false;
 	}
-	else if (q.find("Select") == -1) {
+	else if (q.find("BOOLEAN") == -1 && q.find(";") == -1) {
 		return false;
 	}
 	else {
