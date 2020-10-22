@@ -1,5 +1,3 @@
-../Others/Fixes/Bug_Fixes_Global_D3_1
-../SuchThat/Multi_SuchThat/All_Relations_Boolean_Global_D3_1
-../SuchThat/One_SuchThat/Calls_CallsT_Global_D3_1
-../SuchThat/One_SuchThat/Modifies_Uses_Global_D3_1
-../SuchThat/One_SuchThat/Next_NextT_Global_D3_1
+TwoSuchThat/Triple_Boolean
+TwoSuchThat/Triple_Elem
+TwoSuchThat/Triple_Tuple
