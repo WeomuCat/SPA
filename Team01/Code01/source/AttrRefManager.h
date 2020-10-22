@@ -82,6 +82,7 @@ public:
 					True if string is provided for procedure, variable
 	*/
 
+
 private:
 	static ATTR_REF_VALUES_LIST getAssignValues(PKB pkb, ATTRIBUTE attribute);
 

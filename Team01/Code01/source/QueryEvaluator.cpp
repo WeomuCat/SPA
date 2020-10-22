@@ -254,7 +254,7 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 		}
 	}
 	else if (return_type == QueryEvaluatorReturnType::tuple) {
-		/*
+		
 		QUERY_NODE_LIST all_children = result_clause.getChildren();
 		std::vector<SYNONYM_NAME> missing_synonyms;
 		std::vector<int> missing_synonym_indexes;
@@ -423,6 +423,8 @@ SYNONYM_TYPE QueryEvaluator::getSynonymType(SYNONYM_NAME synonym_name) {
 	return synonym_type;
 }
 
+/*
+
 VALUE_LIST QueryEvaluator::getTupleValues() {
 	VALUE_LIST final_results;
 	std::vector<SYNONYM_VALUES_LIST> target_synonym_list;
@@ -497,6 +499,84 @@ VALUE_LIST QueryEvaluator::getTupleValues() {
 		std::string row_result = "";
 		for (int j = 0; j < target_synonym_list.size(); j++) {
 			std::string synonym_value = target_synonym_list[j][i];
+			row_result = row_result + synonym_value + " ";
+		}
+		if (row_result.size() > 0) {
+			row_result.pop_back(); // remove extra whitespace behind
+		}
+		final_results.push_back(row_result);
+	}
+
+	return final_results;
+}
+*/
+
+VALUE_LIST QueryEvaluator::getTupleValues() {
+	VALUE_LIST final_results;
+	std::vector<SYNONYM_VALUES_LIST> final_values_list;		// SYNONYM_VALUES_LIST added have to be of the same length
+
+	for (QueryNode return_node : result_clause.getChildren()) {
+		SYNONYM_NAME synonym_name = return_node.getString();
+		QUERY_NODE_TYPE return_node_type = return_node.getNodeType();
+
+		/*
+		if return type is synonym, add the result_list's value to final_values_list
+		else if return type is attr, add attrRef values
+		else the return type is invalid, return no result
+		*/
+		if (return_node_type == QueryNodeType::synonym) {
+			SYNONYM_VALUES_LIST synonym_values = result_list.getValuesOfSynonym(synonym_name);
+			final_values_list.push_back(synonym_values);
+
+		}
+		else if (return_node_type == QueryNodeType::attr) {
+			SYNONYM_TYPE synonym_type = getSynonymType(synonym_name);
+			ATTRIBUTE attrRef = return_node.getAttr();
+
+			if (AttrRefManager::isValidAttrRef(synonym_type, attrRef)) {
+				// if return type is calls.procName, replace stmtNum with procName
+				if (synonym_type == QuerySynonymType::call && attrRef == AttributeType::procName) {
+					SYNONYM_VALUES_LIST stmtnum_values = result_list.getValuesOfSynonym(synonym_name);
+					SYNONYM_VALUES_LIST procname_values = AttrRefManager::getCallsProcname(pkb, stmtnum_values);
+					final_values_list.push_back(procname_values);
+					continue;
+				}
+
+				// if return type is read.varName, replace stmtNum with varName
+				if (synonym_type == QuerySynonymType::read && attrRef == AttributeType::varName) {
+					SYNONYM_VALUES_LIST stmtnum_values = result_list.getValuesOfSynonym(synonym_name);
+					SYNONYM_VALUES_LIST varname_values = AttrRefManager::getReadVarname(pkb, stmtnum_values);
+					final_values_list.push_back(varname_values);
+					continue;
+				}
+
+				// if return type is print.varName, replace stmtNum with varName
+				if (synonym_type == QuerySynonymType::print && attrRef == AttributeType::varName) {
+					SYNONYM_VALUES_LIST stmtnum_values = result_list.getValuesOfSynonym(synonym_name);
+					SYNONYM_VALUES_LIST varname_values = AttrRefManager::getPrintVarname(pkb, stmtnum_values);
+					final_values_list.push_back(varname_values);
+					continue;
+				}
+
+				// else the current value stored in result list matches the type of the attrRef of this synoynm
+				SYNONYM_VALUES_LIST synonym_values = result_list.getValuesOfSynonym(synonym_name);
+				final_values_list.push_back(synonym_values);
+
+			}
+			else {
+				return no_result;
+			}
+		}
+		else {
+			throw "QE: getTupleValues: Type in tuple given is invalid. Only Synonym or attrRef are allowed in Tuple.";
+		}
+	}
+
+	// Compute final query result of tuple
+	for (int i = 0; i < result_list.getNumRows(); i++) {
+		std::string row_result = "";
+		for (int j = 0; j < final_values_list.size(); j++) {
+			std::string synonym_value = final_values_list[j][i];
 			row_result = row_result + synonym_value + " ";
 		}
 		if (row_result.size() > 0) {
