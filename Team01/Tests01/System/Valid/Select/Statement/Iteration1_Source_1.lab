@@ -1,5 +1,0 @@
---- procedure main {
-001     x = 1;
-002     read y;
-003     print z;
---- }

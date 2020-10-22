@@ -1,0 +1,325 @@
+1 - With Integer
+constant c;
+Select c with 0 = 0
+we didn't write the result for this query
+1000
+1 - With Ident
+constant c;
+Select c with "x" = "x"
+we didn't write the result for this query
+1000
+1 - With Statement
+stmt s;
+Select s with s = 0
+we didn't write the result for this query
+1000
+1 - With Statement
+stmt s;
+Select s with 0 = s
+we didn't write the result for this query
+1000
+1 - With Statement
+stmt s;
+Select s with s = s
+we didn't write the result for this query
+1000
+1 - With Statement
+stmt s;
+Select s with s.stmt# = 0
+we didn't write the result for this query
+1000
+1 - With Statement
+stmt s;
+Select s with 0 = s.stmt#
+we didn't write the result for this query
+1000
+1 - With Statement
+stmt s;
+Select s with s.stmt# = s.stmt#
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with r = 0
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with 0 = r
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with r = r
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with r.stmt# = 0
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with 0 = r.stmt#
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with r.stmt# = r.stmt#
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with r.varName = "x"
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with "x" = r.varName
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with r.varName = r.varName
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with p = 0
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with 0 = p
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with p = p
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with p.stmt# = 0
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with 0 = p.stmt#
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with p.stmt# = p.stmt#
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with p.varName = "x"
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with "x" = p.varName
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with p.varName = p.varName
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with c = 0
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with 0 = c
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with c = c
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with c.stmt# = 0
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with 0 = c.stmt#
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with c.stmt# = c.stmt#
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with c.procName = "x"
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with "x" = c.procName
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with c.procName = c.procName
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select w with w = 0
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select w with 0 = w
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select w with w = w
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select w with w.stmt# = 0
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select w with 0 = w.stmt#
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select w with w.stmt# = w.stmt#
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select i with i = 0
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select i with 0 = i
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select i with i = i
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select i with i.stmt# = 0
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select i with 0 = i.stmt#
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select i with i.stmt# = i.stmt#
+we didn't write the result for this query
+1000
+1 - With Assign
+assign a;
+Select a with a = 0
+we didn't write the result for this query
+1000
+1 - With Assign
+assign a;
+Select a with 0 = a
+we didn't write the result for this query
+1000
+1 - With Assign
+assign a;
+Select a with a = a
+we didn't write the result for this query
+1000
+1 - With Assign
+assign a;
+Select a with a.stmt# = 0
+we didn't write the result for this query
+1000
+1 - With Assign
+assign a;
+Select a with 0 = a.stmt#
+we didn't write the result for this query
+1000
+1 - With Assign
+assign a;
+Select a with a.stmt# = a.stmt#
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select v with v = 0
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select v with 0 = v
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select v with v = v
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select v with v.varName = 0
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select v with 0 = v.varName
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select v with v.varName = v.varName
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select c with c = 0
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select c with 0 = c
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select c with c = c
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select c with c.value = 0
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select c with 0 = c.value
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select c with c.value = c.value
+we didn't write the result for this query
+1000

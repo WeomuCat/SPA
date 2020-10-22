@@ -1,5 +1,0 @@
-procedure main {
-    x = 1;
-    read y;
-    print z;
-}
