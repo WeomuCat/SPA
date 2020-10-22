@@ -1,27 +1,27 @@
---- procedure aProc {
+--- procedure aaaProc {
 001     aaa = 1;
 002     ccc = bbb;
-003     call bProc;
-004     call cProc;
+003     call bbbProc;
+004     call cccProc;
 005     if ((aaa == bbb) && (!(aaa == ccc))) then {
 006         ddd = eee;
 007         print eee;
-008         call cProc;
+008         call cccProc;
 009         while (fff != ggg) {
 010             hhh = (1 * (ggg / (ccc % ddd) + eee) - 2) + hhh / aaa;
 011             read ddd;
-012             call cProc;
+012             call cccProc;
 ---         }
 013         print hhh;
 014         aaa = 2;
 ---     } else {
 015         read eee;
 016         while ((eee == eee) || (eee == eee)) {
-017             call bProc;
+017             call bbbProc;
 018             if (bbb != ccc) then {
 019                 aaa = ccc;
 020                 bbb = ddd;
-021                 call cProc;
+021                 call cccProc;
 022                 read eee;
 ---             } else {
 023                 while (hhh != aaa) {
@@ -31,19 +31,19 @@
 ---                 }
 027                 read aaa;
 028                 print bbb;
-029                 call cProc;
+029                 call cccProc;
 ---             }
 030             read aaa;
 031             fff = fff / fff;
 032             ggg = hhh % hhh;
 ---         }
 033         eee = fff;
-034         call bProc;
+034         call bbbProc;
 ---     }
 035     bbb = ccc / ((ddd + eee) * (fff % ggg - hhh));
 036     read aaa;
 037     print eee;
-038     call bProc;
+038     call bbbProc;
 039     while (ddd == eee) {
 040         ccc = fff;
 041         if ((eee >= aaa) && (bbb < ddd)) then {
@@ -53,23 +53,23 @@
 044             eee = aaa * hhh;
 045             read fff;
 ---         }
-046         call bProc;
+046         call bbbProc;
 ---     }
 047     read e;
-048     call cProc;
+048     call cccProc;
 --- }
 --- 
---- procedure bProc {
-049     call dProc;
+--- procedure bbbProc {
+049     call dddProc;
 050     aaa = bbb;
 051     if (aaa == bbb) then {
 052         bbb = fff + ccc - ggg;
 053         read aaa;
-054         call dProc;
+054         call dddProc;
 ---     } else {
 055         ddd = eee;
 056         read ggg;
-057         call cProc;
+057         call cccProc;
 ---     }
 058     if (hhh > ggg) then {
 059         print ggg;
@@ -79,23 +79,23 @@
 061     while (aaa <= ggg) {
 062         read fff;
 063         print aaa;
-064         call cProc;
-065         call dProc;
-066         call cProc;
+064         call cccProc;
+065         call dddProc;
+066         call cccProc;
 ---     }
 067     read hhh;
 --- }
 --- 
---- procedure cProc {
+--- procedure cccProc {
 068     aaa = bbb;
-069     call dProc;
+069     call dddProc;
 070     while (bbb >= eee) {
 071         while (bbb <= eee) {
 072             if (aaa == ggg) then {
 073                 if (aaa != ggg) then {
-074                     call dProc;
+074                     call dddProc;
 ---                 } else {
-075                     call dProc;
+075                     call dddProc;
 ---                 }
 ---             } else {
 076                 while (ddd <= hhh) {
@@ -109,10 +109,10 @@
 080     print ccc;
 081     read ddd;
 082     read eee;
-083     call dProc;
+083     call dddProc;
 --- }
 --- 
---- procedure dProc {
+--- procedure dddProc {
 084     aaa = bbb + ccc;
 085     read ddd;
 086     print eee;
