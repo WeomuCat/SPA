@@ -37,8 +37,10 @@ private:
 	void getSynonymSynonymResult(QueryNode synonym_node1, QueryNode synonym_node2, bool& clause_bool, ResultList& clause_result_list);
 
 	bool isValidWithClause();
+	bool bothAreValidTypes();
 	bool bothAreIntegerTypes();
 	bool bothAreStringTypes();
+	bool isValidType(QueryNode node);
 	bool isIntegerType(QueryNode node);
 	bool isStringType(QueryNode node);
 
