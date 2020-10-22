@@ -102,4 +102,10 @@ private:
 	/*
 	Description: Replaces the values of attrRef types in Result List to the appropriate values.
 	*/
+
+	VALUE_LIST getTupleValues();
+	/*
+	Description: Returns the final result of the selected tuple.
+	*/
+
 };

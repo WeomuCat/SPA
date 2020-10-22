@@ -60,6 +60,11 @@ void WithClause::getWithResult(PKB pkb, bool& clause_bool, ResultList& clause_re
 	this->clause_bool = clause_bool;
 	this->clause_result_list = clause_result_list;
 
+	if (!isValidWithClause()) {
+		clause_bool = false;
+		return;
+	}
+
 	// 1. attrRef + INTEGER 		-> [int] with a.stmt# = 12 | with 12 = a.stmt#
 	if (lhs_type == QueryNodeType::attr && rhs_type == QueryNodeType::integer) {
 		getAttrrefIntResult(lhs, rhs, clause_bool, clause_result_list);
@@ -331,17 +336,52 @@ void WithClause::getSynonymSynonymResult(QueryNode synonym_node1, QueryNode syno
 
 
 bool WithClause::isValidWithClause() {
-	// For the WithClause to be valid, both needs to be the same type (int or string)
+	/* For the WithClause to be valid:
+	- Both lhs and rhs needs to be the same type (int or string)
+	- Each side needs to be a valid value (ie int | ident | synonym| attrRef)
+	*/
 	bool isValid = false;
 
+	if (!bothAreValidTypes()) {
+		isValid = false;
+		return isValid;
+	}
 	if (bothAreIntegerTypes()) {
 		isValid = true;
+		return isValid;
 	}
 	if (bothAreStringTypes()) {
 		isValid = true;
+		return isValid;
 	}
 
 	return isValid;
+}
+
+bool WithClause::bothAreValidTypes() {
+	bool areValidTypes = false;
+
+	if (isValidType(lhs) && isValidType(rhs)) {
+		areValidTypes = true;
+	}
+
+	return areValidTypes;
+}
+
+bool WithClause::isValidType(QueryNode node) {
+	bool isValidType = false;
+
+	QueryNodeType node_type = node.getNodeType();
+	if (node_type == QueryNodeType::integer || node_type == QueryNodeType::ident || node_type == QueryNodeType::synonym) {
+		isValidType = true;
+	}
+	if (node_type == QueryNodeType::attr) {
+		SYNONYM_TYPE synonym_type = processed_synonyms.find(node.getString())->second.getSynonymType();
+		ATTRIBUTE attribute = node.getAttr();
+		isValidType = AttrRefManager::isValidAttrRef(synonym_type, attribute);
+	}
+
+	return isValidType;
 }
 
 bool WithClause::bothAreIntegerTypes() {
