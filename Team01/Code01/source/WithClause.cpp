@@ -336,7 +336,10 @@ void WithClause::getSynonymSynonymResult(QueryNode synonym_node1, QueryNode syno
 
 
 bool WithClause::isValidWithClause() {
-	// For the WithClause to be valid, both needs to be the same type (int or string) and each side needs to be a valid value (ie int | ident | attrRef)
+	/* For the WithClause to be valid:
+	- Both lhs and rhs needs to be the same type (int or string)
+	- Each side needs to be a valid value (ie int | ident | synonym| attrRef)
+	*/
 	bool isValid = false;
 
 	if (!bothAreValidTypes()) {
@@ -369,7 +372,7 @@ bool WithClause::isValidType(QueryNode node) {
 	bool isValidType = false;
 
 	QueryNodeType node_type = node.getNodeType();
-	if (node_type == QueryNodeType::integer || node_type == QueryNodeType::ident) {
+	if (node_type == QueryNodeType::integer || node_type == QueryNodeType::ident || node_type == QueryNodeType::synonym) {
 		isValidType = true;
 	}
 	if (node_type == QueryNodeType::attr) {

@@ -93,7 +93,7 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 			result_list = ResultListManager::merge(result_list, clause_result_list, processed_synonyms, pkb);
 		}
 		else {
-			if (return_type == QueryEvaluatorReturnType::synonym) {
+			if (return_type == QueryEvaluatorReturnType::synonym || return_type == QueryEvaluatorReturnType::tuple) {
 				return no_result;
 			}
 			if (return_type == QueryEvaluatorReturnType::boolean) {

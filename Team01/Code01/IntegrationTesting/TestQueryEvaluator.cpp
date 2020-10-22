@@ -7661,12 +7661,7 @@ namespace IntegrationTesting
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
 
-			QueryNode tuple = QueryNode();
-			tuple.setNodeType({ QueryNodeType::tuple });
-			QueryNode tuple_children[] = { child0 };
-			tuple.setChildren(tuple_children, 1);
-
-			QueryNode root_children[] = { tuple, child1 };
+			QueryNode root_children[] = { child0, child1 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -7691,10 +7686,10 @@ namespace IntegrationTesting
 
 		TEST_METHOD(evaluateQuery_SelectBOOLEAN_WithConst_Varname_ReturnsFalse)
 		{
-			// Query: "constant c1; Select BOOLEAN with cl.varName = 3"
+			// Query: "constant c1; Select BOOLEAN with cl.varName = main"
 			// Get processed_synonyms and processed clauses
 			QueryNode const_node = QueryNode();
-			const_node.setSynonymNode({ QuerySynonymType::call }, "cl");
+			const_node.setSynonymNode({ QuerySynonymType::constant }, "cl");
 			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"cl", const_node } };
 
 			// Select: BOOLEAN
@@ -7709,9 +7704,9 @@ namespace IntegrationTesting
 			QueryNode child_child1 = QueryNode();
 			child_child1.setAttrNode("cl", "varName");
 
-			// arg 2: 3
+			// arg 2: main
 			QueryNode child_child2 = QueryNode();
-			child_child2.setIntegerNode(3);
+			child_child2.setIdentityNode("main");
 
 
 			// set children, make tree
@@ -7721,12 +7716,7 @@ namespace IntegrationTesting
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
 
-			QueryNode tuple = QueryNode();
-			tuple.setNodeType({ QueryNodeType::tuple });
-			QueryNode tuple_children[] = { child0 };
-			tuple.setChildren(tuple_children, 1);
-
-			QueryNode root_children[] = { tuple, child1 };
+			QueryNode root_children[] = { child0, child1 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -7781,12 +7771,7 @@ namespace IntegrationTesting
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
 
-			QueryNode tuple = QueryNode();
-			tuple.setNodeType({ QueryNodeType::tuple });
-			QueryNode tuple_children[] = { child0 };
-			tuple.setChildren(tuple_children, 1);
-
-			QueryNode root_children[] = { tuple, child1 };
+			QueryNode root_children[] = { child0, child1 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -7841,12 +7826,7 @@ namespace IntegrationTesting
 			QueryNode root = QueryNode();
 			root.setNodeType({ QueryNodeType::select });
 
-			QueryNode tuple = QueryNode();
-			tuple.setNodeType({ QueryNodeType::tuple });
-			QueryNode tuple_children[] = { child0 };
-			tuple.setChildren(tuple_children, 1);
-
-			QueryNode root_children[] = { tuple, child1 };
+			QueryNode root_children[] = { child0, child1 };
 			root.setChildren(root_children, 2);
 
 			QueryNode processed_clauses = root; //stores root node of the tree
@@ -7870,6 +7850,224 @@ namespace IntegrationTesting
 		}
 
 		/*=================================  PKB 4: Invalid With Clause Comparison =========================================*/
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_WithConst_Value_ReturnsFalse)
+		{
+			// Query: "constant c1; Select BOOLEAN with cl.value = main"
+			// Get processed_synonyms and processed clauses
+			QueryNode const_node = QueryNode();
+			const_node.setSynonymNode({ QuerySynonymType::constant }, "cl");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"cl", const_node } };
 
+			// Select: BOOLEAN
+			QueryNode child0 = QueryNode();
+			child0.setBooleanNode();
+
+			// with
+			QueryNode child1 = QueryNode();
+			child1.setNodeType({ QueryNodeType::with });
+
+			// arg 1: c1.value
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("cl", "value");
+
+			// arg 2: main
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIdentityNode("main");
+
+
+			// set children, make tree
+			QueryNode child1_children[] = { child_child1, child_child2 };
+			child1.setChildren(child1_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+
+			QueryNode root_children[] = { child0, child1 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "FALSE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_WithCl_Procname_ReturnsFalse)
+		{
+			// Query: "call c1; Select BOOLEAN with cl.procName = 3"
+			// Get processed_synonyms and processed clauses
+			QueryNode call_node = QueryNode();
+			call_node.setSynonymNode({ QuerySynonymType::call }, "cl");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"cl", call_node } };
+
+			// Select: BOOLEAN
+			QueryNode child0 = QueryNode();
+			child0.setBooleanNode();
+
+			// with
+			QueryNode child1 = QueryNode();
+			child1.setNodeType({ QueryNodeType::with });
+
+			// arg 1: c1.procName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("cl", "procName");
+
+			// arg 2: 3
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIntegerNode(3);
+
+
+			// set children, make tree
+			QueryNode child1_children[] = { child_child1, child_child2 };
+			child1.setChildren(child1_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+
+			QueryNode root_children[] = { child0, child1 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "FALSE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_WithP_Procname_ReturnsEmpty)
+		{
+			// Query: "procedure p; Select BOOLEAN with p.procName = 1"
+			// Get processed_synonyms and processed clauses
+			QueryNode proc_node = QueryNode();
+			proc_node.setSynonymNode({ QuerySynonymType::procedure }, "p");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p", proc_node } };
+
+			// Select: BOOLEAN
+			QueryNode child0 = QueryNode();
+			child0.setBooleanNode();
+
+			// with
+			QueryNode child1 = QueryNode();
+			child1.setNodeType({ QueryNodeType::with });
+
+			// arg 1: p.procName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("p", "procName");
+
+			// arg 2: 1
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIntegerNode(1);
+
+
+			// set children, make tree
+			QueryNode child1_children[] = { child_child1, child_child2 };
+			child1.setChildren(child1_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+
+			QueryNode root_children[] = { child0, child1 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "FALSE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectBOOLEAN_WithS_Stmtnum_ReturnsEmpty)
+		{
+			// Query: "stmt s; Select BOOLEAN with s.stmt# = "3""
+			// Get processed_synonyms and processed clauses
+			QueryNode stmt_node = QueryNode();
+			stmt_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"s", stmt_node} };
+
+			// Select: BOOLEAN
+			QueryNode child0 = QueryNode();
+			child0.setBooleanNode();
+
+			// with
+			QueryNode child1 = QueryNode();
+			child1.setNodeType({ QueryNodeType::with });
+
+			// arg 1: s.stmt#
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("s", "stmt#");
+
+			// arg 2: "3"
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIdentityNode("3");
+
+
+			// set children, make tree
+			QueryNode child1_children[] = { child_child1, child_child2 };
+			child1.setChildren(child1_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+
+			QueryNode root_children[] = { child0, child1 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "FALSE";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
 	};
 }
