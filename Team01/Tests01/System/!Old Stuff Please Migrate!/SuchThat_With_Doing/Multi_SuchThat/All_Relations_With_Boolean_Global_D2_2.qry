@@ -38,4 +38,13 @@ constant c; stmt s;
 Select BOOLEAN such that Uses (s, "gold") and Uses (s, "emerald") and Uses (s, "lapis") and Uses (s, "iron") and Uses (s, "coal) with s.stmt# = c.value
 FALSE
 5000
-
+9 - Parent, Follows, Modifies
+stmt s; while w; 
+Select BOOLEAN such that Parent (w, s) and Follows (38, s) and Modifies (s, "gold") with w.procName = s.procName
+TRUE
+5000
+10 - Parent, Parent*, Follows, Uses, Uses
+procedure p; stmt s1, s2, s3; while w;
+Select BOOLEAN such that Parent (s1, s2) and Parent* (s1, s3) and Follows (_, s2) and Uses (p, "redstone") and Uses (w, "coal") with w.stmt# = 18
+TRUE
+5000
