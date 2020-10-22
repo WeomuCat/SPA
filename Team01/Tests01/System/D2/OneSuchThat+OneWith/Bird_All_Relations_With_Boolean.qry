@@ -1,0 +1,50 @@
+1 - Follows
+stmt s;
+Select BOOLEAN such that Follows (5, s) with s.stmt# = 6
+FALSE
+5000
+2 - FollowsT
+stmt s1, s2;
+Select BOOLEAN such that Follows* (s1, s2) with s1.stmt# = s2.stmt#
+FALSE
+5000
+3 - Parent
+stmt s; if i;
+Select BOOLEAN such that Parent (i, s) with i.stmt# = 4
+TRUE
+5000
+4 - ParentT
+while w;
+Select BOOLEAN such that Parent* (w, 12) with w.stmt# = 10
+TRUE
+5000
+5 - Modifies
+variable v;
+Select BOOLEAN such that Modifies (11, v) with v.varName = "duck"
+TRUE
+5000
+6 - Uses
+variable v;
+Select BOOLEAN such that Uses (24, v) with v.varName = "bulbul"
+TRUE
+5000
+7 - Calls
+procedure p1, p2;
+Select BOOLEAN such that Calls (p1, p2) with p1.procName = "fourthbird"
+FALSE
+5000
+8 - CallsT
+procedure p;
+Select BOOLEAN such that Calls* ("firstbird", p) with p.procName = "fourthbird"
+TRUE
+5000
+9 - Next
+prog_line n;
+Select BOOLEAN such that Next (n, 7) with n = 5
+TRUE
+5000
+10 - NextT
+prog_line n;
+Select BOOLEAN such that Next* (22, n) with n = 23
+FALSE
+5000

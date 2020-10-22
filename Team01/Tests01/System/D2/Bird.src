@@ -1,6 +1,6 @@
 procedure firstbird {
     print eagle;
-    albatross = bulbul - (crow - 111) * duck;
+    albatross = bulbul - (crow - 1) * duck;
     duck = duck * bulbul;
     if (!(albatross < bulbul)) then {
         call secondbird;
@@ -11,7 +11,7 @@ procedure firstbird {
 }
 
 procedure secondbird {
-    crow = eagle - 222 * 333 / bulbul;
+    crow = eagle - 2 * 3 / bulbul;
     print bulbul;
     while (bulbul > albatross) {
         read duck;
@@ -22,13 +22,13 @@ procedure secondbird {
 }
 
 procedure thirdbird {
-    crow = bulbul - 111 - eagle / 222;
+    crow = bulbul - 1 - eagle / 2;
     if (eagle != crow) then {
         print crow;
     } else {
-        albatross = 222 - crow;
+        albatross = 2 - crow;
         while (crow < bulbul) {
-            eagle = eagle - 333;
+            eagle = eagle - 3;
         }
         read duck;
     }
@@ -36,9 +36,9 @@ procedure thirdbird {
 }
 
 procedure fourthbird {
-    eagle = crow * 222 - 333;
+    eagle = crow * 2 - 3;
     print bulbul;
     read eagle;
-    albatross = 111 - crow + albatross;
+    albatross = 1 - crow + albatross;
     print albatross;
 }

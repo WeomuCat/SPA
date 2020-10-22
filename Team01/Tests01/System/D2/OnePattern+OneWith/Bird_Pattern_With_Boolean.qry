@@ -1,0 +1,70 @@
+1 - Assign Pattern, Selected Variable
+assign a;
+Select BOOLEAN pattern a ("bulbul", _) with a.stmt# = 22
+TRUE
+5000
+2 - Assign Pattern, Assign same as Constants
+assign a; constant c;
+Select BOOLEAN pattern a (_, _) with a.stmt# = c.value
+TRUE
+5000
+3 - Asssign Pattern, Variable with name
+assign a; variable v;
+Select BOOLEAN pattern a (v, "2 - crow") with v.varName = "albatross"
+TRUE
+5000
+4 - Assign Pattern, but wrong name
+assign a; variable v;
+Select BOOLEAN pattern a (v, _"duck"_) with v.varName = "eagle"
+FALSE
+500
+5 - Assign Pattern, Any assignment of statement number
+assign a;
+Select BOOLEAN pattern a (_, _) with a.stmt# = 2
+TRUE
+5000
+6 - Assign Pattern, Assigned statements of statement number
+assign a; constant c;
+Select BOOLEAN pattern a ("albatross", _"crow - 1"_) with a.stmt# = c.value
+TRUE
+5000
+7 - Assign Pattern, Variable with double with
+assign a; constant c; variable v;
+Select a pattern a (v, _"duck * bulbul"_) with a.stmt# = c.value
+3
+5000
+8 - Assign Pattern, Tuple Selection of variable name
+assign a; variable v;
+Select BOOLEAN pattern a (v, _) with v.varName = "eagle"
+TRUE
+5000
+9 - If Pattern, Selected Variable
+if i;
+Select BOOLEAN pattern i ("albatross", _, _) with i.stmt# = 4
+TRUE
+5000
+10 - If Patttern, Any Variable
+if i; variable v;
+Select BOOLEAN pattern i (v, _, _) with i.stmt# = 16
+TRUE
+5000
+11 - If Pattern, Any Pattern
+if i; constant c;
+Select BOOLEAN pattern i (_, _, _) with i.stmt# = c.value
+FALSE
+5000
+12 - While Pattern, Selected Left Variable
+while w;
+Select BOOLEAN pattern w ("bulbul", _) with w.stmt# = 10
+TRUE
+5000
+13 - While Pattern, Selected Right Variable
+while w;
+Select BOOLEAN pattern w ("albatross", _) with w.stmt# = 10
+TRUE
+5000
+14 - While Pattern Any Variable
+while w; variable v;
+Select BOOLEAN pattern w (v, _) with v.varName = "albatross"
+TRUE
+5000
