@@ -1,0 +1,14 @@
+OnePattern/Letters_Boolean
+OnePattern/Letters_Elem
+OnePattern/Letters_Tuple
+OneSuchThat/Letters_Follows_Boolean
+OneSuchThat/Letters_Follows_Elem
+OneSuchThat/Letters_Follows_Tuple
+OneWith/Letters_Boolean
+OneWith/Letters_Elem
+OneWith/Letters_Tuple
+Select/Letters_Boolean
+Select/Letters_Elem
+Select/Letters_Tuple
+Select/Letters_Tuple_Many
+Select/Letters_Tuple_Mixed

@@ -1,0 +1,55 @@
+1 - With Assign
+assign a;
+Select a with a.stmt# = 1
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select c with c.stmt# = 8
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select p with p.stmt# = 2
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select r with r.stmt# = 3
+we didn't write the result for this query
+1000
+1 - With Statement
+stmt s;
+Select s with s.stmt# = 18
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select i with i.stmt# = 4
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select w with w.stmt# = 7
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select c with c.value = 4
+we didn't write the result for this query
+1000
+1 - With Procedure
+procedure p;
+Select p with p.procName = "secondElement"
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select v with v.varName = "wind"
+we didn't write the result for this query
+1000
+1 - With Program Line
+prog_line n;
+Select n with n = 12
+we didn't write the result for this query
+1000

@@ -1,0 +1,180 @@
+1 - With Statement
+stmt s;
+Select <s> with s = 0
+we didn't write the result for this query
+1000
+1 - With Statement
+stmt s;
+Select <s, s.stmt#> with 0 = s.stmt#
+we didn't write the result for this query
+1000
+1 - With Statement
+stmt s;
+Select <s, s> with s = s
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select <r> with r = 0
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select <r, r.stmt#, r.varName> with 0 = r.stmt#
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select <r, r.stmt#, r.varName> with "x" = r.varName
+we didn't write the result for this query
+1000
+1 - With Read
+read r;
+Select <r, r> with r = r
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select <p> with p = 0
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select <p, p.stmt#, p.varName> with 0 = p.stmt#
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select <p, p.stmt#, p.varName> with "x" = p.varName
+we didn't write the result for this query
+1000
+1 - With Print
+print p;
+Select <p, p> with p = p
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select <c> with c = 0
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select <c, c.stmt#, c.procName> with 0 = c.stmt#
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select <c, c.stmt#, c.procName> with "x" = c.procName
+we didn't write the result for this query
+1000
+1 - With Call
+call c;
+Select <c, c> with c = c
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select <w> with w = 0
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select <w, w.stmt#> with 0 = w.stmt#
+we didn't write the result for this query
+1000
+1 - With While
+while w;
+Select <w, w> with w = w
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select <i> with i = 0
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select <i, i.stmt#> with 0 = i.stmt#
+we didn't write the result for this query
+1000
+1 - With If
+if i;
+Select <i, i> with i = i
+we didn't write the result for this query
+1000
+1 - With Assign
+assign a;
+Select <a> with a = 0
+we didn't write the result for this query
+1000
+1 - With Assign
+assign a;
+Select <a, a.stmt#> with 0 = a.stmt#
+we didn't write the result for this query
+1000
+1 - With Assign
+assign a;
+Select <a, a> with a = a
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select <v> with v = "x"
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select <v, v.varName> with "x" = v.varName
+we didn't write the result for this query
+1000
+1 - With Variable
+variable v;
+Select <v, v> with v = v
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select <c> with c = 0
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select <c, c.value> with 0 = c.value
+we didn't write the result for this query
+1000
+1 - With Constant
+constant c;
+Select <c, c> with c = c
+we didn't write the result for this query
+1000
+1 - With ProgLine
+prog_line n;
+Select <n> with n = 0
+we didn't write the result for this query
+1000
+1 - With ProgLine
+prog_line n;
+Select <n> with 0 = n
+we didn't write the result for this query
+1000
+1 - With ProgLine
+prog_line n;
+Select <n, n> with n = n
+we didn't write the result for this query
+1000
+1 - With Procedure
+procedure p;
+Select <p> with p = "x"
+we didn't write the result for this query
+1000
+1 - With Procedure
+procedure p;
+Select <p, p.procName> with "x" = p.procName
+we didn't write the result for this query
+1000
+1 - With Procedure
+procedure p;
+Select <p, p> with p = p
+we didn't write the result for this query
+1000

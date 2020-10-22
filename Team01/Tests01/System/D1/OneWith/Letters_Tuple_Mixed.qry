@@ -1,0 +1,180 @@
+1 - With Read Print
+read r; print p;
+Select <r, p> with r = p
+we didn't write the result for this query
+1000
+1 - With Read Print
+read r; print p;
+Select <r, r.stmt#, p, p.stmt#> with p = r.stmt#
+we didn't write the result for this query
+1000
+1 - With Read Print
+read r; print p;
+Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName> with p.varName = r.varName
+we didn't write the result for this query
+1000
+1 - With Read Call
+read r; call c;
+Select <r, c> with r = c
+we didn't write the result for this query
+1000
+1 - With Read Call
+read r; call c;
+Select <r, r.stmt#, c, c.stmt#> with c = r.stmt#
+we didn't write the result for this query
+1000
+1 - With Read Call
+read r; call c;
+Select <r, r.stmt#, r.varName, c, c.stmt#, c.procName> with c.procName = r.varName
+we didn't write the result for this query
+1000
+1 - With Print Call
+print p; call c;
+Select <p, c> with p = c
+we didn't write the result for this query
+1000
+1 - With Print Call
+print p; call c;
+Select <p, p.stmt#, c, c.stmt#> with c = p.stmt#
+we didn't write the result for this query
+1000
+1 - With Print Call
+print p; call c;
+Select <p, p.stmt#, p.varName, c, c.stmt#, c.procName> with c.procName = p.varName
+we didn't write the result for this query
+1000
+1 - With Call While
+call c; while w;
+Select <c, w> with c = w
+we didn't write the result for this query
+1000
+1 - With Call While
+call c; while w;
+Select <c, c.stmt#, w, w.stmt#> with w = c.stmt#
+we didn't write the result for this query
+1000
+1 - With While If
+while w; if i;
+Select <w, i> with w = i
+we didn't write the result for this query
+1000
+1 - With While If
+while w; if i;
+Select <w, w.stmt#, i, i.stmt#> with i = w.stmt#
+we didn't write the result for this query
+1000
+1 - With If Assign
+if i; assign a;
+Select <i, a> with i = a
+we didn't write the result for this query
+1000
+1 - With If Assign
+if i; assign a;
+Select <i, i.stmt#, a, a.stmt#> with a = i.stmt#
+we didn't write the result for this query
+1000
+1 - With Assign ProgLine
+assign a; prog_line n;
+Select <a, n> with a = n
+we didn't write the result for this query
+1000
+1 - With Assign ProgLine
+assign a; prog_line n;
+Select <a, a.stmt#, n> with n = a.stmt#
+we didn't write the result for this query
+1000
+1 - With Statement Constant
+stmt s; constant c;
+Select <s, c> with s = c
+we didn't write the result for this query
+1000
+1 - With Statement Constant
+stmt s; constant c;
+Select <s, s.stmt#, c. c.value> with c = s.stmt#
+we didn't write the result for this query
+1000
+1 - With Statement Constant
+stmt s; constant c;
+Select <s, s.stmt#, c. c.value> with c.value = s
+we didn't write the result for this query
+1000
+1 - With Statement ProgLine
+stmt s; prog_line n;
+Select <s, n> with s = n
+we didn't write the result for this query
+1000
+1 - With Statement ProgLine
+stmt s; prog_line n;
+Select <s, s.stmt#, n> with n = s.stmt#
+we didn't write the result for this query
+1000
+1 - With Read Variable
+read r; variable v;
+Select <r, r.varName, v, v.varName> with r.varName = v
+we didn't write the result for this query
+1000
+1 - With Read Variable
+read r; variable v;
+Select <r, r.varName, v, v.varName> with r.varName = v.varName
+we didn't write the result for this query
+1000
+1 - With Print Variable
+print p; variable v;
+Select <p, p.varName, v, v.varName> with p.varName = v
+we didn't write the result for this query
+1000
+1 - With Print Variable
+print p; variable v;
+Select <p, p.varName, v, v.varName> with p.varName = v.varName
+we didn't write the result for this query
+1000
+1 - With Call Variable
+call c; variable v;
+Select <c, c.procName, v, v.varName> with c.procName = v
+we didn't write the result for this query
+1000
+1 - With Call Variable
+call c; variable v;
+Select <c, c.procName, v, v.varName> with c.procName = v.varName
+we didn't write the result for this query
+1000
+1 - With Read Procedure
+read r; procedure p;
+Select <r, r.varName, p, p.procName> with r.varName = p
+we didn't write the result for this query
+1000
+1 - With Read Procedure
+read r; procedure p;
+Select <r, r.varName, p, p.procName> with r.varName = p.procName
+we didn't write the result for this query
+1000
+1 - With Print Procedure
+print p; procedure p;
+Select <p, p.procName, p, p.procName> with p.procName = p
+we didn't write the result for this query
+1000
+1 - With Print Procedure
+print p; procedure p;
+Select <p, p.procName, p, p.procName> with p.procName = p.procName
+we didn't write the result for this query
+1000
+1 - With Call Procedure
+call c; procedure p;
+Select <c, c.procName, p, p.procName> with c.procName = p
+we didn't write the result for this query
+1000
+1 - With Call Procedure
+call c; procedure p;
+Select <c, c.procName, p, p.procName> with c.procName = p.procName
+we didn't write the result for this query
+1000
+1 - With Variable Procedure
+variable v; procedure p;
+Select <v, v.varName, p, p.procName> with v.varName = p
+we didn't write the result for this query
+1000
+1 - With Variable Procedure
+variable v; procedure p;
+Select <v, v.varName, p, p.procName> with v.varName = p.procName
+we didn't write the result for this query
+1000

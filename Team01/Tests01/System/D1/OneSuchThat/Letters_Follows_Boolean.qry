@@ -228,3 +228,33 @@ assign a1, a2;
 Select BOOLEAN such that Follows(a1, a2)
 we didn't write the result for this query
 1000
+1 - Follows ProgLine
+prog_line n;
+Select BOOLEAN such that Follows(1, n)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n;
+Select BOOLEAN such that Follows(n, 1)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n;
+Select BOOLEAN such that Follows(n, n)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n;
+Select BOOLEAN such that Follows(n, _)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n;
+Select BOOLEAN such that Follows(_, n)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n1, n2;
+Select BOOLEAN such that Follows(n1, n2)
+we didn't write the result for this query
+1000

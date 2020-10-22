@@ -1,0 +1,55 @@
+1 - Select Statement
+stmt s;
+Select <s, s.stmt#, s, s.stmt#, s, s.stmt#>
+we didn't write the result for this query
+1000
+1 - Select Read
+read r;
+Select <r, r.stmt#, r.varName, r, r.stmt#, r.varName, r, r.stmt#, r.varName>
+we didn't write the result for this query
+1000
+1 - Select Print
+print p;
+Select <p, p.stmt#, p.varName, p, p.stmt#, p.varName, p, p.stmt#, p.varName>
+we didn't write the result for this query
+1000
+1 - Select Call
+call c;
+Select <c, c.stmt#, c.procName, c, c.stmt#, c.procName, c, c.stmt#, c.procName>
+we didn't write the result for this query
+1000
+1 - Select While
+while w;
+Select <w, w.stmt#, w, w.stmt#, w, w.stmt#>
+we didn't write the result for this query
+1000
+1 - Select If
+if i;
+Select <i, i.stmt#, i, i.stmt#, i, i.stmt#>
+we didn't write the result for this query
+1000
+1 - Select Assign
+assign a;
+Select <a, a.stmt#, a, a.stmt#, a, a.stmt#>
+we didn't write the result for this query
+1000
+1 - Select Variable
+variable v;
+Select <v, v.varName, v, v.varName, v, v.varName>
+we didn't write the result for this query
+1000
+1 - Select Constant
+constant c;
+Select <c, c.value, c, c.value, c, c.value>
+we didn't write the result for this query
+1000
+1 - Select ProgLine
+prog_line n;
+Select <n, n, n>
+we didn't write the result for this query
+1000
+1 - Select Procedure
+procedure p;
+Select <p, p.procName, p, p.procName, p, p.procName>
+we didn't write the result for this query
+1000

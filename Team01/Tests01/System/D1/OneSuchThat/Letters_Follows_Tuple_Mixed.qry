@@ -1,0 +1,110 @@
+1 - Follows Read Print
+read r; print p;
+Select <r, p> such that Follows(r, p)
+we didn't write the result for this query
+1000
+1 - Follows Read Print
+read r; print p;
+Select <r, p> such that Follows(p, r)
+we didn't write the result for this query
+1000
+1 - Follows Read Print
+read r; print p;
+Select <r, r.stmt# p, p.stmt#> such that Follows(r, p)
+we didn't write the result for this query
+1000
+1 - Follows Read Print
+read r; print p;
+Select <r, r.varName, p, p.varName> such that Follows(r, p)
+we didn't write the result for this query
+1000
+1 - Follows Read Call
+read r; call c;
+Select <r, c> such that Follows(r, c)
+we didn't write the result for this query
+1000
+1 - Follows Read Call
+read r; call c;
+Select <r, c> such that Follows(c, r)
+we didn't write the result for this query
+1000
+1 - Follows Read Call
+read r; call c;
+Select <r, r.stmt# c, c.stmt#> such that Follows(r, c)
+we didn't write the result for this query
+1000
+1 - Follows Read Call
+read r; call c;
+Select <r, r.varName, c, c.procName> such that Follows(r, c)
+we didn't write the result for this query
+1000
+1 - Follows Print Call
+print p; call c;
+Select <p, c> such that Follows(p, c)
+we didn't write the result for this query
+1000
+1 - Follows Print Call
+print p; call c;
+Select <p, c> such that Follows(c, p)
+we didn't write the result for this query
+1000
+1 - Follows Print Call
+print p; call c;
+Select <p, p.stmt# c, c.stmt#> such that Follows(p, c)
+we didn't write the result for this query
+1000
+1 - Follows Print Call
+print p; call c;
+Select <p, p.varName, c, c.procName> such that Follows(p, c)
+we didn't write the result for this query
+1000
+1 - Follows Call While
+call c; while w;
+Select <c, c.stmt#, c.procName, w, w.stmt#> such that Follows(c, w)
+we didn't write the result for this query
+1000
+1 - Follows Call While
+call c; while w;
+Select <c, c.stmt#, c.procName, w, w.stmt#> such that Follows(w, c)
+we didn't write the result for this query
+1000
+1 - Follows While If
+while w; if i;
+Select <w, w.stmt#, i, i.stmt#> such that Follows(w, i)
+we didn't write the result for this query
+1000
+1 - Follows While If
+while w; if i;
+Select <w, w.stmt#, i, i.stmt#> such that Follows(i, w)
+we didn't write the result for this query
+1000
+1 - Follows If Assign
+if i; assign a;
+Select <i, i.stmt#, a, a.stmt#> such that Follows(i, a)
+we didn't write the result for this query
+1000
+1 - Follows If Assign
+if i; assign a;
+Select <i, i.stmt#, a, a.stmt#> such that Follows(a, i)
+we didn't write the result for this query
+1000
+1 - Follows Assign ProgLine
+assign a; prog_line n;
+Select <a, a.stmt#, n> such that Follows(a, n)
+we didn't write the result for this query
+1000
+1 - Follows Assign ProgLine
+assign a; prog_line n;
+Select <a, a.stmt#, n> such that Follows(n, a)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine Statement
+prog_line n; stmt s;
+Select <n, s, s.stmt#> such that Follows(n, s)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine Statement
+prog_line n; stmt s;
+Select <n, s, s.stmt#> such that Follows(s, n)
+we didn't write the result for this query
+1000

@@ -1,0 +1,250 @@
+1 - Follows Statement
+stmt s;
+Select <s> such that Follows(s, s)
+we didn't write the result for this query
+1000
+1 - Follows Statement
+stmt s;
+Select <s, s> such that Follows(s, s)
+we didn't write the result for this query
+1000
+1 - Follows Statement
+stmt s;
+Select <s, s.stmt#> such that Follows(s, s)
+we didn't write the result for this query
+1000
+1 - Follows Statement
+stmt s1, s2;
+Select <s1, s2> such that Follows(s1, s2)
+we didn't write the result for this query
+1000
+1 - Follows Statement
+stmt s1, s2, s3;
+Select <s1, s2> such that Follows(s2, s3)
+we didn't write the result for this query
+1000
+1 - Follows Statement
+stmt s1, s2, s3, s4;
+Select <s1, s2> such that Follows(s3, s4)
+we didn't write the result for this query
+1000
+1 - Follows Read
+read r;
+Select <r> such that Follows(r, r)
+we didn't write the result for this query
+1000
+1 - Follows Read
+read r;
+Select <r, r> such that Follows(r, r)
+we didn't write the result for this query
+1000
+1 - Follows Read
+read r;
+Select <r, r.stmt#> such that Follows(r, r)
+we didn't write the result for this query
+1000
+1 - Follows Read
+read r;
+Select <r, r.varName> such that Follows(r, r)
+we didn't write the result for this query
+1000
+1 - Follows Read
+read r1, r2;
+Select <r1, r2> such that Follows(r1, r2)
+we didn't write the result for this query
+1000
+1 - Follows Read
+read r1, r2, r3;
+Select <r1, r2> such that Follows(r2, r3)
+we didn't write the result for this query
+1000
+1 - Follows Read
+read r1, r2, r3, r4;
+Select <r1, r2> such that Follows(r3, r4)
+we didn't write the result for this query
+1000
+1 - Follows Print
+print p;
+Select <p> such that Follows(p, p)
+we didn't write the result for this query
+1000
+1 - Follows Print
+print p;
+Select <p, p> such that Follows(p, p)
+we didn't write the result for this query
+1000
+1 - Follows Print
+print p;
+Select <p, p.stmt#> such that Follows(p, p)
+we didn't write the result for this query
+1000
+1 - Follows Print
+print p;
+Select <p, p.varName> such that Follows(p, p)
+we didn't write the result for this query
+1000
+1 - Follows Print
+print p1, p2;
+Select <p1, p2> such that Follows(p1, p2)
+we didn't write the result for this query
+1000
+1 - Follows Print
+print p1, p2, p3;
+Select <p1, p2> such that Follows(p2, p3)
+we didn't write the result for this query
+1000
+1 - Follows Print
+print p1, p2, p3, p4;
+Select <p1, p2> such that Follows(p3, p4)
+we didn't write the result for this query
+1000
+1 - Follows Call
+call c;
+Select <c> such that Follows(c, c)
+we didn't write the result for this query
+1000
+1 - Follows Call
+call c;
+Select <c, c> such that Follows(c, c)
+we didn't write the result for this query
+1000
+1 - Follows Call
+call c;
+Select <c, c.stmt#> such that Follows(c, c)
+we didn't write the result for this query
+1000
+1 - Follows Call
+call c;
+Select <c, c.procName> such that Follows(c, c)
+we didn't write the result for this query
+1000
+1 - Follows Call
+call c1, c2;
+Select <c1, c2> such that Follows(c1, c2)
+we didn't write the result for this query
+1000
+1 - Follows Call
+call c1, c2, c3;
+Select <c1, c2> such that Follows(c2, c3)
+we didn't write the result for this query
+1000
+1 - Follows Call
+call c1, c2, c3, c4;
+Select <c1, c2> such that Follows(c3, c4)
+we didn't write the result for this query
+1000
+1 - Follows While
+while w;
+Select <w> such that Follows(w, w)
+we didn't write the result for this query
+1000
+1 - Follows While
+while w;
+Select <w, w> such that Follows(w, w)
+we didn't write the result for this query
+1000
+1 - Follows While
+while w;
+Select <w, w.stmt#> such that Follows(w, w)
+we didn't write the result for this query
+1000
+1 - Follows While
+while w1, w2;
+Select <w1, w2> such that Follows(w1, w2)
+we didn't write the result for this query
+1000
+1 - Follows While
+while w1, w2, w3;
+Select <w1, w2> such that Follows(w2, w3)
+we didn't write the result for this query
+1000
+1 - Follows While
+while w1, w2, w3, w4;
+Select <w1, w2> such that Follows(w3, w4)
+we didn't write the result for this query
+1000
+1 - Follows If
+if i;
+Select <i> such that Follows(i, i)
+we didn't write the result for this query
+1000
+1 - Follows If
+if i;
+Select <i, i> such that Follows(i, i)
+we didn't write the result for this query
+1000
+1 - Follows If
+if i;
+Select <i, i.stmt#> such that Follows(i, i)
+we didn't write the result for this query
+1000
+1 - Follows If
+if i1, i2;
+Select <i1, i2> such that Follows(i1, i2)
+we didn't write the result for this query
+1000
+1 - Follows If
+if i1, i2, i3;
+Select <i1, i2> such that Follows(i2, i3)
+we didn't write the result for this query
+1000
+1 - Follows If
+if i1, i2, i3, i4;
+Select <i1, i2> such that Follows(i3, i4)
+we didn't write the result for this query
+1000
+1 - Follows Assign
+assign a;
+Select <a> such that Follows(a, a)
+we didn't write the result for this query
+1000
+1 - Follows Assign
+assign a;
+Select <a, a> such that Follows(a, a)
+we didn't write the result for this query
+1000
+1 - Follows Assign
+assign a;
+Select <a, a.stmt#> such that Follows(a, a)
+we didn't write the result for this query
+1000
+1 - Follows Assign
+assign a1, a2;
+Select <a1, a2> such that Follows(a1, a2)
+we didn't write the result for this query
+1000
+1 - Follows Assign
+assign a1, a2, a3;
+Select <a1, a2> such that Follows(a2, a3)
+we didn't write the result for this query
+1000
+1 - Follows Assign
+assign a1, a2, a3, a4;
+Select <a1, a2> such that Follows(a3, a4)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n;
+Select <n> such that Follows(n, n)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n;
+Select <n, n> such that Follows(n, n)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n1, n2;
+Select <n1, n2> such that Follows(n1, n2)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n1, n2, n3;
+Select <n1, n2> such that Follows(n2, n3)
+we didn't write the result for this query
+1000
+1 - Follows ProgLine
+prog_line n1, n2, n3, n4;
+Select <n1, n2> such that Follows(n3, n4)
+we didn't write the result for this query
+1000
