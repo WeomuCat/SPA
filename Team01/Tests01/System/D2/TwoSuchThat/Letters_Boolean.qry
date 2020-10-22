@@ -1,0 +1,195 @@
+1 - Follows and Follows
+
+Select BOOLEAN such that Follows (1, 2) and Follows (3, 4)
+TRUE
+3000
+2 - Follows and Follows*
+
+Select BOOLEAN such that Follows (1, 2) and Follows* (2, 11)
+TRUE
+3000
+3 - Follows and Parent
+
+Select BOOLEAN such that Follows (12, 13) and Parent (15, 18)
+FALSE
+3000
+4 - Follows and Parent*
+
+Select BOOLEAN such that Follows (12, 13) and Parent* (15, 18)
+TRUE
+3000
+5 - Follows and Modifies
+
+Select BOOLEAN such that Follows (18, 19) and Modifies (19, "bvar")
+TRUE
+3000
+6 - Follows and Uses
+
+Select BOOLEAN such that Follows (15, 22) and Uses (19, "evar")
+TRUE
+3000
+7 - Follows and Next
+
+Select BOOLEAN such that Follows (1, 2) and Next (1, 2)
+TRUE
+3000
+8 - Follows and Next*
+
+Select BOOLEAN such that Follows (1, 2) and Next* ()
+TRUE
+3000
+9 - Follows* and Follows*
+
+Select BOOLEAN such that Follows* (1, 36) and Follows* (36, 39)
+TRUE
+3000
+10 - Follows* and Parent
+
+Select BOOLEAN such that Follows* (35, 40) and Parent (39, 42)
+FALSE
+3000
+11 - Follows* and Parent*
+
+Select BOOLEAN such that Follows* (35, 48) and Parent* (39, 42)
+TRUE
+3000
+12 - Follows* and Modifies
+
+Select BOOLEAN such that Follows* (50, 61) and Modifies (50, "aaa")
+TRUE
+3000
+13 - Follows* and Uses
+
+Select BOOLEAN such that Follows* (49, 58) and Uses (84, "ccc")
+TRUE
+3000
+14 - Follows* and Next
+
+Select BOOLEAN such that Follows* (78, 80) and Next (83, 84)
+FALSE
+3000
+15 - Follows* and Next*
+
+Select BOOLEAN such that Follows* (78, 80) and Next (58, 59)
+TRUE
+3000
+16 - Parent and Parent
+
+Select BOOLEAN such that Parent (70, 71) and Parent (51, 54)
+TRUE
+3000
+17 - Parent and Parent*
+
+Select BOOLEAN such that Parent (70, 71) and Parent* (61, 80)
+FALSE
+3000
+18 - Parent and Modifies
+
+Select BOOLEAN such that Parent (23, 25) and Modifies (25, "aaa")
+TRUE
+3000
+19 - Parent and Uses
+
+Select BOOLEAN such that Parent (23, 25) and Uses (25, "eee")
+TRUE
+3000
+20 - Parent and Next
+
+Select BOOLEAN such that Parent (23, 25) and Next (19, 20)
+TRUE
+3000
+21 - Parent and Next*
+
+Select BOOLEAN such that Parent (23, 25) and Next* (19, 23)
+TRUE
+3000
+22 - Parent* and Parent*
+
+Select BOOLEAN such that Parent* (16, 19) and Parent* (18, 19)
+TRUE
+3000
+23 - Parent* and Modifies
+
+Select BOOLEAN such that Parent* (16, 19) and Modifies (22, "eee")
+TRUE
+3000
+24 - Parent* and Uses
+
+Select BOOLEAN such that Parent* (16, 19) and Uses (21, "bbb")
+TRUE
+3000
+25 - Parent* and Next
+
+Select BOOLEAN such that Parent* (16, 19) and Next* (21, 68)
+FALSE
+3000
+26 - Parent* and Next*
+
+Select BOOLEAN such that Parent* (16, 19) and Next* (70, 70)
+TRUE
+3000
+27 - Modifies and Modifies
+
+Select BOOLEAN such that Modifies (25, "aaa") and Modifies (24, "aaa")
+TRUE
+3000
+28 - Modifies and Uses
+
+Select BOOLEAN such that Modifies (25, "aaa") and Uses (25, "eee")
+TRUE
+3000
+29 - Modifies and Calls
+
+Select BOOLEAN such that Modifies (25, "aaa") and Calls ("aProc", "bProc")
+TRUE
+3000
+30 - Modifies and Next
+
+Select BOOLEAN such that Modifies (25, "aaa") and Next (1, 2)
+TRUE
+3000
+31 - Uses and Uses
+
+Select BOOLEAN such that Uses (37, "eee") and Uses (44, "hhh")
+TRUE
+3000
+32 - Uses and Calls
+
+Select BOOLEAN such that Uses (37, "eee") and Calls ("aProc", "bProc")
+TRUE
+3000
+33 - Uses and Next
+
+Select BOOLEAN such that Uses (37, "eee") and Next (56, 57)
+TRUE
+3000
+34 - Calls and Calls
+
+Select BOOLEAN such that Calls ("bProc", "dProc") and Calls ("cProc", "dProc")
+TRUE
+3000
+35 - Calls and Calls*
+
+Select BOOLEAN such that Calls ("bProc", "dProc") and Calls* ("aProc", "dProc")
+TRUE
+3000
+36 - Calls* and Calls*
+
+Select BOOLEAN such that Calls* ("aProc", "dProc") and Calls* ("dProc", "aProc")
+FALSE
+3000
+37 - Next and Next
+
+Select BOOLEAN such that Next (79, 80) and Next (84, 86)
+FALSE
+3000
+38 - Next and Next*
+
+Select BOOLEAN such that Next (79, 80) and Next* (84, 85)
+TRUE
+3000
+39 - Next* and Next*
+
+Select BOOLEAN such that Next* (8, 35) and Next* (51, 53)
+TRUE
+3000
