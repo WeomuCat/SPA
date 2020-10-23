@@ -1,0 +1,55 @@
+1 - With Assign
+assign a;
+Select BOOLEAN with a.stmt# = 1
+TRUE
+1000
+1 - With Call
+call cl;
+Select BOOLEAN with cl.stmt# = 8 and cl.procName = "secondElement"
+TRUE
+1000
+1 - With Print
+print pn;
+Select BOOLEAN with pn.stmt# = 2 and pn.varName = "water"
+TRUE
+1000
+1 - With Read
+read r;
+Select BOOLEAN with r.stmt# = 3 and r.varName = "earth"
+TRUE
+1000
+1 - With Statement
+stmt s;
+Select BOOLEAN with s.stmt# = 18
+FALSE
+1000
+1 - With If
+if i;
+Select BOOLEAN with i.stmt# = 4
+TRUE
+1000
+1 - With While
+while w;
+Select BOOLEAN with w.stmt# = 7
+TRUE
+1000
+1 - With Constant
+constant cs;
+Select BOOLEAN with cs.value = 4
+TRUE
+1000
+1 - With Procedure
+procedure pd;
+Select BOOLEAN with pd.procName = "secondElement"
+TRUE
+1000
+1 - With Variable
+variable v;
+Select BOOLEAN with v.varName = "wind"
+TRUE
+1000
+1 - With Program Line
+prog_line n;
+Select BOOLEAN with n = 12
+TRUE
+1000
