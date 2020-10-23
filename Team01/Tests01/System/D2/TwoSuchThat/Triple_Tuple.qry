@@ -5,8 +5,8 @@ Select <s1, s2> such that Follows* (s1, s2) and Parent (9, s1)
 5000
 2 - Modifies and Uses
 assign a; variable v;
-Select <a, v> such that Modifies (a, v) and Uses (a, v)
-10 hhh, 25 aaa, 31 fff
+Select <a, v> such that Modifies (s, v) and Uses (s, v)
+
 5000
 3 - Uses and Calls
 procedure p1, p2;
@@ -50,7 +50,26 @@ Select <p1, a> such that Follows (w, a) and Parent(p1, w)
 5000
 11 - Parent* and Modifies
 stmt s1, s2;
-Select <s1 s2> such that Parent* (s1, s2) and Modifies (s2, ggg)
+Select <s1 s2> such that Parent* (s1, s2) and Modifies (s2, "ggg")
 5 32, 16 32, 41 56, 58 60, 16 17, 5 17, 5 34, 41 46, 39 46
 5000
-12 - 
+12 - Modiifies and Calls
+procedure p1, p2;
+Select <p1 p2> such that Modifies (p2, "ggg") and Calls (p1, p2)
+"aaaProc" "bbbProc"
+5000
+13 - Uses and Modifies
+if i; variable v;
+Select <i v> such that Uses(i, "eee") and Modifies (i, v)
+5 "ddd", 5 "hhh", 5 "aaa", 5 "bbb", 5 "fff", 5 "ggg", 5 "eee", 18 "aaa", 18 "bbb", 18 "fff", 18 "ddd", 41 "hhh", 41 "eee", 41 "fff", 51 "bbb", 51 "aaa", 51 "ddd", 72 "aaa", 72 "ddd", 73 "aaa", 73 "ddd"
+5000
+14 - Follows and Follows
+if i; assign a1, a2;
+Select <i a2> such that Follows (i, a1) and Follows (a1, a2)
+5 7, 18 20
+5000
+15 - Uses and Uses
+assign a; variable v;
+Select <a v> such that Uses (a, v) and Uses (a, "aaa")
+10 "ggg", 10 "ccc", 10 "ddd", 10 "eee", 10 "aaa", 10 "hhh", 25 "aaa", 25 "bbb", 25 "ccc", 25 "ddd", 25 "eee", 25 "fff", 25 "ggg", 25 "hhh", 44 "aaa", 44 "hhh"
+5000
