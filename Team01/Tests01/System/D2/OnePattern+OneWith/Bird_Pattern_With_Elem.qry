@@ -6,65 +6,50 @@ Select a pattern a ("bulbul", _) with a.stmt# = 22
 2 - Assign Pattern, Assign same as Constants
 assign a; constant c;
 Select c pattern a (_, _) with a.stmt# = c.value
-2, 3
+6
 5000
 3 - Asssign Pattern, Variable with name
 assign a; variable v;
-Select a pattern a (v, "2 - crow") with v.varName = "albatross"
-18
+Select a pattern a (v, _"crow"_) with v.varName = "albatross"
+18, 26, 67
 5000
 4 - Assign Pattern, but wrong name
 assign a; variable v;
-Select v.varName pattern a (v, _"duck"_) with v.varName = "eagle"
+Select a pattern a (v, _"duck"_) with v.varName = "eagle"
 none
 500
 5 - Assign Pattern, Any assignment of statement number
 assign a;
-Select a pattern a (_, _) with a.stmt# = 2
-2
+Select a pattern a (_, _) with a.stmt# = 15
+15
 5000
-6 - Assign Pattern, Assigned statements of statement number
-assign a; constant c;
-Select c pattern a ("albatross", _"crow - 1"_) with a.stmt# = c.value
-2
-5000
-7 - Assign Pattern, Variable 
-assign a; constant c; variable v;
-Select a pattern a (v, _"duck * bulbul"_) with a.stmt# = c.value
-3
-5000
-8 - Assign Pattern, Variable name
-assign a; variable v;
-Select a pattern a (v, _) with v.varName = "eagle"
-20, 23
-5000
-9 - If Pattern, Selected Variable
+6 - If Pattern, Selected Variable
 if i;
-Select i pattern i ("albatross", _, _) with i.stmt# = 4
-4
+Select i pattern i ("crow", _, _) with i.stmt# = 16
+16
 5000
-10 - If Patttern, Any Variable
+7 - If Patttern, Any Variable
 if i; variable v;
-Select v.varName pattern i (v, _, _) with i.stmt# = 16
-crow, eagle
+Select v.varName pattern i (v, _, _) with i.stmt# = 28
+duck, falcon, ibisbill
 5000
-11 - If Pattern, Any Pattern
-if i; constant c;
-Select i pattern i (_, _, _) with i.stmt# = c.value
-none
+8 - If Pattern, Any Pattern
+if i; 
+Select i pattern i (_, _, _) with i.stmt# = 30
+30
 5000
-12 - While Pattern, Selected Left Variable
+9 - While Pattern, Selected Left Variable
 while w;
-Select w pattern w ("bulbul", _) with w.stmt# = 10
-10
+Select w pattern w ("ibisbill", _) with w.stmt# = 51
+51
 5000
-13 - While Pattern, Selected Right Variable
+10 - While Pattern, Selected Right Variable
 while w;
-Select w pattern w ("albatross", _) with w.stmt# = 10
-10
+Select w pattern w ("falcon", _) with w.stmt# = 51
+51
 5000
-14 - While Pattern Any Variable
+11 - While Pattern Any Variable
 while w; variable v;
-Select w pattern w (v, _) with v.varName = "albatross"
-10
+Select w pattern w (v, _) with v.varName = "bulbul"
+9, 19, 51, 58
 5000

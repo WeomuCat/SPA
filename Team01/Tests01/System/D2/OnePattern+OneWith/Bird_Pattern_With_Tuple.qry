@@ -1,50 +1,25 @@
-1 - Assign Pattern, Selected Variable
-assign a;
-Select <a, a> pattern a ("bulbul", _) with a.stmt# = 22
-22 22
-5000
-2 - Assign Pattern, Assign same as Constants
+1 - Assign Pattern, Assign same as Constants
 assign a; constant c;
-Select <a, c> pattern a (_, _) with a.stmt# = c.value
-2 2, 3 3
+Select <c.value, a> pattern a (_, _) with a.stmt# = c.value
+6 6
 5000
-3 - Asssign Pattern, Variable with name
+2 - Asssign Pattern, Variable with name
 assign a; variable v;
-Select <a, v> pattern a (v, "2 - crow") with v.varName = "albatross"
-18 albatross
+Select <a, v> pattern a (v, _"crow"_) with v.varName = "albatross"
+18 albatross, 26 albatross, 67 albatross
 5000
-4 - Assign Pattern, but wrong name
+3 - Assign Pattern, but wrong name
 assign a; variable v;
-Select <a, v> pattern a (v, _"duck"_) with v.varName = "eagle"
+Select a pattern a (v, _"duck"_) with v.varName = "eagle"
 none
 500
-5 - Assign Pattern, Assigned statements of statement number
-assign a; constant c;
-Select <a, c> pattern a ("albatross", _"crow - 1"_) with a.stmt# = c.value
-2 2
-5000
-6 - Assign Pattern, Variable 
-assign a; constant c; variable v;
-Select <a, c, v> pattern a (v, _"duck * bulbul"_) with a.stmt# = c.value
-3 3 duck
-5000
-7 - Assign Pattern, Variable name
-assign a; variable v;
-Select <a, v> pattern a (v, _) with v.varName = "eagle"
-20 eagle, 23 eagle
-5000
-9 - If Patttern, Any Variable
+4 - If Patttern, Any Variable
 if i; variable v;
-Select <i, v.varName> pattern i (v, _, _) with i.stmt# = 16
-16 crow, 16 eagle
+Select <i, v.varName> pattern i (v, _, _) with i.stmt# = 28
+28 duck, 28 falcon, 28 ibisbill
 5000
-10 - If Pattern, Any Pattern
-if i; constant c;
-Select <i, c> pattern i (_, _, _) with i.stmt# = c.value
-none
-5000
-11 - While Pattern Any Variable
+5 - While Pattern Any Variable
 while w; variable v;
-Select <w, v> pattern w (v, _) with v.varName = "albatross"
-10 albatross
+Select <w, v> pattern w (v, _) with v.varName = "bulbul"
+9 bulbul, 19 bulbul, 51 bulbul, 58 bulbul
 5000

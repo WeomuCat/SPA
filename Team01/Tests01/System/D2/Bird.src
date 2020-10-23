@@ -1,22 +1,22 @@
 procedure firstbird {
-    print eagle;
-    albatross = bulbul - (crow - 1) * duck;
-    duck = duck * bulbul;
-    if (!(albatross < bulbul)) then {
+    if (1 == 1) then {
         call secondbird;
+        call fourthbird;
     } else {
-        call thirdbird;
+        call sixthbird;
+        call seventhbird;
     }
-    print duck;
 }
 
 procedure secondbird {
-    crow = eagle - 2 * 3 / bulbul;
+    crow = eagle - 2 * 3 / bulbul - 4 * 5;
     print bulbul;
+    read falcon;
     while (bulbul > albatross) {
         read duck;
         call thirdbird;
         print crow;
+        print falcon;
     }
     call fourthbird;
 }
@@ -42,3 +42,79 @@ procedure fourthbird {
     albatross = 1 - crow + albatross;
     print albatross;
 }
+
+procedure fifthbird {
+    if (duck * falcon - 4 > ibisbill) then {
+        if (!(crow - falcon * hawk == goose)) then {
+            if (albatross >= goose) then {
+                duck = goose;
+                read hawk;
+                falcon = bulbul;
+            } else {
+                crow = duck - crow;
+                call sixthbird;
+            }
+            if (ibisbill == 7) then {
+                read ibisbill;
+            } else {
+                read hawk;
+            }
+            read crow;
+            print duck;
+            falcon = ibisbill - 7;
+        } else {
+            ibisbill = 1 + hawk + 2 + crow + 3 + duck + bulbul;
+            duck = ibisbill;
+            call seventhbird;
+        }
+        read crow;
+    } else {
+        print duck;
+    }
+    read falcon;
+    goose = ibisbill - albatross * 4;
+    call sixthbird;
+}
+
+procedure sixthbird {
+    print crow;
+    while((ibisbill % 5 == crow - falcon) || (duck * bulbul - falcon <= goose * falcon)) {
+        read crow;
+        read hawk;
+        print falcon;
+        ibisbill = 1 * 10 - falcon;
+        goose = 2 * 6 % ibisbill;
+        hawk = bulbul * albatross;
+    }
+    while (ibisbill != bulbul) {
+        hawk = 3 / 5;
+        bulbul = duck;
+        crow = hawk - duck;
+        call seventhbird;
+    }
+    read hawk;
+}
+
+procedure seventhbird {
+    print ibisbill;
+}
+
+procedure eighthbird {
+    print eagle;
+    ibisbill = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10;
+    albatross = bulbul - (crow - 1) * duck % ibisbill / 2;
+    duck = duck * bulbul;
+    if (!(albatross < bulbul)) then {
+        read duck;
+    } else {
+        print falcon;
+    }
+    print duck;
+}
+
+procedure ninthbird {
+    read jay;
+    print jay;
+    jay = jay + jay - jay * jay;
+}
+
