@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "PKB.h"
+#include "PKBBuilder.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -358,21 +359,6 @@ namespace UnitTesting {
 		std::shared_ptr<PKB> pkb8;
 
 		TEST_METHOD_INITIALIZE(PKBInitialize) {
-			PKBBuilder b8;
-			b8.addAffects(1, 2);
-			b8.addAffects(2, 3);
-			b8.addAAffects(3, 7);
-			b8.addAAffects(5, 7);
-			pkb8 = std::make_shared<PKB>(b8.build());
-
-			PKBBuilder b7;
-			b7.addAffects(1, 2);
-			b7.addAffects(3, 4);
-			b7.addAffects(5, 6);
-			b7.addAffects(7, 8);
-			b7.addAffects(7, 9);
-			pkb7 = std::make_shared<PKB>(b7.build());
-
 			PKBBuilder b1;
 			b1.addFollows(1, 2);
 			b1.addFollows(2, 3);
@@ -467,6 +453,21 @@ namespace UnitTesting {
 			b6.addNext(6, 5);
 			b6.addNext(7, 1);
 			pkb6 = std::make_shared<PKB>(b6.build());
+
+			PKBBuilder b7;
+			b7.addAffects(1, 2);
+			b7.addAffects(3, 4);
+			b7.addAffects(5, 6);
+			b7.addAffects(7, 8);
+			b7.addAffects(7, 9);
+			pkb7 = std::make_shared<PKB>(b7.build());
+
+			PKBBuilder b8;
+			b8.addAffects(1, 2);
+			b8.addAffects(2, 3);
+			b8.addAffects(3, 7);
+			b8.addAffects(5, 7);
+			pkb8 = std::make_shared<PKB>(b8.build());
 		}
 
 		/* isFollows */

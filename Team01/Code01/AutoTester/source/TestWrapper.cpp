@@ -1,5 +1,7 @@
 #include "TestWrapper.h"
 
+#include "../source/PKB.h"
+#include "../source/PKBBuilder.h"
 #include "../source/Parser.h"
 #include "../source/PKB/DesignEntities/AssignTable.cpp"
 #include "../source/PKB/DesignEntities/ConstantTable.cpp"
@@ -21,8 +23,6 @@
 #include "../source/ResultList.cpp"
 #include "../source/ResultListManager.h"
 #include "../source/Relationship.cpp"
-#include "../source/PKB.cpp"
-#include "../source/PKBBuilder.cpp"
 #include "../source/PKB/ASTNode/VariableNode.cpp"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "AbstractDataTypes.h"
-#include "PKBBuilder.h"
 #include "PKB/ASTNode/ProgramNode.h"
 #include "PKB/DesignEntities/AssignTable.h"
 #include "PKB/DesignEntities/CallTable.h"
@@ -20,6 +19,7 @@
 #include "PKB/Relationships/ModifiesTable.h"
 #include "PKB/Relationships/CallsTable.h"
 #include "PKB/Relationships/NextTable.h"
+#include "PKB/Relationships/AffectsTable.h"
 
 /* 
 Overview: The PKB that contains design entities and relationships of a given SIMPLE source code 
@@ -27,8 +27,6 @@ Overview: The PKB that contains design entities and relationships of a given SIM
 class PKB {
 
 public:
-    /*==== Constructor ====*/
-    PKB(PKB_BUILDER builder);
 
     /*==== Design Entities (Nodes) ====*/
     /*
@@ -275,6 +273,18 @@ public:
     */
     BOOLEAN_TYPE isNextTransitive(STMT_NUM s1, STMT_NUM s2);
 
+    /*
+    Description: Returns a BOOLEAN_TYPE indicating whether or not
+                 Affects(STMT_NUM, STMT_NUM) holds
+    */
+    BOOLEAN_TYPE isAffects(STMT_NUM s1, STMT_NUM s2);
+    
+    /*
+    Description: Returns a BOOLEAN_TYPE indicating whether or not
+                 Affects*(STMT_NUM, STMT_NUM) holds
+    */
+    BOOLEAN_TYPE isAffectsTransitive(STMT_NUM s1, STMT_NUM s2);
+
     /*==== AST ====*/
 
     /*
@@ -288,7 +298,7 @@ public:
     */
     void clearCache();
 
-private:
+protected:
     PROGRAM_NODE_PTR program_node_ptr_;
 
     ASSIGN_TABLE assign_table_;
@@ -309,4 +319,5 @@ private:
     MODIFIES_TABLE modifies_table_;
     CALLS_TABLE calls_table_;
     NEXT_TABLE next_table_;
+    AFFECTS_TABLE affects_table_;
 };

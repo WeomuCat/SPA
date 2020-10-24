@@ -53,6 +53,7 @@ class UsesTable;
 class ModifiesTable;
 class CallsTable;
 class NextTable;
+class AffectsTable;
 
 // QP
 class QueryNode;
@@ -120,6 +121,7 @@ typedef UsesTable USES_TABLE;
 typedef ModifiesTable MODIFIES_TABLE;
 typedef CallsTable CALLS_TABLE;
 typedef NextTable NEXT_TABLE;
+typedef AffectsTable AFFECTS_TABLE;
 
 // QP
 typedef std::vector<std::string> QUERY_RESULT;
