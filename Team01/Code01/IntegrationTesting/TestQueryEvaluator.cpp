@@ -774,6 +774,9 @@ namespace IntegrationTesting
 
 		}
 
+
+		/*=================================  PKB 1: Select =========================================*/
+
 		TEST_METHOD(evaluateQuery_Select_Success)
 		{
 			// Query: "variable v; Select v"
@@ -884,6 +887,80 @@ namespace IntegrationTesting
 
 			Logger::WriteMessage("Result: ");
 			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_Select_Pn1Pn2_varname_Success) {
+			// Query: "print pn1, pn2; Select <pn1.varName, pn2.varName>"
+			// Get processed_synonyms and processed clauses
+			QueryNode pn1_node = QueryNode();
+			pn1_node.setSynonymNode({ QuerySynonymType::print }, "pn1");
+			QueryNode pn2_node = QueryNode();
+			pn2_node.setSynonymNode({ QuerySynonymType::print }, "pn2");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"pn1", pn1_node}, {"pn2", pn2_node} };
+
+			// Select <pn1.varName, pn2.varName>
+			QueryNode child1 = QueryNode();
+			child1.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode child2 = QueryNode();
+			child2.setAttrNode("pn1", "varName");
+			QueryNode child2_2 = QueryNode();
+			child2_2.setAttrNode("pn2", "varName");
+			
+			// Make tree
+			QueryNode tuple_children[] = { child2, child2_2 };
+			tuple.setChildren(tuple_children, 2);
+			QueryNode child1_children[] = { tuple };
+			child1.setChildren(child1_children, 1);
+
+			QueryNode processed_clauses = child1; //stores root node of the tree
+
+			QueryEvaluator qe = QueryEvaluator(*pkb);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			STRING_RESULT correct_result = "a a, a b, a c, a d, a e, b a, b b, b c, b d, b e, c a, c b, c c, c d, c e, d a, d b, d c, d d, d e, e a, e b, e c, e d, e e";
+
+			std::string query_result_string = "Result: " + result_string;
+			Logger::WriteMessage(query_result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_Select_S1S2_Success) {
+			// Query: "stmt s1, s2; Select <s1, s2>"
+			// Get processed_synonyms and processed clauses
+			QueryNode s1_node = QueryNode();
+			s1_node.setSynonymNode({ QuerySynonymType::stmt }, "s1");
+			QueryNode s2_node = QueryNode();
+			s2_node.setSynonymNode({ QuerySynonymType::stmt }, "s2");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"s1", s1_node}, {"s2", s2_node} };
+
+			// Select: <s1, s2>
+			QueryNode child1 = QueryNode();
+			child1.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode child2 = QueryNode();
+			child2.setSynonymNode({ QuerySynonymType::stmt }, "s1");
+			QueryNode child2_2 = QueryNode();
+			child2_2.setSynonymNode({ QuerySynonymType::stmt }, "s2");
+
+			// Make tree
+			QueryNode tuple_children[] = { child2, child2_2 };
+			tuple.setChildren(tuple_children, 2);
+			QueryNode child1_children[] = { tuple };
+			child1.setChildren(child1_children, 1);
+
+			QueryNode processed_clauses = child1; //stores root node of the tree
+
+			QueryEvaluator qe = QueryEvaluator(*pkb);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			STRING_RESULT correct_result = "1 1, 1 2, 1 3, 1 4, 1 5, 2 1, 2 2, 2 3, 2 4, 2 5, 3 1, 3 2, 3 3, 3 4, 3 5, 4 1, 4 2, 4 3, 4 4, 4 5, 5 1, 5 2, 5 3, 5 4, 5 5";
+
+			std::string query_result_string = "Result: " + result_string;
+			Logger::WriteMessage(query_result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
