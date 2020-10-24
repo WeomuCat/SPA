@@ -160,6 +160,9 @@
     <ClCompile Include="..\source\ResultListManager.cpp">
       <Filter>Source\QP</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\PKB\Relationships\AffectsTable.cpp">
+      <Filter>Source\Relationship</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h">
@@ -347,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="..\source\AttrRefManager.h">
       <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\Relationships\AffectsTable.h">
+      <Filter>Header\Relationship</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

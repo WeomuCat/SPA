@@ -323,7 +323,56 @@ namespace UnitTesting {
 		*/
 		std::shared_ptr<PKB> pkb6;
 
+		// Affects and Affect*
+		/*
+		- procedure {
+		1 	a = 5;
+		2	b = a;
+		3	a = 4;
+		4	b = a;
+		5	a = 3;
+		6	print a;
+		7	read a;
+		8	b = a;
+		9	print a;
+		- }
+		
+		*/
+		std::shared_ptr<PKB> pkb7;
+
+		// Affects*
+		/*
+		- procedure {
+		1	b = a;
+		2	c = b;
+		3	d = c;
+		4	if () then {
+		5		d = 0;	
+		-	} else {
+		6		a = 0;
+		-	}
+		7	e = d;
+		- }
+		*/
+
+		std::shared_ptr<PKB> pkb8;
+
 		TEST_METHOD_INITIALIZE(PKBInitialize) {
+			PKBBuilder b8;
+			b8.addAffects(1, 2);
+			b8.addAffects(2, 3);
+			b8.addAAffects(3, 7);
+			b8.addAAffects(5, 7);
+			pkb8 = std::make_shared<PKB>(b8.build());
+
+			PKBBuilder b7;
+			b7.addAffects(1, 2);
+			b7.addAffects(3, 4);
+			b7.addAffects(5, 6);
+			b7.addAffects(7, 8);
+			b7.addAffects(7, 9);
+			pkb7 = std::make_shared<PKB>(b7.build());
+
 			PKBBuilder b1;
 			b1.addFollows(1, 2);
 			b1.addFollows(2, 3);
@@ -738,6 +787,29 @@ namespace UnitTesting {
 		TEST_METHOD(isNextT_InvalidStmtNum_False) {
 			Assert::IsFalse(pkb2->isNextTransitive(0, 1));
 			Assert::IsFalse(pkb2->isNextTransitive(6, 7));
+		}
+
+		TEST_METHOD(isAffects_Stored_True) {
+			Assert::IsTrue(pkb7->isAffects(1, 2));
+			Assert::IsTrue(pkb7->isAffects(3, 4));
+			Assert::IsTrue(pkb7->isAffects(5, 6));
+			Assert::IsTrue(pkb7->isAffects(7, 8));
+			Assert::IsTrue(pkb7->isAffects(7, 9));
+		}
+
+		TEST_METHOD(isAffects_Transitive_True) {
+			Assert::IsTrue(pkb8->isAffectsTransitive(1, 3));
+			Assert::IsTrue(pkb8->isAffectsTransitive(1, 7));
+			Assert::IsTrue(pkb8->isAffectsTransitive(2, 7));
+			Assert::IsTrue(pkb8->isAffectsTransitive(5, 7));
+		}
+
+		TEST_METHOD(isAffects_InvalidStmtNum_False) {
+			Assert::IsFalse(pkb7->isAffects(1, 4));
+			Assert::IsFalse(pkb7->isAffectsTransitive(1, 4));
+
+			Assert::IsFalse(pkb8->isAffectsTransitive(1, 6));
+			Assert::IsFalse(pkb8->isAffectsTransitive(5, 6));
 		}
 	};
 }

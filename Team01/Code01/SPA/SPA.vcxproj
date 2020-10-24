@@ -53,6 +53,7 @@
     <ClInclude Include="..\source\PKB\DesignEntities\VariableTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\WhileTable.h" />
     <ClInclude Include="..\source\PKB\Hashing.h" />
+    <ClInclude Include="..\source\PKB\Relationships\AffectsTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\CallsTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\FollowsTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\ModifiesTable.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="..\source\PKB\DesignEntities\StatementTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\VariableTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\WhileTable.cpp" />
+    <ClCompile Include="..\source\PKB\Relationships\AffectsTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\CallsTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\FollowsTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\ModifiesTable.cpp" />
