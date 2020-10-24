@@ -1,0 +1,80 @@
+1 - Statement and Constant, Jump Over If
+stmt s;
+Select s such that Follows* (s, 29)
+13, 14, 15, 16, 17, 18, 19, 27
+1000
+2 - Assign and Constant
+assign a;
+Select a such that Follows* (a, 68)
+63, 64
+1000
+3 - Print and Constant
+print p;
+Select p such that Follows* (p, 109)
+107, 108
+1000
+4 - Read and Constant
+read r;
+Select r such that Follows* (r, 93)
+69, 70, 71, 72, 91, 92
+1000
+5 - If and Constant
+if i;
+Select i such that Follows* (i, 104)
+93
+1000
+6 - While and Constant
+while w;
+Select w such that Follows* (w, 29)
+19, 27
+1000
+7 - Assign and Assign, Select Assign One
+assign a1, a2;
+Select a1 such that Follows* (a1, a2)
+13, 14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 31, 32, 33, 35, 36, 37, 40, 41, 60, 63, 75, 76, 77, 80, 81, 82, 86, 102, 103
+1000
+8 - Print and Print, Select Print One
+print p1, p2;
+Select p1 such that Follows* (p1, p2)
+2, 43, 44, 45, 56, 57, 58, 84, 107, 108
+1000
+9 - Read and Read, Select Read One
+read r1, r2;
+Select r1 such that Follows* (r1, r2)
+4, 5, 6, 9, 10, 65, 66, 67, 69, 70, 71, 72, 91
+1000
+10 - If and If, Select If One
+if i1, i2;
+Select i1 such that Follows* (i1, i2)
+none
+1000
+11 - While and While, Select While One
+while w1, w2;
+Select w1 such that Follows* (w1, w2)
+19, 27, 48, 73
+1000
+12 - Print and Read, Select Print
+print p, read r;
+Select p such that Follows* (p, r)
+none
+1000
+13 - If and While, Select If
+if i; while w;
+Select i such that Follows* (i, w)
+3, 93
+1000
+14 - Wildcard and Assign
+assign a;
+Select a such that Follows* (_, a)
+14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 32, 33, 34, 36, 37, 38, 40, 41, 42, 60, 61, 62, 64, 76, 77, 78, 81, 82, 83, 86, 87, 102, 103, 104
+1000
+15 - Read and Wildcard
+read r;
+Select r such that Follows* (r, _)
+1, 4, 5, 6, 9, 10, 11, 65, 66, 67, 69, 70, 71, 72, 91, 92
+1000
+16 - Wildcard and Wilcard, Select Randomly
+read r;
+Select r such that Follows* (_, _)
+1, 4, 5, 6, 7, 9, 10, 11, 65, 66, 67, 68, 69, 70, 71, 72, 91, 92
+1000
