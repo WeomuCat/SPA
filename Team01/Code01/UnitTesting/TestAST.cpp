@@ -9,21 +9,21 @@ namespace UnitTesting {
 	
 	TEST_CLASS(ASTNodeTest) {
 	public:
-		PRINT_NODE_PTR print = std::make_shared<PrintNode>();
-		VAR_NODE_PTR var = std::make_shared<VariableNode>();
-		STMT_LIST_NODE_PTR stmt_list = std::make_shared<StatementListNode>();
-		READ_NODE_PTR read = std::make_shared<ReadNode>();
 		ASSIGN_NODE_PTR assign = std::make_shared<AssignNode>();
-		EXPR_NODE_PTR expr = std::make_shared<ExpressionNode>();
 		CALL_NODE_PTR call = std::make_shared<CallNode>();
-		PROC_NODE_PTR proc = std::make_shared<ProcedureNode>();
 		CONDITION_NODE_PTR cond = std::make_shared<ConditionNode>();
-		RELATION_NODE_PTR relation = std::make_shared<RelationNode>();
 		CONSTANT_NODE_PTR constant = std::make_shared<ConstantNode>();
-		WHILE_NODE_PTR whiles = std::make_shared<WhileNode>();
-		TRY_NODE_PTR trys = std::make_shared<TryNode>();
-		PROGRAM_NODE_PTR program = std::make_shared<ProgramNode>();
+		EXPR_NODE_PTR expr = std::make_shared<ExpressionNode>();
 		IF_NODE_PTR ifs = std::make_shared<IfNode>();
+		PRINT_NODE_PTR print = std::make_shared<PrintNode>();
+		PROC_NODE_PTR proc = std::make_shared<ProcedureNode>();
+		PROGRAM_NODE_PTR program = std::make_shared<ProgramNode>();
+		READ_NODE_PTR read = std::make_shared<ReadNode>();
+		RELATION_NODE_PTR relation = std::make_shared<RelationNode>();
+		STMT_LIST_NODE_PTR stmt_list = std::make_shared<StatementListNode>();
+		TRY_NODE_PTR trys = std::make_shared<TryNode>();
+		VAR_NODE_PTR var = std::make_shared<VariableNode>();
+		WHILE_NODE_PTR whiles = std::make_shared<WhileNode>();
 
 		TEST_METHOD(ASTNode_setgetParent_true) {
 			Assert::IsTrue(var->getParentNode() == nullptr);
