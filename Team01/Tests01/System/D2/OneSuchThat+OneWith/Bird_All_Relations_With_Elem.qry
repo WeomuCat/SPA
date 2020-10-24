@@ -1,0 +1,50 @@
+1 - Follows
+stmt s;
+Select s such that Follows (9, s) with s.stmt# = 14
+14
+5000
+2 - FollowsT
+stmt s1, s2;
+Select s2 such that Follows* (s1, s2) with s1.stmt# = s2.stmt#
+none
+5000
+3 - Parent
+stmt s; if i;
+Select s such that Parent (i, s) with i.stmt# = 1
+2, 3, 4, 5
+5000
+4 - ParentT
+while w; print pn;
+Select pn such that Parent* (w, pn) with w.stmt# = 9
+12, 13
+5000
+5 - Modifies
+variable v; call cl;
+Select cl.procName such that Modifies (cl, v) with v.varName = "duck"
+secondbird, thirdbird
+5000
+6 - Uses
+variable v; if i;
+Select i such that Uses (i, v) with v.varName = "bulbul"
+1, 16, 28, 29, 30, 69
+5000
+7 - Calls
+procedure p1, p2;
+Select p2 such that Calls (p1, p2) with p2.procName = "eigthbird"
+none
+5000
+8 - CallsT
+procedure p1, p2;
+Select p1 such that Calls* (p1, p2) with p2.procName = "seventhbird"
+firstbird, fifthbird, sixthbird
+5000
+9 - Next
+prog_line n1, n2;
+Select n2 such that Next (n1, n2) with n1 = 69
+70, 71
+5000
+10 - NextT
+prog_line n; while w;
+Select w such that Next* (n, w) with n = 53
+51, 58
+5000

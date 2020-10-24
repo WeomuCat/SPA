@@ -1,0 +1,10 @@
+1 - Boolean Selection
+assign a;
+Select BOOLEAN such that Calls* ("firstbird", "thirdbird") pattern a ("crow", "bulbul -1 - eagle / 2")
+TRUE
+3000
+2 - Tuple Selection
+procedure p; while w;
+Select <p, w> such that Calls* (p, "seventhbird") pattern w ("ibisbill", _)
+firstbird 51, firstbird 58, fifthbird 51, fifthbird 58, sixthbird 51, sixthbird 58
+3000

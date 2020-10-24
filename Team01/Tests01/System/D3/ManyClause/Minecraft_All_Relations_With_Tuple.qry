@@ -1,0 +1,35 @@
+1 - Follows, Follows*
+stmt s1, s2, s3;
+Select <s1> such that Follows (s1, s2) and Follows (s2, s3) with s2.stmt# = 124
+123
+5000
+2 - Follows, Modifies, Uses
+stmt s; assign a; variable v1, v2;
+Select <s, a, v1, v2> such that Follows (s, a) and Modifies (s, v1) and Uses (a, v2) with v1.varName = "gold" and v2.varName = "oak" and a.stmt# = 14
+13 14 gold oak
+5000
+3 - Modifies, Calls, Calls*
+procedure p; variable v;
+Select <p, v> such that Modifies (p, v) and Calls (p, "seventh") and Calls* (p, "eighth") with v.varName = "diamond"
+fifth diamond, sixth diamond
+5000
+4 - Modifies, Modfies, Calls
+variable v; procedure p1, p2;
+Select <p1, p2> such that Modifies (p1, v) and Modifies (p2, v) and Calls (p1, p2) with p2.procName = "craft"
+third craft, twelve craft
+5000
+6 - Calls*, Calls*, Calls*
+procedure p1, p2, p3, p4;
+Select <p1, p3> such that Calls* (p1, p2) and Calls* (p2, p3) and Calls (p3, p4) with p4.procName = "craft"
+first third, fourth twelve, fifth twelve, sixth twelve, seventh twelve, eighth twelve, tenth twelve
+5000
+7 - Modifies, Modifies, Uses, Uses
+assign a1, a2, a3, a4; variable v1, v2;
+Select <v1, v2> such that Modifies (a1, v1) and Modifies (a2, v2) and Uses (a3, v1) and Uses (a4, v2) with a1.stmt# = a2.stmt# and a3.stmt# = a4.stmt# and a1.stmt# = 35
+TEMPORARY
+5000
+8 - Follows*, Next*
+stmt s1, s2, s3;
+Select <s1, s2> such that Follows* (s1, s2) and Next* (s2, s3) with s1.stmt# = s3.stmt# and s2.stmt# = 49
+TEMPORARY
+5000

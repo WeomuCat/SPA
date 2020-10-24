@@ -1,0 +1,90 @@
+1 - Follows and Follows*
+stmt s1, s2;
+Select s1 such that Follows (s1, s2) and Follows* (s1, 7)
+6
+5000
+2 - Follows* and Parent
+stmt s1, s2;
+Select s1 such that Follows* (s1, s2) and Parent (4, s1)
+none
+5000
+3 - Follows and Modifies
+stmt s1, s2;
+Select s1 such that Follows (s1, s2) and Modifies (s1, "ddd")
+3, 4, 5, 6, 8, 9, 11, 16, 17, 18, 21, 38, 39, 49, 51, 55, 61, 64, 65, 69, 70, 81, 85
+5000
+4 - Follows* and Uses
+stmt s1, s2;
+Select s1 such that Follows* (s1, s2) and Uses (s1, "bbb")
+2, 3, 4, 5, 8, 9, 16, 17, 18, 21, 23, 25, 28, 38, 39, 41, 49, 50, 51, 61, 64, 65, 68, 69, 70, 79, 84
+5000
+5 - Follows and Next
+assign a; stmt s; read r;
+Select r such that Follows (s, a) and Next (a, r)
+36
+5000
+6 - Parent and Parent*
+stmt s; if i; print p;
+Select i such that Parent (i, 8) and Parent* (s, p)
+5
+5000
+7 - Parent* and Modifies
+while w; read r; variable v;
+Select v.varName such that Parent* (w, r) and Modifies (w, v)
+aaa, bbb, ccc, ddd, eee, fff, ggg, hhh
+5000
+8 - Parent and Uses
+while w; read r; variable v;
+Select r.varName such that Parent (w, r) and Uses (w, v)
+aaa, ddd, fff
+5000
+9 - Parent* and Next
+while w; prog_line n;
+Select w such that Parent* (w, n) and Next (n, 22)
+16
+5000
+10 - Modifies and Modifies
+stmt s; variable v;
+Select s such that Modifies (s, "ggg") and Modifies (s, v)
+3, 5, 16, 17, 32, 34, 38, 39, 46, 51, 56, 58, 60
+5000
+11 - Modifies and Uses
+stmt s;
+Select s such that Modifies (s, "bbb") and Uses (s, "bbb")
+3, 5, 16, 17, 18, 34, 38, 39, 46, 51
+5000
+12 - Modifies and Calls
+assign a; procedure p;
+Select p such that Modifies (p, "ccc") and Calls (p, "aaaProc")
+none
+5000
+13 - Modifies and Next
+assign a; variable v;
+Select v such that Modifies (a, v) and Next (51, a)
+bbb, ddd
+5000
+14 - Uses and Uses
+assign a; variable v;
+Select v such that Uses (a, v) and Uses (a, "hhh")
+aaa, bbb, ccc, ddd, eee, fff, ggg, hhh
+5000
+15 - Uses and Calls*
+procedure p;
+Select p such that Uses (p, "eee") and Calls* ("aaaProc", p)
+bbbProc, cccProc, dddProc
+5000
+16 - Uses and Next
+assign a; variable v;
+Select v such that Uses (a, v) and Next (51, a)
+ccc, eee, fff, ggg
+5000
+17 - Calls and Calls*
+procedure p1, p2;
+Select p1 such that Calls (p1, p2) and Calls* (p1, p2)
+aaaProc, bbbProc, cccProc
+5000
+18 - Next and Next*
+prog_line n1, n2;
+Select n2 such that Next (n1, n2) and Next* (n2, 25)
+2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32
+5000

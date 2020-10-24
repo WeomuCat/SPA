@@ -1,0 +1,25 @@
+1 - Assign Pattern, Assign same as Constants
+assign a; constant c;
+Select <c.value, a> pattern a (_, _) with a.stmt# = c.value
+6 6
+5000
+2 - Asssign Pattern, Variable with name
+assign a; variable v;
+Select <a, v> pattern a (v, _"crow"_) with v.varName = "albatross"
+18 albatross, 26 albatross, 67 albatross
+5000
+3 - Assign Pattern, but wrong name
+assign a; variable v;
+Select a pattern a (v, _"duck"_) with v.varName = "eagle"
+none
+500
+4 - If Patttern, Any Variable
+if i; variable v;
+Select <i, v.varName> pattern i (v, _, _) with i.stmt# = 28
+28 duck, 28 falcon, 28 ibisbill
+5000
+5 - While Pattern Any Variable
+while w; variable v;
+Select <w, v> pattern w (v, _) with v.varName = "bulbul"
+9 bulbul, 19 bulbul, 51 bulbul, 58 bulbul
+5000
