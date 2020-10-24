@@ -43,6 +43,15 @@ void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList&
 	else if (relationship_type == QueryNodeType::nextT) {
 		getNextTResult(pkb, clause_bool, clause_result_list);
 	}
+	else if (relationship_type == QueryNodeType::affects) {
+		
+	}
+	else if (relationship_type == QueryNodeType::affectsT) {
+
+	}
+	else {
+		throw "QE: Relationship: Relationship given is not valid.";
+	}
 }
 
 void Relationship::getFollowsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
@@ -1091,13 +1100,57 @@ void Relationship::getNextTResult(PKB pkb, bool& clause_bool, ResultList& clause
 	}
 }
 
-/*
-void Relationship::getAffectsResult(...) {
-	// Format: Affects( stmtRef, stmtRef )
-	// Relationship between: Assignments
+void Relationship::getAffectsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: Affects( stmtRef, stmtRef )
+	Relationship between: Assignments
+	Note: Affects is defined only among assignment statements aand involves a variable.
 
-*/
+	stmtRef: synonym | _ | INTEGER
 
+		synonym: assign
+		_: assign num list
+		INTEGER: assign line number
+
+	Possible Combinations:
+	1. Affects(synonym, synonym)		-> Affects(a1, a2)
+	2. Affects(synonym, _)				-> Affects(a1, _ )
+	3. Affects(synonym, INTEGER)		-> Affects(a1, 10)
+	4. Affects(_, synonym)				-> Affects(_, a1)
+	5. Affects(_, _)					-> Affects(_, _)
+	6. Affects(_, INTEGER)				-> Affects(_, 10)
+	7. Affects(INTEGER, synonym)		-> Affects(10, a1)
+	8. Affects(INTEGER, _)				-> Affects(10, _)
+	9. Affects(INTEGER, INTEGER)		-> Affects(10, 11)
+	*/
+
+
+}
+
+void Relationship::getAffectsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	/*
+	Format: AffectsT( stmtRef, stmtRef )
+	Relationship between: Assignments
+	Note: AffectsT is defined only among assignment statements aand involves a variable.
+
+	stmtRef: synonym | _ | INTEGER
+
+		synonym: assign
+		_: assign num list
+		INTEGER: assign line number
+
+	Possible Combinations:
+	1. AffectsT(synonym, synonym)		-> AffectsT(a1, a2)
+	2. AffectsT(synonym, _)				-> AffectsT(a1, _ )
+	3. AffectsT(synonym, INTEGER)		-> AffectsT(a1, 10)
+	4. AffectsT(_, synonym)				-> AffectsT(_, a1)
+	5. AffectsT(_, _)					-> AffectsT(_, _)
+	6. AffectsT(_, INTEGER)				-> AffectsT(_, 10)
+	7. AffectsT(INTEGER, synonym)		-> AffectsT(10, a1)
+	8. AffectsT(INTEGER, _)				-> AffectsT(10, _)
+	9. AffectsT(INTEGER, INTEGER)		-> AffectsT(10, 11)
+	*/
+}
 
 bool Relationship::isSameSynonymName(QueryNode child1, QueryNode child2) {
 	bool same = false;

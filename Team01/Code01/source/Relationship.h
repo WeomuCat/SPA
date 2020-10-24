@@ -39,7 +39,9 @@ private:
 	void getCallsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 	void getNextResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 	void getNextTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	 
+	void getAffectsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
+	void getAffectsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
+
 
 	bool isSameSynonymName(QueryNode child1, QueryNode child2);
 	STMT_NUM_LIST getStmtList(PKB pkb, QueryNode child1);

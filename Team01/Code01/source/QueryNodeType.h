@@ -25,6 +25,8 @@ enum class QueryNodeType {
 	callsT,
 	next,
 	nextT,
+	affects,
+	affectsT,
 	pattern,
 	with
 };
