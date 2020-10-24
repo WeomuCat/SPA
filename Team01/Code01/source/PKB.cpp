@@ -1,28 +1,5 @@
 #include "PKB.h"
 
-PKB::PKB(PKB_BUILDER builder) {
-    assign_table_ = builder.assign_table_;
-    call_table_ = builder.call_table_;
-    constant_table_ = builder.constant_table_;
-    if_table_ = builder.if_table_;
-    print_table_ = builder.print_table_;
-    proc_table_ = builder.proc_table_;
-    read_table_ = builder.read_table_;
-    stmt_list_table_ = builder.stmt_list_table_;
-    var_table_ = builder.var_table_;
-    while_table_ = builder.while_table_;
-    stmt_table_ = builder.stmt_table_;
-
-    follows_table_ = builder.follows_table_;
-    parent_table_ = builder.parent_table_;
-    uses_table_ = builder.uses_table_;
-    modifies_table_ = builder.modifies_table_;
-    calls_table_ = builder.calls_table_;
-    next_table_ = builder.next_table_;
-
-    program_node_ptr_ = builder.program_node_ptr_;
-}
-
 /*==== Design Entities (Nodes) ====*/
 ASSIGN_NODE_PTR_LIST PKB::getAssigns() {
     return assign_table_.getAssignNodeList();
@@ -52,6 +29,10 @@ READ_NODE_PTR_LIST PKB::getReads() {
     return read_table_.getReadNodeList();
 }
 
+TRY_NODE_PTR_LIST PKB::getTrys() {
+    return try_table_.getTryNodeList();
+}
+
 WHILE_NODE_PTR_LIST PKB::getWhiles() {
     return while_table_.getWhileNodeList();
 }
@@ -67,8 +48,6 @@ VAR_NODE_PTR_LIST PKB::getVariables() {
 STMT_NODE_PTR_LIST PKB::getStatements() {
     return stmt_table_.getStatementNodeList();
 }
-
-
 
 /*==== Design Entities (Values) ====*/
 STMT_NUM_LIST PKB::getAssignNumList() {
@@ -103,6 +82,10 @@ VAR_NAME_LIST PKB::getReadVarNameList() {
     return read_table_.getReadVarNameList();
 }
 
+STMT_NUM_LIST PKB::getTryNumList() {
+    return try_table_.getTryNumList();
+}
+
 STMT_NUM_LIST PKB::getWhileNumList() {
     return while_table_.getWhileNumList();
 }
@@ -122,7 +105,6 @@ PROC_NAME_LIST PKB::getProcedureNameList() {
 VAR_NAME_LIST PKB::getVariableNameList() {
     return var_table_.getVariableNameList();
 }
-
 
 /*==== Relationships ====*/
 BOOLEAN_TYPE PKB::isFollows(STMT_NUM s1, STMT_NUM s2) {
@@ -173,6 +155,14 @@ BOOLEAN_TYPE PKB::isNextTransitive(STMT_NUM s1, STMT_NUM s2) {
     return next_table_.isNextTransitive(s1, s2);
 }
 
+BOOLEAN_TYPE PKB::isAffects(STMT_NUM s1, STMT_NUM s2) {
+    return affects_table_.isAffects(s1, s2);
+}
+
+BOOLEAN_TYPE PKB::isAffectsTransitive(STMT_NUM s1, STMT_NUM s2) {
+    return affects_table_.isAffectsTransitive(s1, s2);
+}
+
 /*==== AST ====*/
 PROGRAM_NODE_PTR PKB::getProgramNode() {
     return program_node_ptr_;
@@ -184,4 +174,5 @@ void PKB::clearCache() {
     parent_table_.clearCache();
     next_table_.clearCache();
     calls_table_.clearCache();
+    affects_table_.clearCache();
 }
