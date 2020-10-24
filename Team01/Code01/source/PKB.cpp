@@ -29,6 +29,10 @@ READ_NODE_PTR_LIST PKB::getReads() {
     return read_table_.getReadNodeList();
 }
 
+TRY_NODE_PTR_LIST PKB::getTrys() {
+    return try_table_.getTryNodeList();
+}
+
 WHILE_NODE_PTR_LIST PKB::getWhiles() {
     return while_table_.getWhileNodeList();
 }
@@ -76,6 +80,10 @@ STMT_NUM_LIST PKB::getReadNumList() {
 
 VAR_NAME_LIST PKB::getReadVarNameList() {
     return read_table_.getReadVarNameList();
+}
+
+STMT_NUM_LIST PKB::getTryNumList() {
+    return try_table_.getTryNumList();
 }
 
 STMT_NUM_LIST PKB::getWhileNumList() {

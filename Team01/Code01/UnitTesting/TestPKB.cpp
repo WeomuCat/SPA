@@ -161,6 +161,23 @@ namespace UnitTesting {
 			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
 		}
 
+		TEST_METHOD(addTry_getTrys_True) {
+			PKBBuilder pkb_builder;
+			TRY_NODE_PTR expected = std::make_shared<TryNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
+			pkb_builder.addTryNode(expected);
+			PKB pkb = pkb_builder.build();
+
+			TRY_NODE_PTR actual_pkb = pkb.getTrys().at(0);
+			TRY_NODE_PTR actual_builder = pkb_builder.getTrys().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			int num = pkb.getTryNumList().at(0);
+			Assert::AreEqual(expected_num, num);
+		}
+
 		TEST_METHOD(addStatement_getStatements_True) {
 			PKBBuilder pkb_builder;
 			ASSIGN_NODE_PTR expected = std::make_shared<AssignNode>();
