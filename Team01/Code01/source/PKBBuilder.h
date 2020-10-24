@@ -2,26 +2,8 @@
 
 #include "AbstractDataTypes.h"
 #include "PKB.h"
-#include "PKB/ASTNode/ProgramNode.h"
-#include "PKB/DesignEntities/AssignTable.h"
-#include "PKB/DesignEntities/CallTable.h"
-#include "PKB/DesignEntities/ConstantTable.h"
-#include "PKB/DesignEntities/IfTable.h"
-#include "PKB/DesignEntities/PrintTable.h"
-#include "PKB/DesignEntities/ProcedureTable.h"
-#include "PKB/DesignEntities/ReadTable.h"
-#include "PKB/DesignEntities/StatementListTable.h"
-#include "PKB/DesignEntities/StatementTable.h"
-#include "PKB/DesignEntities/VariableTable.h"
-#include "PKB/DesignEntities/WhileTable.h"
-#include "PKB/Relationships/CallsTable.h"
-#include "PKB/Relationships/FollowsTable.h"
-#include "PKB/Relationships/ParentTable.h"
-#include "PKB/Relationships/UsesTable.h"
-#include "PKB/Relationships/ModifiesTable.h"
-#include "PKB/Relationships/NextTable.h"
 
-class PKBBuilder {
+class PKBBuilder : public PKB {
 /* 
 Overview: A builder to aid in the construction of the PKB 
 */
@@ -77,6 +59,12 @@ public:
     INDEX addStatementListNode(STMT_LIST_NODE_PTR stmt_list_node_ptr);
 
     /*
+    Description: Adds a TRY_NODE_PTR to the TRY_TABLE when building the PKB.
+                 Returns the INDEX of the TRY_NODE_PTR in the TRY_TABLE.
+    */
+    INDEX addTryNode(TRY_NODE_PTR try_node_ptr);
+
+    /*
     Description: Adds a WHILE_NODE to the WHILE_TABLE when building the PKB.
                  Returns the INDEX of the STMT_NUM in the WHILE_TABLE.
     */
@@ -94,62 +82,6 @@ public:
     */
     INDEX addStatementNode(STMT_NODE_PTR stmt_node_ptr);
 
-    /*==== Return Nodes ====*/
-
-    /*
-    Description: Returns the list of stored ASSIGN_NODE_PTR in the ASSIGN_TABLE
-    */
-    ASSIGN_NODE_PTR_LIST getAssigns();
-
-    /*
-    Description: Returns the list of stored CALL_NODE_PTR in the CALL_TABLE
-    */
-    CALL_NODE_PTR_LIST getCalls();
-
-    /*
-    Description: Returns the list of stored CONSTANT_NODE_PTR in the CONSTANT_TABLE
-    */
-    CONSTANT_NODE_PTR_LIST getConstants();
-
-    /*
-    Description: Returns the list of stored IF_NODE_PTR in the IF_TABLE
-    */
-    IF_NODE_PTR_LIST getIfs();
-
-    /*
-    Description: Returns the list of stored PRINT_NODE_PTR in the PRINT_TABLE
-    */
-    PRINT_NODE_PTR_LIST getPrints();
-
-    /*
-    Description: Returns the list of stored PROC_NODE_PTR in the PROC_TABLE
-    */
-    PROC_NODE_PTR_LIST getProcedures();
-
-    /*
-    Description: Returns the list of stored READ_NODE_PTR in the READ_TABLE
-    */
-    READ_NODE_PTR_LIST getReads();
-
-    /*
-    Description: Returns the list of stored STMT_LIST_NODE_PTR in the STMT_LIST_TABLE
-    */
-    STMT_LIST_NODE_PTR_LIST getStatementLists();
-
-    /*
-    Description: Returns the list of stored WHILE_NODE_PTR in the WHILE_TABLE
-    */
-    WHILE_NODE_PTR_LIST getWhiles();
-
-    /*
-    Description: Returns the list of stored VAR_NODE_PTR in the VAR_TABLE
-    */
-    VAR_NODE_PTR_LIST getVariables();
-
-    /*
-    Description: Returns the list of stored STMT_NODE_PTR in the STMT_TABLE
-    */
-    STMT_NODE_PTR_LIST getStatements();
 
     /*==== Relationships ====*/
 
@@ -202,68 +134,15 @@ public:
     void addNext(STMT_NUM s1, STMT_NUM s2);
 
     /*
+    Description: Stores a Affects (STMT_NUM, STMT_NUM) relationship to
+                 the AFFECTS_TABLE when building the PKB.
+    */
+    void addAffects(STMT_NUM s1, STMT_NUM s2);
+
+    /*
     Description: Stores the root/program node pointer into the PKB.
     */
     void setProgramNode(PROGRAM_NODE_PTR program_node_ptr);
 
-    /*
-    Description: Return an immutable PKB after building it with all the 
-                 information stored in the PKB_BUILDER
-    */
-    BOOLEAN_TYPE isUses(STMT_NUM s, VAR_NAME v);
-
-    /*
-    Description: Returns a BOOLEAN_TYPE indicating whether or not
-                 Uses(PROC_NAME, VAR_NAME) holds
-    */
-    BOOLEAN_TYPE isUses(PROC_NAME p, VAR_NAME v);
-
-    /*
-    Description: Returns a BOOLEAN_TYPE indicating whether or not
-                 Modifies(STMT_NUM, VAR_NAME) holds
-    */
-    BOOLEAN_TYPE isModifies(STMT_NUM s, VAR_NAME v);
-
-    /*
-    Description: Returns a BOOLEAN_TYPE indicating whether or not
-                 Modifies(PROC_NAME, VAR_NAME) holds
-    */
-    BOOLEAN_TYPE isModifies(PROC_NAME p, VAR_NAME v);
-
-    /*
-    Description: Returns a BOOLEAN_TYPE indicating whether or not
-                 Calls(PROC_NAME, PROC_NAME) holds
-    */
-    BOOLEAN_TYPE isCalls(PROC_NAME p1, PROC_NAME p2);
-
-    /*
-    Description: Returns a BOOLEAN_TYPE indicating whether or not
-                 Calls*(PROC_NAME, PROC_NAME) holds
-    */
-
     PKB build();
-
-private:
-    friend class PKB;
-
-    PROGRAM_NODE_PTR program_node_ptr_;
-
-    ASSIGN_TABLE assign_table_;
-    CALL_TABLE call_table_;
-    CONSTANT_TABLE constant_table_;
-    IF_TABLE if_table_;
-    PRINT_TABLE print_table_;
-    PROC_TABLE proc_table_;
-    READ_TABLE read_table_;
-    STMT_LIST_TABLE stmt_list_table_;
-    STMT_TABLE stmt_table_;
-    VAR_TABLE var_table_;
-    WHILE_TABLE while_table_;
-
-    FOLLOWS_TABLE follows_table_;
-    PARENT_TABLE parent_table_;
-    USES_TABLE uses_table_;
-    MODIFIES_TABLE modifies_table_;
-    CALLS_TABLE calls_table_;
-    NEXT_TABLE next_table_;
 };

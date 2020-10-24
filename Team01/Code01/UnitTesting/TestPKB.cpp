@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "PKB.h"
+#include "PKBBuilder.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -158,6 +159,23 @@ namespace UnitTesting {
 			STMT_LIST_NODE_PTR actual_builder = pkb_builder.getStatementLists().at(0);
 			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
 			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+		}
+
+		TEST_METHOD(addTry_getTrys_True) {
+			PKBBuilder pkb_builder;
+			TRY_NODE_PTR expected = std::make_shared<TryNode>();
+			int expected_num = 1;
+			expected->setStatementNumber(expected_num);
+			pkb_builder.addTryNode(expected);
+			PKB pkb = pkb_builder.build();
+
+			TRY_NODE_PTR actual_pkb = pkb.getTrys().at(0);
+			TRY_NODE_PTR actual_builder = pkb_builder.getTrys().at(0);
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_pkb));
+			Assert::IsTrue(std::addressof(*expected) == std::addressof(*actual_builder));
+
+			int num = pkb.getTryNumList().at(0);
+			Assert::AreEqual(expected_num, num);
 		}
 
 		TEST_METHOD(addStatement_getStatements_True) {
@@ -323,6 +341,40 @@ namespace UnitTesting {
 		*/
 		std::shared_ptr<PKB> pkb6;
 
+		// Affects and Affect*
+		/*
+		- procedure {
+		1 	a = 5;
+		2	b = a;
+		3	a = 4;
+		4	b = a;
+		5	a = 3;
+		6	print a;
+		7	read a;
+		8	b = a;
+		9	print a;
+		- }
+		
+		*/
+		std::shared_ptr<PKB> pkb7;
+
+		// Affects*
+		/*
+		- procedure {
+		1	b = a;
+		2	c = b;
+		3	d = c;
+		4	if () then {
+		5		d = 0;	
+		-	} else {
+		6		a = 0;
+		-	}
+		7	e = d;
+		- }
+		*/
+
+		std::shared_ptr<PKB> pkb8;
+
 		TEST_METHOD_INITIALIZE(PKBInitialize) {
 			PKBBuilder b1;
 			b1.addFollows(1, 2);
@@ -418,6 +470,21 @@ namespace UnitTesting {
 			b6.addNext(6, 5);
 			b6.addNext(7, 1);
 			pkb6 = std::make_shared<PKB>(b6.build());
+
+			PKBBuilder b7;
+			b7.addAffects(1, 2);
+			b7.addAffects(3, 4);
+			b7.addAffects(5, 6);
+			b7.addAffects(7, 8);
+			b7.addAffects(7, 9);
+			pkb7 = std::make_shared<PKB>(b7.build());
+
+			PKBBuilder b8;
+			b8.addAffects(1, 2);
+			b8.addAffects(2, 3);
+			b8.addAffects(3, 7);
+			b8.addAffects(5, 7);
+			pkb8 = std::make_shared<PKB>(b8.build());
 		}
 
 		/* isFollows */
@@ -738,6 +805,29 @@ namespace UnitTesting {
 		TEST_METHOD(isNextT_InvalidStmtNum_False) {
 			Assert::IsFalse(pkb2->isNextTransitive(0, 1));
 			Assert::IsFalse(pkb2->isNextTransitive(6, 7));
+		}
+
+		TEST_METHOD(isAffects_Stored_True) {
+			Assert::IsTrue(pkb7->isAffects(1, 2));
+			Assert::IsTrue(pkb7->isAffects(3, 4));
+			Assert::IsTrue(pkb7->isAffects(5, 6));
+			Assert::IsTrue(pkb7->isAffects(7, 8));
+			Assert::IsTrue(pkb7->isAffects(7, 9));
+		}
+
+		TEST_METHOD(isAffects_Transitive_True) {
+			Assert::IsTrue(pkb8->isAffectsTransitive(1, 3));
+			Assert::IsTrue(pkb8->isAffectsTransitive(1, 7));
+			Assert::IsTrue(pkb8->isAffectsTransitive(2, 7));
+			Assert::IsTrue(pkb8->isAffectsTransitive(5, 7));
+		}
+
+		TEST_METHOD(isAffects_InvalidStmtNum_False) {
+			Assert::IsFalse(pkb7->isAffects(1, 4));
+			Assert::IsFalse(pkb7->isAffectsTransitive(1, 4));
+
+			Assert::IsFalse(pkb8->isAffectsTransitive(1, 6));
+			Assert::IsFalse(pkb8->isAffectsTransitive(5, 6));
 		}
 	};
 }

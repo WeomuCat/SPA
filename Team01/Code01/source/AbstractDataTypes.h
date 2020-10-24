@@ -26,6 +26,7 @@ class ReadNode;
 class RelationNode;
 class StatementListNode;
 class StatementNode;
+class TryNode;
 class VariableNode;
 class WhileNode;
 enum class NodeTypeEnum;
@@ -43,6 +44,7 @@ class ProcedureTable;
 class ReadTable;
 class StatementListTable;
 class StatementTable;
+class TryTable;
 class VariableTable;
 class WhileTable;
 
@@ -53,6 +55,7 @@ class UsesTable;
 class ModifiesTable;
 class CallsTable;
 class NextTable;
+class AffectsTable;
 
 // QP
 class QueryNode;
@@ -91,6 +94,8 @@ typedef std::shared_ptr<StatementListNode> STMT_LIST_NODE_PTR;
 typedef std::vector<std::shared_ptr<StatementListNode>> STMT_LIST_NODE_PTR_LIST;
 typedef std::shared_ptr<StatementNode> STMT_NODE_PTR;
 typedef std::vector<std::shared_ptr<StatementNode>>  STMT_NODE_PTR_LIST;
+typedef std::shared_ptr<TryNode> TRY_NODE_PTR;
+typedef std::vector<std::shared_ptr<TryNode>>  TRY_NODE_PTR_LIST;
 typedef std::shared_ptr<VariableNode> VAR_NODE_PTR;
 typedef std::vector<std::shared_ptr<VariableNode>> VAR_NODE_PTR_LIST;
 typedef std::shared_ptr<WhileNode> WHILE_NODE_PTR;
@@ -110,6 +115,7 @@ typedef ProcedureTable PROC_TABLE;
 typedef ReadTable READ_TABLE;
 typedef StatementListTable STMT_LIST_TABLE;
 typedef StatementTable STMT_TABLE;
+typedef TryTable TRY_TABLE;
 typedef VariableTable VAR_TABLE;
 typedef WhileTable WHILE_TABLE;
 
@@ -120,6 +126,7 @@ typedef UsesTable USES_TABLE;
 typedef ModifiesTable MODIFIES_TABLE;
 typedef CallsTable CALLS_TABLE;
 typedef NextTable NEXT_TABLE;
+typedef AffectsTable AFFECTS_TABLE;
 
 // QP
 typedef std::vector<std::string> QUERY_RESULT;

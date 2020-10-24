@@ -1,7 +1,6 @@
 #pragma once
 
 #include "AbstractDataTypes.h"
-#include "PKBBuilder.h"
 #include "PKB/ASTNode/ProgramNode.h"
 #include "PKB/DesignEntities/AssignTable.h"
 #include "PKB/DesignEntities/CallTable.h"
@@ -12,6 +11,7 @@
 #include "PKB/DesignEntities/ReadTable.h"
 #include "PKB/DesignEntities/StatementListTable.h"
 #include "PKB/DesignEntities/StatementTable.h"
+#include "PKB/DesignEntities/TryTable.h"
 #include "PKB/DesignEntities/VariableTable.h"
 #include "PKB/DesignEntities/WhileTable.h"
 #include "PKB/Relationships/FollowsTable.h"
@@ -20,6 +20,7 @@
 #include "PKB/Relationships/ModifiesTable.h"
 #include "PKB/Relationships/CallsTable.h"
 #include "PKB/Relationships/NextTable.h"
+#include "PKB/Relationships/AffectsTable.h"
 
 /* 
 Overview: The PKB that contains design entities and relationships of a given SIMPLE source code 
@@ -27,8 +28,6 @@ Overview: The PKB that contains design entities and relationships of a given SIM
 class PKB {
 
 public:
-    /*==== Constructor ====*/
-    PKB(PKB_BUILDER builder);
 
     /*==== Design Entities (Nodes) ====*/
     /*
@@ -81,11 +80,18 @@ public:
     READ_NODE_PTR_LIST getReads();
 
     /*
-    Description: Returns the STMT_NUM_LIST stored in STATEMENT_TABLE.
+    Description: Returns the STMT_LIST_NODE_PTR_LIST stored in STMT_LIST_TABLE.
                  If there are no elements in the collection, returns an empty
-                 STMT_NUM_LIST.
+                 STMT_LIST_NODE_PTR_LIST
     */
     STMT_LIST_NODE_PTR_LIST getStatementLists();
+
+    /*
+    Description: Returns the TRY_NODE_PTR_LIST stored in TRY_TABLE.
+                 If there are no elements in the collection, returns an empty
+                 TRY_NODE_PTR_LIST
+    */
+    TRY_NODE_PTR_LIST getTrys();
 
     /*
     Description: Returns the VAR_NODE_PTR_LIST stored in VARIABLE_TABLE.
@@ -182,6 +188,13 @@ public:
     STMT_NUM_LIST getStatementNumList();
 
     /*
+    Description: Returns the STMT_NUM_LIST stored in TRY_TABLE.
+                 If there are no elements in the collection, returns an empty
+                 TRY_NUM_LIST.
+    */
+    STMT_NUM_LIST getTryNumList();
+
+    /*
     Description: Returns the CONSTANT_VALUE_LIST stored in CONSTANT_TABLE.
                  If there are no elements in the collection, returns an empty
                  CONSTANT_VALUE_LIST.
@@ -275,6 +288,18 @@ public:
     */
     BOOLEAN_TYPE isNextTransitive(STMT_NUM s1, STMT_NUM s2);
 
+    /*
+    Description: Returns a BOOLEAN_TYPE indicating whether or not
+                 Affects(STMT_NUM, STMT_NUM) holds
+    */
+    BOOLEAN_TYPE isAffects(STMT_NUM s1, STMT_NUM s2);
+    
+    /*
+    Description: Returns a BOOLEAN_TYPE indicating whether or not
+                 Affects*(STMT_NUM, STMT_NUM) holds
+    */
+    BOOLEAN_TYPE isAffectsTransitive(STMT_NUM s1, STMT_NUM s2);
+
     /*==== AST ====*/
 
     /*
@@ -288,7 +313,7 @@ public:
     */
     void clearCache();
 
-private:
+protected:
     PROGRAM_NODE_PTR program_node_ptr_;
 
     ASSIGN_TABLE assign_table_;
@@ -300,6 +325,7 @@ private:
     READ_TABLE read_table_;
     STMT_LIST_TABLE stmt_list_table_;
     STMT_TABLE stmt_table_;
+    TRY_TABLE try_table_;
     VAR_TABLE var_table_;
     WHILE_TABLE while_table_;
 
@@ -309,4 +335,5 @@ private:
     MODIFIES_TABLE modifies_table_;
     CALLS_TABLE calls_table_;
     NEXT_TABLE next_table_;
+    AFFECTS_TABLE affects_table_;
 };

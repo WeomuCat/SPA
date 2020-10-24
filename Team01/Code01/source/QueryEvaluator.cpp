@@ -400,6 +400,7 @@ QUERY_RESULT QueryEvaluator::evaluateResultClause() {
 			}
 
 			final_result_list = ResultListManager::merge(final_result_list, child_result_list, processed_synonyms, pkb);
+			result_list = final_result_list;
 		}
 
 		return QueryEvaluator::getTupleValues();

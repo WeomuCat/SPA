@@ -10,6 +10,7 @@
 #include <unordered_map>
 
 #include "PKB.h"
+#include "PKBBuilder.h"
 #include "Parser.h"
 #include "PKB/ASTNode/NodeTypeEnum.h"
 #include "PKB/ASTNode/RelationNode.h"

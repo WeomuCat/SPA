@@ -7,6 +7,7 @@
 #include <set>
 
 #include "../source/PKB.h"
+#include "../source/PKBBuilder.h"
 #include "OperatorTypeEnum.h"
 #include "RelOperatorTypeEnum.h"
 

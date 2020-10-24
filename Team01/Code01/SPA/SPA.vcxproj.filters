@@ -160,6 +160,15 @@
     <ClCompile Include="..\source\ResultListManager.cpp">
       <Filter>Source\QP</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\PKB\Relationships\AffectsTable.cpp">
+      <Filter>Source\Relationship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\PKB\ASTNode\TryNode.cpp">
+      <Filter>Source\ASTNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\PKB\DesignEntities\TryTable.cpp">
+      <Filter>Source\DesignEntity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h">
@@ -347,6 +356,15 @@
     </ClInclude>
     <ClInclude Include="..\source\AttrRefManager.h">
       <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\Relationships\AffectsTable.h">
+      <Filter>Header\Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\ASTNode\TryNode.h">
+      <Filter>Header\ASTNode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\DesignEntities\TryTable.h">
+      <Filter>Header\DesignEntity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
