@@ -166,4 +166,5 @@ void PKB::clearCache() {
     parent_table_.clearCache();
     next_table_.clearCache();
     calls_table_.clearCache();
+    affects_table_.clearCache();
 }

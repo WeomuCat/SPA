@@ -13,6 +13,7 @@ enum class NodeTypeEnum {
     readNode, 
     relationNode, 
     statementListNode,
+    tryNode,
     variableNode, 
     whileNode,
     undefined

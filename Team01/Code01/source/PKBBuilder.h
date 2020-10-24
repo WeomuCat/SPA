@@ -59,6 +59,12 @@ public:
     INDEX addStatementListNode(STMT_LIST_NODE_PTR stmt_list_node_ptr);
 
     /*
+    Description: Adds a TRY_NODE_PTR to the TRY_TABLE when building the PKB.
+                 Returns the INDEX of the TRY_NODE_PTR in the TRY_TABLE.
+    */
+    INDEX addTryNode(TRY_NODE_PTR try_node_ptr);
+
+    /*
     Description: Adds a WHILE_NODE to the WHILE_TABLE when building the PKB.
                  Returns the INDEX of the STMT_NUM in the WHILE_TABLE.
     */

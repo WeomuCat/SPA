@@ -42,6 +42,7 @@ private:
 	friend class ReadNode;
 	friend class RelationNode;
 	friend class StatementListNode;
+	friend class TryNode;
 	friend class VariableNode;
 	friend class WhileNode;
 

@@ -32,6 +32,10 @@ INDEX PKBBuilder::addStatementListNode(STMT_LIST_NODE_PTR stmt_list_node_ptr) {
     return stmt_list_table_.addStatementListNode(stmt_list_node_ptr);
 }
 
+INDEX PKBBuilder::addTryNode(TRY_NODE_PTR try_node_ptr) {
+    return try_table_.addTryNode(try_node_ptr);
+}
+
 INDEX PKBBuilder::addVariableNode(VAR_NODE_PTR var_node_ptr) {
     return var_table_.addVariableNode(var_node_ptr);
 }

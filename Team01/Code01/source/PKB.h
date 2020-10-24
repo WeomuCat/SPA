@@ -11,6 +11,7 @@
 #include "PKB/DesignEntities/ReadTable.h"
 #include "PKB/DesignEntities/StatementListTable.h"
 #include "PKB/DesignEntities/StatementTable.h"
+#include "PKB/DesignEntities/TryTable.h"
 #include "PKB/DesignEntities/VariableTable.h"
 #include "PKB/DesignEntities/WhileTable.h"
 #include "PKB/Relationships/FollowsTable.h"
@@ -79,11 +80,18 @@ public:
     READ_NODE_PTR_LIST getReads();
 
     /*
-    Description: Returns the STMT_NUM_LIST stored in STATEMENT_TABLE.
+    Description: Returns the STMT_LIST_NODE_PTR_LIST stored in STMT_LIST_TABLE.
                  If there are no elements in the collection, returns an empty
-                 STMT_NUM_LIST.
+                 STMT_LIST_NODE_PTR_LIST
     */
     STMT_LIST_NODE_PTR_LIST getStatementLists();
+
+    /*
+    Description: Returns the TRY_NODE_PTR_LIST stored in TRY_TABLE.
+                 If there are no elements in the collection, returns an empty
+                 TRY_NODE_PTR_LIST
+    */
+    TRY_NODE_PTR_LIST getTrys();
 
     /*
     Description: Returns the VAR_NODE_PTR_LIST stored in VARIABLE_TABLE.
@@ -178,6 +186,13 @@ public:
                  STMT_NUM_LIST.
     */
     STMT_NUM_LIST getStatementNumList();
+
+    /*
+    Description: Returns the STMT_NUM_LIST stored in TRY_TABLE.
+                 If there are no elements in the collection, returns an empty
+                 TRY_NUM_LIST.
+    */
+    STMT_NUM_LIST getTryNumList();
 
     /*
     Description: Returns the CONSTANT_VALUE_LIST stored in CONSTANT_TABLE.
@@ -310,6 +325,7 @@ protected:
     READ_TABLE read_table_;
     STMT_LIST_TABLE stmt_list_table_;
     STMT_TABLE stmt_table_;
+    TRY_TABLE try_table_;
     VAR_TABLE var_table_;
     WHILE_TABLE while_table_;
 

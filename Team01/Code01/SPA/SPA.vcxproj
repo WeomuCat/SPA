@@ -38,6 +38,7 @@
     <ClInclude Include="..\source\PKB\ASTNode\RelationTypeEnum.h" />
     <ClInclude Include="..\source\PKB\ASTNode\StatementListNode.h" />
     <ClInclude Include="..\source\PKB\ASTNode\StatementNode.h" />
+    <ClInclude Include="..\source\PKB\ASTNode\TryNode.h" />
     <ClInclude Include="..\source\PKB\ASTNode\VariableNode.h" />
     <ClInclude Include="..\source\PKB\ASTNode\WhileNode.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\AssignTable.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="..\source\PKB\DesignEntities\ReadTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\StatementListTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\StatementTable.h" />
+    <ClInclude Include="..\source\PKB\DesignEntities\TryTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\VariableTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\WhileTable.h" />
     <ClInclude Include="..\source\PKB\Hashing.h" />
@@ -98,6 +100,7 @@
     <ClCompile Include="..\source\PKB\ASTNode\RelationNode.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\StatementListNode.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\StatementNode.cpp" />
+    <ClCompile Include="..\source\PKB\ASTNode\TryNode.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\VariableNode.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\WhileNode.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\AssignTable.cpp" />
@@ -110,6 +113,7 @@
     <ClCompile Include="..\source\PKB\DesignEntities\ReadTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\StatementListTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\StatementTable.cpp" />
+    <ClCompile Include="..\source\PKB\DesignEntities\TryTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\VariableTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\WhileTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\AffectsTable.cpp" />
