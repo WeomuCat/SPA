@@ -1,110 +1,110 @@
 1 - Follows Read Print
 read r; print p;
 Select <r, p> such that Follows(r, p)
-we didn't write the result for this query
+23 24
 1000
 1 - Follows Read Print
 read r; print p;
 Select <r, p> such that Follows(p, r)
-we didn't write the result for this query
+13 12,6 5
 1000
 1 - Follows Read Print
 read r; print p;
-Select <r, r.stmt# p, p.stmt#> such that Follows(r, p)
-we didn't write the result for this query
+Select <r, r.stmt#, p, p.stmt#> such that Follows(r, p)
+23 23 24 24
 1000
 1 - Follows Read Print
 read r; print p;
 Select <r, r.varName, p, p.varName> such that Follows(r, p)
-we didn't write the result for this query
+23 eVar 24 cVar
 1000
 1 - Follows Read Call
 read r; call c;
 Select <r, c> such that Follows(r, c)
-we didn't write the result for this query
+6 7
 1000
 1 - Follows Read Call
 read r; call c;
 Select <r, c> such that Follows(c, r)
-we didn't write the result for this query
+none
 1000
 1 - Follows Read Call
 read r; call c;
-Select <r, r.stmt# c, c.stmt#> such that Follows(r, c)
-we didn't write the result for this query
+Select <r, r.stmt#, c, c.stmt#> such that Follows(r, c)
+6 6 7 7
 1000
 1 - Follows Read Call
 read r; call c;
 Select <r, r.varName, c, c.procName> such that Follows(r, c)
-we didn't write the result for this query
+6 eVar 7 cProc
 1000
 1 - Follows Print Call
 print p; call c;
 Select <p, c> such that Follows(p, c)
-we didn't write the result for this query
+10 11
 1000
 1 - Follows Print Call
 print p; call c;
 Select <p, c> such that Follows(c, p)
-we didn't write the result for this query
+none
 1000
 1 - Follows Print Call
 print p; call c;
-Select <p, p.stmt# c, c.stmt#> such that Follows(p, c)
-we didn't write the result for this query
+Select <p, p.stmt#, c, c.stmt#> such that Follows(p, c)
+10 10 11 11
 1000
 1 - Follows Print Call
 print p; call c;
 Select <p, p.varName, c, c.procName> such that Follows(p, c)
-we didn't write the result for this query
+10 eVar 11 bProc
 1000
 1 - Follows Call While
 call c; while w;
 Select <c, c.stmt#, c.procName, w, w.stmt#> such that Follows(c, w)
-we didn't write the result for this query
+none
 1000
 1 - Follows Call While
 call c; while w;
 Select <c, c.stmt#, c.procName, w, w.stmt#> such that Follows(w, c)
-we didn't write the result for this query
+none
 1000
 1 - Follows While If
 while w; if i;
 Select <w, w.stmt#, i, i.stmt#> such that Follows(w, i)
-we didn't write the result for this query
+none
 1000
 1 - Follows While If
 while w; if i;
 Select <w, w.stmt#, i, i.stmt#> such that Follows(i, w)
-we didn't write the result for this query
+none
 1000
 1 - Follows If Assign
 if i; assign a;
 Select <i, i.stmt#, a, a.stmt#> such that Follows(i, a)
-we didn't write the result for this query
+none
 1000
 1 - Follows If Assign
 if i; assign a;
 Select <i, i.stmt#, a, a.stmt#> such that Follows(a, i)
-we didn't write the result for this query
+17 17 16 16,2 2 1 1
 1000
 1 - Follows Assign ProgLine
 assign a; prog_line n;
 Select <a, a.stmt#, n> such that Follows(a, n)
-we didn't write the result for this query
+1 1 2,14 14 15,16 16 17,3 3 4
 1000
 1 - Follows Assign ProgLine
 assign a; prog_line n;
 Select <a, a.stmt#, n> such that Follows(n, a)
-we didn't write the result for this query
+14 14 13,19 19 18,22 22 15,25 25 24,9 9 8
 1000
 1 - Follows ProgLine Statement
 prog_line n; stmt s;
 Select <n, s, s.stmt#> such that Follows(n, s)
-we didn't write the result for this query
+1 2 2,10 11 11,12 13 13,13 14 14,14 15 15,15 22 22,16 17 17,17 21 21,18 19 19,2 10 10,23 24 24,24 25 25,3 4 4,5 6 6,6 7 7,8 9 9
 1000
 1 - Follows ProgLine Statement
 prog_line n; stmt s;
 Select <n, s, s.stmt#> such that Follows(s, n)
-we didn't write the result for this query
+10 2 2,11 10 10,13 12 12,14 13 13,15 14 14,17 16 16,19 18 18,2 1 1,21 17 17,22 15 15,24 23 23,25 24 24,4 3 3,6 5 5,7 6 6,9 8 8
 1000
