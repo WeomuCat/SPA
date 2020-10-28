@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include "PKB.h"
+#include "PKBBuilder.h"
 #include "QueryNode.h"
 #include "QueryNodeType.h"
 #include "QuerySynonymType.h"

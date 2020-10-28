@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <list>
+#include "PKBBuilder.h"
 #include "PKB.h"
 
 // include your other headers here

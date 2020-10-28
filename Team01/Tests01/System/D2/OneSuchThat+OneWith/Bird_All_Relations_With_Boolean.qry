@@ -1,7 +1,7 @@
 1 - Follows
 stmt s;
-Select BOOLEAN such that Follows (5, s) with s.stmt# = 6
-FALSE
+Select BOOLEAN such that Follows (9, s) with s.stmt# = 14
+TRUE
 5000
 2 - FollowsT
 stmt s1, s2;
@@ -10,12 +10,12 @@ FALSE
 5000
 3 - Parent
 stmt s; if i;
-Select BOOLEAN such that Parent (i, s) with i.stmt# = 4
+Select BOOLEAN such that Parent (i, s) with i.stmt# = 1
 TRUE
 5000
 4 - ParentT
 while w;
-Select BOOLEAN such that Parent* (w, 12) with w.stmt# = 10
+Select BOOLEAN such that Parent* (w, 12) with w.stmt# = 9
 TRUE
 5000
 5 - Modifies
@@ -30,21 +30,21 @@ TRUE
 5000
 7 - Calls
 procedure p1, p2;
-Select BOOLEAN such that Calls (p1, p2) with p1.procName = "fourthbird"
+Select BOOLEAN such that Calls (p1, p2) with p1.procName = "thirdbird"
 FALSE
 5000
 8 - CallsT
 procedure p;
-Select BOOLEAN such that Calls* ("firstbird", p) with p.procName = "fourthbird"
-TRUE
+Select BOOLEAN such that Calls* ("firstbird", p) with p.procName = "ninthbird"
+FALSE
 5000
 9 - Next
 prog_line n;
-Select BOOLEAN such that Next (n, 7) with n = 5
+Select BOOLEAN such that Next (n, 10) with n = 9
 TRUE
 5000
 10 - NextT
 prog_line n;
-Select BOOLEAN such that Next* (22, n) with n = 23
+Select BOOLEAN such that Next* (19, n) with n = 17
 FALSE
 5000
