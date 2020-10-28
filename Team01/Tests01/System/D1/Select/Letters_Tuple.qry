@@ -181,7 +181,7 @@ Select <p, p.stmt#>
 1 - Select Print
 print p;
 Select <p, p.varName>
-WRONG ANSWER :(
+10 eVar,12 aVar,18 dVar,24 cVar,5 eVar,8 dVar
 1000
 1 - Select Print
 print p;
@@ -191,7 +191,7 @@ Select <p.stmt#, p.stmt#>
 1 - Select Print
 print p;
 Select <p.stmt#, p.varName>
-WRONG ANSWER :(
+10 eVar,12 aVar,18 dVar,24 cVar,5 eVar,8 dVar
 1000
 1 - Select Print
 print p;
@@ -201,17 +201,17 @@ Select <p.stmt#, p>
 1 - Select Print
 print p;
 Select <p.varName, p.varName>
-WRONG ANSWER :(
+aVar aVar,cVar cVar,dVar dVar,eVar eVar
 1000
 1 - Select Print
 print p;
 Select <p.varName, p.stmt#>
-WRONG ANSWER :(
+aVar 12,cVar 24,dVar 18,dVar 8,eVar 10,eVar 5
 1000
 1 - Select Print
 print p;
 Select <p.varName, p>
-WRONG ANSWER :(
+aVar 12,cVar 24,dVar 18,dVar 8,eVar 10,eVar 5
 1000
 1 - Select Print
 print p1, p2;
@@ -226,7 +226,7 @@ Select <p1, p2.stmt#>
 1 - Select Print
 print p1, p2;
 Select <p1, p2.varName>
-WRONG ANSWER :(
+10 aVar,10 cVar,10 dVar,10 eVar,12 aVar,12 cVar,12 dVar,12 eVar,18 aVar,18 cVar,18 dVar,18 eVar,24 aVar,24 cVar,24 dVar,24 eVar,5 aVar,5 cVar,5 dVar,5 eVar,8 aVar,8 cVar,8 dVar,8 eVar
 1000
 1 - Select Print
 print p1, p2;
@@ -236,7 +236,7 @@ Select <p1.stmt#, p2.stmt#>
 1 - Select Print
 print p1, p2;
 Select <p1.stmt#, p2.varName>
-WRONG ANSWER :(
+10 aVar,10 cVar,10 dVar,10 eVar,12 aVar,12 cVar,12 dVar,12 eVar,18 aVar,18 cVar,18 dVar,18 eVar,24 aVar,24 cVar,24 dVar,24 eVar,5 aVar,5 cVar,5 dVar,5 eVar,8 aVar,8 cVar,8 dVar,8 eVar
 1000
 1 - Select Print
 print p1, p2;
@@ -246,17 +246,17 @@ Select <p1.stmt#, p2>
 1 - Select Print
 print p1, p2;
 Select <p1.varName, p2.varName>
-WRONG ANSWER :(
+aVar aVar,aVar cVar,aVar dVar,aVar eVar,cVar aVar,cVar cVar,cVar dVar,cVar eVar,dVar aVar,dVar cVar,dVar dVar,dVar eVar,eVar aVar,eVar cVar,eVar dVar,eVar eVar
 1000
 1 - Select Print
 print p1, p2;
 Select <p1.varName, p2.stmt#>
-WRONG ANSWER :(
+aVar 10,aVar 12,aVar 18,aVar 24,aVar 5,aVar 8,cVar 10,cVar 12,cVar 18,cVar 24,cVar 5,cVar 8,dVar 10,dVar 12,dVar 18,dVar 24,dVar 5,dVar 8,eVar 10,eVar 12,eVar 18,eVar 24,eVar 5,eVar 8
 1000
 1 - Select Print
 print p1, p2;
 Select <p1.varName, p2>
-WRONG ANSWER :(
+aVar 10,aVar 12,aVar 18,aVar 24,aVar 5,aVar 8,cVar 10,cVar 12,cVar 18,cVar 24,cVar 5,cVar 8,dVar 10,dVar 12,dVar 18,dVar 24,dVar 5,dVar 8,eVar 10,eVar 12,eVar 18,eVar 24,eVar 5,eVar 8
 1000
 1 - Select Call
 call c;

@@ -11,7 +11,7 @@ Select <r, r.stmt#, r.varName, r, r.stmt#, r.varName, r, r.stmt#, r.varName>
 1 - Select Print
 print p;
 Select <p, p.stmt#, p.varName, p, p.stmt#, p.varName, p, p.stmt#, p.varName>
-WRONG ANSWER :(
+10 10 eVar 10 10 eVar 10 10 eVar,12 12 aVar 12 12 aVar 12 12 aVar,18 18 dVar 18 18 dVar 18 18 dVar,24 24 cVar 24 24 cVar 24 24 cVar,5 5 eVar 5 5 eVar 5 5 eVar,8 8 dVar 8 8 dVar 8 8 dVar
 1000
 1 - Select Call
 call c;

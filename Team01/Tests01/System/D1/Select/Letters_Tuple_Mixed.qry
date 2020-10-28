@@ -11,7 +11,7 @@ Select <r, p.stmt#>
 1 - Select Read Print
 read r; print p;
 Select <r, p.varName>
-WRONG ANSWER :(
+13 aVar,13 cVar,13 dVar,13 eVar,20 aVar,20 cVar,20 dVar,20 eVar,23 aVar,23 cVar,23 dVar,23 eVar,6 aVar,6 cVar,6 dVar,6 eVar
 1000
 1 - Select Read Print
 read r; print p;
@@ -26,7 +26,7 @@ Select <p, r, p.stmt#>
 1 - Select Read Print
 read r; print p;
 Select <p, r, p.varName>
-WRONG ANSWER :(
+10 13 eVar,10 20 eVar,10 23 eVar,10 6 eVar,12 13 aVar,12 20 aVar,12 23 aVar,12 6 aVar,18 13 dVar,18 20 dVar,18 23 dVar,18 6 dVar,24 13 cVar,24 20 cVar,24 23 cVar,24 6 cVar,5 13 eVar,5 20 eVar,5 23 eVar,5 6 eVar,8 13 dVar,8 20 dVar,8 23 dVar,8 6 dVar
 1000
 1 - Select Read Call
 read r; call c;
@@ -101,7 +101,7 @@ Select <r, r.stmt#, r.varName, p, c>
 1 - Select Read Print Call
 read r; print p; call c;
 Select <r, p, p.stmt#, p.varName, c>
-WRONG ANSWER :(
+13 10 10 eVar 11,13 10 10 eVar 21,13 10 10 eVar 7,13 12 12 aVar 11,13 12 12 aVar 21,13 12 12 aVar 7,13 18 18 dVar 11,13 18 18 dVar 21,13 18 18 dVar 7,13 24 24 cVar 11,13 24 24 cVar 21,13 24 24 cVar 7,13 5 5 eVar 11,13 5 5 eVar 21,13 5 5 eVar 7,13 8 8 dVar 11,13 8 8 dVar 21,13 8 8 dVar 7,20 10 10 eVar 11,20 10 10 eVar 21,20 10 10 eVar 7,20 12 12 aVar 11,20 12 12 aVar 21,20 12 12 aVar 7,20 18 18 dVar 11,20 18 18 dVar 21,20 18 18 dVar 7,20 24 24 cVar 11,20 24 24 cVar 21,20 24 24 cVar 7,20 5 5 eVar 11,20 5 5 eVar 21,20 5 5 eVar 7,20 8 8 dVar 11,20 8 8 dVar 21,20 8 8 dVar 7,23 10 10 eVar 11,23 10 10 eVar 21,23 10 10 eVar 7,23 12 12 aVar 11,23 12 12 aVar 21,23 12 12 aVar 7,23 18 18 dVar 11,23 18 18 dVar 21,23 18 18 dVar 7,23 24 24 cVar 11,23 24 24 cVar 21,23 24 24 cVar 7,23 5 5 eVar 11,23 5 5 eVar 21,23 5 5 eVar 7,23 8 8 dVar 11,23 8 8 dVar 21,23 8 8 dVar 7,6 10 10 eVar 11,6 10 10 eVar 21,6 10 10 eVar 7,6 12 12 aVar 11,6 12 12 aVar 21,6 12 12 aVar 7,6 18 18 dVar 11,6 18 18 dVar 21,6 18 18 dVar 7,6 24 24 cVar 11,6 24 24 cVar 21,6 24 24 cVar 7,6 5 5 eVar 11,6 5 5 eVar 21,6 5 5 eVar 7,6 8 8 dVar 11,6 8 8 dVar 21,6 8 8 dVar 7
 1000
 1 - Select Read Print Call
 read r; print p; call c;
@@ -111,7 +111,7 @@ Select <r, p, c, c.stmt#, c.procName>
 1 - Select Read Print Call
 read r; print p; call c;
 Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName, c, c.stmt#, c.procName>
-WRONG ANSWER :(
+13 13 aVar 10 10 eVar 11 11 bProc,13 13 aVar 10 10 eVar 21 21 cProc,13 13 aVar 10 10 eVar 7 7 cProc,13 13 aVar 12 12 aVar 11 11 bProc,13 13 aVar 12 12 aVar 21 21 cProc,13 13 aVar 12 12 aVar 7 7 cProc,13 13 aVar 18 18 dVar 11 11 bProc,13 13 aVar 18 18 dVar 21 21 cProc,13 13 aVar 18 18 dVar 7 7 cProc,13 13 aVar 24 24 cVar 11 11 bProc,13 13 aVar 24 24 cVar 21 21 cProc,13 13 aVar 24 24 cVar 7 7 cProc,13 13 aVar 5 5 eVar 11 11 bProc,13 13 aVar 5 5 eVar 21 21 cProc,13 13 aVar 5 5 eVar 7 7 cProc,13 13 aVar 8 8 dVar 11 11 bProc,13 13 aVar 8 8 dVar 21 21 cProc,13 13 aVar 8 8 dVar 7 7 cProc,20 20 eVar 10 10 eVar 11 11 bProc,20 20 eVar 10 10 eVar 21 21 cProc,20 20 eVar 10 10 eVar 7 7 cProc,20 20 eVar 12 12 aVar 11 11 bProc,20 20 eVar 12 12 aVar 21 21 cProc,20 20 eVar 12 12 aVar 7 7 cProc,20 20 eVar 18 18 dVar 11 11 bProc,20 20 eVar 18 18 dVar 21 21 cProc,20 20 eVar 18 18 dVar 7 7 cProc,20 20 eVar 24 24 cVar 11 11 bProc,20 20 eVar 24 24 cVar 21 21 cProc,20 20 eVar 24 24 cVar 7 7 cProc,20 20 eVar 5 5 eVar 11 11 bProc,20 20 eVar 5 5 eVar 21 21 cProc,20 20 eVar 5 5 eVar 7 7 cProc,20 20 eVar 8 8 dVar 11 11 bProc,20 20 eVar 8 8 dVar 21 21 cProc,20 20 eVar 8 8 dVar 7 7 cProc,23 23 eVar 10 10 eVar 11 11 bProc,23 23 eVar 10 10 eVar 21 21 cProc,23 23 eVar 10 10 eVar 7 7 cProc,23 23 eVar 12 12 aVar 11 11 bProc,23 23 eVar 12 12 aVar 21 21 cProc,23 23 eVar 12 12 aVar 7 7 cProc,23 23 eVar 18 18 dVar 11 11 bProc,23 23 eVar 18 18 dVar 21 21 cProc,23 23 eVar 18 18 dVar 7 7 cProc,23 23 eVar 24 24 cVar 11 11 bProc,23 23 eVar 24 24 cVar 21 21 cProc,23 23 eVar 24 24 cVar 7 7 cProc,23 23 eVar 5 5 eVar 11 11 bProc,23 23 eVar 5 5 eVar 21 21 cProc,23 23 eVar 5 5 eVar 7 7 cProc,23 23 eVar 8 8 dVar 11 11 bProc,23 23 eVar 8 8 dVar 21 21 cProc,23 23 eVar 8 8 dVar 7 7 cProc,6 6 eVar 10 10 eVar 11 11 bProc,6 6 eVar 10 10 eVar 21 21 cProc,6 6 eVar 10 10 eVar 7 7 cProc,6 6 eVar 12 12 aVar 11 11 bProc,6 6 eVar 12 12 aVar 21 21 cProc,6 6 eVar 12 12 aVar 7 7 cProc,6 6 eVar 18 18 dVar 11 11 bProc,6 6 eVar 18 18 dVar 21 21 cProc,6 6 eVar 18 18 dVar 7 7 cProc,6 6 eVar 24 24 cVar 11 11 bProc,6 6 eVar 24 24 cVar 21 21 cProc,6 6 eVar 24 24 cVar 7 7 cProc,6 6 eVar 5 5 eVar 11 11 bProc,6 6 eVar 5 5 eVar 21 21 cProc,6 6 eVar 5 5 eVar 7 7 cProc,6 6 eVar 8 8 dVar 11 11 bProc,6 6 eVar 8 8 dVar 21 21 cProc,6 6 eVar 8 8 dVar 7 7 cProc
 1000
 1 - Select Call While If
 call c; while w; if i;
