@@ -198,7 +198,6 @@ void ResultListManager::replaceAllAttrRefWithDefaultValue(ResultList& list, PROC
 					}
 				}
 
-
 				list.replaceColumnValues(synonym_name, new_values);
 			}
 

@@ -3966,8 +3966,9 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "morning newspaper, morning menu, morning menu, afternoon newspaper, afternoon menu, afternoon menu, evening newspaper, evening menu, evening menu, night newspaper, night menu, night menu, breakfast newspaper, breakfast menu, breakfast menu, lunch newspaper, lunch menu, lunch menu, dinner newspaper, dinner menu, dinner menu, diarrhoea newspaper, diarrhoea menu, diarrhoea menu";
+			STRING_RESULT correct_result = "morning newspaper, morning menu, morning menu, morning menu, morning menu, afternoon newspaper, afternoon menu, afternoon menu, afternoon menu, afternoon menu, evening newspaper, evening menu, evening menu, evening menu, evening menu, night newspaper, night menu, night menu, night menu, night menu, breakfast newspaper, breakfast menu, breakfast menu, breakfast menu, breakfast menu, lunch newspaper, lunch menu, lunch menu, lunch menu, lunch menu, dinner newspaper, dinner menu, dinner menu, dinner menu, dinner menu, diarrhoea newspaper, diarrhoea menu, diarrhoea menu, diarrhoea menu, diarrhoea menu";
 
+			
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -7251,7 +7252,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "9 newspaper, 10 menu, 11 menu";
+			STRING_RESULT correct_result = "9 newspaper, 10 menu, 10 menu, 11 menu, 11 menu";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -7334,7 +7335,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "9 newspaper 3 evening, 10 menu 3 evening, 11 menu 3 evening";
+			STRING_RESULT correct_result = "9 newspaper 3 evening, 10 menu 3 evening, 10 menu 3 evening, 11 menu 3 evening, 11 menu 3 evening";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);

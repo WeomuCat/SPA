@@ -45,6 +45,8 @@ void ResultList::removeColumn(SYNONYM_NAME columnName) {
 void ResultList::replaceColumnValues(SYNONYM_NAME columnName, SYNONYM_VALUES_LIST new_values) {
 	RESULT_LIST::iterator it = results.find(columnName);
 	it->second = new_values;
+	int new_num_rows = new_values.size();
+	num_rows = new_num_rows;
 }
 
 SYNONYM_VALUES_LIST ResultList::getValuesOfSynonym(SYNONYM_NAME column_name) {
