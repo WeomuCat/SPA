@@ -1,55 +1,55 @@
 1 - Select Statement
 stmt s;
 Select <s, s.stmt#, s, s.stmt#, s, s.stmt#>
-we didn't write the result for this query
+1 1 1 1 1 1,10 10 10 10 10 10,11 11 11 11 11 11,12 12 12 12 12 12,13 13 13 13 13 13,14 14 14 14 14 14,15 15 15 15 15 15,16 16 16 16 16 16,17 17 17 17 17 17,18 18 18 18 18 18,19 19 19 19 19 19,2 2 2 2 2 2,20 20 20 20 20 20,21 21 21 21 21 21,22 22 22 22 22 22,23 23 23 23 23 23,24 24 24 24 24 24,25 25 25 25 25 25,3 3 3 3 3 3,4 4 4 4 4 4,5 5 5 5 5 5,6 6 6 6 6 6,7 7 7 7 7 7,8 8 8 8 8 8,9 9 9 9 9 9
 1000
 1 - Select Read
 read r;
 Select <r, r.stmt#, r.varName, r, r.stmt#, r.varName, r, r.stmt#, r.varName>
-we didn't write the result for this query
+13 13 aVar 13 13 aVar 13 13 aVar,20 20 eVar 20 20 eVar 20 20 eVar,23 23 eVar 23 23 eVar 23 23 eVar,6 6 eVar 6 6 eVar 6 6 eVar
 1000
 1 - Select Print
 print p;
 Select <p, p.stmt#, p.varName, p, p.stmt#, p.varName, p, p.stmt#, p.varName>
-we didn't write the result for this query
+WRONG ANSWER :(
 1000
 1 - Select Call
 call c;
 Select <c, c.stmt#, c.procName, c, c.stmt#, c.procName, c, c.stmt#, c.procName>
-we didn't write the result for this query
+11 11 bProc 11 11 bProc 11 11 bProc,21 21 cProc 21 21 cProc 21 21 cProc,7 7 cProc 7 7 cProc 7 7 cProc
 1000
 1 - Select While
 while w;
 Select <w, w.stmt#, w, w.stmt#, w, w.stmt#>
-we didn't write the result for this query
+15 15 15 15 15 15,4 4 4 4 4 4
 1000
 1 - Select If
 if i;
 Select <i, i.stmt#, i, i.stmt#, i, i.stmt#>
-we didn't write the result for this query
+17 17 17 17 17 17,2 2 2 2 2 2
 1000
 1 - Select Assign
 assign a;
 Select <a, a.stmt#, a, a.stmt#, a, a.stmt#>
-we didn't write the result for this query
+1 1 1 1 1 1,14 14 14 14 14 14,16 16 16 16 16 16,19 19 19 19 19 19,22 22 22 22 22 22,25 25 25 25 25 25,3 3 3 3 3 3,9 9 9 9 9 9
 1000
 1 - Select Variable
 variable v;
 Select <v, v.varName, v, v.varName, v, v.varName>
-we didn't write the result for this query
+aVar aVar aVar aVar aVar aVar,bVar bVar bVar bVar bVar bVar,cVar cVar cVar cVar cVar cVar,dVar dVar dVar dVar dVar dVar,eVar eVar eVar eVar eVar eVar
 1000
 1 - Select Constant
 constant c;
 Select <c, c.value, c, c.value, c, c.value>
-we didn't write the result for this query
+1 1 1 1 1 1,2 2 2 2 2 2,3 3 3 3 3 3
 1000
 1 - Select ProgLine
 prog_line n;
 Select <n, n, n>
-we didn't write the result for this query
+1 1 1,10 10 10,11 11 11,12 12 12,13 13 13,14 14 14,15 15 15,16 16 16,17 17 17,18 18 18,19 19 19,2 2 2,20 20 20,21 21 21,22 22 22,23 23 23,24 24 24,25 25 25,3 3 3,4 4 4,5 5 5,6 6 6,7 7 7,8 8 8,9 9 9
 1000
 1 - Select Procedure
 procedure p;
 Select <p, p.procName, p, p.procName, p, p.procName>
-we didn't write the result for this query
+aProc aProc aProc aProc aProc aProc,bProc bProc bProc bProc bProc bProc,cProc cProc cProc cProc cProc cProc
 1000

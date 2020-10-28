@@ -1,140 +1,140 @@
 1 - Select Read Print
 read r; print p;
 Select <r, p>
-we didn't write the result for this query
+13 10,13 12,13 18,13 24,13 5,13 8,20 10,20 12,20 18,20 24,20 5,20 8,23 10,23 12,23 18,23 24,23 5,23 8,6 10,6 12,6 18,6 24,6 5,6 8
 1000
 1 - Select Read Print
 read r; print p;
 Select <r, p.stmt#>
-we didn't write the result for this query
+13 10,13 12,13 18,13 24,13 5,13 8,20 10,20 12,20 18,20 24,20 5,20 8,23 10,23 12,23 18,23 24,23 5,23 8,6 10,6 12,6 18,6 24,6 5,6 8
 1000
 1 - Select Read Print
 read r; print p;
 Select <r, p.varName>
-we didn't write the result for this query
+WRONG ANSWER :(
 1000
 1 - Select Read Print
 read r; print p;
 Select <p, r, p>
-we didn't write the result for this query
+10 13 10,10 20 10,10 23 10,10 6 10,12 13 12,12 20 12,12 23 12,12 6 12,18 13 18,18 20 18,18 23 18,18 6 18,24 13 24,24 20 24,24 23 24,24 6 24,5 13 5,5 20 5,5 23 5,5 6 5,8 13 8,8 20 8,8 23 8,8 6 8
 1000
 1 - Select Read Print
 read r; print p;
 Select <p, r, p.stmt#>
-we didn't write the result for this query
+10 13 10,10 20 10,10 23 10,10 6 10,12 13 12,12 20 12,12 23 12,12 6 12,18 13 18,18 20 18,18 23 18,18 6 18,24 13 24,24 20 24,24 23 24,24 6 24,5 13 5,5 20 5,5 23 5,5 6 5,8 13 8,8 20 8,8 23 8,8 6 8
 1000
 1 - Select Read Print
 read r; print p;
 Select <p, r, p.varName>
-we didn't write the result for this query
+WRONG ANSWER :(
 1000
 1 - Select Read Call
 read r; call c;
 Select <r, c>
-we didn't write the result for this query
+13 11,13 21,13 7,20 11,20 21,20 7,23 11,23 21,23 7,6 11,6 21,6 7
 1000
 1 - Select Read Call
 read r; call c;
 Select <r, c.stmt#>
-we didn't write the result for this query
+13 11,13 21,13 7,20 11,20 21,20 7,23 11,23 21,23 7,6 11,6 21,6 7
 1000
 1 - Select Read Call
 read r; call c;
 Select <r, c.procName>
-we didn't write the result for this query
+13 bProc,13 cProc,20 bProc,20 cProc,23 bProc,23 cProc,6 bProc,6 cProc
 1000
 1 - Select Read Call
 read r; call c;
 Select <c, r, c>
-we didn't write the result for this query
+11 13 11,11 20 11,11 23 11,11 6 11,21 13 21,21 20 21,21 23 21,21 6 21,7 13 7,7 20 7,7 23 7,7 6 7
 1000
 1 - Select Read Call
 read r; call c;
 Select <c, r, c.stmt#>
-we didn't write the result for this query
+11 13 11,11 20 11,11 23 11,11 6 11,21 13 21,21 20 21,21 23 21,21 6 21,7 13 7,7 20 7,7 23 7,7 6 7
 1000
 1 - Select Read Call
 read r; call c;
 Select <c, r, c.procName>
-we didn't write the result for this query
+11 13 bProc,11 20 bProc,11 23 bProc,11 6 bProc,21 13 cProc,21 20 cProc,21 23 cProc,21 6 cProc,7 13 cProc,7 20 cProc,7 23 cProc,7 6 cProc
 1000
 1 - Select Print Call
 print p; call c;
 Select <p, c>
-we didn't write the result for this query
+10 11,10 21,10 7,12 11,12 21,12 7,18 11,18 21,18 7,24 11,24 21,24 7,5 11,5 21,5 7,8 11,8 21,8 7
 1000
 1 - Select Print Call
 print p; call c;
 Select <p, c.stmt#>
-we didn't write the result for this query
+10 11,10 21,10 7,12 11,12 21,12 7,18 11,18 21,18 7,24 11,24 21,24 7,5 11,5 21,5 7,8 11,8 21,8 7
 1000
 1 - Select Print Call
 print p; call c;
 Select <p, c.procName>
-we didn't write the result for this query
+10 bProc,10 cProc,12 bProc,12 cProc,18 bProc,18 cProc,24 bProc,24 cProc,5 bProc,5 cProc,8 bProc,8 cProc
 1000
 1 - Select Print Call
 print p; call c;
 Select <c, p, c>
-we didn't write the result for this query
+11 10 11,11 12 11,11 18 11,11 24 11,11 5 11,11 8 11,21 10 21,21 12 21,21 18 21,21 24 21,21 5 21,21 8 21,7 10 7,7 12 7,7 18 7,7 24 7,7 5 7,7 8 7
 1000
 1 - Select Print Call
 print p; call c;
 Select <c, p, c.stmt#>
-we didn't write the result for this query
+11 10 11,11 12 11,11 18 11,11 24 11,11 5 11,11 8 11,21 10 21,21 12 21,21 18 21,21 24 21,21 5 21,21 8 21,7 10 7,7 12 7,7 18 7,7 24 7,7 5 7,7 8 7
 1000
 1 - Select Print Call
 print p; call c;
 Select <c, p, c.procName>
-we didn't write the result for this query
+11 10 bProc,11 12 bProc,11 18 bProc,11 24 bProc,11 5 bProc,11 8 bProc,21 10 cProc,21 12 cProc,21 18 cProc,21 24 cProc,21 5 cProc,21 8 cProc,7 10 cProc,7 12 cProc,7 18 cProc,7 24 cProc,7 5 cProc,7 8 cProc
 1000
 1 - Select Read Print Call
 read r; print p; call c;
 Select <r, p, c>
-we didn't write the result for this query
+13 10 11,13 10 21,13 10 7,13 12 11,13 12 21,13 12 7,13 18 11,13 18 21,13 18 7,13 24 11,13 24 21,13 24 7,13 5 11,13 5 21,13 5 7,13 8 11,13 8 21,13 8 7,20 10 11,20 10 21,20 10 7,20 12 11,20 12 21,20 12 7,20 18 11,20 18 21,20 18 7,20 24 11,20 24 21,20 24 7,20 5 11,20 5 21,20 5 7,20 8 11,20 8 21,20 8 7,23 10 11,23 10 21,23 10 7,23 12 11,23 12 21,23 12 7,23 18 11,23 18 21,23 18 7,23 24 11,23 24 21,23 24 7,23 5 11,23 5 21,23 5 7,23 8 11,23 8 21,23 8 7,6 10 11,6 10 21,6 10 7,6 12 11,6 12 21,6 12 7,6 18 11,6 18 21,6 18 7,6 24 11,6 24 21,6 24 7,6 5 11,6 5 21,6 5 7,6 8 11,6 8 21,6 8 7
 1000
 1 - Select Read Print Call
 read r; print p; call c;
 Select <r, r.stmt#, r.varName, p, c>
-we didn't write the result for this query
+13 13 aVar 10 11,13 13 aVar 10 21,13 13 aVar 10 7,13 13 aVar 12 11,13 13 aVar 12 21,13 13 aVar 12 7,13 13 aVar 18 11,13 13 aVar 18 21,13 13 aVar 18 7,13 13 aVar 24 11,13 13 aVar 24 21,13 13 aVar 24 7,13 13 aVar 5 11,13 13 aVar 5 21,13 13 aVar 5 7,13 13 aVar 8 11,13 13 aVar 8 21,13 13 aVar 8 7,20 20 eVar 10 11,20 20 eVar 10 21,20 20 eVar 10 7,20 20 eVar 12 11,20 20 eVar 12 21,20 20 eVar 12 7,20 20 eVar 18 11,20 20 eVar 18 21,20 20 eVar 18 7,20 20 eVar 24 11,20 20 eVar 24 21,20 20 eVar 24 7,20 20 eVar 5 11,20 20 eVar 5 21,20 20 eVar 5 7,20 20 eVar 8 11,20 20 eVar 8 21,20 20 eVar 8 7,23 23 eVar 10 11,23 23 eVar 10 21,23 23 eVar 10 7,23 23 eVar 12 11,23 23 eVar 12 21,23 23 eVar 12 7,23 23 eVar 18 11,23 23 eVar 18 21,23 23 eVar 18 7,23 23 eVar 24 11,23 23 eVar 24 21,23 23 eVar 24 7,23 23 eVar 5 11,23 23 eVar 5 21,23 23 eVar 5 7,23 23 eVar 8 11,23 23 eVar 8 21,23 23 eVar 8 7,6 6 eVar 10 11,6 6 eVar 10 21,6 6 eVar 10 7,6 6 eVar 12 11,6 6 eVar 12 21,6 6 eVar 12 7,6 6 eVar 18 11,6 6 eVar 18 21,6 6 eVar 18 7,6 6 eVar 24 11,6 6 eVar 24 21,6 6 eVar 24 7,6 6 eVar 5 11,6 6 eVar 5 21,6 6 eVar 5 7,6 6 eVar 8 11,6 6 eVar 8 21,6 6 eVar 8 7
 1000
 1 - Select Read Print Call
 read r; print p; call c;
 Select <r, p, p.stmt#, p.varName, c>
-we didn't write the result for this query
+WRONG ANSWER :(
 1000
 1 - Select Read Print Call
 read r; print p; call c;
 Select <r, p, c, c.stmt#, c.procName>
-we didn't write the result for this query
+13 10 11 11 bProc,13 10 21 21 cProc,13 10 7 7 cProc,13 12 11 11 bProc,13 12 21 21 cProc,13 12 7 7 cProc,13 18 11 11 bProc,13 18 21 21 cProc,13 18 7 7 cProc,13 24 11 11 bProc,13 24 21 21 cProc,13 24 7 7 cProc,13 5 11 11 bProc,13 5 21 21 cProc,13 5 7 7 cProc,13 8 11 11 bProc,13 8 21 21 cProc,13 8 7 7 cProc,20 10 11 11 bProc,20 10 21 21 cProc,20 10 7 7 cProc,20 12 11 11 bProc,20 12 21 21 cProc,20 12 7 7 cProc,20 18 11 11 bProc,20 18 21 21 cProc,20 18 7 7 cProc,20 24 11 11 bProc,20 24 21 21 cProc,20 24 7 7 cProc,20 5 11 11 bProc,20 5 21 21 cProc,20 5 7 7 cProc,20 8 11 11 bProc,20 8 21 21 cProc,20 8 7 7 cProc,23 10 11 11 bProc,23 10 21 21 cProc,23 10 7 7 cProc,23 12 11 11 bProc,23 12 21 21 cProc,23 12 7 7 cProc,23 18 11 11 bProc,23 18 21 21 cProc,23 18 7 7 cProc,23 24 11 11 bProc,23 24 21 21 cProc,23 24 7 7 cProc,23 5 11 11 bProc,23 5 21 21 cProc,23 5 7 7 cProc,23 8 11 11 bProc,23 8 21 21 cProc,23 8 7 7 cProc,6 10 11 11 bProc,6 10 21 21 cProc,6 10 7 7 cProc,6 12 11 11 bProc,6 12 21 21 cProc,6 12 7 7 cProc,6 18 11 11 bProc,6 18 21 21 cProc,6 18 7 7 cProc,6 24 11 11 bProc,6 24 21 21 cProc,6 24 7 7 cProc,6 5 11 11 bProc,6 5 21 21 cProc,6 5 7 7 cProc,6 8 11 11 bProc,6 8 21 21 cProc,6 8 7 7 cProc
 1000
 1 - Select Read Print Call
 read r; print p; call c;
 Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName, c, c.stmt#, c.procName>
-we didn't write the result for this query
+WRONG ANSWER :(
 1000
 1 - Select Call While If
 call c; while w; if i;
 Select <c, c.stmt#, c.procName, w, w.stmt#, i, i.stmt#>
-we didn't write the result for this query
+11 11 bProc 15 15 17 17,11 11 bProc 15 15 2 2,11 11 bProc 4 4 17 17,11 11 bProc 4 4 2 2,21 21 cProc 15 15 17 17,21 21 cProc 15 15 2 2,21 21 cProc 4 4 17 17,21 21 cProc 4 4 2 2,7 7 cProc 15 15 17 17,7 7 cProc 15 15 2 2,7 7 cProc 4 4 17 17,7 7 cProc 4 4 2 2
 1000
 1 - Select If Assign Variable
 if i; assign a; variable v;
 Select <i, i.stmt#, a, a.stmt#, v, v.varName>
-we didn't write the result for this query
+17 17 1 1 aVar aVar,17 17 1 1 bVar bVar,17 17 1 1 cVar cVar,17 17 1 1 dVar dVar,17 17 1 1 eVar eVar,17 17 14 14 aVar aVar,17 17 14 14 bVar bVar,17 17 14 14 cVar cVar,17 17 14 14 dVar dVar,17 17 14 14 eVar eVar,17 17 16 16 aVar aVar,17 17 16 16 bVar bVar,17 17 16 16 cVar cVar,17 17 16 16 dVar dVar,17 17 16 16 eVar eVar,17 17 19 19 aVar aVar,17 17 19 19 bVar bVar,17 17 19 19 cVar cVar,17 17 19 19 dVar dVar,17 17 19 19 eVar eVar,17 17 22 22 aVar aVar,17 17 22 22 bVar bVar,17 17 22 22 cVar cVar,17 17 22 22 dVar dVar,17 17 22 22 eVar eVar,17 17 25 25 aVar aVar,17 17 25 25 bVar bVar,17 17 25 25 cVar cVar,17 17 25 25 dVar dVar,17 17 25 25 eVar eVar,17 17 3 3 aVar aVar,17 17 3 3 bVar bVar,17 17 3 3 cVar cVar,17 17 3 3 dVar dVar,17 17 3 3 eVar eVar,17 17 9 9 aVar aVar,17 17 9 9 bVar bVar,17 17 9 9 cVar cVar,17 17 9 9 dVar dVar,17 17 9 9 eVar eVar,2 2 1 1 aVar aVar,2 2 1 1 bVar bVar,2 2 1 1 cVar cVar,2 2 1 1 dVar dVar,2 2 1 1 eVar eVar,2 2 14 14 aVar aVar,2 2 14 14 bVar bVar,2 2 14 14 cVar cVar,2 2 14 14 dVar dVar,2 2 14 14 eVar eVar,2 2 16 16 aVar aVar,2 2 16 16 bVar bVar,2 2 16 16 cVar cVar,2 2 16 16 dVar dVar,2 2 16 16 eVar eVar,2 2 19 19 aVar aVar,2 2 19 19 bVar bVar,2 2 19 19 cVar cVar,2 2 19 19 dVar dVar,2 2 19 19 eVar eVar,2 2 22 22 aVar aVar,2 2 22 22 bVar bVar,2 2 22 22 cVar cVar,2 2 22 22 dVar dVar,2 2 22 22 eVar eVar,2 2 25 25 aVar aVar,2 2 25 25 bVar bVar,2 2 25 25 cVar cVar,2 2 25 25 dVar dVar,2 2 25 25 eVar eVar,2 2 3 3 aVar aVar,2 2 3 3 bVar bVar,2 2 3 3 cVar cVar,2 2 3 3 dVar dVar,2 2 3 3 eVar eVar,2 2 9 9 aVar aVar,2 2 9 9 bVar bVar,2 2 9 9 cVar cVar,2 2 9 9 dVar dVar,2 2 9 9 eVar eVar
 1000
 1 - Select Variable Constant ProgLine
 variable v; constant c; prog_line n;
 Select <v, v.varName, c, c.value, n>
-we didn't write the result for this query
+aVar aVar 1 1 1,aVar aVar 1 1 10,aVar aVar 1 1 11,aVar aVar 1 1 12,aVar aVar 1 1 13,aVar aVar 1 1 14,aVar aVar 1 1 15,aVar aVar 1 1 16,aVar aVar 1 1 17,aVar aVar 1 1 18,aVar aVar 1 1 19,aVar aVar 1 1 2,aVar aVar 1 1 20,aVar aVar 1 1 21,aVar aVar 1 1 22,aVar aVar 1 1 23,aVar aVar 1 1 24,aVar aVar 1 1 25,aVar aVar 1 1 3,aVar aVar 1 1 4,aVar aVar 1 1 5,aVar aVar 1 1 6,aVar aVar 1 1 7,aVar aVar 1 1 8,aVar aVar 1 1 9,aVar aVar 2 2 1,aVar aVar 2 2 10,aVar aVar 2 2 11,aVar aVar 2 2 12,aVar aVar 2 2 13,aVar aVar 2 2 14,aVar aVar 2 2 15,aVar aVar 2 2 16,aVar aVar 2 2 17,aVar aVar 2 2 18,aVar aVar 2 2 19,aVar aVar 2 2 2,aVar aVar 2 2 20,aVar aVar 2 2 21,aVar aVar 2 2 22,aVar aVar 2 2 23,aVar aVar 2 2 24,aVar aVar 2 2 25,aVar aVar 2 2 3,aVar aVar 2 2 4,aVar aVar 2 2 5,aVar aVar 2 2 6,aVar aVar 2 2 7,aVar aVar 2 2 8,aVar aVar 2 2 9,aVar aVar 3 3 1,aVar aVar 3 3 10,aVar aVar 3 3 11,aVar aVar 3 3 12,aVar aVar 3 3 13,aVar aVar 3 3 14,aVar aVar 3 3 15,aVar aVar 3 3 16,aVar aVar 3 3 17,aVar aVar 3 3 18,aVar aVar 3 3 19,aVar aVar 3 3 2,aVar aVar 3 3 20,aVar aVar 3 3 21,aVar aVar 3 3 22,aVar aVar 3 3 23,aVar aVar 3 3 24,aVar aVar 3 3 25,aVar aVar 3 3 3,aVar aVar 3 3 4,aVar aVar 3 3 5,aVar aVar 3 3 6,aVar aVar 3 3 7,aVar aVar 3 3 8,aVar aVar 3 3 9,bVar bVar 1 1 1,bVar bVar 1 1 10,bVar bVar 1 1 11,bVar bVar 1 1 12,bVar bVar 1 1 13,bVar bVar 1 1 14,bVar bVar 1 1 15,bVar bVar 1 1 16,bVar bVar 1 1 17,bVar bVar 1 1 18,bVar bVar 1 1 19,bVar bVar 1 1 2,bVar bVar 1 1 20,bVar bVar 1 1 21,bVar bVar 1 1 22,bVar bVar 1 1 23,bVar bVar 1 1 24,bVar bVar 1 1 25,bVar bVar 1 1 3,bVar bVar 1 1 4,bVar bVar 1 1 5,bVar bVar 1 1 6,bVar bVar 1 1 7,bVar bVar 1 1 8,bVar bVar 1 1 9,bVar bVar 2 2 1,bVar bVar 2 2 10,bVar bVar 2 2 11,bVar bVar 2 2 12,bVar bVar 2 2 13,bVar bVar 2 2 14,bVar bVar 2 2 15,bVar bVar 2 2 16,bVar bVar 2 2 17,bVar bVar 2 2 18,bVar bVar 2 2 19,bVar bVar 2 2 2,bVar bVar 2 2 20,bVar bVar 2 2 21,bVar bVar 2 2 22,bVar bVar 2 2 23,bVar bVar 2 2 24,bVar bVar 2 2 25,bVar bVar 2 2 3,bVar bVar 2 2 4,bVar bVar 2 2 5,bVar bVar 2 2 6,bVar bVar 2 2 7,bVar bVar 2 2 8,bVar bVar 2 2 9,bVar bVar 3 3 1,bVar bVar 3 3 10,bVar bVar 3 3 11,bVar bVar 3 3 12,bVar bVar 3 3 13,bVar bVar 3 3 14,bVar bVar 3 3 15,bVar bVar 3 3 16,bVar bVar 3 3 17,bVar bVar 3 3 18,bVar bVar 3 3 19,bVar bVar 3 3 2,bVar bVar 3 3 20,bVar bVar 3 3 21,bVar bVar 3 3 22,bVar bVar 3 3 23,bVar bVar 3 3 24,bVar bVar 3 3 25,bVar bVar 3 3 3,bVar bVar 3 3 4,bVar bVar 3 3 5,bVar bVar 3 3 6,bVar bVar 3 3 7,bVar bVar 3 3 8,bVar bVar 3 3 9,cVar cVar 1 1 1,cVar cVar 1 1 10,cVar cVar 1 1 11,cVar cVar 1 1 12,cVar cVar 1 1 13,cVar cVar 1 1 14,cVar cVar 1 1 15,cVar cVar 1 1 16,cVar cVar 1 1 17,cVar cVar 1 1 18,cVar cVar 1 1 19,cVar cVar 1 1 2,cVar cVar 1 1 20,cVar cVar 1 1 21,cVar cVar 1 1 22,cVar cVar 1 1 23,cVar cVar 1 1 24,cVar cVar 1 1 25,cVar cVar 1 1 3,cVar cVar 1 1 4,cVar cVar 1 1 5,cVar cVar 1 1 6,cVar cVar 1 1 7,cVar cVar 1 1 8,cVar cVar 1 1 9,cVar cVar 2 2 1,cVar cVar 2 2 10,cVar cVar 2 2 11,cVar cVar 2 2 12,cVar cVar 2 2 13,cVar cVar 2 2 14,cVar cVar 2 2 15,cVar cVar 2 2 16,cVar cVar 2 2 17,cVar cVar 2 2 18,cVar cVar 2 2 19,cVar cVar 2 2 2,cVar cVar 2 2 20,cVar cVar 2 2 21,cVar cVar 2 2 22,cVar cVar 2 2 23,cVar cVar 2 2 24,cVar cVar 2 2 25,cVar cVar 2 2 3,cVar cVar 2 2 4,cVar cVar 2 2 5,cVar cVar 2 2 6,cVar cVar 2 2 7,cVar cVar 2 2 8,cVar cVar 2 2 9,cVar cVar 3 3 1,cVar cVar 3 3 10,cVar cVar 3 3 11,cVar cVar 3 3 12,cVar cVar 3 3 13,cVar cVar 3 3 14,cVar cVar 3 3 15,cVar cVar 3 3 16,cVar cVar 3 3 17,cVar cVar 3 3 18,cVar cVar 3 3 19,cVar cVar 3 3 2,cVar cVar 3 3 20,cVar cVar 3 3 21,cVar cVar 3 3 22,cVar cVar 3 3 23,cVar cVar 3 3 24,cVar cVar 3 3 25,cVar cVar 3 3 3,cVar cVar 3 3 4,cVar cVar 3 3 5,cVar cVar 3 3 6,cVar cVar 3 3 7,cVar cVar 3 3 8,cVar cVar 3 3 9,dVar dVar 1 1 1,dVar dVar 1 1 10,dVar dVar 1 1 11,dVar dVar 1 1 12,dVar dVar 1 1 13,dVar dVar 1 1 14,dVar dVar 1 1 15,dVar dVar 1 1 16,dVar dVar 1 1 17,dVar dVar 1 1 18,dVar dVar 1 1 19,dVar dVar 1 1 2,dVar dVar 1 1 20,dVar dVar 1 1 21,dVar dVar 1 1 22,dVar dVar 1 1 23,dVar dVar 1 1 24,dVar dVar 1 1 25,dVar dVar 1 1 3,dVar dVar 1 1 4,dVar dVar 1 1 5,dVar dVar 1 1 6,dVar dVar 1 1 7,dVar dVar 1 1 8,dVar dVar 1 1 9,dVar dVar 2 2 1,dVar dVar 2 2 10,dVar dVar 2 2 11,dVar dVar 2 2 12,dVar dVar 2 2 13,dVar dVar 2 2 14,dVar dVar 2 2 15,dVar dVar 2 2 16,dVar dVar 2 2 17,dVar dVar 2 2 18,dVar dVar 2 2 19,dVar dVar 2 2 2,dVar dVar 2 2 20,dVar dVar 2 2 21,dVar dVar 2 2 22,dVar dVar 2 2 23,dVar dVar 2 2 24,dVar dVar 2 2 25,dVar dVar 2 2 3,dVar dVar 2 2 4,dVar dVar 2 2 5,dVar dVar 2 2 6,dVar dVar 2 2 7,dVar dVar 2 2 8,dVar dVar 2 2 9,dVar dVar 3 3 1,dVar dVar 3 3 10,dVar dVar 3 3 11,dVar dVar 3 3 12,dVar dVar 3 3 13,dVar dVar 3 3 14,dVar dVar 3 3 15,dVar dVar 3 3 16,dVar dVar 3 3 17,dVar dVar 3 3 18,dVar dVar 3 3 19,dVar dVar 3 3 2,dVar dVar 3 3 20,dVar dVar 3 3 21,dVar dVar 3 3 22,dVar dVar 3 3 23,dVar dVar 3 3 24,dVar dVar 3 3 25,dVar dVar 3 3 3,dVar dVar 3 3 4,dVar dVar 3 3 5,dVar dVar 3 3 6,dVar dVar 3 3 7,dVar dVar 3 3 8,dVar dVar 3 3 9,eVar eVar 1 1 1,eVar eVar 1 1 10,eVar eVar 1 1 11,eVar eVar 1 1 12,eVar eVar 1 1 13,eVar eVar 1 1 14,eVar eVar 1 1 15,eVar eVar 1 1 16,eVar eVar 1 1 17,eVar eVar 1 1 18,eVar eVar 1 1 19,eVar eVar 1 1 2,eVar eVar 1 1 20,eVar eVar 1 1 21,eVar eVar 1 1 22,eVar eVar 1 1 23,eVar eVar 1 1 24,eVar eVar 1 1 25,eVar eVar 1 1 3,eVar eVar 1 1 4,eVar eVar 1 1 5,eVar eVar 1 1 6,eVar eVar 1 1 7,eVar eVar 1 1 8,eVar eVar 1 1 9,eVar eVar 2 2 1,eVar eVar 2 2 10,eVar eVar 2 2 11,eVar eVar 2 2 12,eVar eVar 2 2 13,eVar eVar 2 2 14,eVar eVar 2 2 15,eVar eVar 2 2 16,eVar eVar 2 2 17,eVar eVar 2 2 18,eVar eVar 2 2 19,eVar eVar 2 2 2,eVar eVar 2 2 20,eVar eVar 2 2 21,eVar eVar 2 2 22,eVar eVar 2 2 23,eVar eVar 2 2 24,eVar eVar 2 2 25,eVar eVar 2 2 3,eVar eVar 2 2 4,eVar eVar 2 2 5,eVar eVar 2 2 6,eVar eVar 2 2 7,eVar eVar 2 2 8,eVar eVar 2 2 9,eVar eVar 3 3 1,eVar eVar 3 3 10,eVar eVar 3 3 11,eVar eVar 3 3 12,eVar eVar 3 3 13,eVar eVar 3 3 14,eVar eVar 3 3 15,eVar eVar 3 3 16,eVar eVar 3 3 17,eVar eVar 3 3 18,eVar eVar 3 3 19,eVar eVar 3 3 2,eVar eVar 3 3 20,eVar eVar 3 3 21,eVar eVar 3 3 22,eVar eVar 3 3 23,eVar eVar 3 3 24,eVar eVar 3 3 25,eVar eVar 3 3 3,eVar eVar 3 3 4,eVar eVar 3 3 5,eVar eVar 3 3 6,eVar eVar 3 3 7,eVar eVar 3 3 8,eVar eVar 3 3 9
 1000
 1 - Select ProgLine Procedure Call
 prog_line n; procedure p; call c;
 Select <n, p, p.procName, c, c.stmt#, c.procName>
-we didn't write the result for this query
+1 aProc aProc 11 11 bProc,1 aProc aProc 21 21 cProc,1 aProc aProc 7 7 cProc,1 bProc bProc 11 11 bProc,1 bProc bProc 21 21 cProc,1 bProc bProc 7 7 cProc,1 cProc cProc 11 11 bProc,1 cProc cProc 21 21 cProc,1 cProc cProc 7 7 cProc,10 aProc aProc 11 11 bProc,10 aProc aProc 21 21 cProc,10 aProc aProc 7 7 cProc,10 bProc bProc 11 11 bProc,10 bProc bProc 21 21 cProc,10 bProc bProc 7 7 cProc,10 cProc cProc 11 11 bProc,10 cProc cProc 21 21 cProc,10 cProc cProc 7 7 cProc,11 aProc aProc 11 11 bProc,11 aProc aProc 21 21 cProc,11 aProc aProc 7 7 cProc,11 bProc bProc 11 11 bProc,11 bProc bProc 21 21 cProc,11 bProc bProc 7 7 cProc,11 cProc cProc 11 11 bProc,11 cProc cProc 21 21 cProc,11 cProc cProc 7 7 cProc,12 aProc aProc 11 11 bProc,12 aProc aProc 21 21 cProc,12 aProc aProc 7 7 cProc,12 bProc bProc 11 11 bProc,12 bProc bProc 21 21 cProc,12 bProc bProc 7 7 cProc,12 cProc cProc 11 11 bProc,12 cProc cProc 21 21 cProc,12 cProc cProc 7 7 cProc,13 aProc aProc 11 11 bProc,13 aProc aProc 21 21 cProc,13 aProc aProc 7 7 cProc,13 bProc bProc 11 11 bProc,13 bProc bProc 21 21 cProc,13 bProc bProc 7 7 cProc,13 cProc cProc 11 11 bProc,13 cProc cProc 21 21 cProc,13 cProc cProc 7 7 cProc,14 aProc aProc 11 11 bProc,14 aProc aProc 21 21 cProc,14 aProc aProc 7 7 cProc,14 bProc bProc 11 11 bProc,14 bProc bProc 21 21 cProc,14 bProc bProc 7 7 cProc,14 cProc cProc 11 11 bProc,14 cProc cProc 21 21 cProc,14 cProc cProc 7 7 cProc,15 aProc aProc 11 11 bProc,15 aProc aProc 21 21 cProc,15 aProc aProc 7 7 cProc,15 bProc bProc 11 11 bProc,15 bProc bProc 21 21 cProc,15 bProc bProc 7 7 cProc,15 cProc cProc 11 11 bProc,15 cProc cProc 21 21 cProc,15 cProc cProc 7 7 cProc,16 aProc aProc 11 11 bProc,16 aProc aProc 21 21 cProc,16 aProc aProc 7 7 cProc,16 bProc bProc 11 11 bProc,16 bProc bProc 21 21 cProc,16 bProc bProc 7 7 cProc,16 cProc cProc 11 11 bProc,16 cProc cProc 21 21 cProc,16 cProc cProc 7 7 cProc,17 aProc aProc 11 11 bProc,17 aProc aProc 21 21 cProc,17 aProc aProc 7 7 cProc,17 bProc bProc 11 11 bProc,17 bProc bProc 21 21 cProc,17 bProc bProc 7 7 cProc,17 cProc cProc 11 11 bProc,17 cProc cProc 21 21 cProc,17 cProc cProc 7 7 cProc,18 aProc aProc 11 11 bProc,18 aProc aProc 21 21 cProc,18 aProc aProc 7 7 cProc,18 bProc bProc 11 11 bProc,18 bProc bProc 21 21 cProc,18 bProc bProc 7 7 cProc,18 cProc cProc 11 11 bProc,18 cProc cProc 21 21 cProc,18 cProc cProc 7 7 cProc,19 aProc aProc 11 11 bProc,19 aProc aProc 21 21 cProc,19 aProc aProc 7 7 cProc,19 bProc bProc 11 11 bProc,19 bProc bProc 21 21 cProc,19 bProc bProc 7 7 cProc,19 cProc cProc 11 11 bProc,19 cProc cProc 21 21 cProc,19 cProc cProc 7 7 cProc,2 aProc aProc 11 11 bProc,2 aProc aProc 21 21 cProc,2 aProc aProc 7 7 cProc,2 bProc bProc 11 11 bProc,2 bProc bProc 21 21 cProc,2 bProc bProc 7 7 cProc,2 cProc cProc 11 11 bProc,2 cProc cProc 21 21 cProc,2 cProc cProc 7 7 cProc,20 aProc aProc 11 11 bProc,20 aProc aProc 21 21 cProc,20 aProc aProc 7 7 cProc,20 bProc bProc 11 11 bProc,20 bProc bProc 21 21 cProc,20 bProc bProc 7 7 cProc,20 cProc cProc 11 11 bProc,20 cProc cProc 21 21 cProc,20 cProc cProc 7 7 cProc,21 aProc aProc 11 11 bProc,21 aProc aProc 21 21 cProc,21 aProc aProc 7 7 cProc,21 bProc bProc 11 11 bProc,21 bProc bProc 21 21 cProc,21 bProc bProc 7 7 cProc,21 cProc cProc 11 11 bProc,21 cProc cProc 21 21 cProc,21 cProc cProc 7 7 cProc,22 aProc aProc 11 11 bProc,22 aProc aProc 21 21 cProc,22 aProc aProc 7 7 cProc,22 bProc bProc 11 11 bProc,22 bProc bProc 21 21 cProc,22 bProc bProc 7 7 cProc,22 cProc cProc 11 11 bProc,22 cProc cProc 21 21 cProc,22 cProc cProc 7 7 cProc,23 aProc aProc 11 11 bProc,23 aProc aProc 21 21 cProc,23 aProc aProc 7 7 cProc,23 bProc bProc 11 11 bProc,23 bProc bProc 21 21 cProc,23 bProc bProc 7 7 cProc,23 cProc cProc 11 11 bProc,23 cProc cProc 21 21 cProc,23 cProc cProc 7 7 cProc,24 aProc aProc 11 11 bProc,24 aProc aProc 21 21 cProc,24 aProc aProc 7 7 cProc,24 bProc bProc 11 11 bProc,24 bProc bProc 21 21 cProc,24 bProc bProc 7 7 cProc,24 cProc cProc 11 11 bProc,24 cProc cProc 21 21 cProc,24 cProc cProc 7 7 cProc,25 aProc aProc 11 11 bProc,25 aProc aProc 21 21 cProc,25 aProc aProc 7 7 cProc,25 bProc bProc 11 11 bProc,25 bProc bProc 21 21 cProc,25 bProc bProc 7 7 cProc,25 cProc cProc 11 11 bProc,25 cProc cProc 21 21 cProc,25 cProc cProc 7 7 cProc,3 aProc aProc 11 11 bProc,3 aProc aProc 21 21 cProc,3 aProc aProc 7 7 cProc,3 bProc bProc 11 11 bProc,3 bProc bProc 21 21 cProc,3 bProc bProc 7 7 cProc,3 cProc cProc 11 11 bProc,3 cProc cProc 21 21 cProc,3 cProc cProc 7 7 cProc,4 aProc aProc 11 11 bProc,4 aProc aProc 21 21 cProc,4 aProc aProc 7 7 cProc,4 bProc bProc 11 11 bProc,4 bProc bProc 21 21 cProc,4 bProc bProc 7 7 cProc,4 cProc cProc 11 11 bProc,4 cProc cProc 21 21 cProc,4 cProc cProc 7 7 cProc,5 aProc aProc 11 11 bProc,5 aProc aProc 21 21 cProc,5 aProc aProc 7 7 cProc,5 bProc bProc 11 11 bProc,5 bProc bProc 21 21 cProc,5 bProc bProc 7 7 cProc,5 cProc cProc 11 11 bProc,5 cProc cProc 21 21 cProc,5 cProc cProc 7 7 cProc,6 aProc aProc 11 11 bProc,6 aProc aProc 21 21 cProc,6 aProc aProc 7 7 cProc,6 bProc bProc 11 11 bProc,6 bProc bProc 21 21 cProc,6 bProc bProc 7 7 cProc,6 cProc cProc 11 11 bProc,6 cProc cProc 21 21 cProc,6 cProc cProc 7 7 cProc,7 aProc aProc 11 11 bProc,7 aProc aProc 21 21 cProc,7 aProc aProc 7 7 cProc,7 bProc bProc 11 11 bProc,7 bProc bProc 21 21 cProc,7 bProc bProc 7 7 cProc,7 cProc cProc 11 11 bProc,7 cProc cProc 21 21 cProc,7 cProc cProc 7 7 cProc,8 aProc aProc 11 11 bProc,8 aProc aProc 21 21 cProc,8 aProc aProc 7 7 cProc,8 bProc bProc 11 11 bProc,8 bProc bProc 21 21 cProc,8 bProc bProc 7 7 cProc,8 cProc cProc 11 11 bProc,8 cProc cProc 21 21 cProc,8 cProc cProc 7 7 cProc,9 aProc aProc 11 11 bProc,9 aProc aProc 21 21 cProc,9 aProc aProc 7 7 cProc,9 bProc bProc 11 11 bProc,9 bProc bProc 21 21 cProc,9 bProc bProc 7 7 cProc,9 cProc cProc 11 11 bProc,9 cProc cProc 21 21 cProc,9 cProc cProc 7 7 cProc
 1000
 1 - Select Statement Procedure Call
 stmt s; procedure p; call c;
 Select <s, s.stmt#, p, p.procName, c, c.stmt#, c.procName>
-we didn't write the result for this query
+1 1 aProc aProc 11 11 bProc,1 1 aProc aProc 21 21 cProc,1 1 aProc aProc 7 7 cProc,1 1 bProc bProc 11 11 bProc,1 1 bProc bProc 21 21 cProc,1 1 bProc bProc 7 7 cProc,1 1 cProc cProc 11 11 bProc,1 1 cProc cProc 21 21 cProc,1 1 cProc cProc 7 7 cProc,10 10 aProc aProc 11 11 bProc,10 10 aProc aProc 21 21 cProc,10 10 aProc aProc 7 7 cProc,10 10 bProc bProc 11 11 bProc,10 10 bProc bProc 21 21 cProc,10 10 bProc bProc 7 7 cProc,10 10 cProc cProc 11 11 bProc,10 10 cProc cProc 21 21 cProc,10 10 cProc cProc 7 7 cProc,11 11 aProc aProc 11 11 bProc,11 11 aProc aProc 21 21 cProc,11 11 aProc aProc 7 7 cProc,11 11 bProc bProc 11 11 bProc,11 11 bProc bProc 21 21 cProc,11 11 bProc bProc 7 7 cProc,11 11 cProc cProc 11 11 bProc,11 11 cProc cProc 21 21 cProc,11 11 cProc cProc 7 7 cProc,12 12 aProc aProc 11 11 bProc,12 12 aProc aProc 21 21 cProc,12 12 aProc aProc 7 7 cProc,12 12 bProc bProc 11 11 bProc,12 12 bProc bProc 21 21 cProc,12 12 bProc bProc 7 7 cProc,12 12 cProc cProc 11 11 bProc,12 12 cProc cProc 21 21 cProc,12 12 cProc cProc 7 7 cProc,13 13 aProc aProc 11 11 bProc,13 13 aProc aProc 21 21 cProc,13 13 aProc aProc 7 7 cProc,13 13 bProc bProc 11 11 bProc,13 13 bProc bProc 21 21 cProc,13 13 bProc bProc 7 7 cProc,13 13 cProc cProc 11 11 bProc,13 13 cProc cProc 21 21 cProc,13 13 cProc cProc 7 7 cProc,14 14 aProc aProc 11 11 bProc,14 14 aProc aProc 21 21 cProc,14 14 aProc aProc 7 7 cProc,14 14 bProc bProc 11 11 bProc,14 14 bProc bProc 21 21 cProc,14 14 bProc bProc 7 7 cProc,14 14 cProc cProc 11 11 bProc,14 14 cProc cProc 21 21 cProc,14 14 cProc cProc 7 7 cProc,15 15 aProc aProc 11 11 bProc,15 15 aProc aProc 21 21 cProc,15 15 aProc aProc 7 7 cProc,15 15 bProc bProc 11 11 bProc,15 15 bProc bProc 21 21 cProc,15 15 bProc bProc 7 7 cProc,15 15 cProc cProc 11 11 bProc,15 15 cProc cProc 21 21 cProc,15 15 cProc cProc 7 7 cProc,16 16 aProc aProc 11 11 bProc,16 16 aProc aProc 21 21 cProc,16 16 aProc aProc 7 7 cProc,16 16 bProc bProc 11 11 bProc,16 16 bProc bProc 21 21 cProc,16 16 bProc bProc 7 7 cProc,16 16 cProc cProc 11 11 bProc,16 16 cProc cProc 21 21 cProc,16 16 cProc cProc 7 7 cProc,17 17 aProc aProc 11 11 bProc,17 17 aProc aProc 21 21 cProc,17 17 aProc aProc 7 7 cProc,17 17 bProc bProc 11 11 bProc,17 17 bProc bProc 21 21 cProc,17 17 bProc bProc 7 7 cProc,17 17 cProc cProc 11 11 bProc,17 17 cProc cProc 21 21 cProc,17 17 cProc cProc 7 7 cProc,18 18 aProc aProc 11 11 bProc,18 18 aProc aProc 21 21 cProc,18 18 aProc aProc 7 7 cProc,18 18 bProc bProc 11 11 bProc,18 18 bProc bProc 21 21 cProc,18 18 bProc bProc 7 7 cProc,18 18 cProc cProc 11 11 bProc,18 18 cProc cProc 21 21 cProc,18 18 cProc cProc 7 7 cProc,19 19 aProc aProc 11 11 bProc,19 19 aProc aProc 21 21 cProc,19 19 aProc aProc 7 7 cProc,19 19 bProc bProc 11 11 bProc,19 19 bProc bProc 21 21 cProc,19 19 bProc bProc 7 7 cProc,19 19 cProc cProc 11 11 bProc,19 19 cProc cProc 21 21 cProc,19 19 cProc cProc 7 7 cProc,2 2 aProc aProc 11 11 bProc,2 2 aProc aProc 21 21 cProc,2 2 aProc aProc 7 7 cProc,2 2 bProc bProc 11 11 bProc,2 2 bProc bProc 21 21 cProc,2 2 bProc bProc 7 7 cProc,2 2 cProc cProc 11 11 bProc,2 2 cProc cProc 21 21 cProc,2 2 cProc cProc 7 7 cProc,20 20 aProc aProc 11 11 bProc,20 20 aProc aProc 21 21 cProc,20 20 aProc aProc 7 7 cProc,20 20 bProc bProc 11 11 bProc,20 20 bProc bProc 21 21 cProc,20 20 bProc bProc 7 7 cProc,20 20 cProc cProc 11 11 bProc,20 20 cProc cProc 21 21 cProc,20 20 cProc cProc 7 7 cProc,21 21 aProc aProc 11 11 bProc,21 21 aProc aProc 21 21 cProc,21 21 aProc aProc 7 7 cProc,21 21 bProc bProc 11 11 bProc,21 21 bProc bProc 21 21 cProc,21 21 bProc bProc 7 7 cProc,21 21 cProc cProc 11 11 bProc,21 21 cProc cProc 21 21 cProc,21 21 cProc cProc 7 7 cProc,22 22 aProc aProc 11 11 bProc,22 22 aProc aProc 21 21 cProc,22 22 aProc aProc 7 7 cProc,22 22 bProc bProc 11 11 bProc,22 22 bProc bProc 21 21 cProc,22 22 bProc bProc 7 7 cProc,22 22 cProc cProc 11 11 bProc,22 22 cProc cProc 21 21 cProc,22 22 cProc cProc 7 7 cProc,23 23 aProc aProc 11 11 bProc,23 23 aProc aProc 21 21 cProc,23 23 aProc aProc 7 7 cProc,23 23 bProc bProc 11 11 bProc,23 23 bProc bProc 21 21 cProc,23 23 bProc bProc 7 7 cProc,23 23 cProc cProc 11 11 bProc,23 23 cProc cProc 21 21 cProc,23 23 cProc cProc 7 7 cProc,24 24 aProc aProc 11 11 bProc,24 24 aProc aProc 21 21 cProc,24 24 aProc aProc 7 7 cProc,24 24 bProc bProc 11 11 bProc,24 24 bProc bProc 21 21 cProc,24 24 bProc bProc 7 7 cProc,24 24 cProc cProc 11 11 bProc,24 24 cProc cProc 21 21 cProc,24 24 cProc cProc 7 7 cProc,25 25 aProc aProc 11 11 bProc,25 25 aProc aProc 21 21 cProc,25 25 aProc aProc 7 7 cProc,25 25 bProc bProc 11 11 bProc,25 25 bProc bProc 21 21 cProc,25 25 bProc bProc 7 7 cProc,25 25 cProc cProc 11 11 bProc,25 25 cProc cProc 21 21 cProc,25 25 cProc cProc 7 7 cProc,3 3 aProc aProc 11 11 bProc,3 3 aProc aProc 21 21 cProc,3 3 aProc aProc 7 7 cProc,3 3 bProc bProc 11 11 bProc,3 3 bProc bProc 21 21 cProc,3 3 bProc bProc 7 7 cProc,3 3 cProc cProc 11 11 bProc,3 3 cProc cProc 21 21 cProc,3 3 cProc cProc 7 7 cProc,4 4 aProc aProc 11 11 bProc,4 4 aProc aProc 21 21 cProc,4 4 aProc aProc 7 7 cProc,4 4 bProc bProc 11 11 bProc,4 4 bProc bProc 21 21 cProc,4 4 bProc bProc 7 7 cProc,4 4 cProc cProc 11 11 bProc,4 4 cProc cProc 21 21 cProc,4 4 cProc cProc 7 7 cProc,5 5 aProc aProc 11 11 bProc,5 5 aProc aProc 21 21 cProc,5 5 aProc aProc 7 7 cProc,5 5 bProc bProc 11 11 bProc,5 5 bProc bProc 21 21 cProc,5 5 bProc bProc 7 7 cProc,5 5 cProc cProc 11 11 bProc,5 5 cProc cProc 21 21 cProc,5 5 cProc cProc 7 7 cProc,6 6 aProc aProc 11 11 bProc,6 6 aProc aProc 21 21 cProc,6 6 aProc aProc 7 7 cProc,6 6 bProc bProc 11 11 bProc,6 6 bProc bProc 21 21 cProc,6 6 bProc bProc 7 7 cProc,6 6 cProc cProc 11 11 bProc,6 6 cProc cProc 21 21 cProc,6 6 cProc cProc 7 7 cProc,7 7 aProc aProc 11 11 bProc,7 7 aProc aProc 21 21 cProc,7 7 aProc aProc 7 7 cProc,7 7 bProc bProc 11 11 bProc,7 7 bProc bProc 21 21 cProc,7 7 bProc bProc 7 7 cProc,7 7 cProc cProc 11 11 bProc,7 7 cProc cProc 21 21 cProc,7 7 cProc cProc 7 7 cProc,8 8 aProc aProc 11 11 bProc,8 8 aProc aProc 21 21 cProc,8 8 aProc aProc 7 7 cProc,8 8 bProc bProc 11 11 bProc,8 8 bProc bProc 21 21 cProc,8 8 bProc bProc 7 7 cProc,8 8 cProc cProc 11 11 bProc,8 8 cProc cProc 21 21 cProc,8 8 cProc cProc 7 7 cProc,9 9 aProc aProc 11 11 bProc,9 9 aProc aProc 21 21 cProc,9 9 aProc aProc 7 7 cProc,9 9 bProc bProc 11 11 bProc,9 9 bProc bProc 21 21 cProc,9 9 bProc bProc 7 7 cProc,9 9 cProc cProc 11 11 bProc,9 9 cProc cProc 21 21 cProc,9 9 cProc cProc 7 7 cProc
 1000
