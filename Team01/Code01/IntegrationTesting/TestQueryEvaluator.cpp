@@ -6671,7 +6671,7 @@ namespace IntegrationTesting
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::with });
 
-			// arg 1: 3
+			// arg 1: 2
 			QueryNode child_child1 = QueryNode();
 			child_child1.setIntegerNode(2);
 
@@ -6702,7 +6702,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "TRUE";
+			STRING_RESULT correct_result = "FALSE";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
