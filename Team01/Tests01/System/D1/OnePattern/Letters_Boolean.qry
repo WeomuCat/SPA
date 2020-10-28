@@ -1,75 +1,90 @@
 1 - Pattern Assign
 assign a; variable v;
-Select BOOLEAN pattern a (v, "0")
-we didn't write the result for this query
+Select BOOLEAN pattern a (v, "bVar + cVar - dVar / eVar * aVar + 1")
+TRUE
 1000
 1 - Pattern Assign
 assign a; variable v;
-Select BOOLEAN pattern a (v, _"0"_)
-we didn't write the result for this query
+Select BOOLEAN pattern a (v, "bVar + cVar - dVar / (eVar * aVar) + 1")
+FALSE
+1000
+1 - Pattern Assign
+assign a; variable v;
+Select BOOLEAN pattern a (v, _"dVar"_)
+TRUE
+1000
+1 - Pattern Assign
+assign a; variable v;
+Select BOOLEAN pattern a (v, _"dVar / eVar * aVar"_)
+TRUE
+1000
+1 - Pattern Assign
+assign a; variable v;
+Select BOOLEAN pattern a (v, _"eVar * aVar"_)
+FALSE
 1000
 1 - Pattern Assign
 assign a; variable v;
 Select BOOLEAN pattern a (v, _)
-we didn't write the result for this query
+TRUE
 1000
 1 - Pattern Assign
 assign a;
-Select BOOLEAN pattern a (_, "0")
-we didn't write the result for this query
+Select BOOLEAN pattern a (_, "bVar + cVar - dVar / eVar * aVar + 1")
+TRUE
 1000
 1 - Pattern Assign
 assign a;
-Select BOOLEAN pattern a (_, _"0"_)
-we didn't write the result for this query
+Select BOOLEAN pattern a (_, _"dVar"_)
+TRUE
 1000
 1 - Pattern Assign
 assign a;
 Select BOOLEAN pattern a (_, _)
-we didn't write the result for this query
+TRUE
 1000
 1 - Pattern Assign
 assign a;
-Select BOOLEAN pattern a ("x", "0")
-we didn't write the result for this query
+Select BOOLEAN pattern a ("aVar", "bVar + cVar - dVar / eVar * aVar + 1")
+TRUE
 1000
 1 - Pattern Assign
 assign a;
-Select BOOLEAN pattern a ("x", _"0"_)
-we didn't write the result for this query
+Select BOOLEAN pattern a ("aVar", _"dVar"_)
+TRUE
 1000
 1 - Pattern Assign
 assign a;
-Select BOOLEAN pattern a ("x", _)
-we didn't write the result for this query
+Select BOOLEAN pattern a ("aVar", _)
+TRUE
 1000
 1 - Pattern While
 while w; variable v;
 Select BOOLEAN pattern w (v, _)
-we didn't write the result for this query
+TRUE
 1000
 1 - Pattern While
 while w;
 Select BOOLEAN pattern w (_, _)
-we didn't write the result for this query
+TRUE
 1000
 1 - Pattern While
 while w;
-Select BOOLEAN pattern w ("x", _)
-we didn't write the result for this query
+Select BOOLEAN pattern w ("aVar", _)
+TRUE
 1000
 1 - Pattern If
 if i; variable v;
 Select BOOLEAN pattern i (v, _, _)
-we didn't write the result for this query
+TRUE
 1000
 1 - Pattern If
 if i;
 Select BOOLEAN pattern i (_, _, _)
-we didn't write the result for this query
+TRUE
 1000
 1 - Pattern If
 if i;
-Select BOOLEAN pattern i ("x", _, _)
-we didn't write the result for this query
+Select BOOLEAN pattern i ("aVar", _, _)
+TRUE
 1000
