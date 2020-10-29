@@ -240,24 +240,63 @@ void WithClause::getAttrrefAttrrefResult(QueryNode attrref_node, QueryNode attrr
 	SYNONYM_TYPE synonym_type = processed_synonyms.find(synonym_name)->second.getSynonymType();
 	ATTRIBUTE attribute = attrref_node.getAttr();
 	ATTR_REF_VALUES_LIST attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+	bool isDefaultValueType1 = AttrRefManager::isDefaultValueTypeForSynonymType(attrref_values[0], synonym_type);
+	
 
 	// attrref_node 2
 	SYNONYM_NAME synonym_name2 = attrref_node2.getString();
 	SYNONYM_TYPE synonym_type2 = processed_synonyms.find(synonym_name2)->second.getSynonymType();
 	ATTRIBUTE attribute2 = attrref_node2.getAttr();
 	ATTR_REF_VALUES_LIST attrref_values2 = AttrRefManager::getAttrRefValues(pkb, synonym_type2, attribute2);
+	bool isDefaultValueType2 = AttrRefManager::isDefaultValueTypeForSynonymType(attrref_values2[0], synonym_type2);
 
-	
+
 	clause_result_list.addColumn(synonym_name);
 	clause_result_list.addColumn(synonym_name2);
 
 	for (ATTR_REF_VALUE attrref_value : attrref_values) {
 		for (ATTR_REF_VALUE attrref_value2 : attrref_values2) {
+
 			if (attrref_value.compare(attrref_value2) == 0) {
-				ROW row;
-				row.insert({ synonym_name, attrref_value });
-				row.insert({ synonym_name2, attrref_value2});
-				clause_result_list.addRow(row);
+				if (!isDefaultValueType1 && !isDefaultValueType2) {			// with pn.varName = c.varName
+					ATTR_REF_VALUES_LIST default_values1 = AttrRefManager::getDefaultValues(pkb, synonym_type, attrref_value);
+					ATTR_REF_VALUES_LIST default_values2 = AttrRefManager::getDefaultValues(pkb, synonym_type2, attrref_value2);
+
+					for (ATTR_REF_VALUE default_value1 : default_values1) {
+						for (ATTR_REF_VALUE default_value2 : default_values2) {
+							ROW row;
+							row.insert({ synonym_name, default_value1 });
+							row.insert({ synonym_name2, default_value2 });
+							clause_result_list.addRow(row);
+						}
+					}
+				}
+				else if (!isDefaultValueType1) {							// with pn.varName = p.procName
+					ATTR_REF_VALUES_LIST default_values1 = AttrRefManager::getDefaultValues(pkb, synonym_type, attrref_value);
+
+					for (ATTR_REF_VALUE default_value1 : default_values1) {
+						ROW row;
+						row.insert({ synonym_name, default_value1 });
+						row.insert({ synonym_name2, attrref_value2 });
+						clause_result_list.addRow(row);
+					}
+				}
+				else if (!isDefaultValueType2) {							// with p.procName = pn.varName
+					ATTR_REF_VALUES_LIST default_values2 = AttrRefManager::getDefaultValues(pkb, synonym_type2, attrref_value2);
+
+					for (ATTR_REF_VALUE default_value2 : default_values2) {
+						ROW row;
+						row.insert({ synonym_name, attrref_value });
+						row.insert({ synonym_name2, default_value2 });
+						clause_result_list.addRow(row);
+					}
+				}
+				else {														// with s.stmt# = a.stmt#
+					ROW row;
+					row.insert({ synonym_name, attrref_value });
+					row.insert({ synonym_name2, attrref_value2 });
+					clause_result_list.addRow(row);
+				}
 			}
 		}
 	}
