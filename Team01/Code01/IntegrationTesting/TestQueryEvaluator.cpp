@@ -3966,9 +3966,8 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "morning newspaper, morning menu, morning menu, morning menu, morning menu, afternoon newspaper, afternoon menu, afternoon menu, afternoon menu, afternoon menu, evening newspaper, evening menu, evening menu, evening menu, evening menu, night newspaper, night menu, night menu, night menu, night menu, breakfast newspaper, breakfast menu, breakfast menu, breakfast menu, breakfast menu, lunch newspaper, lunch menu, lunch menu, lunch menu, lunch menu, dinner newspaper, dinner menu, dinner menu, dinner menu, dinner menu, diarrhoea newspaper, diarrhoea menu, diarrhoea menu, diarrhoea menu, diarrhoea menu";
+			STRING_RESULT correct_result = "morning menu, morning menu, morning newspaper, afternoon menu, afternoon menu, afternoon newspaper, evening menu, evening menu, evening newspaper, night menu, night menu, night newspaper, breakfast menu, breakfast menu, breakfast newspaper, lunch menu, lunch menu, lunch newspaper, dinner menu, dinner menu, dinner newspaper, diarrhoea menu, diarrhoea menu, diarrhoea newspaper";
 
-			
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -4681,37 +4680,30 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "morning 9 morning, morning 9 afternoon, morning 9 evening, morning 9 night, "
-				"morning 9 breakfast, morning 9 lunch, morning 9 dinner, morning 9 diarrhoea, morning 10 morning, morning 10 afternoon, "
-				"morning 10 evening, morning 10 night, morning 10 breakfast, morning 10 lunch, morning 10 dinner, morning 10 diarrhoea, "
-				"morning 11 morning, morning 11 afternoon, morning 11 evening, morning 11 night, morning 11 breakfast, morning 11 lunch, "
-				"morning 11 dinner, morning 11 diarrhoea, afternoon 9 morning, afternoon 9 afternoon, afternoon 9 evening, afternoon 9 night, "
-				"afternoon 9 breakfast, afternoon 9 lunch, afternoon 9 dinner, afternoon 9 diarrhoea, afternoon 10 morning, "
-				"afternoon 10 afternoon, afternoon 10 evening, afternoon 10 night, afternoon 10 breakfast, afternoon 10 lunch, "
-				"afternoon 10 dinner, afternoon 10 diarrhoea, afternoon 11 morning, afternoon 11 afternoon, afternoon 11 evening, "
-				"afternoon 11 night, afternoon 11 breakfast, afternoon 11 lunch, afternoon 11 dinner, afternoon 11 diarrhoea, "
-				"evening 9 morning, evening 9 afternoon, evening 9 evening, evening 9 night, evening 9 breakfast, evening 9 lunch, "
-				"evening 9 dinner, evening 9 diarrhoea, evening 10 morning, evening 10 afternoon, evening 10 evening, evening 10 night, "
-				"evening 10 breakfast, evening 10 lunch, evening 10 dinner, evening 10 diarrhoea, evening 11 morning, evening 11 afternoon, "
-				"evening 11 evening, evening 11 night, evening 11 breakfast, evening 11 lunch, evening 11 dinner, evening 11 diarrhoea, "
-				"night 9 morning, night 9 afternoon, night 9 evening, night 9 night, night 9 breakfast, night 9 lunch, night 9 dinner, "
-				"night 9 diarrhoea, night 10 morning, night 10 afternoon, night 10 evening, night 10 night, night 10 breakfast, night 10 lunch, "
-				"night 10 dinner, night 10 diarrhoea, night 11 morning, night 11 afternoon, night 11 evening, night 11 night, night 11 breakfast, "
-				"night 11 lunch, night 11 dinner, night 11 diarrhoea, breakfast 9 morning, breakfast 9 afternoon, breakfast 9 evening, "
-				"breakfast 9 night, breakfast 9 breakfast, breakfast 9 lunch, breakfast 9 dinner, breakfast 9 diarrhoea, breakfast 10 morning, "
-				"breakfast 10 afternoon, breakfast 10 evening, breakfast 10 night, breakfast 10 breakfast, breakfast 10 lunch, breakfast 10 dinner, "
-				"breakfast 10 diarrhoea, breakfast 11 morning, breakfast 11 afternoon, breakfast 11 evening, breakfast 11 night, breakfast 11 breakfast, "
-				"breakfast 11 lunch, breakfast 11 dinner, breakfast 11 diarrhoea, lunch 9 morning, lunch 9 afternoon, lunch 9 evening, lunch 9 night, "
-				"lunch 9 breakfast, lunch 9 lunch, lunch 9 dinner, lunch 9 diarrhoea, lunch 10 morning, lunch 10 afternoon, lunch 10 evening, "
-				"lunch 10 night, lunch 10 breakfast, lunch 10 lunch, lunch 10 dinner, lunch 10 diarrhoea, lunch 11 morning, lunch 11 afternoon, "
-				"lunch 11 evening, lunch 11 night, lunch 11 breakfast, lunch 11 lunch, lunch 11 dinner, lunch 11 diarrhoea, dinner 9 morning, "
-				"dinner 9 afternoon, dinner 9 evening, dinner 9 night, dinner 9 breakfast, dinner 9 lunch, dinner 9 dinner, dinner 9 diarrhoea, "
-				"dinner 10 morning, dinner 10 afternoon, dinner 10 evening, dinner 10 night, dinner 10 breakfast, dinner 10 lunch, dinner 10 dinner, "
-				"dinner 10 diarrhoea, dinner 11 morning, dinner 11 afternoon, dinner 11 evening, dinner 11 night, dinner 11 breakfast, dinner 11 lunch, "
-				"dinner 11 dinner, dinner 11 diarrhoea, diarrhoea 9 morning, diarrhoea 9 afternoon, diarrhoea 9 evening, diarrhoea 9 night, diarrhoea 9 breakfast, "
-				"diarrhoea 9 lunch, diarrhoea 9 dinner, diarrhoea 9 diarrhoea, diarrhoea 10 morning, diarrhoea 10 afternoon, diarrhoea 10 evening, diarrhoea 10 night, "
-				"diarrhoea 10 breakfast, diarrhoea 10 lunch, diarrhoea 10 dinner, diarrhoea 10 diarrhoea, diarrhoea 11 morning, diarrhoea 11 afternoon, "
-				"diarrhoea 11 evening, diarrhoea 11 night, diarrhoea 11 breakfast, diarrhoea 11 lunch, diarrhoea 11 dinner, diarrhoea 11 diarrhoea";
+			STRING_RESULT correct_result = "morning 9 afternoon, morning 9 breakfast, morning 9 diarrhoea, morning 9 dinner, morning 9 evening, morning 9 lunch, morning 9 morning, "
+				"morning 9 night, morning 10 afternoon, morning 10 breakfast, morning 10 diarrhoea, morning 10 dinner, morning 10 evening, morning 10 lunch, morning 10 morning, "
+				"morning 10 night, morning 11 afternoon, morning 11 breakfast, morning 11 diarrhoea, morning 11 dinner, morning 11 evening, morning 11 lunch, morning 11 morning, "
+				"morning 11 night, afternoon 9 afternoon, afternoon 9 breakfast, afternoon 9 diarrhoea, afternoon 9 dinner, afternoon 9 evening, afternoon 9 lunch, afternoon 9 morning, "
+				"afternoon 9 night, afternoon 10 afternoon, afternoon 10 breakfast, afternoon 10 diarrhoea, afternoon 10 dinner, afternoon 10 evening, afternoon 10 lunch, "
+				"afternoon 10 morning, afternoon 10 night, afternoon 11 afternoon, afternoon 11 breakfast, afternoon 11 diarrhoea, afternoon 11 dinner, afternoon 11 evening, "
+				"afternoon 11 lunch, afternoon 11 morning, afternoon 11 night, evening 9 afternoon, evening 9 breakfast, evening 9 diarrhoea, evening 9 dinner, evening 9 evening, "
+				"evening 9 lunch, evening 9 morning, evening 9 night, evening 10 afternoon, evening 10 breakfast, evening 10 diarrhoea, evening 10 dinner, evening 10 evening, "
+				"evening 10 lunch, evening 10 morning, evening 10 night, evening 11 afternoon, evening 11 breakfast, evening 11 diarrhoea, evening 11 dinner, evening 11 evening, "
+				"evening 11 lunch, evening 11 morning, evening 11 night, night 9 afternoon, night 9 breakfast, night 9 diarrhoea, night 9 dinner, night 9 evening, night 9 lunch, "
+				"night 9 morning, night 9 night, night 10 afternoon, night 10 breakfast, night 10 diarrhoea, night 10 dinner, night 10 evening, night 10 lunch, night 10 morning, "
+				"night 10 night, night 11 afternoon, night 11 breakfast, night 11 diarrhoea, night 11 dinner, night 11 evening, night 11 lunch, night 11 morning, night 11 night, "
+				"breakfast 9 afternoon, breakfast 9 breakfast, breakfast 9 diarrhoea, breakfast 9 dinner, breakfast 9 evening, breakfast 9 lunch, breakfast 9 morning, breakfast 9 night, "
+				"breakfast 10 afternoon, breakfast 10 breakfast, breakfast 10 diarrhoea, breakfast 10 dinner, breakfast 10 evening, breakfast 10 lunch, breakfast 10 morning, "
+				"breakfast 10 night, breakfast 11 afternoon, breakfast 11 breakfast, breakfast 11 diarrhoea, breakfast 11 dinner, breakfast 11 evening, breakfast 11 lunch, "
+				"breakfast 11 morning, breakfast 11 night, lunch 9 afternoon, lunch 9 breakfast, lunch 9 diarrhoea, lunch 9 dinner, lunch 9 evening, lunch 9 lunch, lunch 9 morning, "
+				"lunch 9 night, lunch 10 afternoon, lunch 10 breakfast, lunch 10 diarrhoea, lunch 10 dinner, lunch 10 evening, lunch 10 lunch, lunch 10 morning, lunch 10 night, "
+				"lunch 11 afternoon, lunch 11 breakfast, lunch 11 diarrhoea, lunch 11 dinner, lunch 11 evening, lunch 11 lunch, lunch 11 morning, lunch 11 night, dinner 9 afternoon, "
+				"dinner 9 breakfast, dinner 9 diarrhoea, dinner 9 dinner, dinner 9 evening, dinner 9 lunch, dinner 9 morning, dinner 9 night, dinner 10 afternoon, dinner 10 breakfast, "
+				"dinner 10 diarrhoea, dinner 10 dinner, dinner 10 evening, dinner 10 lunch, dinner 10 morning, dinner 10 night, dinner 11 afternoon, dinner 11 breakfast, dinner 11 diarrhoea, "
+				"dinner 11 dinner, dinner 11 evening, dinner 11 lunch, dinner 11 morning, dinner 11 night, diarrhoea 9 afternoon, diarrhoea 9 breakfast, diarrhoea 9 diarrhoea, "
+				"diarrhoea 9 dinner, diarrhoea 9 evening, diarrhoea 9 lunch, diarrhoea 9 morning, diarrhoea 9 night, diarrhoea 10 afternoon, diarrhoea 10 breakfast, diarrhoea 10 diarrhoea, "
+				"diarrhoea 10 dinner, diarrhoea 10 evening, diarrhoea 10 lunch, diarrhoea 10 morning, diarrhoea 10 night, diarrhoea 11 afternoon, diarrhoea 11 breakfast, "
+				"diarrhoea 11 diarrhoea, diarrhoea 11 dinner, diarrhoea 11 evening, diarrhoea 11 lunch, diarrhoea 11 morning, diarrhoea 11 night";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -6429,6 +6421,124 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		TEST_METHOD(evaluateQuery_SelectP_WithPC_ReturnsP)
+		{
+			// Query: "procedure p; call c; Select p with p.procName = c.procName"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::procedure }, "p");
+			QueryNode call_node = QueryNode();
+			call_node.setSynonymNode({ QuerySynonymType::call }, "c");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p", progline_node}, {"c", call_node} };
+
+			// Select: p
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::procedure }, "p");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: p.procName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("p", "procName");
+
+			// arg 2: c.procName
+			QueryNode child_child2 = QueryNode();
+			child_child2.setAttrNode("c", "procName");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "afternoon, breakfast, diarrhoea, dinner, evening, lunch, morning, night";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectP_WithPR_ReturnsEmpty)
+		{
+			// Query: "procedure p; read r; Select r with p.procName = r.varName"
+			// Get processed_synonyms and processed clauses
+			QueryNode progline_node = QueryNode();
+			progline_node.setSynonymNode({ QuerySynonymType::procedure }, "p");
+			QueryNode read_node = QueryNode();
+			read_node.setSynonymNode({ QuerySynonymType::read }, "r");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"p", progline_node}, {"r", read_node} };
+
+			// Select: p
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::read }, "r");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: p.procName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("p", "procName");
+
+			// arg 2: r.varName
+			QueryNode child_child2 = QueryNode();
+			child_child2.setAttrNode("r", "varName");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
 		TEST_METHOD(evaluateQuery_SelectS_WithSC_ReturnsS)
 		{
 			// Query: "stmt s; call c; Select s with s.stmt# = c.stmt#"
@@ -7252,7 +7362,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "9 newspaper, 10 menu, 10 menu, 11 menu, 11 menu";
+			STRING_RESULT correct_result = "9 newspaper, 10 menu, 11 menu";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -7335,7 +7445,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "9 newspaper 3 evening, 10 menu 3 evening, 10 menu 3 evening, 11 menu 3 evening, 11 menu 3 evening";
+			STRING_RESULT correct_result = "9 newspaper 3 evening, 10 menu 3 evening, 11 menu 3 evening";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
