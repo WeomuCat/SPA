@@ -6303,6 +6303,120 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		TEST_METHOD(evaluateQuery_SelectV_WithVIdent_ReturnsV)
+		{
+			// Query: "variable v; Select v with v.varName = menu"
+			// Get processed_synonyms and processed clauses
+			QueryNode var_node = QueryNode();
+			var_node.setSynonymNode({ QuerySynonymType::variable }, "v");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"v", var_node} };
+
+			// Select: v
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::variable }, "v");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: v.varName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("v", "varName");
+
+			// arg 2: menu
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIdentityNode("menu");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "menu";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectR_WithRIdent_ReturnsR)
+		{
+			// Query: "read r; Select r with r.varName = menu"
+			// Get processed_synonyms and processed clauses
+			QueryNode read_node = QueryNode();
+			read_node.setSynonymNode({ QuerySynonymType::read }, "r");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"r", read_node} };
+
+			// Select: r
+			QueryNode child1 = QueryNode();
+			child1.setSynonymNode({ QuerySynonymType::read }, "r");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: r.varName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("r", "varName");
+
+			// arg 2: menu
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIdentityNode("menu");
+
+			// set children, make tree
+			QueryNode child2_children[] = { child_child1, child_child2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child1 };
+			tuple.setChildren(tuple_children, 1);
+			QueryNode root_children[] = { tuple, child2 };
+			root.setChildren(root_children, 2);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "10, 11";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
 		TEST_METHOD(evaluateQuery_SelectN_WithCN_ReturnsEmpty)
 		{
 			// Query: "constant c; prog_line n; Select n with c.value = n"
@@ -7222,7 +7336,7 @@ namespace IntegrationTesting
 			call_node.setSynonymNode({ QuerySynonymType::call }, "cl");
 			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"cl", call_node } };
 
-			// Select: <c1.stmt#, cl.procName>
+			// Select: <c1.stmt#>
 			QueryNode child0 = QueryNode();
 			child0.setAttrNode("cl", "stmt#");
 
@@ -7446,6 +7560,85 @@ namespace IntegrationTesting
 				Logger::WriteMessage(msg);
 			}
 			STRING_RESULT correct_result = "9 newspaper 3 evening, 10 menu 3 evening, 11 menu 3 evening";
+
+			Logger::WriteMessage(result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_SelectTuple_CR_WithCIdent_WithRIdent_ReturnsTuple)
+		{
+			// Query: "call c; read r; Select <c, r> with c.procName = night and r.varName = menu"
+			// Get processed_synonyms and processed clauses
+			QueryNode call_node = QueryNode();
+			call_node.setSynonymNode({ QuerySynonymType::call }, "c");
+			QueryNode read_node = QueryNode();
+			read_node.setSynonymNode({ QuerySynonymType::read }, "r");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"c", call_node }, {"r", read_node} };
+
+			// Select: <c, r>
+			QueryNode child0 = QueryNode();
+			child0.setSynonymNode({ QuerySynonymType::call }, "c");
+			QueryNode child0_2 = QueryNode();
+			child0_2.setSynonymNode({ QuerySynonymType::read }, "r");
+
+			// with
+			QueryNode child1 = QueryNode();
+			child1.setNodeType({ QueryNodeType::with });
+
+			// arg 1: c.procName
+			QueryNode child_child1 = QueryNode();
+			child_child1.setAttrNode("c", "procName");
+
+			// arg 2: night
+			QueryNode child_child2 = QueryNode();
+			child_child2.setIdentityNode("night");
+
+			// with
+			QueryNode child2 = QueryNode();
+			child2.setNodeType({ QueryNodeType::with });
+
+			// arg 1: r.varName
+			QueryNode child_child2_1 = QueryNode();
+			child_child2_1.setAttrNode("r", "varName");
+
+			// arg 2: menu
+			QueryNode child_child2_2 = QueryNode();
+			child_child2_2.setIdentityNode("menu");
+
+
+			// set children, make tree
+			QueryNode child1_children[] = { child_child1, child_child2 };
+			child1.setChildren(child1_children, 2);
+
+			QueryNode child2_children[] = { child_child2_1, child_child2_2 };
+			child2.setChildren(child2_children, 2);
+
+			QueryNode root = QueryNode();
+			root.setNodeType({ QueryNodeType::select });
+
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode tuple_children[] = { child0, child0_2 };
+			tuple.setChildren(tuple_children, 2);
+
+			QueryNode root_children[] = { tuple, child1, child2 };
+			root.setChildren(root_children, 3);
+
+			QueryNode processed_clauses = root; //stores root node of the tree
+
+			// Evaluate
+			QueryEvaluator qe = QueryEvaluator(*pkb4);
+			QUERY_RESULT result;
+			STRING_RESULT result_string;
+
+			try {
+				result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+				result_string = ResultListManager::getStringValues(result);
+			}
+			catch (const char* msg) {
+				Logger::WriteMessage(msg);
+			}
+			STRING_RESULT correct_result = "4 10, 4 11";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
