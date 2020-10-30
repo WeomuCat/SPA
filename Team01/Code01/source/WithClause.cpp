@@ -182,21 +182,36 @@ void WithClause::getAttrrefStringResult(QueryNode attrref_node, QueryNode string
 	SYNONYM_TYPE synonym_type = processed_synonyms.find(synonym_name)->second.getSynonymType();
 	ATTRIBUTE attribute = attrref_node.getAttr();
 	ATTR_REF_VALUES_LIST attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+	bool isDefaultValueType = AttrRefManager::isDefaultValueTypeForSynonymType(attrref_values[0], synonym_type);
+
 
 	STRING ident_string = string_node.getString();
 
-	SYNONYM_VALUES_LIST filtered_list;
+	clause_result_list.addColumn(synonym_name);
+
 	for (ATTR_REF_VALUE attrref_value : attrref_values) {
 		if (attrref_value.compare(ident_string) == 0) {
-			filtered_list.push_back(ident_string);
+			if (!isDefaultValueType) {
+				ATTR_REF_VALUES_LIST default_values = AttrRefManager::getDefaultValues(pkb, synonym_type, attrref_value);
+				
+				clause_result_list.addColumn(synonym_name);
+				for (ATTR_REF_VALUE default_value : default_values) {
+					ROW row;
+					row.insert({ synonym_name, default_value });
+					clause_result_list.addRow(row);
+				}
+			}
+			else {
+				ROW row;
+				row.insert({ synonym_name, ident_string });
+				clause_result_list.addRow(row);
+			}
 		}
 	}
 
-	if (filtered_list.size() > 0) {
+	if (clause_result_list.getNumRows() > 0) {
 		clause_bool = true;
 	}
-
-	clause_result_list.addColumn(synonym_name, filtered_list);
 }
 
 void WithClause::getAttrrefSynonymResult(QueryNode attrref_node, QueryNode synonym_node, bool& clause_bool, ResultList& clause_result_list) {
