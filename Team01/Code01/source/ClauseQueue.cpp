@@ -40,15 +40,24 @@ void ClauseQueue::sortClauses() {
 }
 
 RANK ClauseQueue::getClauseRank(CLAUSE clause, SYNONYM_NAMES& current_synonyms) {
-    // True/False clause                                                    -> rank = 1
-    // Such that clause with 2 common synonyms                              -> rank = 2
-    // Such that clause with 1 common syn, 1 integer                        -> rank = 3
-    // With clause that is not both attrRef and not both synonym            -> rank = 4
-    // Pattern clause with 1 common synonym                                 -> rank = 5
-    // With clause (remaining: both attrRef or both synonym)                -> rank = 6
-    // Such that clause with 1 common synonym, other is synonym not common  -> rank = 7
-    // Pattern with no common synonym                                       -> rank = 8
-    // Such that clause with no common synonyms (cross product)             -> rank = 9
+    /*
+    Possible Clauses:
+    - such that clause      -> 2 common synonyms | 1 common synonym + 1 uncommon synonym | 1 common synonym + int/ident | 2 uncommon synonyms | 2 int/ident
+    - with clause           -> attrRef + INTEGER | attrRef + IDENT | attrRef + synonym | attrRef + attrRef | IDENT + IDENT | INTEGER + INTEGER | INTEGER + synonym | synonym + synonym
+    - pattern clause        -> 1 common synonym | 1 uncommon synonym
+
+    - true/false clause     -> relationship(int, int) | relationship(ident, ident) | relationship(_, _) | relationship(_, int) | relationship(_, ident) | relationship(int, _) | relationship(ident, _) | with IDENT = IDENT | with INT = INT
+    */
+
+    // True/False clause                                                    -> rank = 
+    // Such that clause with 2 common synonyms                              -> rank = 
+    // Such that clause with 1 common syn, 1 integer                        -> rank = 
+    // With clause that is not both attrRef and not both synonym            -> rank = 
+    // Pattern clause with 1 common synonym                                 -> rank = 
+    // With clause (remaining: both attrRef or both synonym)                -> rank = 
+    // Such that clause with 1 common synonym, other is synonym not common  -> rank = 
+    // Pattern with no common synonym                                       -> rank = 
+    // Such that clause with no common synonyms (cross product)             -> rank = 
     RANK rank;
 
     if (isTrueFalseClause(clause)) {

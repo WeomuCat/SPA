@@ -58,15 +58,26 @@ void Relationship::getFollowsResult(PKB pkb, bool& clause_bool, ResultList& clau
 	/* 
 	Format: Follows( stmtRef, stmtRef )
 	Relationship between: Statements
+
+	stmtRef: synonym | _ | INTEGER
 	
 	Follows(s1, s2)
 	s1 = [1, 2, 3] if assign
 	s2 = [1, 2, 3]
 	cross = [[1,1], [1,2], [1,3]...]
 
-	filter the cross with PKB
+	filter the cross with PKB, then add to ResultList
 
-	then add to ResultList
+	Possible Combinations:
+	1. Follows(synonym, synonym)		-> Follows(s1, s2)
+	2. Follows(synonym, _)				-> Follows(a1, _ )
+	3. Follows(synonym, INTEGER)		-> Follows(a1, 10)
+	4. Follows(_, synonym)				-> Follows(_, a1)
+	5. Follows(_, _)					-> Follows(_, _)
+	6. Follows(_, INTEGER)				-> Follows(_, 10)
+	7. Follows(INTEGER, synonym)		-> Follows(10, a1)
+	8. Follows(INTEGER, _)				-> Follows(10, _)
+	9. Follows(INTEGER, INTEGER)		-> Follows(10, 11)
 	*/
 
 	// Initialize with list of all values for the given synonym
