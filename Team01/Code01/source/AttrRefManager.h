@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <set>
 
 #include "PKB.h"
 #include "QuerySynonymType.h"
@@ -82,6 +83,11 @@ public:
 					True if string is provided for procedure, variable
 	*/
 
+	static ATTR_REF_VALUES_LIST getDefaultValues(PKB pkb, SYNONYM_TYPE synonym_type, SYNONYM_VALUE value);
+	/*
+	Requires: synonym_type must be call, read, print only. They are the only types that have non-default values.
+	Description: Returns the default values that corresponds to the value given.
+	*/
 
 private:
 	static ATTR_REF_VALUES_LIST getAssignValues(PKB pkb, ATTRIBUTE attribute);
@@ -109,5 +115,7 @@ private:
 	static void throwsInvalidAttrRefException();
 
 	static bool isDigit(SYNONYM_VALUE string);
+
+	static ATTR_REF_VALUES_LIST getUniqueValues(SYNONYM_VALUES_LIST list);
 
 };
