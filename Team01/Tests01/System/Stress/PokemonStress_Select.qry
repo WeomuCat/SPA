@@ -1,0 +1,10 @@
+1 - Statement
+stmt s;
+Select <s, s, s, s, s, s, s, s, s, s, s>
+
+5000
+2 - Many Statement
+stmt s1, s2, s3, s4
+Select <s1, s2, s3, s4>
+
+5000
