@@ -292,7 +292,7 @@ void WithClause::getIntegerIntegerResult(QueryNode int_node1, QueryNode int_node
 		clause_bool = true;
 	}
 	else {
-		clause_bool = true;
+		clause_bool = false;
 	}
 }
 

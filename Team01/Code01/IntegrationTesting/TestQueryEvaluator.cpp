@@ -964,6 +964,80 @@ namespace IntegrationTesting
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
 		}
 
+		TEST_METHOD(evaluateQuery_Select_SS_Success) {
+			// Query: "stmt s; Select <s, s>"
+			// Get processed_synonyms and processed clauses
+			QueryNode s1_node = QueryNode();
+			s1_node.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"s", s1_node} };
+
+			// Select: <s, s>
+			QueryNode child1 = QueryNode();
+			child1.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode child2 = QueryNode();
+			child2.setSynonymNode({ QuerySynonymType::stmt }, "s");
+			QueryNode child2_2 = QueryNode();
+			child2_2.setSynonymNode({ QuerySynonymType::stmt }, "s");
+
+			// Make tree
+			QueryNode tuple_children[] = { child2, child2_2 };
+			tuple.setChildren(tuple_children, 2);
+			QueryNode child1_children[] = { tuple };
+			child1.setChildren(child1_children, 1);
+
+			QueryNode processed_clauses = child1; //stores root node of the tree
+
+			QueryEvaluator qe = QueryEvaluator(*pkb);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			STRING_RESULT correct_result = "1 1, 2 2, 3 3, 4 4, 5 5";
+
+			std::string query_result_string = "Result: " + result_string;
+			Logger::WriteMessage(query_result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
+		TEST_METHOD(evaluateQuery_Select_S1S2S2_Success) {
+			// Query: "stmt s1, s2; Select <s1, s2, s2>"
+			// Get processed_synonyms and processed clauses
+			QueryNode s1_node = QueryNode();
+			s1_node.setSynonymNode({ QuerySynonymType::stmt }, "s1");
+			QueryNode s2_node = QueryNode();
+			s2_node.setSynonymNode({ QuerySynonymType::stmt }, "s2");
+			std::unordered_map<std::string, QueryNode> processed_synonyms = { {"s1", s1_node}, {"s2", s2_node} };
+
+			// Select: <s1, s2>
+			QueryNode child1 = QueryNode();
+			child1.setNodeType({ QueryNodeType::select });
+			QueryNode tuple = QueryNode();
+			tuple.setNodeType({ QueryNodeType::tuple });
+			QueryNode child2 = QueryNode();
+			child2.setSynonymNode({ QuerySynonymType::stmt }, "s1");
+			QueryNode child2_2 = QueryNode();
+			child2_2.setSynonymNode({ QuerySynonymType::stmt }, "s2");
+			QueryNode child2_3 = QueryNode();
+			child2_3.setSynonymNode({ QuerySynonymType::stmt }, "s2");
+
+			// Make tree
+			QueryNode tuple_children[] = { child2, child2_2, child2_3 };
+			tuple.setChildren(tuple_children, 3);
+			QueryNode child1_children[] = { tuple };
+			child1.setChildren(child1_children, 1);
+
+			QueryNode processed_clauses = child1; //stores root node of the tree
+
+			QueryEvaluator qe = QueryEvaluator(*pkb);
+			QUERY_RESULT result = qe.evaluateQuery(processed_synonyms, processed_clauses);
+			STRING_RESULT result_string = ResultListManager::getStringValues(result);
+			STRING_RESULT correct_result = "1 1 1, 1 2 2, 1 3 3, 1 4 4, 1 5 5, 2 1 1, 2 2 2, 2 3 3, 2 4 4, 2 5 5, 3 1 1, 3 2 2, 3 3 3, 3 4 4, 3 5 5, 4 1 1, 4 2 2, 4 3 3, 4 4 4, 4 5 5, 5 1 1, 5 2 2, 5 3 3, 5 4 4, 5 5 5";
+
+			std::string query_result_string = "Result: " + result_string;
+			Logger::WriteMessage(query_result_string.c_str());
+			Assert::IsTrue(result_string.compare(correct_result) == 0);
+		}
+
 		/*=================================  PKB 1: Follows =========================================*/
 
 		TEST_METHOD(evaluateQuery_SelectS1FollowsS1S2_ReturnsS1)
@@ -3892,8 +3966,9 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "morning newspaper, morning menu, morning menu, afternoon newspaper, afternoon menu, afternoon menu, evening newspaper, evening menu, evening menu, night newspaper, night menu, night menu, breakfast newspaper, breakfast menu, breakfast menu, lunch newspaper, lunch menu, lunch menu, dinner newspaper, dinner menu, dinner menu, diarrhoea newspaper, diarrhoea menu, diarrhoea menu";
+			STRING_RESULT correct_result = "morning newspaper, morning menu, morning menu, morning menu, morning menu, afternoon newspaper, afternoon menu, afternoon menu, afternoon menu, afternoon menu, evening newspaper, evening menu, evening menu, evening menu, evening menu, night newspaper, night menu, night menu, night menu, night menu, breakfast newspaper, breakfast menu, breakfast menu, breakfast menu, breakfast menu, lunch newspaper, lunch menu, lunch menu, lunch menu, lunch menu, dinner newspaper, dinner menu, dinner menu, dinner menu, dinner menu, diarrhoea newspaper, diarrhoea menu, diarrhoea menu, diarrhoea menu, diarrhoea menu";
 
+			
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -6596,7 +6671,7 @@ namespace IntegrationTesting
 			QueryNode child2 = QueryNode();
 			child2.setNodeType({ QueryNodeType::with });
 
-			// arg 1: 3
+			// arg 1: 2
 			QueryNode child_child1 = QueryNode();
 			child_child1.setIntegerNode(2);
 
@@ -6627,7 +6702,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "TRUE";
+			STRING_RESULT correct_result = "FALSE";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -7177,7 +7252,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "9 newspaper, 10 menu, 11 menu";
+			STRING_RESULT correct_result = "9 newspaper, 10 menu, 10 menu, 11 menu, 11 menu";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -7260,7 +7335,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "9 newspaper 3 evening, 10 menu 3 evening, 11 menu 3 evening";
+			STRING_RESULT correct_result = "9 newspaper 3 evening, 10 menu 3 evening, 10 menu 3 evening, 11 menu 3 evening, 11 menu 3 evening";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
