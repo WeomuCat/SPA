@@ -6,6 +6,11 @@ OneSuchThat/Letters_Follows_Boolean_Mixed
 OneSuchThat/Letters_Follows_Elem
 OneSuchThat/Letters_Follows_Tuple
 OneSuchThat/Letters_Follows_Tuple_Mixed
+OneSuchThat/Letters_FollowsT_Boolean
+OneSuchThat/Letters_FollowsT_Boolean_Mixed
+OneSuchThat/Letters_FollowsT_Elem
+OneSuchThat/Letters_FollowsT_Tuple
+OneSuchThat/Letters_FollowsT_Tuple_Mixed
 OneWith/Letters_Boolean
 OneWith/Letters_Boolean_Mixed
 OneWith/Letters_Elem

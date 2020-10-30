@@ -11,7 +11,7 @@ none
 1 - With Read Print
 read r; print p;
 Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName> with p.varName = r.varName
-TODO 😒
+13 13 aVar 12 12 aVar,20 20 eVar 10 10 eVar,20 20 eVar 5 5 eVar,23 23 eVar 10 10 eVar,23 23 eVar 5 5 eVar,6 6 eVar 10 10 eVar,6 6 eVar 5 5 eVar
 1000
 1 - With Read Call
 read r; call c;
@@ -106,22 +106,22 @@ Select <s, s.stmt#, n> with n = s.stmt#
 1 - With Read Variable
 read r; variable v;
 Select <r, r.varName, v, v.varName> with r.varName = v.varName
-TODO 😒
+13 aVar aVar aVar,20 eVar eVar eVar,23 eVar eVar eVar,6 eVar eVar eVar
 1000
 1 - With Read Variable
 read r; variable v;
 Select <r, r.varName, v, v.varName> with v.varName = r.varName
-TODO 😒
+13 aVar aVar aVar,20 eVar eVar eVar,23 eVar eVar eVar,6 eVar eVar eVar
 1000
 1 - With Print Variable
 print p; variable v;
 Select <p, p.varName, v, v.varName> with p.varName = v.varName
-TODO 😒
+10 eVar eVar eVar,12 aVar aVar aVar,18 dVar dVar dVar,24 cVar cVar cVar,5 eVar eVar eVar,8 dVar dVar dVar
 1000
 1 - With Print Variable
 print p; variable v;
 Select <p, p.varName, v, v.varName> with v.varName = p.varName
-TODO 😒
+10 eVar eVar eVar,12 aVar aVar aVar,18 dVar dVar dVar,24 cVar cVar cVar,5 eVar eVar eVar,8 dVar dVar dVar
 1000
 1 - With Call Variable
 call c; variable v;
@@ -156,12 +156,12 @@ none
 1 - With Call Procedure
 call c; procedure p;
 Select <c, c.procName, p, p.procName> with c.procName = p.procName
-TODO 😒
+11 bProc bProc bProc,21 cProc cProc cProc,7 cProc cProc cProc
 1000
 1 - With Call Procedure
 call c; procedure p;
 Select <c, c.procName, p, p.procName> with p.procName = c.procName
-TODO 😒
+11 bProc bProc bProc,21 cProc cProc cProc,7 cProc cProc cProc
 1000
 1 - With Variable Procedure
 variable v; procedure p;
