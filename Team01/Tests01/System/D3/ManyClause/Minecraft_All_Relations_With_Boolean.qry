@@ -28,9 +28,9 @@ procedure p; variable v1, v2; call cl; while w;
 Select BOOLEAN such that Parent (_, cl) and Uses (p, v1) and Modifies (p, v2) with cl.procName = p.procName and v1.varName = v2.varName
 TRUE
 5000
-7 - Follows*, Next*
-stmt s1, s2, s3;
-Select BOOLEAN such that Follows* (s1, s2) and Next* (s2, s3) with s1.stmt# = s3.stmt#
+7 - Follows, Next*
+stmt s1, s2, s3, s4;
+Select BOOLEAN such that Follows (s1, s2) and Follows (s2, s3) and Next* (s3, s4) with s1.stmt# = s4.stmt#
 TRUE
 5000
 8 - Uses, Uses, Uses, Uses
