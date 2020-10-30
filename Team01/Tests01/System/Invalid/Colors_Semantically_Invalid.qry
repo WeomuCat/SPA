@@ -1,0 +1,220 @@
+1 - Follows and Variables
+variable v; stmt s;
+Select s such that Follows (s, v)
+
+1000
+2 - Follows and Procedure
+procedure pd; stmt s;
+Select s such that Follows (s, pd)
+
+1000
+3 - Follows and Constants
+constant cs; stmt s;
+Select s such that Follows (cs, s)
+
+1000
+4 - Parent and Variables
+variable v; stmt s;
+Select s such that Parent (s, v)
+
+1000
+5 - Parent and Procedure
+procedure pd; stmt s;
+Select s such that Parent (pd, s)
+
+1000
+6 - Parent and Constants
+constant cs; stmt s;
+Select s such that Follows (s, cs)
+
+1000
+7 - Uses Everything
+
+Select BOOLEAN such that Uses (_, _)
+
+1000
+8 - Uses Right Statement
+stmt s, s1; 
+Select BOOLEAN such that Uses (s, s1)
+
+1000
+9 - Uses Right Procedure
+stmt s; procedure p; 
+Select BOOLEAN such that Uses (s, p)
+
+1000
+10 - Uses Right Constant
+stmt s; constant cs; 
+Select BOOLEAN such that Uses (s, cs)
+
+1000
+11 - Uses Left Variable
+variable v, v1;
+Select BOOLEAN such that Uses (v1, v)
+
+1000
+12 - Uses Left Constant
+variable v; constant cs;
+Select BOOLEAN such that Uses (cs, v)
+
+1000
+13 - Modifies Everything
+
+Select BOOLEAN such that Modifies (_, _)
+
+1000
+14 - Modifies Right Statement
+stmt s, s1; 
+Select BOOLEAN such that Modifies (s, s1)
+
+1000
+15 - Modifies Right Procedure
+stmt s; procedure p; 
+Select BOOLEAN such that Modifies (s, p)
+
+1000
+16 - Modifies Right Constant
+stmt s; constant cs; 
+Select BOOLEAN such that Modifies (s, cs)
+
+1000
+17 - Modifies Left Variable
+variable v, v1;
+Select BOOLEAN such that Modifies (v1, v)
+
+1000
+18 - Modifies Left Constant
+variable v; constant cs;
+Select BOOLEAN such that Modifies (cs, v)
+
+1000
+19 - Calls Statement
+stmt s; procedure p;
+Select p such that Calls (p, s)
+
+1000
+20 - Calls Assign
+assign a; procedure p;
+Select p such that Calls (p, a)
+
+1000
+21 - Calls Call
+call cl; procedure p;
+Select p such that Calls (p, cl)
+
+1000
+22 - Calls Print
+print pn; procedure p;
+Select p such that Calls (p, pn)
+
+1000
+23 - Calls Read
+read r; procedure p;
+Select p such that Calls (p, r)
+
+1000
+24 - Calls If
+if i; procedure p;
+Select p such that Calls (p, i)
+
+1000
+25 - Calls While
+while w; procedure p;
+Select p such that Calls (p, w)
+
+1000
+26 - Calls Constant
+constant cs; procedure p;
+Select p such that Calls (p, cs)
+
+1000
+27 - Calls Variable
+variable v; procedure p;
+Select p such that Calls (p, v)
+
+1000
+28 - Calls Program Line
+prog_line n; procedure p;
+Select p such that Calls (p, n)
+
+1000
+29 - Calls Variable Name
+variable v; procedure p;
+Select p sch that Calls (p, v.varName)
+
+1000
+30 - Calls Call Name
+call cl; procedure p;
+Select p such that Calls (p, cl.procName)
+
+1000
+31 - Next Constant
+constant cs; prog_line n;
+Select BOOLEAN such that Next (n, cs)
+
+1000
+32 - Next Variable
+variable v; prog_line n;
+Select BOOLEAN such that Next (n, v)
+
+1000
+33 - Next Procedure
+procedure p; prog_line n;
+Select BOOLEAN such that Next (n, p)
+
+1000
+34 - Affects Calls
+call cl;
+Select BOOLEAN such that Affects (cl, _)
+
+1000
+35 - Affects Print
+print pn;
+Select BOOLEAN such that Affects (pn, _)
+
+1000
+36 - Affects Read
+read r;
+Select BOOLEAN such that Affects (r, _)
+
+1000
+37 - Affects If
+if i;
+Select BOOLEAN such that Affects (i, _)
+
+1000
+38 - Affects While
+while w;
+Select BOOLEAN such that Affects (w, _)
+
+1000
+39 - Affects Constant
+constant cs;
+Select BOOLEAN such that Affects (cs, _)
+
+1000
+40 - Affects Procedure
+procedure p;
+Select BOOLEAN such that Affects (p, _)
+
+1000
+41 - Affects Variable
+variable v;
+Select BOOLEAN such that Affects (v, _)
+
+1000
+42 - Pattern Assign Wrong Synonym
+stmt s;
+Select BOOLEAN pattern a (s, _)
+
+1000
+43 - Pattern Assign Check Variable
+variable v;
+Select BOOLEAN pattern a (_, v)
+
+1000
+44 - Pattern While Check Variable 
+variable v;
+Select BOOLEAN pattern a (_, v)
+
+1000
