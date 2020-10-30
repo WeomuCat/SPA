@@ -73,5 +73,8 @@ private:
 	void topoSort(std::unordered_map<PROC_NAME, std::set<PROC_NAME>>& graph, std::deque<PROC_NAME>& sorted_procs);
 	void topoSortHelper(PROC_NAME caller_proc, std::unordered_map<PROC_NAME, bool>& visited
 		, std::unordered_map<PROC_NAME, std::set<PROC_NAME>> &graph, std::deque<PROC_NAME>& sorted_procs);
+
+	//Helper functions for Adding Next R/s
+	void findLastStmts(STMT_LIST_NODE_PTR stmt_list_node_ptr, std::set<STMT_NUM>& stmt_num_set);
 };
 

@@ -136,9 +136,14 @@
 			STMT_NODE_PTR whileblock_firststmt = w_ptr->getWhileStatementListNode()->getStatementNodeList().front();
 			this->pkb_builder_.addNext(w_ptr->getStatementNumber(), whileblock_firststmt->getStatementNumber());
 			
-			STMT_NODE_PTR whileblock_laststmt = w_ptr->getWhileStatementListNode()->getStatementNodeList().back();
+			
 			//TODO: 01MAKE SURE LAST STMT OF ANY CONTAINER
-			this->pkb_builder_.addNext(whileblock_laststmt->getStatementNumber(), w_ptr->getStatementNumber());
+			std::set<STMT_NUM> last_stmts_num_set;
+			findLastStmts(w_ptr->getWhileStatementListNode(), last_stmts_num_set);
+			
+			for (STMT_NUM last_stmt_num : last_stmts_num_set) {
+				this->pkb_builder_.addNext(last_stmt_num, w_ptr->getStatementNumber());
+			}
 
 			STMT_NODE_PTR_LIST nodes_in_parent_stmt_lst = w_ptr->getParentStatementListNode()->getStatementNodeList();
 			//Find stmt after while stmt
@@ -160,9 +165,7 @@
 		// Remaining Next Relationships for IfNodes
 		IF_NODE_PTR_LIST if_node_ptrs = this->pkb_builder_.getIfs();
 		STMT_NODE_PTR ifblock_firststmt;
-		STMT_NODE_PTR ifblock_laststmt;
-		STMT_NODE_PTR elseblock_firststmt;
-		STMT_NODE_PTR elseblock_laststmt;
+		STMT_NODE_PTR elseblock_firststmt;	
 		STMT_NODE_PTR stmt_after_if_block;
 
 		for (IF_NODE_PTR if_ptr : if_node_ptrs) {
@@ -189,15 +192,22 @@
 			if (i < (nodes_in_parent_stmt_lst.size() - 1)) {
 				i = i + 1;
 				stmt_after_if_block = nodes_in_parent_stmt_lst[i];
+				
 				//Last stmts are dependent on the stmt_after_if_block existing
-				STMT_NODE_PTR ifblock_laststmt = if_ptr->getThenStatementListNode()->getStatementNodeList().back();
-				STMT_NODE_PTR elseblock_laststmt = if_ptr->getElseStatementListNode()->getStatementNodeList().back();
-				this->pkb_builder_.addNext(ifblock_laststmt->getStatementNumber(), stmt_after_if_block->getStatementNumber());
-				this->pkb_builder_.addNext(elseblock_laststmt->getStatementNumber(), stmt_after_if_block->getStatementNumber());
+				
+				//TODO: Fix Next relationship
+				std::set<STMT_NUM> last_stmts_num_set;
+				findLastStmts(if_ptr->getThenStatementListNode(), last_stmts_num_set);
+				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
+
+				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
+					this->pkb_builder_.addNext(last_stmt_num, stmt_after_if_block->getStatementNumber());
+				}
+				
 				//TODO: Remove Debugging Stmt
 				std::cout << "stmt_after_if_block: " << stmt_after_if_block->getStatementNumber();
-				std::cout << "ifblock_laststmt: " << ifblock_laststmt->getStatementNumber();
-				std::cout << "elseblock_laststmt: " << elseblock_laststmt->getStatementNumber();
+				//std::cout << "ifblock_laststmt: " << ifblock_laststmt->getStatementNumber();
+				//std::cout << "elseblock_laststmt: " << elseblock_laststmt->getStatementNumber();
 			}
 		}
 		
@@ -1066,6 +1076,18 @@
 			if (prevStmt->getNodeType() != NodeTypeEnum::ifNode) {
 				this->pkb_builder_.addNext(prevStmt->getStatementNumber()
 					, new_while_node->getStatementNumber());
+			}
+			else {
+				std::set<STMT_NUM> last_stmts_num_set;
+				IF_NODE_PTR if_ptr = std::static_pointer_cast<IfNode>(prevStmt);
+				findLastStmts(if_ptr->getThenStatementListNode(), last_stmts_num_set);
+				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
+				
+				std::cout << "=========HERE========= " << new_while_node->getStatementNumber();
+				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
+					std::cout << "HERE: " << last_stmt_num;
+					this->pkb_builder_.addNext(last_stmt_num, new_while_node->getStatementNumber());
+				}
 			}
 		}
 
@@ -2763,3 +2785,21 @@
 	}
 
 	//===== END OF HELPER FUNCTIONS FOR TOPOLOGICAL SORT OF PROCEDURE NODES =====
+
+	//===== START OF HELPER FUNCTIONS FOR ADDING NEXT R/S =====
+
+	void Parser::findLastStmts(STMT_LIST_NODE_PTR stmt_list_node_ptr, std::set<STMT_NUM> &stmt_num_set) {
+		STMT_NODE_PTR last_stmt = stmt_list_node_ptr->getStatementNodeList().back();
+
+		if (last_stmt->getNodeType() != NodeTypeEnum::ifNode) {
+			stmt_num_set.insert(last_stmt->getStatementNumber());
+		}
+		else {
+			STMT_LIST_NODE_PTR if_stmt_list_node_ptr = std::static_pointer_cast<IfNode>(last_stmt)->getThenStatementListNode();
+			STMT_LIST_NODE_PTR else_stmt_list_node_ptr = std::static_pointer_cast<IfNode>(last_stmt)->getElseStatementListNode();
+
+			findLastStmts(if_stmt_list_node_ptr, stmt_num_set);
+			findLastStmts(else_stmt_list_node_ptr, stmt_num_set);
+		}
+	}
+	//===== END OF HELPER FUNCTIONS FOR ADDING NEXT R/S =====
