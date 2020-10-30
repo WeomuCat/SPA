@@ -1,3 +1,5 @@
 1 - Pattern With
-assign a; while w; if i;
-Select <a, w, i> pattern a (_, _) and w (_, _) patt
+assign a; while w; if i; constant cs;
+Select <a, w, i> pattern a (_, _) and pattern w (_, _) and pattern i (_, _, _) with i.stmt# = cs.value 
+NO ANSWER
+5000

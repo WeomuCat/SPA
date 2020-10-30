@@ -1,0 +1,5 @@
+1 - Affects
+assign a1, a2;
+Select a1 such that Affects (a1, _) and Affects (_, a2)
+NO ANSWER
+5000
