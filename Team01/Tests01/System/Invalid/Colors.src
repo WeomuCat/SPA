@@ -1,0 +1,23 @@
+procedure first {
+    print red;
+    yellow = green * blue;
+    if (red == blue) then {
+        read yellow;
+        yellow = green * purple - 2;
+    } else {
+        print green;
+        orange = orange * 1;
+        blue = green - red;
+    }
+    red = yellow + green;
+    while (red == 2) {
+        purple = green * purple - yellow;
+        call second;
+    }
+    call second;
+}
+
+procedure second {
+    print yellow;
+    blue = red * red;
+}

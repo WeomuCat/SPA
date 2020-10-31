@@ -1,0 +1,10 @@
+1 - Assign
+assign a1, a2, a3, a4, a5, a6;
+Select BOOLEAN with a1.stmt# = a2.stmt# and a3.stmt# = a4.stmt# and a5.stmt# = a6.stmt#
+NO_ANSWER
+5000
+2 - Statement
+assign s1, s2, s3, s4;
+Select <s1, s2, s3, s4> with s1.stmt# = s2.stmt# and s3.stmt# = s4.stmt#
+NO_ANSWER
+5000

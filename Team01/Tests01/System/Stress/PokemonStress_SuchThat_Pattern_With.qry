@@ -1,0 +1,5 @@
+1 - SuchThat, Pattern, With
+assign a; stmt s; print pn; constant cs;
+Select <s, a> such that Next*(s, pn) pattern a (_, _) with s.stmt# = cs.value
+NO ANSWER
+5000

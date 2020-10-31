@@ -1,0 +1,23 @@
+--- procedure first {
+001     print red;
+002     yellow = green * blue;
+003     if (red == blue) then {
+004         read yellow;
+005         yellow = green * purple - 2;
+---     } else {
+006         print green;
+007         orange = orange * 1;
+008         blue = green - red;
+---     }
+009     red = yellow + green;
+010     while (red == 2) {
+011         purple = green * purple - yellow;
+012         call second;
+---     }
+013     call second;
+--- }
+--- 
+--- procedure second {
+014     print yellow;
+015     blue = red * red;
+--- }

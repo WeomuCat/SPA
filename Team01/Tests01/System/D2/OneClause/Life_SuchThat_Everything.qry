@@ -1,0 +1,50 @@
+1 - Follows
+
+Select BOOLEAN such that Follows (_, _)
+TRUE
+5000
+2 - Parent
+
+Select BOOLEAN such that Parent (_, _)
+TRUE
+5000
+3 - Calls
+
+Select BOOLEAN such that Calls (_, _)
+FALSE
+5000
+4 - Next
+
+Select BOOLEAN such that Next (_, _)
+TRUE
+5000
+5 - Affects
+
+Select BOOLEAN such that Affects (_, _)
+TRUE
+5000
+6 - Follows*
+
+Select BOOLEAN such that Follows* (_, _)
+TRUE
+5000
+7 - Parent*
+
+Select BOOLEAN such that Parent* (_, _)
+TRUE
+5000
+8 - Calls*
+
+Select BOOLEAN such that Calls* (_, _)
+FALSE
+5000
+9 - Next*
+
+Select BOOLEAN such that Next* (_, _)
+TRUE
+5000
+10 - Affects*
+
+Select BOOLEAN such that Affects* (_, _)
+TRUE
+5000
