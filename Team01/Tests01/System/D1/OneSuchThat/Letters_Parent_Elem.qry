@@ -1,0 +1,305 @@
+1 - Parent Integer
+constant c;
+Select c such that Parent(2, 3)
+1,2,3
+1000
+1 - Parent Integer
+constant c;
+Select c such that Parent(1, 2)
+none
+1000
+1 - Parent Wildcard
+constant c;
+Select c such that Parent(1, _)
+1,2,3
+1000
+1 - Parent Wildcard
+constant c;
+Select c such that Parent(_, 1)
+none
+1000
+1 - Parent Wildcard
+constant c;
+Select c such that Parent(_, _)
+1,2,3
+1000
+1 - Parent Statement
+stmt s;
+Select s such that Parent(1, s)
+2
+1000
+1 - Parent Statement
+stmt s;
+Select s such that Parent(s, 1)
+none
+1000
+1 - Parent Statement
+stmt s;
+Select s such that Parent(s, s)
+none
+1000
+1 - Parent Statement
+stmt s;
+Select s such that Parent(s, _)
+1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+1000
+1 - Parent Statement
+stmt s;
+Select s such that Parent(_, s)
+10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
+1000
+1 - Parent Statement
+stmt s1, s2;
+Select s1 such that Parent(s1, s2)
+1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+1000
+1 - Parent Statement
+stmt s1, s2;
+Select s2 such that Parent(s1, s2)
+10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
+1000
+1 - Parent Read
+read r;
+Select r such that Parent(24, r)
+none
+1000
+1 - Parent Read
+read r;
+Select r such that Parent(r, 24)
+23
+1000
+1 - Parent Read
+read r;
+Select r such that Parent(r, r)
+none
+1000
+1 - Parent Read
+read r;
+Select r such that Parent(r, _)
+13,23,6
+1000
+1 - Parent Read
+read r;
+Select r such that Parent(_, r)
+13,6
+1000
+1 - Parent Read
+read r1, r2;
+Select r1 such that Parent(r1, r2)
+none
+1000
+1 - Parent Read
+read r1, r2;
+Select r2 such that Parent(r1, r2)
+none
+1000
+1 - Parent Print
+print p;
+Select p such that Parent(19, p)
+none
+1000
+1 - Parent Print
+print p;
+Select p such that Parent(p, 19)
+18
+1000
+1 - Parent Print
+print p;
+Select p such that Parent(p, p)
+none
+1000
+1 - Parent Print
+print p;
+Select p such that Parent(p, _)
+10,12,18,24,5,8
+1000
+1 - Parent Print
+print p;
+Select p such that Parent(_, p)
+10,24
+1000
+1 - Parent Print
+print p1, p2;
+Select p1 such that Parent(p1, p2)
+none
+1000
+1 - Parent Print
+print p1, p2;
+Select p2 such that Parent(p1, p2)
+none
+1000
+1 - Parent Call
+call c;
+Select c such that Parent(1, c)
+none
+1000
+1 - Parent Call
+call c;
+Select c such that Parent(c, 1)
+none
+1000
+1 - Parent Call
+call c;
+Select c such that Parent(c, c)
+none
+1000
+1 - Parent Call
+call c;
+Select c such that Parent(c, _)
+none
+1000
+1 - Parent Call
+call c;
+Select c such that Parent(_, c)
+11,21,7
+1000
+1 - Parent Call
+call c1, c2;
+Select c1 such that Parent(c1, c2)
+none
+1000
+1 - Parent Call
+call c1, c2;
+Select c2 such that Parent(c1, c2)
+none
+1000
+1 - Parent While
+while w;
+Select w such that Parent(3, w)
+4
+1000
+1 - Parent While
+while w;
+Select w such that Parent(w, 3)
+none
+1000
+1 - Parent While
+while w;
+Select w such that Parent(w, w)
+none
+1000
+1 - Parent While
+while w;
+Select w such that Parent(w, _)
+15
+1000
+1 - Parent While
+while w;
+Select w such that Parent(_, w)
+15,4
+1000
+1 - Parent While
+while w1, w2;
+Select w1 such that Parent(w1, w2)
+none
+1000
+1 - Parent While
+while w1, w2;
+Select w2 such that Parent(w1, w2)
+none
+1000
+1 - Parent If
+if i;
+Select i such that Parent(1, i)
+2
+1000
+1 - Parent If
+if i;
+Select i such that Parent(i, 1)
+none
+1000
+1 - Parent If
+if i;
+Select i such that Parent(i, i)
+none
+1000
+1 - Parent If
+if i;
+Select i such that Parent(i, _)
+17,2
+1000
+1 - Parent If
+if i;
+Select i such that Parent(_, i)
+17,2
+1000
+1 - Parent If
+if i1, i2;
+Select i1 such that Parent(i1, i2)
+none
+1000
+1 - Parent If
+if i1, i2;
+Select i2 such that Parent(i1, i2)
+none
+1000
+1 - Parent Assign
+assign a;
+Select a such that Parent(2, a)
+none
+1000
+1 - Parent Assign
+assign a;
+Select a such that Parent(a, 2)
+1
+1000
+1 - Parent Assign
+assign a;
+Select a such that Parent(a, a)
+none
+1000
+1 - Parent Assign
+assign a;
+Select a such that Parent(a, _)
+1,14,16,3
+1000
+1 - Parent Assign
+assign a;
+Select a such that Parent(_, a)
+14,19,22,25,9
+1000
+1 - Parent Assign
+assign a1, a2;
+Select a1 such that Parent(a1, a2)
+none
+1000
+1 - Parent Assign
+assign a1, a2;
+Select a2 such that Parent(a1, a2)
+none
+1000
+1 - Parent ProgLine
+prog_line n;
+Select n such that Parent(2, n)
+10
+1000
+1 - Parent ProgLine
+prog_line n;
+Select n such that Parent(n, 2)
+1
+1000
+1 - Parent ProgLine
+prog_line n;
+Select n such that Parent(n, n)
+none
+1000
+1 - Parent ProgLine
+prog_line n;
+Select n such that Parent(n, _)
+1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+1000
+1 - Parent ProgLine
+prog_line n;
+Select n such that Parent(_, n)
+10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
+1000
+1 - Parent ProgLine
+prog_line n1, n2;
+Select n1 such that Parent(n1, n2)
+1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+1000
+1 - Parent ProgLine
+prog_line n1, n2;
+Select n2 such that Parent(n1, n2)
+10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
+1000
