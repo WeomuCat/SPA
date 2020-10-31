@@ -7,10 +7,7 @@
 
 class ModifiesTable {
 
-private:
-    friend class PKB;
-    friend class PKBBuilder;
-
+public:
     /*
     Description: Adds to a collection that maps s to v.
     */
@@ -31,8 +28,14 @@ private:
     */
     BOOLEAN_TYPE isModifies(PROC_NAME p, VAR_NAME v);
 
+    /*
+    Description: Returns a list of modified VAR_NAME of a STMT_NUM.
+    */
+    VAR_NAME_LIST getModifiedVariables(STMT_NUM s);
 
+private:
     std::unordered_set<std::pair<STMT_NUM, VAR_NAME>> modifies_s_;
     std::unordered_set<std::pair<PROC_NAME, VAR_NAME>> modifies_p_;
 
+    std::unordered_map<STMT_NUM, std::vector<VAR_NAME>> modifies_s_children_;
 };

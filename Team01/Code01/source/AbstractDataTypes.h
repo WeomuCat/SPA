@@ -34,6 +34,7 @@ enum class NodeTypeEnum;
 enum class ConditionTypeEnum;
 enum class ExpressionTypeEnum;
 enum class RelationTypeEnum;
+enum class StatementTypeEnum;
 
 // Design Entity Tables
 class AssignTable;
@@ -57,6 +58,7 @@ class ModifiesTable;
 class CallsTable;
 class NextTable;
 class AffectsTable;
+class StatementTypeTable;
 
 // QP
 class QueryNode;
@@ -129,7 +131,8 @@ typedef CallsTable CALLS_TABLE;
 typedef NextTable NEXT_TABLE;
 typedef AffectsTable AFFECTS_TABLE;
 typedef std::unordered_map<int, std::vector<int>> CFG;
-typedef std::unordered_set<std::pair<int, int>> STMT_RELATION_TABLE;
+typedef StatementTypeTable STMT_TYPE_TABLE;
+typedef StatementTypeEnum STMT_TYPE;
 
 // QP
 typedef std::vector<std::string> QUERY_RESULT;

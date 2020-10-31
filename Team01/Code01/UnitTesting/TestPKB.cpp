@@ -361,15 +361,18 @@ namespace UnitTesting {
 		// Affects*
 		/*
 		- procedure {
-		1	b = a;
-		2	c = b;
-		3	d = c;
-		4	if () then {
-		5		d = 0;	
-		-	} else {
-		6		a = 0;
+		1   b = a;
+		2	while () {
+		3	  b = d;
+		4	  c = 5;
+		5     d = c;
 		-	}
-		7	e = d;
+		6	if () then {
+		7	  a = b;
+		-	} else {
+		8	  c = b;
+		9	  d = c;
+		-	}
 		- }
 		*/
 
@@ -471,11 +474,144 @@ namespace UnitTesting {
 			b6.addNext(7, 1);
 			pkb6 = std::make_shared<PKB>(b6.build());
 
-			PKBBuilder b7;
-			pkb7 = std::make_shared<PKB>(b7.build());
+			{
+				PKBBuilder b7;
+				b7.addModifies("procedure", "a");
+				b7.addModifies("procedure", "b");
+				b7.addModifies(1, "a");
+				b7.addModifies(2, "b");
+				b7.addModifies(3, "a");
+				b7.addModifies(4, "b");
+				b7.addModifies(5, "a");
+				b7.addModifies(7, "a");
+				b7.addModifies(8, "b");
 
-			PKBBuilder b8;
-			pkb8 = std::make_shared<PKB>(b8.build());
+				b7.addUses("procedure", "a");
+				b7.addUses(2, "a");
+				b7.addUses(4, "a");
+				b7.addUses(6, "a");
+				b7.addUses(8, "a");
+				b7.addUses(9, "a");
+
+				b7.addNext(1, 2);
+				b7.addNext(2, 3);
+				b7.addNext(3, 4);
+				b7.addNext(4, 5);
+				b7.addNext(5, 6);
+				b7.addNext(6, 7);
+				b7.addNext(7, 8);
+				b7.addNext(8, 9);
+
+				ASSIGN_NODE_PTR a1 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a2 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a3 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a4 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a5 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a8 = std::make_shared<AssignNode>();
+
+				PRINT_NODE_PTR p6 = std::make_shared<PrintNode>();
+				PRINT_NODE_PTR p9 = std::make_shared<PrintNode>();
+
+				READ_NODE_PTR r7 = std::make_shared<ReadNode>();
+		
+				a1->setStatementNumber(1);
+				a2->setStatementNumber(2);
+				a3->setStatementNumber(3);
+				a4->setStatementNumber(4);
+				a5->setStatementNumber(5);
+				a8->setStatementNumber(8);
+
+				p6->setStatementNumber(6);
+				p9->setStatementNumber(9);
+
+				r7->setStatementNumber(7);
+
+				b7.addAssignNode(a1);
+				b7.addAssignNode(a2);
+				b7.addAssignNode(a3);
+				b7.addAssignNode(a4);
+				b7.addAssignNode(a5);
+				b7.addAssignNode(a8);
+
+				b7.addPrintNode(p6);
+				b7.addPrintNode(p9);
+
+				b7.addReadNode(r7);
+
+				pkb7 = std::make_shared<PKB>(b7.build());
+			}
+
+			{
+				PKBBuilder b8;
+				b8.addModifies("procedure", "a");
+				b8.addModifies("procedure", "b");
+				b8.addModifies("procedure", "c");
+				b8.addModifies("procedure", "d");
+				b8.addModifies(1, "b");
+				b8.addModifies(2, "b");
+				b8.addModifies(2, "c");
+				b8.addModifies(2, "d");
+				b8.addModifies(3, "b");
+				b8.addModifies(4, "c");
+				b8.addModifies(5, "d");
+				b8.addModifies(6, "a");
+				b8.addModifies(6, "c");
+				b8.addModifies(6, "d");
+				b8.addModifies(7, "a");
+				b8.addModifies(8, "c");
+				b8.addModifies(9, "d");
+
+				b8.addUses("procedure", "a");
+				b8.addUses("procedure", "b");
+				b8.addUses("procedure", "c");
+				b8.addUses("procedure", "d");
+				b8.addUses(1, "a");
+				b8.addUses(2, "d");
+				b8.addUses(2, "c");
+				b8.addUses(3, "d");
+				b8.addUses(5, "c");
+				b8.addUses(6, "b");
+				b8.addUses(6, "c");
+				b8.addUses(7, "b");
+				b8.addUses(8, "b");
+				b8.addUses(9, "c");
+
+				b8.addNext(1, 2);
+				b8.addNext(2, 3);
+				b8.addNext(2, 6);
+				b8.addNext(3, 4);
+				b8.addNext(4, 5);
+				b8.addNext(5, 2);
+				b8.addNext(6, 7);
+				b8.addNext(6, 8);
+				b8.addNext(8, 9);
+
+				ASSIGN_NODE_PTR a1 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a3 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a4 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a5 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a7 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a8 = std::make_shared<AssignNode>();
+				ASSIGN_NODE_PTR a9 = std::make_shared<AssignNode>();
+
+				a1->setStatementNumber(1);
+				a3->setStatementNumber(3);
+				a4->setStatementNumber(4);
+				a5->setStatementNumber(5);
+				a7->setStatementNumber(7);
+				a8->setStatementNumber(8);
+				a9->setStatementNumber(9);
+
+				b8.addAssignNode(a1);
+				b8.addAssignNode(a3);
+				b8.addAssignNode(a4);
+				b8.addAssignNode(a5);
+				b8.addAssignNode(a7);
+				b8.addAssignNode(a8);
+				b8.addAssignNode(a9);
+
+				pkb8 = std::make_shared<PKB>(b8.build());
+			}
 		}
 
 		/* isFollows */
@@ -798,27 +934,19 @@ namespace UnitTesting {
 			Assert::IsFalse(pkb2->isNextTransitive(6, 7));
 		}
 
-		TEST_METHOD(isAffects_Stored_True) {
+		TEST_METHOD(isAffects_Default_True) {
 			Assert::IsTrue(pkb7->isAffects(1, 2));
 			Assert::IsTrue(pkb7->isAffects(3, 4));
-			Assert::IsTrue(pkb7->isAffects(5, 6));
-			Assert::IsTrue(pkb7->isAffects(7, 8));
-			Assert::IsTrue(pkb7->isAffects(7, 9));
 		}
 
 		TEST_METHOD(isAffects_Transitive_True) {
-			Assert::IsTrue(pkb8->isAffectsTransitive(1, 3));
 			Assert::IsTrue(pkb8->isAffectsTransitive(1, 7));
-			Assert::IsTrue(pkb8->isAffectsTransitive(2, 7));
-			Assert::IsTrue(pkb8->isAffectsTransitive(5, 7));
+			Assert::IsTrue(pkb8->isAffectsTransitive(3, 7));
 		}
 
 		TEST_METHOD(isAffects_InvalidStmtNum_False) {
 			Assert::IsFalse(pkb7->isAffects(1, 4));
 			Assert::IsFalse(pkb7->isAffectsTransitive(1, 4));
-
-			Assert::IsFalse(pkb8->isAffectsTransitive(1, 6));
-			Assert::IsFalse(pkb8->isAffectsTransitive(5, 6));
 		}
 	};
 }

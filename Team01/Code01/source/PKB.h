@@ -21,6 +21,7 @@
 #include "PKB/Relationships/CallsTable.h"
 #include "PKB/Relationships/NextTable.h"
 #include "PKB/Relationships/AffectsTable.h"
+#include "PKB/Relationships/StatementTypeTable.h"
 
 /* 
 Overview: The PKB that contains design entities and relationships of a given SIMPLE source code 
@@ -336,5 +337,5 @@ protected:
     CALLS_TABLE calls_table_;
     NEXT_TABLE next_table_;
     AFFECTS_TABLE affects_table_;
-    CFG cfg_;
+    STMT_TYPE_TABLE stmt_type_table_;
 };

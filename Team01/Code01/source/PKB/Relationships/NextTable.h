@@ -32,5 +32,5 @@ public:
 
 private:
     CFG cfg_;
-    STMT_RELATION_TABLE relationship_;
+    std::unordered_set<std::pair<STMT_NUM, STMT_NUM>> relationship_;
 };

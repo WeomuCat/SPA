@@ -21,20 +21,22 @@ void RelationshipTransitiveTable<T>::preComputeTransitive() {
             queue.pop();
 
             // Continue if t has no children statements
-            auto it2 = children_.find(t);
-            if (it2 == children_.end()) {
+            auto iter = children_.find(t);
+            if (iter == children_.end()) {
                 continue;
             }
 
-            // Iterate children of t1 and add to queue and memoize
-            for (T c : it2->second) {
+            // Iterate children of t and add to queue
+            for (T c : iter->second) {
                 // Continue if c has been discovered
                 if (discovered.count(c) > 0) {
                     continue;
                 }
+
+                relationship_transitive_.insert({ start, c });
+
                 queue.push(c);
                 discovered.insert(c);
-                relationship_transitive_.insert({ start, c });
             }
         }
     }

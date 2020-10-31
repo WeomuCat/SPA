@@ -25,7 +25,7 @@ BOOLEAN_TYPE NextTable::isNextTransitive(STMT_NUM s1, STMT_NUM s2) {
             continue;
         }
 
-        // Iterate children of t1 and add to queue and memoize
+        // Iterate children of t1 and add to queue
         for (STMT_NUM c : it2->second) {
             // Goal was found!
             if (c == s2) {
