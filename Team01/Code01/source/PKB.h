@@ -308,12 +308,6 @@ public:
     */
     PROGRAM_NODE_PTR getProgramNode();
 
-    /*==== Miscellaneous ====*/
-    /*
-    Description: Clears the cache of the PKB.
-    */
-    void clearCache();
-
 protected:
     PROGRAM_NODE_PTR program_node_ptr_;
 
