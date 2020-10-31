@@ -1,13 +1,15 @@
 #pragma once
 
-#include "../../AbstractDataTypes.h"
-#include "RelationshipTransitiveTable.h"
-#include "RelationshipTransitiveTable.cpp"
+#include <unordered_map>
+#include <unordered_set>
+#include <queue>
 
-class NextTable : public RelationshipTransitiveTable<STMT_NUM> {
+#include "../../AbstractDataTypes.h"
+#include "../Hashing.h"
+
+class NextTable {
 
 public:
-    
     /*
     Description: Stores the relationship Next(s1, s2) in the table.
     */
@@ -22,4 +24,13 @@ public:
     Description: Returns a BOOLEAN_TYPE indicating whether or not Next*(s1, s2) holds.
     */
     BOOLEAN_TYPE isNextTransitive(STMT_NUM s1, STMT_NUM s2);
+
+    /*
+    Description: Returns the CFG of the given source that is based off next relation.
+    */
+    CFG getControlFlowGraph();
+
+private:
+    CFG cfg_;
+    STMT_RELATION_TABLE relationship_;
 };

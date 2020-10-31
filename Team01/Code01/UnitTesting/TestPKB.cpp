@@ -472,18 +472,9 @@ namespace UnitTesting {
 			pkb6 = std::make_shared<PKB>(b6.build());
 
 			PKBBuilder b7;
-			b7.addAffects(1, 2);
-			b7.addAffects(3, 4);
-			b7.addAffects(5, 6);
-			b7.addAffects(7, 8);
-			b7.addAffects(7, 9);
 			pkb7 = std::make_shared<PKB>(b7.build());
 
 			PKBBuilder b8;
-			b8.addAffects(1, 2);
-			b8.addAffects(2, 3);
-			b8.addAffects(3, 7);
-			b8.addAffects(5, 7);
 			pkb8 = std::make_shared<PKB>(b8.build());
 		}
 

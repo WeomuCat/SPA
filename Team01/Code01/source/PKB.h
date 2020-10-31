@@ -336,4 +336,5 @@ protected:
     CALLS_TABLE calls_table_;
     NEXT_TABLE next_table_;
     AFFECTS_TABLE affects_table_;
+    CFG cfg_;
 };

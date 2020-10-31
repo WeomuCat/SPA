@@ -80,14 +80,16 @@ void PKBBuilder::addNext(STMT_NUM s1, STMT_NUM s2) {
     next_table_.addNext(s1, s2);
 }
 
-void PKBBuilder::addAffects(STMT_NUM s1, STMT_NUM s2) {
-    affects_table_.addAffects(s1, s2);
-}
-
 void PKBBuilder::setProgramNode(PROGRAM_NODE_PTR program_node_ptr) {
     program_node_ptr_ = program_node_ptr;
 }
 
 PKB PKBBuilder::build() {
+    follows_table_.preComputeTransitive();
+    parent_table_.preComputeTransitive();
+    calls_table_.preComputeTransitive();
+    affects_table_.setModifiesTable(modifies_table_);
+    affects_table_.setUsesTable(uses_table_);
+    affects_table_.setControlFlowGraph(next_table_.getControlFlowGraph()); 
     return (PKB)*this;
 }

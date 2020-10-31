@@ -4,6 +4,7 @@
 #include<vector>
 #include<string>
 #include<unordered_map>
+#include<unordered_set>
 
 // Forward Declaration
 
@@ -127,6 +128,8 @@ typedef ModifiesTable MODIFIES_TABLE;
 typedef CallsTable CALLS_TABLE;
 typedef NextTable NEXT_TABLE;
 typedef AffectsTable AFFECTS_TABLE;
+typedef std::unordered_map<int, std::vector<int>> CFG;
+typedef std::unordered_set<std::pair<int, int>> STMT_RELATION_TABLE;
 
 // QP
 typedef std::vector<std::string> QUERY_RESULT;
