@@ -277,6 +277,59 @@ bool AttrRefManager::isDefaultValueTypeForSynonymType(SYNONYM_VALUE synonym_valu
 	}
 }
 
+ATTR_REF_VALUES_LIST AttrRefManager::getDefaultValues(PKB pkb, SYNONYM_TYPE synonym_type, SYNONYM_VALUE value) {
+	if (synonym_type == QuerySynonymType::call) {
+		// get all call stmt num that has the same procName as the value given
+		ATTR_REF_VALUES_LIST call_stmt_list;
+		CALL_NODE_PTR_LIST call_nodes = pkb.getCalls();
+
+		for (std::shared_ptr<CallNode> call_node : call_nodes) {
+			PROC_NAME proc_name = call_node->getCalleeProcedureName();
+			if (value.compare(proc_name) == 0) {
+				STMT_NUM call_stmtnum = call_node->getStatementNumber();
+				call_stmt_list.push_back(std::to_string(call_stmtnum));
+			}
+		}
+
+		return call_stmt_list;	
+	}
+
+	if (synonym_type == QuerySynonymType::read) {
+		ATTR_REF_VALUES_LIST read_stmt_list;
+		READ_NODE_PTR_LIST read_nodes = pkb.getReads();
+
+		for (std::shared_ptr<ReadNode> read_node : read_nodes) {
+			std::shared_ptr<VariableNode> var_node = read_node->getVariableNode();
+			VAR_NAME var_name = var_node->getVariableName();
+
+			if (value.compare(var_name) == 0) {
+				STMT_NUM read_stmt_num = read_node->getStatementNumber();
+				read_stmt_list.push_back(std::to_string(read_stmt_num));
+			}
+		}
+
+		return read_stmt_list;
+	}
+
+	if (synonym_type == QuerySynonymType::print) {
+		ATTR_REF_VALUES_LIST print_stmt_list;
+		PRINT_NODE_PTR_LIST print_nodes = pkb.getPrints();
+
+		for (std::shared_ptr<PrintNode> print_node : print_nodes) {
+			std::shared_ptr<VariableNode> var_node = print_node->getVariableNode();
+			VAR_NAME var_name = var_node->getVariableName();
+
+			if (value.compare(var_name) == 0) {
+				STMT_NUM print_stmt_num = print_node->getStatementNumber();
+				print_stmt_list.push_back(std::to_string(print_stmt_num));
+			}
+		}
+
+		return print_stmt_list;
+	}
+
+}
+
 /*========================== Private Methods ==============================*/
 
 ATTR_REF_VALUES_LIST AttrRefManager::getAssignValues(PKB pkb, ATTRIBUTE attribute) {
@@ -293,7 +346,8 @@ ATTR_REF_VALUES_LIST AttrRefManager::getCallsValues(PKB pkb, ATTRIBUTE attribute
 		return stringifyIntList(pkb.getCallNumList());
 	}
 	else if (attribute == AttributeType::procName) {
-		return pkb.getCallProcNameList();
+		PROC_NAME_LIST proc_names = pkb.getCallProcNameList();
+		return getUniqueValues(proc_names);
 	}
 	else {
 		throwsInvalidAttrRefException();
@@ -323,7 +377,8 @@ ATTR_REF_VALUES_LIST AttrRefManager::getPrintValues(PKB pkb, ATTRIBUTE attribute
 		return stringifyIntList(pkb.getPrintNumList());
 	}
 	else if (attribute == AttributeType::varName) {
-		return pkb.getPrintVarNameList();
+		VAR_NAME_LIST var_names = pkb.getPrintVarNameList();
+		return getUniqueValues(var_names);
 	}
 	else {
 		throwsInvalidAttrRefException();
@@ -332,7 +387,8 @@ ATTR_REF_VALUES_LIST AttrRefManager::getPrintValues(PKB pkb, ATTRIBUTE attribute
 
 ATTR_REF_VALUES_LIST AttrRefManager::getProcedureValues(PKB pkb, ATTRIBUTE attribute) {
 	if (attribute == AttributeType::procName) {
-		return pkb.getProcedureNameList();
+		PROC_NAME_LIST proc_names = pkb.getProcedureNameList();
+		return getUniqueValues(proc_names);
 	}
 	else {
 		throwsInvalidAttrRefException();
@@ -344,7 +400,8 @@ ATTR_REF_VALUES_LIST AttrRefManager::getReadValues(PKB pkb, ATTRIBUTE attribute)
 		return stringifyIntList(pkb.getReadNumList());
 	}
 	else if (attribute == AttributeType::varName) {
-		return pkb.getReadVarNameList();
+		VAR_NAME_LIST var_names = pkb.getReadVarNameList();
+		return getUniqueValues(var_names);
 	}
 	else {
 		throwsInvalidAttrRefException();
@@ -393,4 +450,12 @@ void AttrRefManager::throwsInvalidAttrRefException() {
 
 bool AttrRefManager::isDigit(SYNONYM_VALUE string) {
 	return std::isdigit(*string.begin());
+}
+
+ATTR_REF_VALUES_LIST AttrRefManager::getUniqueValues(SYNONYM_VALUES_LIST all_values) {
+	std::set<SYNONYM_VALUE> unique_set(all_values.begin(), all_values.end());
+	ATTR_REF_VALUES_LIST unique_values_list;
+	std::copy(unique_set.begin(), unique_set.end(), std::back_inserter(unique_values_list));
+
+	return unique_values_list;
 }
