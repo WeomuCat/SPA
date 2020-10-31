@@ -1,7 +1,6 @@
 #include "AssignTable.h"
 
 INDEX AssignTable::addAssignNode(ASSIGN_NODE_PTR node) {
-    STMT_NUM s = node->getStatementNumber();
     return addNode(node);
 }
 
