@@ -1758,7 +1758,7 @@
 				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
 
 				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
-					this->pkb_builder_.addNext(last_stmt_num, new_while_node->getStatementNumber());
+					this->pkb_builder_.addNext(last_stmt_num, new_if_node->getStatementNumber());
 				}
 			}
 		}
@@ -2144,7 +2144,7 @@
 				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
 
 				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
-					this->pkb_builder_.addNext(last_stmt_num, new_while_node->getStatementNumber());
+					this->pkb_builder_.addNext(last_stmt_num, new_assign_node->getStatementNumber());
 				}
 			}
 		}
@@ -2295,7 +2295,7 @@
 				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
 
 				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
-					this->pkb_builder_.addNext(last_stmt_num, new_while_node->getStatementNumber());
+					this->pkb_builder_.addNext(last_stmt_num, new_read_node->getStatementNumber());
 				}
 			}
 		}
@@ -2404,7 +2404,7 @@
 				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
 
 				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
-					this->pkb_builder_.addNext(last_stmt_num, new_while_node->getStatementNumber());
+					this->pkb_builder_.addNext(last_stmt_num, new_print_node->getStatementNumber());
 				}
 			}
 		}
@@ -2558,7 +2558,7 @@
 				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
 
 				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
-					this->pkb_builder_.addNext(last_stmt_num, new_while_node->getStatementNumber());
+					this->pkb_builder_.addNext(last_stmt_num, new_call_node->getStatementNumber());
 				}
 			}
 		}
