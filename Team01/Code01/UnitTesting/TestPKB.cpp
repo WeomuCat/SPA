@@ -941,12 +941,20 @@ namespace UnitTesting {
 
 		TEST_METHOD(isAffects_Transitive_True) {
 			Assert::IsTrue(pkb8->isAffectsTransitive(1, 7));
+			Assert::IsTrue(pkb8->isAffectsTransitive(4, 3));
+			Assert::IsTrue(pkb8->isAffectsTransitive(1, 9));
 			Assert::IsTrue(pkb8->isAffectsTransitive(3, 7));
+			Assert::IsTrue(pkb8->isAffectsTransitive(4, 7));
 		}
 
-		TEST_METHOD(isAffects_InvalidStmtNum_False) {
+		TEST_METHOD(isAffects_Invalid_False) {
+			Assert::IsFalse(pkb7->isAffects(0, 1));
 			Assert::IsFalse(pkb7->isAffects(1, 4));
 			Assert::IsFalse(pkb7->isAffectsTransitive(1, 4));
+			Assert::IsFalse(pkb8->isAffects(1, 4));
+			Assert::IsFalse(pkb8->isAffectsTransitive(1, 4));
+			Assert::IsFalse(pkb8->isAffects(4, 9));
 		}
 	};
 }
+
