@@ -1,27 +1,137 @@
+1 - Parent While Statement
+while w; stmt s;
+Select BOOLEAN such that Parent(w, s)
+TRUE
+1000
+1 - Parent While Statement
+while w; stmt s;
+Select BOOLEAN such that Parent(s, w)
+TRUE
+1000
+1 - Parent While Read
+while w; read r;
+Select BOOLEAN such that Parent(w, r)
+TRUE
+1000
+1 - Parent While Read
+while w; read r;
+Select BOOLEAN such that Parent(r, w)
+FALSE
+1000
+1 - Parent While Print
+while w; print p;
+Select BOOLEAN such that Parent(w, p)
+TRUE
+1000
+1 - Parent While Print
+while w; print p;
+Select BOOLEAN such that Parent(p, w)
+FALSE
+1000
+1 - Parent While Call
+while w; call c;
+Select BOOLEAN such that Parent(w, c)
+TRUE
+1000
+1 - Parent While Call
+while w; call c;
+Select BOOLEAN such that Parent(c, w)
+FALSE
+1000
+1 - Parent While Assign
+while w; assign a;
+Select BOOLEAN such that Parent(w, a)
+TRUE
+1000
+1 - Parent While Assign
+while w; assign a;
+Select BOOLEAN such that Parent(a, w)
+FALSE
+1000
+1 - Parent While ProgLine
+while w; prog_line n;
+Select BOOLEAN such that Parent(w, n)
+TRUE
+1000
+1 - Parent While ProgLine
+while w; prog_line n;
+Select BOOLEAN such that Parent(n, w)
+TRUE
+1000
+1 - Parent If Statement
+if i; stmt s;
+Select BOOLEAN such that Parent(i, s)
+TRUE
+1000
+1 - Parent If Statement
+if i; stmt s;
+Select BOOLEAN such that Parent(s, i)
+TRUE
+1000
+1 - Parent If Read
+if i; read r;
+Select BOOLEAN such that Parent(i, r)
+TRUE
+1000
+1 - Parent If Read
+if i; read r;
+Select BOOLEAN such that Parent(r, i)
+FALSE
+1000
+1 - Parent If Print
+if i; print p;
+Select BOOLEAN such that Parent(i, p)
+TRUE
+1000
+1 - Parent If Print
+if i; print p;
+Select BOOLEAN such that Parent(p, i)
+FALSE
+1000
+1 - Parent If Call
+if i; call c;
+Select BOOLEAN such that Parent(i, c)
+FALSE
+1000
+1 - Parent If Call
+if i; call c;
+Select BOOLEAN such that Parent(c, i)
+FALSE
+1000
+1 - Parent If ProgLine
+if i; prog_line n;
+Select BOOLEAN such that Parent(i, n)
+TRUE
+1000
+1 - Parent If ProgLine
+if i; prog_line n;
+Select BOOLEAN such that Parent(n, i)
+TRUE
+1000
+1 - Parent Statement Read
+stmt s; read r;
+Select BOOLEAN such that Parent(s, r)
+TRUE
+1000
+1 - Parent Statement Read
+stmt s; read r;
+Select BOOLEAN such that Parent(r, s)
+FALSE
+1000
 1 - Parent Read Print
 read r; print p;
 Select BOOLEAN such that Parent(r, p)
-TRUE
+FALSE
 1000
 1 - Parent Read Print
 read r; print p;
 Select BOOLEAN such that Parent(p, r)
-TRUE
-1000
-1 - Parent Read Call
-read r; call c;
-Select BOOLEAN such that Parent(r, c)
-TRUE
-1000
-1 - Parent Read Call
-read r; call c;
-Select BOOLEAN such that Parent(c, r)
 FALSE
 1000
 1 - Parent Print Call
 print p; call c;
 Select BOOLEAN such that Parent(p, c)
-TRUE
+FALSE
 1000
 1 - Parent Print Call
 print p; call c;
@@ -36,32 +146,32 @@ FALSE
 1 - Parent Call While
 call c; while w;
 Select BOOLEAN such that Parent(w, c)
-FALSE
+TRUE
 1000
 1 - Parent While If
 while w; if i;
 Select BOOLEAN such that Parent(w, i)
-FALSE
+TRUE
 1000
 1 - Parent While If
 while w; if i;
 Select BOOLEAN such that Parent(i, w)
-FALSE
+TRUE
 1000
 1 - Parent If Assign
 if i; assign a;
 Select BOOLEAN such that Parent(i, a)
-FALSE
+TRUE
 1000
 1 - Parent If Assign
 if i; assign a;
 Select BOOLEAN such that Parent(a, i)
-TRUE
+FALSE
 1000
 1 - Parent Assign ProgLine
 assign a; prog_line n;
 Select BOOLEAN such that Parent(a, n)
-TRUE
+FALSE
 1000
 1 - Parent Assign ProgLine
 assign a; prog_line n;

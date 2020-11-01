@@ -1,0 +1,250 @@
+1 - Next Statement
+stmt s;
+Select <s> such that Next(s, s)
+😒
+1000
+1 - Next Statement
+stmt s;
+Select <s, s> such that Next(s, s)
+😒
+1000
+1 - Next Statement
+stmt s;
+Select <s, s.stmt#> such that Next(s, s)
+😒
+1000
+1 - Next Statement
+stmt s1, s2;
+Select <s1, s2> such that Next(s1, s2)
+😒
+1000
+1 - Next Statement
+stmt s1, s2, s3;
+Select <s1, s2> such that Next(s2, s3)
+😒
+1000
+1 - Next Statement
+stmt s1, s2, s3, s4;
+Select <s1, s2> such that Next(s3, s4)
+😒
+1000
+1 - Next Read
+read r;
+Select <r> such that Next(r, r)
+😒
+1000
+1 - Next Read
+read r;
+Select <r, r> such that Next(r, r)
+😒
+1000
+1 - Next Read
+read r;
+Select <r, r.stmt#> such that Next(r, r)
+😒
+1000
+1 - Next Read
+read r;
+Select <r, r.varName> such that Next(r, r)
+😒
+1000
+1 - Next Read
+read r1, r2;
+Select <r1, r2> such that Next(r1, r2)
+😒
+1000
+1 - Next Read
+read r1, r2, r3;
+Select <r1, r2> such that Next(r2, r3)
+😒
+1000
+1 - Next Read
+read r1, r2, r3, r4;
+Select <r1, r2> such that Next(r3, r4)
+😒
+1000
+1 - Next Print
+print p;
+Select <p> such that Next(p, p)
+😒
+1000
+1 - Next Print
+print p;
+Select <p, p> such that Next(p, p)
+😒
+1000
+1 - Next Print
+print p;
+Select <p, p.stmt#> such that Next(p, p)
+😒
+1000
+1 - Next Print
+print p;
+Select <p, p.varName> such that Next(p, p)
+😒
+1000
+1 - Next Print
+print p1, p2;
+Select <p1, p2> such that Next(p1, p2)
+😒
+1000
+1 - Next Print
+print p1, p2, p3;
+Select <p1, p2> such that Next(p2, p3)
+😒
+1000
+1 - Next Print
+print p1, p2, p3, p4;
+Select <p1, p2> such that Next(p3, p4)
+😒
+1000
+1 - Next Call
+call c;
+Select <c> such that Next(c, c)
+😒
+1000
+1 - Next Call
+call c;
+Select <c, c> such that Next(c, c)
+😒
+1000
+1 - Next Call
+call c;
+Select <c, c.stmt#> such that Next(c, c)
+😒
+1000
+1 - Next Call
+call c;
+Select <c, c.procName> such that Next(c, c)
+😒
+1000
+1 - Next Call
+call c1, c2;
+Select <c1, c2> such that Next(c1, c2)
+😒
+1000
+1 - Next Call
+call c1, c2, c3;
+Select <c1, c2> such that Next(c2, c3)
+😒
+1000
+1 - Next Call
+call c1, c2, c3, c4;
+Select <c1, c2> such that Next(c3, c4)
+😒
+1000
+1 - Next While
+while w;
+Select <w> such that Next(w, w)
+😒
+1000
+1 - Next While
+while w;
+Select <w, w> such that Next(w, w)
+😒
+1000
+1 - Next While
+while w;
+Select <w, w.stmt#> such that Next(w, w)
+😒
+1000
+1 - Next While
+while w1, w2;
+Select <w1, w2> such that Next(w1, w2)
+😒
+1000
+1 - Next While
+while w1, w2, w3;
+Select <w1, w2> such that Next(w2, w3)
+😒
+1000
+1 - Next While
+while w1, w2, w3, w4;
+Select <w1, w2> such that Next(w3, w4)
+😒
+1000
+1 - Next If
+if i;
+Select <i> such that Next(i, i)
+😒
+1000
+1 - Next If
+if i;
+Select <i, i> such that Next(i, i)
+😒
+1000
+1 - Next If
+if i;
+Select <i, i.stmt#> such that Next(i, i)
+😒
+1000
+1 - Next If
+if i1, i2;
+Select <i1, i2> such that Next(i1, i2)
+😒
+1000
+1 - Next If
+if i1, i2, i3;
+Select <i1, i2> such that Next(i2, i3)
+😒
+1000
+1 - Next If
+if i1, i2, i3, i4;
+Select <i1, i2> such that Next(i3, i4)
+😒
+1000
+1 - Next Assign
+assign a;
+Select <a> such that Next(a, a)
+😒
+1000
+1 - Next Assign
+assign a;
+Select <a, a> such that Next(a, a)
+😒
+1000
+1 - Next Assign
+assign a;
+Select <a, a.stmt#> such that Next(a, a)
+😒
+1000
+1 - Next Assign
+assign a1, a2;
+Select <a1, a2> such that Next(a1, a2)
+😒
+1000
+1 - Next Assign
+assign a1, a2, a3;
+Select <a1, a2> such that Next(a2, a3)
+😒
+1000
+1 - Next Assign
+assign a1, a2, a3, a4;
+Select <a1, a2> such that Next(a3, a4)
+😒
+1000
+1 - Next ProgLine
+prog_line n;
+Select <n> such that Next(n, n)
+😒
+1000
+1 - Next ProgLine
+prog_line n;
+Select <n, n> such that Next(n, n)
+😒
+1000
+1 - Next ProgLine
+prog_line n1, n2;
+Select <n1, n2> such that Next(n1, n2)
+😒
+1000
+1 - Next ProgLine
+prog_line n1, n2, n3;
+Select <n1, n2> such that Next(n2, n3)
+😒
+1000
+1 - Next ProgLine
+prog_line n1, n2, n3, n4;
+Select <n1, n2> such that Next(n3, n4)
+😒
+1000

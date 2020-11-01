@@ -10,12 +10,12 @@ FALSE
 1000
 1 - Parent Wildcard
 constant c;
-Select BOOLEAN such that Parent(1, _)
+Select BOOLEAN such that Parent(2, _)
 TRUE
 1000
 1 - Parent Wildcard
 constant c;
-Select BOOLEAN such that Parent(_, 1)
+Select BOOLEAN such that Parent(_, 2)
 FALSE
 1000
 1 - Parent Wildcard
@@ -25,12 +25,12 @@ TRUE
 1000
 1 - Parent Statement
 stmt s;
-Select BOOLEAN such that Parent(1, s)
+Select BOOLEAN such that Parent(2, s)
 TRUE
 1000
 1 - Parent Statement
 stmt s;
-Select BOOLEAN such that Parent(s, 1)
+Select BOOLEAN such that Parent(s, 2)
 FALSE
 1000
 1 - Parent Statement
@@ -55,13 +55,13 @@ TRUE
 1000
 1 - Parent Read
 read r;
-Select BOOLEAN such that Parent(24, r)
-FALSE
+Select BOOLEAN such that Parent(4, r)
+TRUE
 1000
 1 - Parent Read
 read r;
-Select BOOLEAN such that Parent(r, 24)
-TRUE
+Select BOOLEAN such that Parent(r, 4)
+FALSE
 1000
 1 - Parent Read
 read r;
@@ -71,7 +71,7 @@ FALSE
 1 - Parent Read
 read r;
 Select BOOLEAN such that Parent(r, _)
-TRUE
+FALSE
 1000
 1 - Parent Read
 read r;
@@ -85,13 +85,13 @@ FALSE
 1000
 1 - Parent Print
 print p;
-Select BOOLEAN such that Parent(19, p)
-FALSE
+Select BOOLEAN such that Parent(2, p)
+TRUE
 1000
 1 - Parent Print
 print p;
-Select BOOLEAN such that Parent(p, 19)
-TRUE
+Select BOOLEAN such that Parent(p, 2)
+FALSE
 1000
 1 - Parent Print
 print p;
@@ -101,7 +101,7 @@ FALSE
 1 - Parent Print
 print p;
 Select BOOLEAN such that Parent(p, _)
-TRUE
+FALSE
 1000
 1 - Parent Print
 print p;
@@ -115,12 +115,12 @@ FALSE
 1000
 1 - Parent Call
 call c;
-Select BOOLEAN such that Parent(1, c)
-FALSE
+Select BOOLEAN such that Parent(4, c)
+TRUE
 1000
 1 - Parent Call
 call c;
-Select BOOLEAN such that Parent(c, 1)
+Select BOOLEAN such that Parent(c, 4)
 FALSE
 1000
 1 - Parent Call
@@ -145,12 +145,12 @@ FALSE
 1000
 1 - Parent While
 while w;
-Select BOOLEAN such that Parent(3, w)
+Select BOOLEAN such that Parent(2, w)
 TRUE
 1000
 1 - Parent While
 while w;
-Select BOOLEAN such that Parent(w, 3)
+Select BOOLEAN such that Parent(w, 2)
 FALSE
 1000
 1 - Parent While
@@ -175,12 +175,12 @@ FALSE
 1000
 1 - Parent If
 if i;
-Select BOOLEAN such that Parent(1, i)
+Select BOOLEAN such that Parent(15, i)
 TRUE
 1000
 1 - Parent If
 if i;
-Select BOOLEAN such that Parent(i, 1)
+Select BOOLEAN such that Parent(i, 15)
 FALSE
 1000
 1 - Parent If
@@ -206,12 +206,12 @@ FALSE
 1 - Parent Assign
 assign a;
 Select BOOLEAN such that Parent(2, a)
-FALSE
+TRUE
 1000
 1 - Parent Assign
 assign a;
 Select BOOLEAN such that Parent(a, 2)
-TRUE
+FALSE
 1000
 1 - Parent Assign
 assign a;
@@ -221,7 +221,7 @@ FALSE
 1 - Parent Assign
 assign a;
 Select BOOLEAN such that Parent(a, _)
-TRUE
+FALSE
 1000
 1 - Parent Assign
 assign a;
@@ -241,7 +241,7 @@ TRUE
 1 - Parent ProgLine
 prog_line n;
 Select BOOLEAN such that Parent(n, 2)
-TRUE
+FALSE
 1000
 1 - Parent ProgLine
 prog_line n;

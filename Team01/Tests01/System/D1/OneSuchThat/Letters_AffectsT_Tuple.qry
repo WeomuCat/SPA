@@ -1,0 +1,250 @@
+1 - Affects Statement
+stmt s;
+Select <s> such that Affects(s, s)
+😒
+1000
+1 - Affects Statement
+stmt s;
+Select <s, s> such that Affects(s, s)
+😒
+1000
+1 - Affects Statement
+stmt s;
+Select <s, s.stmt#> such that Affects(s, s)
+😒
+1000
+1 - Affects Statement
+stmt s1, s2;
+Select <s1, s2> such that Affects(s1, s2)
+😒
+1000
+1 - Affects Statement
+stmt s1, s2, s3;
+Select <s1, s2> such that Affects(s2, s3)
+😒
+1000
+1 - Affects Statement
+stmt s1, s2, s3, s4;
+Select <s1, s2> such that Affects(s3, s4)
+😒
+1000
+1 - Affects Read
+read r;
+Select <r> such that Affects(r, r)
+😒
+1000
+1 - Affects Read
+read r;
+Select <r, r> such that Affects(r, r)
+😒
+1000
+1 - Affects Read
+read r;
+Select <r, r.stmt#> such that Affects(r, r)
+😒
+1000
+1 - Affects Read
+read r;
+Select <r, r.varName> such that Affects(r, r)
+😒
+1000
+1 - Affects Read
+read r1, r2;
+Select <r1, r2> such that Affects(r1, r2)
+😒
+1000
+1 - Affects Read
+read r1, r2, r3;
+Select <r1, r2> such that Affects(r2, r3)
+😒
+1000
+1 - Affects Read
+read r1, r2, r3, r4;
+Select <r1, r2> such that Affects(r3, r4)
+😒
+1000
+1 - Affects Print
+print p;
+Select <p> such that Affects(p, p)
+😒
+1000
+1 - Affects Print
+print p;
+Select <p, p> such that Affects(p, p)
+😒
+1000
+1 - Affects Print
+print p;
+Select <p, p.stmt#> such that Affects(p, p)
+😒
+1000
+1 - Affects Print
+print p;
+Select <p, p.varName> such that Affects(p, p)
+😒
+1000
+1 - Affects Print
+print p1, p2;
+Select <p1, p2> such that Affects(p1, p2)
+😒
+1000
+1 - Affects Print
+print p1, p2, p3;
+Select <p1, p2> such that Affects(p2, p3)
+😒
+1000
+1 - Affects Print
+print p1, p2, p3, p4;
+Select <p1, p2> such that Affects(p3, p4)
+😒
+1000
+1 - Affects Call
+call c;
+Select <c> such that Affects(c, c)
+😒
+1000
+1 - Affects Call
+call c;
+Select <c, c> such that Affects(c, c)
+😒
+1000
+1 - Affects Call
+call c;
+Select <c, c.stmt#> such that Affects(c, c)
+😒
+1000
+1 - Affects Call
+call c;
+Select <c, c.procName> such that Affects(c, c)
+😒
+1000
+1 - Affects Call
+call c1, c2;
+Select <c1, c2> such that Affects(c1, c2)
+😒
+1000
+1 - Affects Call
+call c1, c2, c3;
+Select <c1, c2> such that Affects(c2, c3)
+😒
+1000
+1 - Affects Call
+call c1, c2, c3, c4;
+Select <c1, c2> such that Affects(c3, c4)
+😒
+1000
+1 - Affects While
+while w;
+Select <w> such that Affects(w, w)
+😒
+1000
+1 - Affects While
+while w;
+Select <w, w> such that Affects(w, w)
+😒
+1000
+1 - Affects While
+while w;
+Select <w, w.stmt#> such that Affects(w, w)
+😒
+1000
+1 - Affects While
+while w1, w2;
+Select <w1, w2> such that Affects(w1, w2)
+😒
+1000
+1 - Affects While
+while w1, w2, w3;
+Select <w1, w2> such that Affects(w2, w3)
+😒
+1000
+1 - Affects While
+while w1, w2, w3, w4;
+Select <w1, w2> such that Affects(w3, w4)
+😒
+1000
+1 - Affects If
+if i;
+Select <i> such that Affects(i, i)
+😒
+1000
+1 - Affects If
+if i;
+Select <i, i> such that Affects(i, i)
+😒
+1000
+1 - Affects If
+if i;
+Select <i, i.stmt#> such that Affects(i, i)
+😒
+1000
+1 - Affects If
+if i1, i2;
+Select <i1, i2> such that Affects(i1, i2)
+😒
+1000
+1 - Affects If
+if i1, i2, i3;
+Select <i1, i2> such that Affects(i2, i3)
+😒
+1000
+1 - Affects If
+if i1, i2, i3, i4;
+Select <i1, i2> such that Affects(i3, i4)
+😒
+1000
+1 - Affects Assign
+assign a;
+Select <a> such that Affects(a, a)
+😒
+1000
+1 - Affects Assign
+assign a;
+Select <a, a> such that Affects(a, a)
+😒
+1000
+1 - Affects Assign
+assign a;
+Select <a, a.stmt#> such that Affects(a, a)
+😒
+1000
+1 - Affects Assign
+assign a1, a2;
+Select <a1, a2> such that Affects(a1, a2)
+😒
+1000
+1 - Affects Assign
+assign a1, a2, a3;
+Select <a1, a2> such that Affects(a2, a3)
+😒
+1000
+1 - Affects Assign
+assign a1, a2, a3, a4;
+Select <a1, a2> such that Affects(a3, a4)
+😒
+1000
+1 - Affects ProgLine
+prog_line n;
+Select <n> such that Affects(n, n)
+😒
+1000
+1 - Affects ProgLine
+prog_line n;
+Select <n, n> such that Affects(n, n)
+😒
+1000
+1 - Affects ProgLine
+prog_line n1, n2;
+Select <n1, n2> such that Affects(n1, n2)
+😒
+1000
+1 - Affects ProgLine
+prog_line n1, n2, n3;
+Select <n1, n2> such that Affects(n2, n3)
+😒
+1000
+1 - Affects ProgLine
+prog_line n1, n2, n3, n4;
+Select <n1, n2> such that Affects(n3, n4)
+😒
+1000

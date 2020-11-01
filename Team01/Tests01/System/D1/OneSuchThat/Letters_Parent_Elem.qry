@@ -10,12 +10,12 @@ none
 1000
 1 - Parent Wildcard
 constant c;
-Select c such that Parent(1, _)
+Select c such that Parent(2, _)
 1,2,3
 1000
 1 - Parent Wildcard
 constant c;
-Select c such that Parent(_, 1)
+Select c such that Parent(_, 2)
 none
 1000
 1 - Parent Wildcard
@@ -25,12 +25,12 @@ Select c such that Parent(_, _)
 1000
 1 - Parent Statement
 stmt s;
-Select s such that Parent(1, s)
-2
+Select s such that Parent(2, s)
+3,4,8,9
 1000
 1 - Parent Statement
 stmt s;
-Select s such that Parent(s, 1)
+Select s such that Parent(s, 2)
 none
 1000
 1 - Parent Statement
@@ -41,32 +41,32 @@ none
 1 - Parent Statement
 stmt s;
 Select s such that Parent(s, _)
-1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+15,17,2,4
 1000
 1 - Parent Statement
 stmt s;
 Select s such that Parent(_, s)
-10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
+16,17,18,19,20,21,3,4,5,6,7,8,9
 1000
 1 - Parent Statement
 stmt s1, s2;
 Select s1 such that Parent(s1, s2)
-1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+15,17,2,4
 1000
 1 - Parent Statement
 stmt s1, s2;
 Select s2 such that Parent(s1, s2)
-10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
+16,17,18,19,20,21,3,4,5,6,7,8,9
 1000
 1 - Parent Read
 read r;
-Select r such that Parent(24, r)
+Select r such that Parent(4, r)
+6
+1000
+1 - Parent Read
+read r;
+Select r such that Parent(r, 4)
 none
-1000
-1 - Parent Read
-read r;
-Select r such that Parent(r, 24)
-23
 1000
 1 - Parent Read
 read r;
@@ -76,12 +76,12 @@ none
 1 - Parent Read
 read r;
 Select r such that Parent(r, _)
-13,23,6
+none
 1000
 1 - Parent Read
 read r;
 Select r such that Parent(_, r)
-13,6
+20,6
 1000
 1 - Parent Read
 read r1, r2;
@@ -95,13 +95,13 @@ none
 1000
 1 - Parent Print
 print p;
-Select p such that Parent(19, p)
-none
+Select p such that Parent(2, p)
+8
 1000
 1 - Parent Print
 print p;
-Select p such that Parent(p, 19)
-18
+Select p such that Parent(p, 2)
+none
 1000
 1 - Parent Print
 print p;
@@ -111,12 +111,12 @@ none
 1 - Parent Print
 print p;
 Select p such that Parent(p, _)
-10,12,18,24,5,8
+none
 1000
 1 - Parent Print
 print p;
 Select p such that Parent(_, p)
-10,24
+18,5,8
 1000
 1 - Parent Print
 print p1, p2;
@@ -130,12 +130,12 @@ none
 1000
 1 - Parent Call
 call c;
-Select c such that Parent(1, c)
-none
+Select c such that Parent(4, c)
+7
 1000
 1 - Parent Call
 call c;
-Select c such that Parent(c, 1)
+Select c such that Parent(c, 4)
 none
 1000
 1 - Parent Call
@@ -151,7 +151,7 @@ none
 1 - Parent Call
 call c;
 Select c such that Parent(_, c)
-11,21,7
+21,7
 1000
 1 - Parent Call
 call c1, c2;
@@ -165,12 +165,12 @@ none
 1000
 1 - Parent While
 while w;
-Select w such that Parent(3, w)
+Select w such that Parent(2, w)
 4
 1000
 1 - Parent While
 while w;
-Select w such that Parent(w, 3)
+Select w such that Parent(w, 2)
 none
 1000
 1 - Parent While
@@ -181,12 +181,12 @@ none
 1 - Parent While
 while w;
 Select w such that Parent(w, _)
-15
+15,4
 1000
 1 - Parent While
 while w;
 Select w such that Parent(_, w)
-15,4
+4
 1000
 1 - Parent While
 while w1, w2;
@@ -200,12 +200,12 @@ none
 1000
 1 - Parent If
 if i;
-Select i such that Parent(1, i)
-2
+Select i such that Parent(15, i)
+17
 1000
 1 - Parent If
 if i;
-Select i such that Parent(i, 1)
+Select i such that Parent(i, 15)
 none
 1000
 1 - Parent If
@@ -221,7 +221,7 @@ Select i such that Parent(i, _)
 1 - Parent If
 if i;
 Select i such that Parent(_, i)
-17,2
+17
 1000
 1 - Parent If
 if i1, i2;
@@ -236,12 +236,12 @@ none
 1 - Parent Assign
 assign a;
 Select a such that Parent(2, a)
-none
+3,9
 1000
 1 - Parent Assign
 assign a;
 Select a such that Parent(a, 2)
-1
+none
 1000
 1 - Parent Assign
 assign a;
@@ -251,12 +251,12 @@ none
 1 - Parent Assign
 assign a;
 Select a such that Parent(a, _)
-1,14,16,3
+none
 1000
 1 - Parent Assign
 assign a;
 Select a such that Parent(_, a)
-14,19,22,25,9
+16,19,3,9
 1000
 1 - Parent Assign
 assign a1, a2;
@@ -271,12 +271,12 @@ none
 1 - Parent ProgLine
 prog_line n;
 Select n such that Parent(2, n)
-10
+3,4,8,9
 1000
 1 - Parent ProgLine
 prog_line n;
 Select n such that Parent(n, 2)
-1
+none
 1000
 1 - Parent ProgLine
 prog_line n;
@@ -286,20 +286,20 @@ none
 1 - Parent ProgLine
 prog_line n;
 Select n such that Parent(n, _)
-1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+15,17,2,4
 1000
 1 - Parent ProgLine
 prog_line n;
 Select n such that Parent(_, n)
-10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
+16,17,18,19,20,21,3,4,5,6,7,8,9
 1000
 1 - Parent ProgLine
 prog_line n1, n2;
 Select n1 such that Parent(n1, n2)
-1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+15,17,2,4
 1000
 1 - Parent ProgLine
 prog_line n1, n2;
 Select n2 such that Parent(n1, n2)
-10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
+16,17,18,19,20,21,3,4,5,6,7,8,9
 1000

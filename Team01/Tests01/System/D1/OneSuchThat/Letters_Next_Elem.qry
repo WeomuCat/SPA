@@ -1,0 +1,305 @@
+1 - Next Integer
+constant c;
+Select c such that Next(1, 2)
+1,2,3
+1000
+1 - Next Integer
+constant c;
+Select c such that Next(2, 1)
+none
+1000
+1 - Next Wildcard
+constant c;
+Select c such that Next(1, _)
+1,2,3
+1000
+1 - Next Wildcard
+constant c;
+Select c such that Next(_, 1)
+none
+1000
+1 - Next Wildcard
+constant c;
+Select c such that Next(_, _)
+😒
+1000
+1 - Next Statement
+stmt s;
+Select s such that Next(1, s)
+😒
+1000
+1 - Next Statement
+stmt s;
+Select s such that Next(s, 1)
+😒
+1000
+1 - Next Statement
+stmt s;
+Select s such that Next(s, s)
+😒
+1000
+1 - Next Statement
+stmt s;
+Select s such that Next(s, _)
+😒
+1000
+1 - Next Statement
+stmt s;
+Select s such that Next(_, s)
+😒
+1000
+1 - Next Statement
+stmt s1, s2;
+Select s1 such that Next(s1, s2)
+😒
+1000
+1 - Next Statement
+stmt s1, s2;
+Select s2 such that Next(s1, s2)
+😒
+1000
+1 - Next Read
+read r;
+Select r such that Next(17, r)
+😒
+1000
+1 - Next Read
+read r;
+Select r such that Next(r, 17)
+😒
+1000
+1 - Next Read
+read r;
+Select r such that Next(r, r)
+😒
+1000
+1 - Next Read
+read r;
+Select r such that Next(r, _)
+😒
+1000
+1 - Next Read
+read r;
+Select r such that Next(_, r)
+😒
+1000
+1 - Next Read
+read r1, r2;
+Select r1 such that Next(r1, r2)
+😒
+1000
+1 - Next Read
+read r1, r2;
+Select r2 such that Next(r1, r2)
+😒
+1000
+1 - Next Print
+print p;
+Select p such that Next(17, p)
+😒
+1000
+1 - Next Print
+print p;
+Select p such that Next(p, 17)
+😒
+1000
+1 - Next Print
+print p;
+Select p such that Next(p, p)
+😒
+1000
+1 - Next Print
+print p;
+Select p such that Next(p, _)
+😒
+1000
+1 - Next Print
+print p;
+Select p such that Next(_, p)
+😒
+1000
+1 - Next Print
+print p1, p2;
+Select p1 such that Next(p1, p2)
+😒
+1000
+1 - Next Print
+print p1, p2;
+Select p2 such that Next(p1, p2)
+😒
+1000
+1 - Next Call
+call c;
+Select c such that Next(19, c)
+😒
+1000
+1 - Next Call
+call c;
+Select c such that Next(c, 19)
+😒
+1000
+1 - Next Call
+call c;
+Select c such that Next(c, c)
+😒
+1000
+1 - Next Call
+call c;
+Select c such that Next(c, _)
+😒
+1000
+1 - Next Call
+call c;
+Select c such that Next(_, c)
+😒
+1000
+1 - Next Call
+call c1, c2;
+Select c1 such that Next(c1, c2)
+😒
+1000
+1 - Next Call
+call c1, c2;
+Select c2 such that Next(c1, c2)
+😒
+1000
+1 - Next While
+while w;
+Select w such that Next(3, w)
+😒
+1000
+1 - Next While
+while w;
+Select w such that Next(w, 3)
+😒
+1000
+1 - Next While
+while w;
+Select w such that Next(w, w)
+😒
+1000
+1 - Next While
+while w;
+Select w such that Next(w, _)
+😒
+1000
+1 - Next While
+while w;
+Select w such that Next(_, w)
+😒
+1000
+1 - Next While
+while w1, w2;
+Select w1 such that Next(w1, w2)
+😒
+1000
+1 - Next While
+while w1, w2;
+Select w2 such that Next(w1, w2)
+😒
+1000
+1 - Next If
+if i;
+Select i such that Next(1, i)
+😒
+1000
+1 - Next If
+if i;
+Select i such that Next(i, 1)
+😒
+1000
+1 - Next If
+if i;
+Select i such that Next(i, i)
+😒
+1000
+1 - Next If
+if i;
+Select i such that Next(i, _)
+😒
+1000
+1 - Next If
+if i;
+Select i such that Next(_, i)
+😒
+1000
+1 - Next If
+if i1, i2;
+Select i1 such that Next(i1, i2)
+😒
+1000
+1 - Next If
+if i1, i2;
+Select i2 such that Next(i1, i2)
+😒
+1000
+1 - Next Assign
+assign a;
+Select a such that Next(2, a)
+😒
+1000
+1 - Next Assign
+assign a;
+Select a such that Next(a, 2)
+😒
+1000
+1 - Next Assign
+assign a;
+Select a such that Next(a, a)
+😒
+1000
+1 - Next Assign
+assign a;
+Select a such that Next(a, _)
+😒
+1000
+1 - Next Assign
+assign a;
+Select a such that Next(_, a)
+😒
+1000
+1 - Next Assign
+assign a1, a2;
+Select a1 such that Next(a1, a2)
+😒
+1000
+1 - Next Assign
+assign a1, a2;
+Select a2 such that Next(a1, a2)
+😒
+1000
+1 - Next ProgLine
+prog_line n;
+Select n such that Next(1, n)
+😒
+1000
+1 - Next ProgLine
+prog_line n;
+Select n such that Next(n, 1)
+😒
+1000
+1 - Next ProgLine
+prog_line n;
+Select n such that Next(n, n)
+😒
+1000
+1 - Next ProgLine
+prog_line n;
+Select n such that Next(n, _)
+😒
+1000
+1 - Next ProgLine
+prog_line n;
+Select n such that Next(_, n)
+😒
+1000
+1 - Next ProgLine
+prog_line n1, n2;
+Select n1 such that Next(n1, n2)
+😒
+1000
+1 - Next ProgLine
+prog_line n1, n2;
+Select n2 such that Next(n1, n2)
+😒
+1000
