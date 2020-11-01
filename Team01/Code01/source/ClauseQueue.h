@@ -77,6 +77,11 @@ private:
 	Description: Adds the synonym names in the new_clause to the synonyms_in_resultlist.
 	*/
 
+	void removeClauseFromList(CLAUSE clase);
+	/*
+	Description: Removes the clause given from this clause_list;
+	*/
+
 	RANK getClauseRank(CLAUSE clause);
 	/*
 	Description: Gets the rank of this clause.

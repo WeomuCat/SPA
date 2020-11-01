@@ -21,6 +21,7 @@ CLAUSE ClauseQueue::pop() {
 
     CLAUSE lowest_ranked_clause = current_clause.second;
     updateSyonymNamesInResultList(lowest_ranked_clause); // add synonyms names of this clause to the set of result list syonym names
+    removeClauseFromList(lowest_ranked_clause);
 
     return lowest_ranked_clause;
 }
