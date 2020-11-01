@@ -2,13 +2,15 @@
 
 #include "QueryNode.h"
 #include <queue>
+#include <set>
 #include <utility>
+#include <algorithm>
 
 typedef QueryNode CLAUSE;
 typedef int RANK;
 typedef std::pair<int, CLAUSE> RANKED_CLAUSE;
 typedef std::vector<CLAUSE> CLAUSE_LIST;
-typedef std::vector<SYNONYM_NAME> SYNONYM_NAMES;
+typedef std::set<SYNONYM_NAME> SYNONYM_NAMES;
 
 // if c1's rank is larger, return true. Arrange from largest to smallest, min heap returns smallest. 
 struct CompareRankedClauses {
@@ -70,6 +72,11 @@ private:
 	Description: Returns True if the unsorted input clause_list is non-empty.
 	*/
 
+	void updateSyonymNamesInResultList(CLAUSE new_clause);
+	/*
+	Description: Adds the synonym names in the new_clause to the synonyms_in_resultlist.
+	*/
+
 	RANK getClauseRank(CLAUSE clause);
 	/*
 	Description: Gets the rank of this clause.
@@ -83,5 +90,25 @@ private:
 	void clearClauseQueue();
 	/*
 	Description: Clears the clause_queue in this ClauseQueue.
+	*/
+
+	bool isInResultList(SYNONYM_NAME synonym_name);
+	/*
+	Description: Returns true if this synonym_name exists in synonyms_in_resultlist.
+	*/
+
+	RANK calculateFinalScore(RANK clause_rank_score, int relationship_score);
+	/*
+	Description: Calculates the final clause score based on its clause rank and relationship score.
+	*/
+
+	RANK calculateFinalScore(RANK clause_rank_score);
+	/*
+	Description: Calculates the final clause score based on its clause rank. Treats the relationship score as 0.
+	*/
+
+	RANK getRelationshipScore(QueryNodeType relationship_type);
+	/*
+	Description: Returns the score of the given relationship type.
 	*/
 };
