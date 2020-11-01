@@ -13,13 +13,10 @@ bool ClauseQueue::hasNext() {
 }
 
 CLAUSE ClauseQueue::pop() {
-    // TODO: currently return clauses in the order of the input clause vector
-
     // Sorts clauses to find the clause with the lowest rank to return.
     // Clear the queue after retrieving the clause to allow next round of sorting.
     sortClauses();
     RANKED_CLAUSE current_clause = clause_queue.top();
-    clause_queue.pop(); // maybe unnecessary? test and check after complete implementation
     clearClauseQueue();
 
     CLAUSE lowest_ranked_clause = current_clause.second;
