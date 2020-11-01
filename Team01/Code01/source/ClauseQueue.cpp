@@ -41,23 +41,100 @@ void ClauseQueue::sortClauses() {
 
 RANK ClauseQueue::getClauseRank(CLAUSE clause, SYNONYM_NAMES& current_synonyms) {
     /*
-    Possible Clauses:
-    - such that clause      -> 2 common synonyms | 1 common synonym + 1 uncommon synonym | 1 common synonym + int/ident | 2 uncommon synonyms | 2 int/ident
-    - with clause           -> attrRef + INTEGER | attrRef + IDENT | attrRef + synonym | attrRef + attrRef | IDENT + IDENT | INTEGER + INTEGER | INTEGER + synonym | synonym + synonym
-    - pattern clause        -> 1 common synonym | 1 uncommon synonym
+    Types of Clauses:
+    1. such that clause      
+    2. with clause      
+    3. pattern clause   
 
-    - true/false clause     -> relationship(int, int) | relationship(ident, ident) | relationship(_, _) | relationship(_, int) | relationship(_, ident) | relationship(int, _) | relationship(ident, _) | with IDENT = IDENT | with INT = INT
+        such that clauses
+        - 2 synonyms
+            -> 2 common
+            -> 1 common 1 uncommon
+            -> 2 uncommon
+        - 1 synonym (1 synonym, 1 int/ident/wildcard        -> eg Follows(a, 5))
+            -> 1 common
+            -> 1 uncommon
+        - 0 synonyms (combination of int/ident/wildcard)    -> eg Follows(2,3)
+
+
+        with clause
+        - 2 synonyms
+            -> 2 common
+            -> 1 common 1 uncommon
+            -> 2 uncommon
+        - 1 synonym
+            -> 1 common
+            -> 1 uncommon
+        - 0 synonym (combination of int/ident/wildcard)    -> eg with INTEGER = INTEGER | with IDENT = IDENT
+
+        Possible types: attrRef + INTEGER | attrRef + IDENT | attrRef + synonym | attrRef + attrRef | IDENT + IDENT | INTEGER + INTEGER | INTEGER + synonym | synonym + synonym
+
+
+        Pattern clause
+        - 1 synonym
+            -> 1 common
+            -> 0 common
+    
+
+    Classifying Clause Types:
+    1. true/false clause     -> relationship(int, int) | relationship(ident, ident) | relationship(_, _) | relationship(_, int) | relationship(_, ident) | relationship(int, _) | relationship(ident, _) | with IDENT = IDENT | with INTEGER = INTEGER
+    2. such that clause with 2 common synonyms                                                  (EXLUCDING AFFECTS*)                                                                  
+    3. such that clause with 1 common synonym + 1 uncommon synonym                              (EXCLUDING AFFECTS*)
+    4. such that clause with 1 common synonym + 1 int/ident                                     (INCLUDING AFFECTS*)
+    5. such that clause with 1 common synonym + 1 wildcard  (larger result list size than 4)    (EXCLUDING AFFECTS*)
+    6. such that clause with 0 common synonyms + 2 uncommon synonyms                            (EXCLUDING AFFECTS*)
+    7. such that clause with 0 common synonyms + 1 uncommon synonym                             (EXCLUDING AFFECTS*)
+    8. with clause with 2 common synonyms                               -> eg with s1.stmt# = a2.stmt# where s1,a2 are in the resultlist
+    9. with clause with 1 common synonm + 1 uncommon                    -> eg with s1.stmt# = 5 where s1 is in the resultlist
+    10. with clause with 1 common synonym + 1 int/ident                 -> eg with s.stmt# = 5
+    11. with clause with 0 common synonyms + 2 uncommon synonyms        -> eg with s1.stmt# = a2.stmt# where s1,a2 are not in the resultlist
+    12. with clause with 0 common synonyms + 1 uncommon synonym         -> eg with s1.stmt# = 5 where s1 is not in the resultlist
+    13. pattern clause with 1 common synonym
+    14. pattern clause with 0 common synonyms
+    15. such that affects*
+
+    Rationale:
+    - Keep intermediate resultlist small
+    - Prioritize true/false clauses
+    - Prioritize clauses with 1 constant (int/ident)
+    - Prioritize clauses with common synonyms in the result list
+    - Prioritize with clauses (more restrictive than such that)
+    - Push affects* to the end
+
+    Relationship Score:
+    1. Calls
+    2. Follows
+    3. Modifies
+    4. Uses
+    5. Parent
+    6. Next
+    7. Calls*
+    8. Parent*
+    9. Follows*
+    10. Next*
+    11. Affects
+    12. Affects*    (if applicable for that clause type)
+
+
+    Clause Ranking Score (by clause number):
+    1       1. true/false clause
+    2       10. with clause with 1 common synonym + 1 int/ident -> eg with s.stmt# = 5
+    3       4. such that clause with 1 common synonym + 1 int/ident
+    4       8. with clause with 2 common synonyms
+    5       2. such that clause with 2 common synonyms                                                  (EXLUCDING AFFECTS*)
+    6       13. pattern clause with 1 common synonym
+    7       5. such that clause with 1 common synonym + 1 wildcard  (larger result list size than 4)    (EXCLUDING AFFECTS*)
+    8       9. with clause with 1 common synonm + 1 uncommon
+    9       3. such that clause with 1 common synonym + 1 uncommon synonym                              (EXCLUDING AFFECTS*)
+    10      12. with clause with 0 common synonyms + 1 uncommon synonym         -> eg with s1.stmt# = 5 where s1 is not in the resultlist
+    11      7. such that clause with 0 common synonyms + 1 uncommon synonym                             (EXCLUDING AFFECTS*)
+    12      14. pattern clause with 0 common synonyms
+    13      11. with clause with 0 common synonyms + 2 uncommon synonyms        -> eg with s1.stmt# = a2.stmt# where s1,a2 are not in the resultlist
+    14      6. such that clause with 0 common synonyms + 2 uncommon synonyms                            (EXCLUDING AFFECTS*)
+    15      15. such that affects*
+                            
     */
 
-    // True/False clause                                                    -> rank = 
-    // Such that clause with 2 common synonyms                              -> rank = 
-    // Such that clause with 1 common syn, 1 integer                        -> rank = 
-    // With clause that is not both attrRef and not both synonym            -> rank = 
-    // Pattern clause with 1 common synonym                                 -> rank = 
-    // With clause (remaining: both attrRef or both synonym)                -> rank = 
-    // Such that clause with 1 common synonym, other is synonym not common  -> rank = 
-    // Pattern with no common synonym                                       -> rank = 
-    // Such that clause with no common synonyms (cross product)             -> rank = 
     RANK rank;
 
     if (isTrueFalseClause(clause)) {
