@@ -1,0 +1,13 @@
+procedure main {
+	while (wa < 3) {
+		while (wb < 2) {
+			if (ia < 10) then {
+				print b1;
+			} else {
+				print b2;
+				print b22;
+			}
+		}
+	}
+	print out;
+}
