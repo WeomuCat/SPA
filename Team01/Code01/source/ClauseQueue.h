@@ -75,4 +75,6 @@ private:
 	*/
 
 	bool isTrueFalseClause(CLAUSE clause);
+
+	void clearClauseQueue();
 };

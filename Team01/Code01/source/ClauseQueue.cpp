@@ -2,14 +2,6 @@
 
 void ClauseQueue::addAllClauses(CLAUSE_LIST all_clauses) {
     this->clause_list = all_clauses;
-    sortClauses();
-}
-
-CLAUSE ClauseQueue::pop() {
-    // currently return clauses in the order of the input clause vector
-    RANKED_CLAUSE current_clause = clause_queue.top();
-    clause_queue.pop();
-    return current_clause.second;
 }
 
 bool ClauseQueue::hasNext() {
@@ -19,6 +11,18 @@ bool ClauseQueue::hasNext() {
     }
     return hasNext;
 }
+
+CLAUSE ClauseQueue::pop() {
+    // TODO: currently return clauses in the order of the input clause vector
+    // Sorts clauses to find the clause with the lowest rank to return. Clear the queue after retrieving the clause for next round of pop.
+    sortClauses();
+    RANKED_CLAUSE current_clause = clause_queue.top();
+    clause_queue.pop(); // maybe unnecessary? test and check after complete implementation
+    clearClauseQueue();
+
+    return current_clause.second;
+}
+
 
 void ClauseQueue::sortClauses() {
     RANKED_CLAUSE_QUEUE clause_queue;
@@ -116,23 +120,30 @@ RANK ClauseQueue::getClauseRank(CLAUSE clause, SYNONYM_NAMES& current_synonyms) 
     12. Affects*    (if applicable for that clause type)
 
 
-    Clause Ranking Score (by clause number):
-    1       1. true/false clause
-    2       10. with clause with 1 common synonym + 1 int/ident -> eg with s.stmt# = 5
-    3       4. such that clause with 1 common synonym + 1 int/ident
-    4       8. with clause with 2 common synonyms
-    5       2. such that clause with 2 common synonyms                                                  (EXLUCDING AFFECTS*)
-    6       13. pattern clause with 1 common synonym
-    7       5. such that clause with 1 common synonym + 1 wildcard  (larger result list size than 4)    (EXCLUDING AFFECTS*)
-    8       9. with clause with 1 common synonm + 1 uncommon
-    9       3. such that clause with 1 common synonym + 1 uncommon synonym                              (EXCLUDING AFFECTS*)
-    10      12. with clause with 0 common synonyms + 1 uncommon synonym         -> eg with s1.stmt# = 5 where s1 is not in the resultlist
-    11      7. such that clause with 0 common synonyms + 1 uncommon synonym                             (EXCLUDING AFFECTS*)
-    12      14. pattern clause with 0 common synonyms
-    13      11. with clause with 0 common synonyms + 2 uncommon synonyms        -> eg with s1.stmt# = a2.stmt# where s1,a2 are not in the resultlist
-    14      6. such that clause with 0 common synonyms + 2 uncommon synonyms                            (EXCLUDING AFFECTS*)
-    15      15. such that affects*
-                            
+    Clause Ranking Score BEFORE accounting for Relationship Score (by clause number):
+    0       1. true/false clause
+    1       10. with clause with 1 common synonym + 1 int/ident -> eg with s.stmt# = 5
+    2       4. such that clause with 1 common synonym + 1 int/ident
+    3       8. with clause with 2 common synonyms
+    4       2. such that clause with 2 common synonyms                                                  (EXLUCDING AFFECTS*)
+    5       13. pattern clause with 1 common synonym
+    6       5. such that clause with 1 common synonym + 1 wildcard  (larger result list size than 4)    (EXCLUDING AFFECTS*)
+    7       9. with clause with 1 common synonm + 1 uncommon
+    8       3. such that clause with 1 common synonym + 1 uncommon synonym                              (EXCLUDING AFFECTS*)
+    9       12. with clause with 0 common synonyms + 1 uncommon synonym         -> eg with s1.stmt# = 5 where s1 is not in the resultlist
+    10      7. such that clause with 0 common synonyms + 1 uncommon synonym                             (EXCLUDING AFFECTS*)
+    11      14. pattern clause with 0 common synonyms
+    12      11. with clause with 0 common synonyms + 2 uncommon synonyms        -> eg with s1.stmt# = a2.stmt# where s1,a2 are not in the resultlist
+    13      6. such that clause with 0 common synonyms + 2 uncommon synonyms                            (EXCLUDING AFFECTS*)
+    14      15. such that affects*
+    
+    FINAL SCORE:  (Clause Ranking Score * 13) + (Relationship Score | 0 if clause is not such that)
+    
+    Notes:
+    - we need clause ranking score * 13 to account for the 12 relationships for such that (eg 2*13+12 = 38 < 3*13 = 39)
+    - we do this for every clause type for convenience, since the exact score does not matter but the order matters more.
+    - for clauses of the exact same score (eg both true/false clause), tie break arbitrarily
+
     */
 
     RANK rank;
@@ -183,4 +194,10 @@ bool ClauseQueue::listHasNext() {
         hasNext = true;
     }
     return hasNext;
+}
+
+void ClauseQueue::clearClauseQueue() {
+    // reset since priority queue doesn't have a clear method
+    RANKED_CLAUSE_QUEUE empty_queue;
+    clause_queue = empty_queue;
 }
