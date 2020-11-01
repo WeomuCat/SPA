@@ -167,12 +167,3 @@ BOOLEAN_TYPE PKB::isAffectsTransitive(STMT_NUM s1, STMT_NUM s2) {
 PROGRAM_NODE_PTR PKB::getProgramNode() {
     return program_node_ptr_;
 }
-
-/*==== Miscellaneous ====*/
-void PKB::clearCache() {
-    follows_table_.clearCache();
-    parent_table_.clearCache();
-    next_table_.clearCache();
-    calls_table_.clearCache();
-    affects_table_.clearCache();
-}

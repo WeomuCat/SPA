@@ -1,0 +1,150 @@
+1 - SuchThat and Error
+stmt s;
+Select BOOLEAN such that Follows (s, _) and such that Parent (s, _)
+none
+1000
+2 - SuchThat and Error 2
+stmt s, s1; 
+Select BOOLEAN such that Follows (2, s) and (1, s1)
+none
+1000
+3 - Pattern and Error
+assign a; while w;
+Select BOOLEAN pattern a (_, _) and pattern w (_, _)
+none
+1000
+4 - Pattern and Error 2
+if i;
+Select BOOLEAN pattern i (_, _, _) and (_, _, _)
+none
+100
+5 - With and Error
+assign a; variable v;
+Select BOOLEAN with a.stmt# = 2 and with v.varName = blue
+none
+1000
+6 - Multiple equals With Error
+assign a, a1;
+Select BOOLEAN with a.stmt# = a1.stmt# = 2
+none
+1000
+18 - Follows Lack of synonyms
+
+Select BOOLEAN such that Follows (a, _)
+none
+1000
+19 - Parent Lack of synonyms
+
+Select BOOLEAN such that Parent (i, _)
+none
+1000
+20 - Modifies Lack of synonyms
+
+Select BOOLEAN such that Modifies (a, _)
+none
+1000
+21 - Uses Lack of synonyms
+
+Select BOOLEAN such that Uses (s, _)
+none
+1000
+22 - Calls Lack of synonyms
+
+Select BOOLEAN such that Calls (_, p)
+none
+1000
+23 - Next Lack of synonyms
+
+Select BOOLEAN such that Next (n, _)
+none
+1000
+24 - Affects Lack of synonyms
+
+Select BOOLEAN such that Affects (s, _)
+none
+1000
+25 - Follows* Lack of synonyms
+
+Select BOOLEAN such that Follows* (_, s)
+none
+1000
+26 - Parent* Lack of synonyms
+
+Select BOOLEAN such that Parent* (_, s)
+none
+1000
+27 - Calls* Lack of synonyms
+
+Select BOOLEAN such that Calls* (p, _)
+none
+1000
+28 - Next* Lack of synonyms
+
+Select BOOLEAN such that Next* (_, n)
+none
+1000
+29 - Affects* Lack of synonyms
+
+Select BOOLEAN such that Affects* (_, s)
+none
+1000
+30 - Pattern Lack of synonyms
+
+Select BOOLEAN pattern a (_, _)
+none
+1000
+31 - Pattern Lack of synonyms
+
+Select BOOLEAN pattern w (_, _)
+none
+1000
+32 - Pattern Lack of synonyms
+
+Select BOOLEAN pattern i (_, _)
+none
+1000
+33 - SuchThat wrong synonym
+statement s;
+Select BOOLEAN such that Follows (s, _)
+none
+1000
+34 - Pattern different synonym
+print pn;
+Select BOOLEAN such that pattern pn (_, _)
+none
+1000
+35 - Calls Call Name
+call cl; procedure p;
+Select BOOLEAN such that Calls (p, cl.procName)
+none
+1000
+37 - Pattern Assign Check Variable
+assgin a; variable v;
+Select BOOLEAN pattern a (_, v)
+none
+1000
+45 - Pattern While Check Variable 
+while w; variable v;
+Select BOOLEAN pattern w (_, v)
+none
+1000
+47 - Pattern If Check Variable 
+if i; variable v;
+Select BOOLEAN pattern i (_, v, v)
+none
+1000
+48 - Pattern If Wrong number of arguments 
+if i; variable v;
+Select BOOLEAN pattern i (_, _)
+none
+1000
+49 - Uncapital BOOLEAN
+
+Select boolean 
+none
+1000
+50 - Uncapital Select
+
+select BOOLEAN
+none
+1000

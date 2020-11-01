@@ -21,6 +21,7 @@
 #include "PKB/Relationships/CallsTable.h"
 #include "PKB/Relationships/NextTable.h"
 #include "PKB/Relationships/AffectsTable.h"
+#include "PKB/Relationships/StatementTypeTable.h"
 
 /* 
 Overview: The PKB that contains design entities and relationships of a given SIMPLE source code 
@@ -307,12 +308,6 @@ public:
     */
     PROGRAM_NODE_PTR getProgramNode();
 
-    /*==== Miscellaneous ====*/
-    /*
-    Description: Clears the cache of the PKB.
-    */
-    void clearCache();
-
 protected:
     PROGRAM_NODE_PTR program_node_ptr_;
 
@@ -336,4 +331,5 @@ protected:
     CALLS_TABLE calls_table_;
     NEXT_TABLE next_table_;
     AFFECTS_TABLE affects_table_;
+    STMT_TYPE_TABLE stmt_type_table_;
 };

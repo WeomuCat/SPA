@@ -134,12 +134,6 @@ public:
     void addNext(STMT_NUM s1, STMT_NUM s2);
 
     /*
-    Description: Stores a Affects (STMT_NUM, STMT_NUM) relationship to
-                 the AFFECTS_TABLE when building the PKB.
-    */
-    void addAffects(STMT_NUM s1, STMT_NUM s2);
-
-    /*
     Description: Stores the root/program node pointer into the PKB.
     */
     void setProgramNode(PROGRAM_NODE_PTR program_node_ptr);
