@@ -14,36 +14,31 @@ bool ClauseQueue::hasNext() {
 
 CLAUSE ClauseQueue::pop() {
     // TODO: currently return clauses in the order of the input clause vector
-    // Sorts clauses to find the clause with the lowest rank to return. Clear the queue after retrieving the clause for next round of pop.
+
+    // Sorts clauses to find the clause with the lowest rank to return.
+    // Clear the queue after retrieving the clause to allow next round of sorting.
     sortClauses();
     RANKED_CLAUSE current_clause = clause_queue.top();
     clause_queue.pop(); // maybe unnecessary? test and check after complete implementation
     clearClauseQueue();
 
-    return current_clause.second;
+    CLAUSE lowest_ranked_clause = current_clause.second;
+    return lowest_ranked_clause;
 }
 
 
 void ClauseQueue::sortClauses() {
-    RANKED_CLAUSE_QUEUE clause_queue;
-    SYNONYM_NAMES current_synonyms;
-
-
-    /* 
-    Currently assigns rank in increasing order
-    Later on: implement getRank() and use it here
-    */
-    int rank = 0;
     while (listHasNext()) {
-        RANKED_CLAUSE ranked_clause(rank, getNextClauseFromList());
-        clause_queue.push(ranked_clause);
-        rank = rank + 1;
-    }
+        CLAUSE current_clause = getNextClauseFromList();
+        RANK clause_rank = getClauseRank(current_clause);
+        RANKED_CLAUSE ranked_clause(clause_rank, current_clause);
 
-    this->clause_queue = clause_queue;
+        clause_queue.push(ranked_clause);
+    }
 }
 
-RANK ClauseQueue::getClauseRank(CLAUSE clause, SYNONYM_NAMES& current_synonyms) {
+
+RANK ClauseQueue::getClauseRank(CLAUSE clause) {
     /*
     Types of Clauses:
     1. such that clause      
@@ -140,13 +135,13 @@ RANK ClauseQueue::getClauseRank(CLAUSE clause, SYNONYM_NAMES& current_synonyms) 
     FINAL SCORE:  (Clause Ranking Score * 13) + (Relationship Score | 0 if clause is not such that)
     
     Notes:
-    - we need clause ranking score * 13 to account for the 12 relationships for such that (eg 2*13+12 = 38 < 3*13 = 39)
+    - we need clause ranking score * 13 to account for the 12 relationships in such that (eg 2*13+12 = 38 < 3*13 = 39)
     - we do this for every clause type for convenience, since the exact score does not matter but the order matters more.
     - for clauses of the exact same score (eg both true/false clause), tie break arbitrarily
 
     */
-
-    RANK rank;
+    
+    RANK rank = 195;    // init to max score possible
 
     if (isTrueFalseClause(clause)) {
         rank = 1;

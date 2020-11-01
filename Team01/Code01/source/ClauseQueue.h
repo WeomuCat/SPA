@@ -53,6 +53,7 @@ public:
 private:
 	CLAUSE_LIST clause_list;
 	RANKED_CLAUSE_QUEUE clause_queue;
+	SYNONYM_NAMES synonyms_in_resultlist;
 
 	void sortClauses();
 	/*
@@ -69,12 +70,18 @@ private:
 	Description: Returns True if the unsorted input clause_list is non-empty.
 	*/
 
-	RANK getClauseRank(CLAUSE clause, SYNONYM_NAMES& current_synonyms);
+	RANK getClauseRank(CLAUSE clause);
 	/*
 	Description: Gets the rank of this clause.
 	*/
 
 	bool isTrueFalseClause(CLAUSE clause);
+	/*
+	Description: Returns True if the clause is true/false type.
+	*/
 
 	void clearClauseQueue();
+	/*
+	Description: Clears the clause_queue in this ClauseQueue.
+	*/
 };
