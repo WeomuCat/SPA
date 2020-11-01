@@ -1,0 +1,23 @@
+procedure main {
+	print a;
+	if (ia < 3) then {
+		if (ib < 2) then {
+			print b1;
+		} else {
+			print b2;
+			print b22;
+		}
+	} else {
+		if (ic > 10) then {
+			print b3;
+			print b33;
+			print b333;
+		} else {
+			print b4;
+			print b44;
+			print b444;
+			print b4444;
+		}
+	}
+	print out;
+}
