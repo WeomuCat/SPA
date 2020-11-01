@@ -7,6 +7,37 @@ Relationship::Relationship(QueryNodeType relationship_type, QueryNode child1, Qu
 }
 
 void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
+	// (s, s)
+	// Follows
+	// FollowsT
+	// Parent
+	// ParentT
+	// Next
+	// NextT
+	// Affects
+	// AffectsT
+
+	// (s, v)
+	// UsesS
+	// ModifiesS
+
+	// (p, v)
+	// UsesP
+	// ModifiesP
+
+	// (p, p)
+	// Calls
+	// CallsT
+	
+	// Populate valid results
+
+	// Filter valid results
+
+	// If valid results is empty, clause_bool is false and return
+
+	// Add to ResultList
+
+
 	if (relationship_type == QueryNodeType::follows) {
 		getFollowsResult(pkb, clause_bool, clause_result_list);
 	}
