@@ -79,11 +79,6 @@ private:
 	Description: Removes this clause from clause_list.
 	*/
 
-	void updateCurrentClauseList();
-	/*
-	Description: Updates the current clause_list with the remaining clauses in clause_queue.
-	*/
-
 	void updateSyonymNamesInResultList(CLAUSE new_clause);
 	/*
 	Description: Adds the synonym names in the new_clause to the synonyms_in_resultlist.
