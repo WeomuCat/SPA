@@ -3,13 +3,13 @@
 #include <vector>
 #include "Pattern.h"
 
-Pattern::Pattern(QueryNode clause_node) {
-    this->clause_node_ = clause_node;
+Pattern::Pattern(QueryNode pattern_node) {
+    this->pattern_node_ = pattern_node;
 }
 
 void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_result_list) {
-    // Get children nodes of the clause node
-    QUERY_NODE_LIST c = clause_node_.getChildren();
+    // Get ref nodes of the pattern node
+    QUERY_NODE_LIST refs = pattern_node_.getChildren();
 
 
     /* Initialization */
@@ -29,7 +29,7 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
     std::vector<STMT_NUM> valid_stmt_nums;
     std::unordered_map<STMT_NUM, AST_NODE_PTR> var_ast_map;
     std::unordered_map<STMT_NUM, EXPR_NODE_PTR> expr_ast_map;
-    switch (c[0].getSynonymType()) {
+    switch (refs[0].getSynonymType()) {
     case SYNONYM_TYPE::assign:
         for (ASSIGN_NODE_PTR a : pkb.getAssigns()) {
             STMT_NUM s = a->getStatementNumber();
@@ -60,18 +60,18 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
 
 
     /* Variable Matching */
-    // We do variable matching only if c[1] is not a wild_card
+    // We do variable matching only if refs[1] is not a wild_card
 
-    // If c[1] is a synonym, var_names_map consists of valid var_names of the stmt_num
+    // If refs[1] is a synonym, var_names_map consists of valid var_names of the stmt_num
     std::unordered_map<STMT_NUM, VAR_NAME_LIST> var_names_map;
-    if (c[1].getNodeType() != QUERY_NODE_TYPE::wild_card) {
+    if (refs[1].getNodeType() != QUERY_NODE_TYPE::wild_card) {
         // s1 is a set of variable names from either:
         // 1. ident ("x") in entRef
         // 2. synonym (v) in entRef
         VAR_NAME_LIST s1;
-        switch (c[1].getNodeType()) {
+        switch (refs[1].getNodeType()) {
         case QUERY_NODE_TYPE::ident:
-            s1.push_back(c[1].getString());
+            s1.push_back(refs[1].getString());
             break;
         case QUERY_NODE_TYPE::synonym:
             for (VAR_NAME v : pkb.getVariableNameList()) {
@@ -102,8 +102,8 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
                 continue;
             }
 
-            // If c[1] is a synonym, we want to add variables from s3 to the ResultList
-            if (c[1].getNodeType() == QUERY_NODE_TYPE::synonym) {
+            // If refs[1] is a synonym, we want to add variables from s3 to the ResultList
+            if (refs[1].getNodeType() == QUERY_NODE_TYPE::synonym) {
                 var_names_map.insert({ s, s3 });
             }
             it++;
@@ -112,16 +112,16 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
 
 
     /* Tree Matching */
-    // We do tree matching only if c[1] is an assign synonym, and c[2] is not a wild_card
-    if (c[0].getSynonymType() == SYNONYM_TYPE::assign && c[2].getNodeType() != QUERY_NODE_TYPE::wild_card) {
-        EXPR_NODE_PTR needle_ast = std::static_pointer_cast<ExpressionNode>(c[2].getAstNode());
+    // We do tree matching only if refs[1] is an assign synonym, and refs[2] is not a wild_card
+    if (refs[0].getSynonymType() == SYNONYM_TYPE::assign && refs[2].getNodeType() != QUERY_NODE_TYPE::wild_card) {
+        EXPR_NODE_PTR needle_ast = std::static_pointer_cast<ExpressionNode>(refs[2].getAstNode());
 
         for (auto it = valid_stmt_nums.begin(); it != valid_stmt_nums.end(); ) {
             STMT_NUM s = *it;
             EXPR_NODE_PTR haystack_ast = expr_ast_map.at(s);
 
             bool match = false;
-            switch (c[2].getNodeType()) {
+            switch (refs[2].getNodeType()) {
             case QUERY_NODE_TYPE::expression:
                 match = exactExpressionTreeMatch(haystack_ast, needle_ast);
                 break;
@@ -140,16 +140,16 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
 
 
     /* ResultList Creation */
-    // If c[1] is ident or wild_card, we only need to add vaild_stmt_nums to ResultList
-    // If c[1] is a synonym, we need to add a variable column too
-    SYNONYM_NAME s0 = c[0].getString();
-    switch (c[1].getNodeType()) {
+    // If refs[1] is ident or wild_card, we only need to add vaild_stmt_nums to ResultList
+    // If refs[1] is a synonym, we need to add a variable column too
+    SYNONYM_NAME s0 = refs[0].getString();
+    switch (refs[1].getNodeType()) {
     case QUERY_NODE_TYPE::ident:
     case QUERY_NODE_TYPE::wild_card:
         clause_result_list.addColumn(s0, valid_stmt_nums);
         break;
     case QUERY_NODE_TYPE::synonym:
-        SYNONYM_NAME s1 = c[1].getString();
+        SYNONYM_NAME s1 = refs[1].getString();
         clause_result_list.addColumn(s0);
         clause_result_list.addColumn(s1);
         for (STMT_NUM s : valid_stmt_nums) {
