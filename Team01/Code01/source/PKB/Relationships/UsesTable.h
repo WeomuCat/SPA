@@ -7,10 +7,7 @@
 
 class UsesTable {
 
-private:
-    friend class PKB;
-    friend class PKBBuilder;
-
+public:
     /*
     Description: Adds to a collection that maps s to v.
     */
@@ -31,7 +28,7 @@ private:
     */
     BOOLEAN_TYPE isUses(PROC_NAME p, VAR_NAME v);
 
+private:
     std::unordered_set<std::pair<STMT_NUM, VAR_NAME>> uses_s_;
     std::unordered_set<std::pair<PROC_NAME, VAR_NAME>> uses_p_;
-
 };

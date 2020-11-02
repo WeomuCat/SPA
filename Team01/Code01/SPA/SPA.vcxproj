@@ -62,6 +62,8 @@
     <ClInclude Include="..\source\PKB\Relationships\NextTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\ParentTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h" />
+    <ClInclude Include="..\source\PKB\Relationships\StatementTypeEnum.h" />
+    <ClInclude Include="..\source\PKB\Relationships\StatementTypeTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\UsesTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryEvaluatorReturnType.h" />
@@ -123,6 +125,7 @@
     <ClCompile Include="..\source\PKB\Relationships\NextTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\ParentTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\RelationshipTransitiveTable.cpp" />
+    <ClCompile Include="..\source\PKB\Relationships\StatementTypeTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\UsesTable.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryNode.cpp" />

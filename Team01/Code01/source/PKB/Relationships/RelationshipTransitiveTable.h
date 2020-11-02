@@ -12,9 +12,9 @@ class RelationshipTransitiveTable {
 
 public:
     /*
-    Description: Clears the cache of this table.
+    Description: Precompute the transitive relation of this table and store it.
     */
-    void clearCache();
+    void preComputeTransitive();
 
 protected:
     /*
@@ -35,5 +35,5 @@ protected:
 private:
     std::unordered_map<T, std::vector<T>> children_;
     std::unordered_set<std::pair<T, T>> relationship_;
-    std::unordered_map<std::pair<T, T>, BOOLEAN_TYPE> relationship_transitive_;
+    std::unordered_set<std::pair<T, T>> relationship_transitive_;
 };

@@ -1,0 +1,5 @@
+1 - Assign, While and If same as constant number, with same variable
+assign a; while w; if i; constant cs1, cs2, cs3; variable v;
+Select v pattern a (v, _) and w (v, _) and i (v, _, _) with a.stmt# = cs1.value and w.stmt# = cs2.value and i.stmt# = cs3.value
+redstone
+5000

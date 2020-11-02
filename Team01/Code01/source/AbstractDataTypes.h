@@ -4,6 +4,7 @@
 #include<vector>
 #include<string>
 #include<unordered_map>
+#include<unordered_set>
 
 // Forward Declaration
 
@@ -33,6 +34,7 @@ enum class NodeTypeEnum;
 enum class ConditionTypeEnum;
 enum class ExpressionTypeEnum;
 enum class RelationTypeEnum;
+enum class StatementTypeEnum;
 
 // Design Entity Tables
 class AssignTable;
@@ -56,6 +58,7 @@ class ModifiesTable;
 class CallsTable;
 class NextTable;
 class AffectsTable;
+class StatementTypeTable;
 
 // QP
 class QueryNode;
@@ -127,6 +130,9 @@ typedef ModifiesTable MODIFIES_TABLE;
 typedef CallsTable CALLS_TABLE;
 typedef NextTable NEXT_TABLE;
 typedef AffectsTable AFFECTS_TABLE;
+typedef std::unordered_map<int, std::vector<int>> CFG;
+typedef StatementTypeTable STMT_TYPE_TABLE;
+typedef StatementTypeEnum STMT_TYPE;
 
 // QP
 typedef std::vector<std::string> QUERY_RESULT;

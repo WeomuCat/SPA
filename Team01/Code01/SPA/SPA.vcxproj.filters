@@ -169,6 +169,9 @@
     <ClCompile Include="..\source\PKB\DesignEntities\TryTable.cpp">
       <Filter>Source\DesignEntity</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\PKB\Relationships\StatementTypeTable.cpp">
+      <Filter>Source\Relationship</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h">
@@ -365,6 +368,12 @@
     </ClInclude>
     <ClInclude Include="..\source\PKB\DesignEntities\TryTable.h">
       <Filter>Header\DesignEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\Relationships\StatementTypeTable.h">
+      <Filter>Header\Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\Relationships\StatementTypeEnum.h">
+      <Filter>Header\Relationship</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
