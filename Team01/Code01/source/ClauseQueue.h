@@ -10,6 +10,7 @@ typedef QueryNode CLAUSE;
 typedef int RANK;
 typedef std::pair<int, CLAUSE> RANKED_CLAUSE;
 typedef std::vector<CLAUSE> CLAUSE_LIST;
+typedef std::vector<CLAUSE*> CLAUSE_PTR_LIST;
 typedef std::set<SYNONYM_NAME> SYNONYM_NAMES;
 
 // if c1's rank is larger, return true. Arrange from largest to smallest, min heap returns smallest. 
@@ -37,7 +38,7 @@ class ClauseQueue {
 	*/
 
 public:
-	void addAllClauses(CLAUSE_LIST all_clauses);
+	void addAllClauses(CLAUSE_PTR_LIST all_clauses);
 	/*
 	Description: Adds all clauses of the query to this queue.
 	*/
@@ -53,7 +54,7 @@ public:
 	*/
 
 private:
-	CLAUSE_LIST clause_list;
+	CLAUSE_PTR_LIST clause_list;
 	RANKED_CLAUSE_QUEUE clause_queue;
 	SYNONYM_NAMES synonyms_in_resultlist;
 
@@ -72,14 +73,14 @@ private:
 	Description: Returns True if the unsorted input clause_list is non-empty.
 	*/
 
+	void removeClauseFromList(CLAUSE clause);
+	/*
+	Description: Removes this clause from clause_list.
+	*/
+
 	void updateSyonymNamesInResultList(CLAUSE new_clause);
 	/*
 	Description: Adds the synonym names in the new_clause to the synonyms_in_resultlist.
-	*/
-
-	void removeClauseFromList(CLAUSE clase);
-	/*
-	Description: Removes the clause given from this clause_list;
 	*/
 
 	RANK getClauseRank(CLAUSE clause);

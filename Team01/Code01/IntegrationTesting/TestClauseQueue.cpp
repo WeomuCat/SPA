@@ -38,7 +38,7 @@ namespace IntegrationTesting
 			// such that NextT(1, 3)
 			such_that1.addChild(clause1);
 
-			CLAUSE_LIST all_clauses = { such_that1 };
+			CLAUSE_PTR_LIST all_clauses = { &such_that1 };
 
 			ClauseQueue clause_queue;
 			clause_queue.addAllClauses(all_clauses);
@@ -101,7 +101,7 @@ namespace IntegrationTesting
 			// such that NextT(1, 3)
 			such_that2.addChild(clause2);
 
-			CLAUSE_LIST all_clauses = { such_that1, such_that2 };
+			CLAUSE_PTR_LIST all_clauses = { &such_that1, &such_that2 };
 
 
 			ClauseQueue clause_queue;

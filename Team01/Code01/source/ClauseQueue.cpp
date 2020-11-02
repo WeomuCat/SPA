@@ -1,12 +1,20 @@
 #include "ClauseQueue.h"
 
-void ClauseQueue::addAllClauses(CLAUSE_LIST all_clauses) {
-    this->clause_list = all_clauses;
+void ClauseQueue::addAllClauses(CLAUSE_PTR_LIST all_clauses) {
+    clause_list = all_clauses;
+    /*
+    CLAUSE_PTR_LIST clause_ptrs;
+    for (CLAUSE clause : all_clauses) {
+        CLAUSE* clause_ptr = &clause;     
+        clause_ptrs.push_back(clause_ptr);
+    }
+    clause_list = clause_ptrs;
+    */
 }
 
 bool ClauseQueue::hasNext() {
     bool hasNext = false;
-    if (clause_queue.size() > 0) {
+    if (clause_list.size() > 0) {
         hasNext = true;
     }
     return hasNext;
@@ -28,8 +36,20 @@ CLAUSE ClauseQueue::pop() {
 
 
 void ClauseQueue::sortClauses() {
+    /*
+    CLAUSE_PTR_LIST original_list(clause_list);
     while (listHasNext()) {
         CLAUSE current_clause = getNextClauseFromList();
+        RANK clause_rank = getClauseRank(current_clause);
+        RANKED_CLAUSE ranked_clause(clause_rank, current_clause);
+
+        clause_queue.push(ranked_clause);
+    }
+    clause_list = original_list;
+    */
+
+    for (CLAUSE* clause_ptr : clause_list) {
+        CLAUSE current_clause = *clause_ptr;
         RANK clause_rank = getClauseRank(current_clause);
         RANKED_CLAUSE ranked_clause(clause_rank, current_clause);
 
@@ -494,7 +514,7 @@ bool ClauseQueue::isTrueFalseClause(CLAUSE clause) {
 
 CLAUSE ClauseQueue::getNextClauseFromList() {
     auto first_clause_ptr = clause_list.begin();
-    CLAUSE first_clause = *first_clause_ptr;
+    CLAUSE first_clause = **first_clause_ptr;
     clause_list.erase(clause_list.begin());
     return first_clause;
 }
@@ -515,6 +535,12 @@ void ClauseQueue::clearClauseQueue() {
 
 bool ClauseQueue::isInResultList(SYNONYM_NAME synonym_name) {
     return synonyms_in_resultlist.find(synonym_name) != synonyms_in_resultlist.end();
+}
+
+void ClauseQueue::removeClauseFromList(CLAUSE clause) {
+    clause_list.erase(
+        std::remove_if(clause_list.begin(), clause_list.end(), [&clause](CLAUSE * i) {return i == &clause; }),
+        clause_list.end());
 }
 
 void ClauseQueue::updateSyonymNamesInResultList(CLAUSE clause) {
