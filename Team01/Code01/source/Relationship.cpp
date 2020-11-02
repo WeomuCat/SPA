@@ -236,7 +236,7 @@ SYNONYM_VALUES_LIST Relationship::getAssignsFromRef(PKB pkb, QueryNode ref) {
 	return stmtNumsToSynValues(getAssignNumsFromRef(pkb, ref));
 }
 
-VAR_NAME_LIST Relationship::getVariablesFromRef(PKB pkb, QueryNode ref) {
+SYNONYM_VALUES_LIST Relationship::getVariablesFromRef(PKB pkb, QueryNode ref) {
 	QueryNodeType type = ref.getNodeType();
 
 	switch (type) {
@@ -259,7 +259,7 @@ VAR_NAME_LIST Relationship::getVariablesFromRef(PKB pkb, QueryNode ref) {
 	}
 }
 
-PROC_NAME_LIST Relationship::getProceduresFromRef(PKB pkb, QueryNode ref) {
+SYNONYM_VALUES_LIST Relationship::getProceduresFromRef(PKB pkb, QueryNode ref) {
 	QueryNodeType type = ref.getNodeType();
 
 	switch (type) {
