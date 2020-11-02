@@ -1,0 +1,35 @@
+1 - Variable with Name and Procedure with Name
+procedure p; variable v;
+Select BOOLEAN with v.varName = "bulbasaur" and p.procName = "pokemon"
+TRUE
+5000
+2 - Print Statement Number and Call with Name
+print pn; call cl;
+Select BOOLEAN with pn.stmt# = 1 and cl.procName = "evolve"
+TRUE
+5000
+3 - Assign Wrong Statement Number and Print Statement Number
+assign a; print pn; constant c;
+Select BOOLEAN with a.stmt# = 2 and pn.stmt# = 1
+FALSE
+5000
+4 - If Statement Number Same as Constant (36) and While Statement Number
+if ifs; while w; constant c;
+Select BOOLEAN with ifs.stmt# = c.value and w.stmt# = 45
+TRUE
+5000
+5 - Read Variable Same as Print Variable and Wrong Print Statement Number
+read re; print pn;
+Select BOOLEAN with re.varName = pn.varName and pn.stmt# = 12
+FALSE
+5000
+6 - Variable with Name and Assign Statement Number
+assign a; variable v;
+Select BOOLEAN with v.varName = charizard and assign.stmt# = 24
+TRUE
+5000
+7 - Call Statement Number and Call Procedure Name
+call cl;
+Select BOOLEAN with cl.stmt# = 29 and cl.procName = evolveAgain
+FALSE
+5000

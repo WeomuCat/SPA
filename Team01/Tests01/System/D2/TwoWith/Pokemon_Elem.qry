@@ -1,0 +1,15 @@
+1 - Print Variable Same as Read Variable and Print Statement
+variable v; print pn; read re;
+Select v with pn.varName = re.varName and pn.stmt# = 26
+venusaur
+5000
+2 - Call Procedure Name Same as Procedure Name and Call Statement
+call cl; procedure p;
+Select p with cl.procName = p.procName and cl.stmt# = 38
+evolveagain
+5000
+3 - Assign Statement Same as Constant and Read Statement Same as Constant 
+assign a; read re; constant c1, c2;
+Select c1 with a.stmt# = c1.value and re.stmt# = c2.value;
+16, 21, 23, 24
+4 - 
