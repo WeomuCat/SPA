@@ -15,9 +15,9 @@ private:
 	static AST_NODE_PTR getExpressionNodeLeft(AST_NODE_PTR n);
 	static AST_NODE_PTR getExpressionNodeRight(AST_NODE_PTR n);
 
-	QueryNode clause_node_;
+	QueryNode pattern_node_;
 public:
-	Pattern(QueryNode clause_node);
+	Pattern(QueryNode pattern_node);
 	
 	static bool exactExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle);
 	static bool partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle);
