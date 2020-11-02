@@ -1,15 +1,10 @@
 #include "ClauseQueue.h"
 
-void ClauseQueue::addAllClauses(CLAUSE_PTR_LIST all_clauses) {
-    clause_list = all_clauses;
-    /*
-    CLAUSE_PTR_LIST clause_ptrs;
+void ClauseQueue::addAllClauses(CLAUSE_LIST all_clauses) {
     for (CLAUSE clause : all_clauses) {
-        CLAUSE* clause_ptr = &clause;     
-        clause_ptrs.push_back(clause_ptr);
+        std::shared_ptr<CLAUSE> c_ptr = std::make_shared<CLAUSE>(clause);
+        clause_list.push_back(c_ptr);
     }
-    clause_list = clause_ptrs;
-    */
 }
 
 bool ClauseQueue::hasNext() {
@@ -25,13 +20,15 @@ CLAUSE ClauseQueue::pop() {
     // Clear the queue after retrieving the clause to allow next round of sorting.
     sortClauses();
     RANKED_CLAUSE current_clause = clause_queue.top();
+    clause_queue.pop();
+
+    CLAUSE_PTR lowest_ranked_clause = current_clause.second;
+    updateSyonymNamesInResultList(*lowest_ranked_clause); // add synonyms names of this clause to the set of result list syonym names
+    removeClauseFromList(lowest_ranked_clause);
     clearClauseQueue();
 
-    CLAUSE lowest_ranked_clause = current_clause.second;
-    updateSyonymNamesInResultList(lowest_ranked_clause); // add synonyms names of this clause to the set of result list syonym names
-    removeClauseFromList(lowest_ranked_clause);
 
-    return lowest_ranked_clause;
+    return *lowest_ranked_clause;
 }
 
 
@@ -48,11 +45,11 @@ void ClauseQueue::sortClauses() {
     clause_list = original_list;
     */
 
-    for (CLAUSE* clause_ptr : clause_list) {
+    for (CLAUSE_PTR clause_ptr : clause_list) {
         CLAUSE current_clause = *clause_ptr;
         RANK clause_rank = getClauseRank(current_clause);
-        RANKED_CLAUSE ranked_clause(clause_rank, current_clause);
-
+        RANKED_CLAUSE ranked_clause = std::make_pair(clause_rank, clause_ptr);
+        
         clause_queue.push(ranked_clause);
     }
 }
@@ -172,7 +169,7 @@ RANK ClauseQueue::getClauseRank(CLAUSE clause) {
     QueryNodeType clause_type = clause.getNodeType();
 
     if (isTrueFalseClause(clause)) {
-        rank = calculateFinalScore(1, 0);
+        rank = calculateFinalScore(0, 0);
         return rank;
     }
 
@@ -537,9 +534,11 @@ bool ClauseQueue::isInResultList(SYNONYM_NAME synonym_name) {
     return synonyms_in_resultlist.find(synonym_name) != synonyms_in_resultlist.end();
 }
 
-void ClauseQueue::removeClauseFromList(CLAUSE clause) {
+void ClauseQueue::removeClauseFromList(CLAUSE_PTR clause_ptr) {
+    auto iterend = clause_list.end();
+    auto remove_iter = std::remove_if(clause_list.begin(), clause_list.end(), [clause_ptr](CLAUSE_PTR i) {return i == clause_ptr; });
     clause_list.erase(
-        std::remove_if(clause_list.begin(), clause_list.end(), [&clause](CLAUSE * i) {return i == &clause; }),
+        remove_iter,
         clause_list.end());
 }
 

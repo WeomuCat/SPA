@@ -7,10 +7,11 @@
 #include <algorithm>
 
 typedef QueryNode CLAUSE;
+typedef std::shared_ptr<QueryNode> CLAUSE_PTR;
 typedef int RANK;
-typedef std::pair<int, CLAUSE> RANKED_CLAUSE;
+typedef std::pair<int, CLAUSE_PTR> RANKED_CLAUSE;
 typedef std::vector<CLAUSE> CLAUSE_LIST;
-typedef std::vector<CLAUSE*> CLAUSE_PTR_LIST;
+typedef std::vector<CLAUSE_PTR> CLAUSE_PTR_LIST;
 typedef std::set<SYNONYM_NAME> SYNONYM_NAMES;
 
 // if c1's rank is larger, return true. Arrange from largest to smallest, min heap returns smallest. 
@@ -38,7 +39,7 @@ class ClauseQueue {
 	*/
 
 public:
-	void addAllClauses(CLAUSE_PTR_LIST all_clauses);
+	void addAllClauses(CLAUSE_LIST all_clauses);
 	/*
 	Description: Adds all clauses of the query to this queue.
 	*/
@@ -73,9 +74,14 @@ private:
 	Description: Returns True if the unsorted input clause_list is non-empty.
 	*/
 
-	void removeClauseFromList(CLAUSE clause);
+	void removeClauseFromList(CLAUSE_PTR clause_ptr);
 	/*
 	Description: Removes this clause from clause_list.
+	*/
+
+	void updateCurrentClauseList();
+	/*
+	Description: Updates the current clause_list with the remaining clauses in clause_queue.
 	*/
 
 	void updateSyonymNamesInResultList(CLAUSE new_clause);
