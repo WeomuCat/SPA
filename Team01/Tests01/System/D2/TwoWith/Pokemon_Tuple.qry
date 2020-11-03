@@ -1,0 +1,15 @@
+1 - If Statement Same as Constant and Assign Statement Same as Constant
+if ifs; assign a; constant c1, c2;
+Select <c1, c2> with ifs.stmt# = c1.value and a.stmt# = c2.value
+36 16, 36 21, 36 23, 36 24
+5000
+2 - Call Procedure Name Same as Procedure and Procedure Name
+call cl; procedure p1, p2;
+Select <cl, p2> with cl.procName = p1.procName and p2.procName = "evolve"
+8 evolve, 13 evolve, 18 evolve, 27 evolve, 29 evolve, 32 evolve, 34 evolve, 38 evolve, 39 evolve
+5000
+3 - Print Variable Same as Read Variable
+variable v; print pn; read re;
+Select <pn, v> with pn.varName = v.varName and re.varName = v.varName
+59 bulbasaur, 70 bulbasaur, 33 ivysaur, 63 ivysaur, 26 venusaur, 54 venusaur, 7 charmander, 17 charizard, 20 charizard, 67 charizard, 47 wartortle, 61 wartortle, 56 blastoise
+5000
