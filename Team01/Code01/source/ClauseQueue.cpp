@@ -1,5 +1,9 @@
 #include "ClauseQueue.h"
 
+ClauseQueue::ClauseQueue(BOOLEAN_TYPE enable_optimization) {
+    this->enable_optimization = enable_optimization;
+}
+
 void ClauseQueue::addAllClauses(CLAUSE_LIST all_clauses) {
     for (CLAUSE clause : all_clauses) {
         std::shared_ptr<CLAUSE> c_ptr = std::make_shared<CLAUSE>(clause);
@@ -18,17 +22,28 @@ bool ClauseQueue::hasNext() {
 CLAUSE ClauseQueue::pop() {
     // Sorts clauses to find the clause with the lowest rank to return.
     // Clear the queue after retrieving the clause to allow next round of sorting.
-    sortClauses();
-    RANKED_CLAUSE current_clause = clause_queue.top();
-    clause_queue.pop();
+    if (enable_optimization) {
+        sortClauses();
+        RANKED_CLAUSE current_clause = clause_queue.top();
+        clause_queue.pop();
 
-    CLAUSE_PTR lowest_ranked_clause = current_clause.second;
-    updateSyonymNamesInResultList(*lowest_ranked_clause); // add synonyms names of this clause to the set of result list syonym names
-    removeClauseFromList(lowest_ranked_clause);
-    clearClauseQueue();
+        CLAUSE_PTR lowest_ranked_clause = current_clause.second;
+        updateSyonymNamesInResultList(*lowest_ranked_clause); // add synonyms names of this clause to the set of result list syonym names
+        removeClauseFromList(lowest_ranked_clause);
+        clearClauseQueue();
 
+        return *lowest_ranked_clause;
+    }
+    else {
+        CLAUSE_PTR_LIST::iterator clause_ptr_ptr = clause_list.begin();
+        CLAUSE* clause_ptr = clause_ptr_ptr->get();
+        CLAUSE clause = *clause_ptr;
+        
+        clause_list.erase(clause_list.begin());
 
-    return *lowest_ranked_clause;
+        return clause;
+    }
+    
 }
 
 

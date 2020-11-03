@@ -39,6 +39,8 @@ class ClauseQueue {
 	*/
 
 public:
+	ClauseQueue(BOOLEAN_TYPE enable_optimization);
+
 	void addAllClauses(CLAUSE_LIST all_clauses);
 	/*
 	Description: Adds all clauses of the query to this queue.
@@ -55,6 +57,7 @@ public:
 	*/
 
 private:
+	BOOLEAN_TYPE enable_optimization;
 	CLAUSE_PTR_LIST clause_list;
 	RANKED_CLAUSE_QUEUE clause_queue;
 	SYNONYM_NAMES synonyms_in_resultlist;
