@@ -44,4 +44,14 @@ public:
 	QUERY_NODE_LIST getChildren();
 
 	QUERY_NODE_CONTENT getQueryNodeContent(); //generic case to get all the node content
+
+	static bool isEquals(QueryNode first, QueryNode second);
+
+	static bool isSameSynonymNode(QueryNode first, QueryNode second);
+
+	static bool isSameIntegerNode(QueryNode first, QueryNode second);
+
+	static bool isSameIdentNode(QueryNode first, QueryNode second);
+
+	static bool isSameAttrNode(QueryNode first, QueryNode second);
 };

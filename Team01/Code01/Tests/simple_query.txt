@@ -1,5 +1,5 @@
-2 - Boolean Call
-call cl;
-Select BOOLEAN with cl.stmt# = 8 and cl.procName = "secondElement"
-TRUE
+1 - Boolean Call
+stmt s1, s2, s3, s4, s5;
+Select <s1, s2, s3, s4, s5> such that Follows(s1, s2) and Follows(s2, s3) and Follows(s3, s4) and Follows(s4, s5) with s2.stmt# = 13
+12 13 14 15 22
 1000
