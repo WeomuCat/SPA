@@ -1,10 +1,48 @@
-1 - Statement
+1 - Select Tuple Statement
 stmt s;
-Select <s, s, s, s, s, s, s, s, s, s, s>
+Select <s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s>
 NO ANSWER
-5000
-2 - Many Statement
+30000
+2 - Select Many Statement
 stmt s1, s2, s3, s4
 Select <s1, s2, s3, s4>
 NO ANSWER
-5000
+30000
+3 - Such That Affects 
+assign a1, a2;
+Select a1 such that Affects (a1, _) and Affects (_, a2)
+NO ANSWER
+30000
+4 - Pattern Assign
+assign a1, a2, a3, a4, a5;
+Select <a1, a2, a3, a4, a5> pattern a1 (_, _"abomasnow"_) and pattern a2 (_, _"bagon"_) and pattern a3 ("cacnea", _) and pattern a4 ("darkrai", _) and pattern a5 ("eelektrik", _"falinks"_)
+NO ANSWER
+30000
+5 - With Assign
+assign a1, a2, a3, a4, a5, a6;
+Select BOOLEAN with a1.stmt# = a2.stmt# and a3.stmt# = a4.stmt# and a5.stmt# = a6.stmt#
+NO_ANSWER
+30000
+6 - With Statement
+assign s1, s2, s3, s4;
+Select <s1, s2, s3, s4> with s1.stmt# = s2.stmt# and s3.stmt# = s4.stmt#
+NO_ANSWER
+30000
+7 - Next*, Uses and Pattern
+assign a; variable v; procedure p; if i;
+Select <i, a, p, v> such that Next* (a, _) and Uses (p, v) and Parent (i, a) pattern a (v, _)
+NO ANSWER
+30000
+8 - Multiple Such That and With
+stmt s1, s2, s3, s4, s5, s6; procedure p1, p2;
+Select BOOLEAN such that Follows* (s1, _) and Parent* (_, s2) Uses (s3, _) and Modifies (s4, _) and Calls (p1, p2) and Next* (s5, _) and Affects* (s6, _) with s1.stmt# = s1.stmt# and s2.stmt# = s2.stmt# and s3.stmt# = s3.stmt# and s4.stmt# = s4.stmt# and s5.stmt# = s5.stmt# and s6.stmt# = s6.stmt# and p1.procName = p1.procName and p2.procName = p2.procName
+9 - Pattern With
+assign a; while w; if i; constant cs;
+Select <a, w, i> pattern a (_, _) and pattern w (_, _) and pattern i (_, _, _) with i.stmt# = cs.value 
+NO ANSWER
+30000
+10 - SuchThat, Pattern, With
+assign a; stmt s; print pn; constant cs;
+Select <s, a> such that Next*(s, pn) pattern a (_, _) with s.stmt# = cs.value
+NO ANSWER
+30000
