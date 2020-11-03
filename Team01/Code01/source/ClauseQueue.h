@@ -67,16 +67,6 @@ private:
 	Description: Sort clauses by their rank, with lowest rank being the highest priority
 	*/
 
-	CLAUSE getNextClauseFromList();
-	/*
-	Description: Get the next clause from the unsorted input clause_list.
-	*/
-
-	bool listHasNext();
-	/*
-	Description: Returns True if the unsorted input clause_list is non-empty.
-	*/
-
 	void removeClauseFromList(CLAUSE_PTR clause_ptr);
 	/*
 	Description: Removes this clause from clause_list.

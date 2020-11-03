@@ -524,21 +524,6 @@ bool ClauseQueue::isTrueFalseClause(CLAUSE clause) {
     return isTrueFalseClause;
 }
 
-CLAUSE ClauseQueue::getNextClauseFromList() {
-    auto first_clause_ptr = clause_list.begin();
-    CLAUSE first_clause = **first_clause_ptr;
-    clause_list.erase(clause_list.begin());
-    return first_clause;
-}
-
-bool ClauseQueue::listHasNext() {
-    bool hasNext = false;
-    if (clause_list.size() > 0) {
-        hasNext = true;
-    }
-    return hasNext;
-}
-
 void ClauseQueue::clearClauseQueue() {
     // reset since priority queue doesn't have a clear method
     RANKED_CLAUSE_QUEUE empty_queue;
