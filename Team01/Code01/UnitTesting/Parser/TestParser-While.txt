@@ -1,0 +1,7 @@
+procedure main {
+	while (wa < 3) {
+		print b1;
+		print b11;
+	}
+	print out;
+}

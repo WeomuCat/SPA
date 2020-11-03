@@ -1084,9 +1084,7 @@
 				findLastStmts(if_ptr->getThenStatementListNode(), last_stmts_num_set);
 				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
 				
-				std::cout << "=========HERE========= " << new_while_node->getStatementNumber();
 				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
-					std::cout << "HERE: " << last_stmt_num;
 					this->pkb_builder_.addNext(last_stmt_num, new_while_node->getStatementNumber());
 				}
 			}
@@ -1754,6 +1752,16 @@
 				this->pkb_builder_.addNext(prevStmt->getStatementNumber()
 					, new_if_node->getStatementNumber());
 			}
+			else {
+				std::set<STMT_NUM> last_stmts_num_set;
+				IF_NODE_PTR if_ptr = std::static_pointer_cast<IfNode>(prevStmt);
+				findLastStmts(if_ptr->getThenStatementListNode(), last_stmts_num_set);
+				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
+
+				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
+					this->pkb_builder_.addNext(last_stmt_num, new_if_node->getStatementNumber());
+				}
+			}
 		}
 
 		//add Uses Relationship for all vars
@@ -2130,6 +2138,16 @@
 				this->pkb_builder_.addNext(prevStmt->getStatementNumber()
 					, new_assign_node->getStatementNumber());
 			}
+			else {
+				std::set<STMT_NUM> last_stmts_num_set;
+				IF_NODE_PTR if_ptr = std::static_pointer_cast<IfNode>(prevStmt);
+				findLastStmts(if_ptr->getThenStatementListNode(), last_stmts_num_set);
+				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
+
+				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
+					this->pkb_builder_.addNext(last_stmt_num, new_assign_node->getStatementNumber());
+				}
+			}
 		}
 
 		//add Modifies Relationship for this statement
@@ -2271,6 +2289,16 @@
 				this->pkb_builder_.addNext(prevStmt->getStatementNumber()
 					, new_read_node->getStatementNumber());
 			}
+			else {
+				std::set<STMT_NUM> last_stmts_num_set;
+				IF_NODE_PTR if_ptr = std::static_pointer_cast<IfNode>(prevStmt);
+				findLastStmts(if_ptr->getThenStatementListNode(), last_stmts_num_set);
+				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
+
+				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
+					this->pkb_builder_.addNext(last_stmt_num, new_read_node->getStatementNumber());
+				}
+			}
 		}
 
 		//Set Modifies Relationship for this statement
@@ -2369,6 +2397,16 @@
 			if (prevStmt->getNodeType() != NodeTypeEnum::ifNode) {
 				this->pkb_builder_.addNext(prevStmt->getStatementNumber()
 					, new_print_node->getStatementNumber());
+			}
+			else {
+				std::set<STMT_NUM> last_stmts_num_set;
+				IF_NODE_PTR if_ptr = std::static_pointer_cast<IfNode>(prevStmt);
+				findLastStmts(if_ptr->getThenStatementListNode(), last_stmts_num_set);
+				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
+
+				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
+					this->pkb_builder_.addNext(last_stmt_num, new_print_node->getStatementNumber());
+				}
 			}
 		}
 
@@ -2513,6 +2551,16 @@
 			if (prevStmt->getNodeType() != NodeTypeEnum::ifNode) {
 				this->pkb_builder_.addNext(prevStmt->getStatementNumber()
 					, new_call_node->getStatementNumber());
+			}
+			else {
+				std::set<STMT_NUM> last_stmts_num_set;
+				IF_NODE_PTR if_ptr = std::static_pointer_cast<IfNode>(prevStmt);
+				findLastStmts(if_ptr->getThenStatementListNode(), last_stmts_num_set);
+				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
+
+				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
+					this->pkb_builder_.addNext(last_stmt_num, new_call_node->getStatementNumber());
+				}
 			}
 		}
 	}
