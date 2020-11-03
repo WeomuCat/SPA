@@ -12,7 +12,7 @@ typedef int RANK;
 typedef std::pair<int, CLAUSE_PTR> RANKED_CLAUSE;
 typedef std::vector<CLAUSE> CLAUSE_LIST;
 typedef std::vector<CLAUSE_PTR> CLAUSE_PTR_LIST;
-typedef std::set<SYNONYM_NAME> SYNONYM_NAMES;
+typedef std::unordered_set<SYNONYM_NAME> SYNONYM_NAMES;
 
 // if c1's rank is larger, return true. Arrange from largest to smallest, min heap returns smallest. 
 struct CompareRankedClauses {
@@ -29,7 +29,7 @@ class ClauseQueue {
 	Usage:
 	INIT:
 		std::vector<QueryNode> all_clauses;
-		ClauseQueue clause_queue;
+		ClauseQueue clause_queue(true);
 		clause_queue.addAllClauses(all_clauses);
 	
 	ACCESS:
@@ -40,6 +40,9 @@ class ClauseQueue {
 
 public:
 	ClauseQueue(BOOLEAN_TYPE enable_optimization);
+	/*
+	Description: Creates a ClauseQueue. If enable_optimization is true, clauses will be sorted. Else the order will be in the order of addition.
+	*/
 
 	void addAllClauses(CLAUSE_LIST all_clauses);
 	/*
