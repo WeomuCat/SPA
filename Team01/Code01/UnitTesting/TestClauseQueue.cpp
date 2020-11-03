@@ -5,7 +5,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace IntegrationTesting
+namespace UnitTesting
 {
 	TEST_CLASS(TestClauseQueue)
 	{
