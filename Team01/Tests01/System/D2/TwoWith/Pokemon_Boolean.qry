@@ -25,11 +25,11 @@ FALSE
 5000
 6 - Variable with Name and Assign Statement Number
 assign a; variable v;
-Select BOOLEAN with v.varName = charizard and assign.stmt# = 24
+Select BOOLEAN with v.varName = "charizard" and a.stmt# = 24
 TRUE
 5000
 7 - Call Statement Number and Call Procedure Name
 call cl;
-Select BOOLEAN with cl.stmt# = 29 and cl.procName = evolveAgain
+Select BOOLEAN with cl.stmt# = 29 and cl.procName = "evolveAgain"
 FALSE
 5000
