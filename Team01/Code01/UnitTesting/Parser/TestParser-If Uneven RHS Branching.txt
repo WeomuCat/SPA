@@ -1,0 +1,12 @@
+procedure main {
+	print a;
+	if (x < 3) then {
+		print y;
+		print z;
+	} else {
+		print y;
+		print z;
+		print w;
+	}
+	print b;
+}

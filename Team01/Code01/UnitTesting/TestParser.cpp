@@ -870,5 +870,365 @@ namespace UnitTesting {
 			Assert::IsTrue(actual_pkb->isUses("subsubsub5", "z"));
 			Assert::IsTrue(actual_pkb->isUses(8, "z"));
 		}
+
+		//*************START TEST NEXT R/S*****************
+		TEST_METHOD(parseNextIfEvenBranching) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-If Even Branching.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1,2));
+			valid_next.insert(std::make_pair(2, 3));
+			valid_next.insert(std::make_pair(2, 4));
+			valid_next.insert(std::make_pair(3, 5));
+			valid_next.insert(std::make_pair(4, 5));
+
+			for (int i = 1; i <= 6; i++) {
+				for (int j = 1; j <= 6; j++) {
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+					} else {
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+					}
+				}
+			}
+		}
+
+		TEST_METHOD(parseNextIfEvenBranchingMulti) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-If Even Branching Multi Line.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1, 2));
+
+			valid_next.insert(std::make_pair(2, 3));
+			valid_next.insert(std::make_pair(3, 4));
+			valid_next.insert(std::make_pair(2, 5));
+			valid_next.insert(std::make_pair(5, 6));
+			
+			valid_next.insert(std::make_pair(4, 7));
+			valid_next.insert(std::make_pair(6, 7));
+
+			for (int i = 1; i <= 7; i++) {
+				for (int j = 1; j <= 7; j++) {
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+					}
+					else {
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+					}
+				}
+			}
+		}
+
+		TEST_METHOD(parseNextIfUnevenLHSBranching) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-If Uneven LHS Branching.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1, 2));
+
+			
+			valid_next.insert(std::make_pair(2, 3));
+			valid_next.insert(std::make_pair(3, 4));
+			
+			valid_next.insert(std::make_pair(2, 5));
+			
+
+			valid_next.insert(std::make_pair(4, 6));
+			valid_next.insert(std::make_pair(5, 6));
+
+			for (int i = 1; i <= 6; i++) {
+				for (int j = 1; j <= 6; j++) {
+					
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Logger::WriteMessage("Assert True");
+						Logger::WriteMessage(":");
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+						
+					}
+					else {
+						Logger::WriteMessage("Assert False");
+						Logger::WriteMessage(":");
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+						
+					}
+					Logger::WriteMessage(std::to_string(i).c_str());
+					Logger::WriteMessage(":");
+					Logger::WriteMessage(std::to_string(j).c_str());
+					Logger::WriteMessage("\n");
+				}
+			}
+		}
+
+		TEST_METHOD(parseNextIfUnevenRHSBranching) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-If Uneven RHS Branching.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1, 2));
+
+			valid_next.insert(std::make_pair(2, 3));
+			valid_next.insert(std::make_pair(3, 4));
+
+			valid_next.insert(std::make_pair(2, 5));
+			valid_next.insert(std::make_pair(5, 6));
+			valid_next.insert(std::make_pair(6, 7));
+
+			valid_next.insert(std::make_pair(4, 8));
+			valid_next.insert(std::make_pair(7, 8));
+
+			for (int i = 1; i <= 8; i++) {
+				for (int j = 1; j <= 8; j++) {
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+					}
+					else {
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+					}
+				}
+			}
+		}
+
+		TEST_METHOD(parseNextIfNested) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-If Nested.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1, 2));
+
+			//If 
+			valid_next.insert(std::make_pair(2, 3));
+
+			//Nested If
+			valid_next.insert(std::make_pair(3, 4));
+			
+			//Nested Else
+			valid_next.insert(std::make_pair(3, 5));
+			valid_next.insert(std::make_pair(5, 6));
+			
+			//Else
+			valid_next.insert(std::make_pair(2, 7));
+			
+			//Nested if
+			valid_next.insert(std::make_pair(7, 8));
+			valid_next.insert(std::make_pair(8, 9));
+			valid_next.insert(std::make_pair(9, 10));
+
+			//Nested Else
+			valid_next.insert(std::make_pair(7, 11));
+			valid_next.insert(std::make_pair(11, 12));
+			valid_next.insert(std::make_pair(12, 13));
+			valid_next.insert(std::make_pair(13, 14));
+
+			//Out of Nested
+			valid_next.insert(std::make_pair(4, 15));
+			valid_next.insert(std::make_pair(6, 15));
+			valid_next.insert(std::make_pair(10, 15));
+			valid_next.insert(std::make_pair(14, 15));
+			
+
+			for (int i = 1; i <= 15; i++) {
+				for (int j = 1; j <= 15; j++) {
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+					}
+					else {
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+					}
+				}
+			}
+		}
+
+		TEST_METHOD(parseNextWhile) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-While.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1, 2));
+
+			valid_next.insert(std::make_pair(2, 3));
+			valid_next.insert(std::make_pair(3, 1));
+
+			valid_next.insert(std::make_pair(1, 4));
+			
+			for (int i = 1; i <= 4; i++) {
+				for (int j = 1; j <= 4; j++) {
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+					}
+					else {
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+					}
+				}
+			}
+		}
+
+		TEST_METHOD(parseNextWhileIf) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-While If.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1, 2));
+
+			//If
+			valid_next.insert(std::make_pair(2, 3));
+			valid_next.insert(std::make_pair(3, 4));
+
+			//Else
+			valid_next.insert(std::make_pair(2, 5));
+			valid_next.insert(std::make_pair(5, 6));
+
+			//Exit If
+			valid_next.insert(std::make_pair(4, 1));
+			valid_next.insert(std::make_pair(6, 1));
+
+			//Exit While
+			valid_next.insert(std::make_pair(1, 7));
+
+			for (int i = 1; i <= 7; i++) {
+				for (int j = 1; j <= 7; j++) {
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+					}
+					else {
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+					}
+				}
+			}
+		}
+
+		TEST_METHOD(parseNextWhileWhileIf) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-While While If.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1, 2));
+			valid_next.insert(std::make_pair(2, 1));
+			
+			valid_next.insert(std::make_pair(2, 3));
+
+			//If
+			valid_next.insert(std::make_pair(3, 4));
+
+			//Else
+			valid_next.insert(std::make_pair(3, 5));
+			valid_next.insert(std::make_pair(5, 6));
+
+			//Exit If
+			valid_next.insert(std::make_pair(4, 2));
+			valid_next.insert(std::make_pair(6, 2));
+
+			//Exit While
+			valid_next.insert(std::make_pair(1, 7));
+
+			for (int i = 1; i <= 7; i++) {
+				for (int j = 1; j <= 7; j++) {
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+					}
+					else {
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+					}
+				}
+			}
+		}
+
+		TEST_METHOD(parseNextWhileIfWhile) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-While If While.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1, 2));
+			
+			//If
+			valid_next.insert(std::make_pair(2, 3));
+			valid_next.insert(std::make_pair(3, 4));
+
+			//Nested While
+			valid_next.insert(std::make_pair(4, 5));
+			valid_next.insert(std::make_pair(5, 4));
+			//Exit
+			valid_next.insert(std::make_pair(4, 1));
+
+			//Else
+			valid_next.insert(std::make_pair(2, 6));
+			valid_next.insert(std::make_pair(6, 7));
+			//Nested While
+			valid_next.insert(std::make_pair(7, 8));
+			valid_next.insert(std::make_pair(8, 7));
+			//Exit
+			valid_next.insert(std::make_pair(7, 1));
+
+			//Exit While
+			valid_next.insert(std::make_pair(1, 9));
+
+			for (int i = 1; i <= 9; i++) {
+				for (int j = 1; j <= 9; j++) {
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+					}
+					else {
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+					}
+				}
+			}
+		}
+
+		TEST_METHOD(parseNextWhileNestedIf) {
+			Parser parser = Parser();
+			PKB_PTR actual_pkb =
+				std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-While Nested If.txt"));
+
+			std::set<std::pair<int, int>> valid_next;
+			valid_next.insert(std::make_pair(1, 2));
+
+			//If
+			valid_next.insert(std::make_pair(2, 3));
+			
+			//Nested If
+			valid_next.insert(std::make_pair(3, 4));
+			
+			//Nested Else
+			valid_next.insert(std::make_pair(3, 5));
+
+			//Else
+			valid_next.insert(std::make_pair(2, 6));
+			
+			//Nested If
+			valid_next.insert(std::make_pair(6, 7));
+			//Nested Else
+			valid_next.insert(std::make_pair(6, 8));
+
+			//Exit from Nested
+			valid_next.insert(std::make_pair(4, 1));
+			valid_next.insert(std::make_pair(5, 1));
+			valid_next.insert(std::make_pair(7, 1));
+			valid_next.insert(std::make_pair(8, 1));
+
+			//Exit While
+			valid_next.insert(std::make_pair(1, 9));
+
+			for (int i = 1; i <= 9; i++) {
+				for (int j = 1; j <= 9; j++) {
+					if (valid_next.count(std::pair<int, int>(i, j)) > 0) {
+						Assert::IsTrue(actual_pkb->isNext(i, j));
+					}
+					else {
+						Assert::IsFalse(actual_pkb->isNext(i, j));
+					}
+				}
+			}
+		}
+		//*************END TEST NEXT R/S*****************
 	};
 }

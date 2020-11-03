@@ -7,6 +7,13 @@
 #include "PKB.h"
 
 class Pattern {
+public:
+	Pattern(QueryNode pattern_node);
+	
+	static bool exactExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle);
+	static bool partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle);
+
+	void getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_result_list);
 private:
 	static bool partialTopExpressionTreeMatch(AST_NODE_PTR haystack, AST_NODE_PTR needle);
 	static VAR_NAME_LIST getVarNameListFromAst(AST_NODE_PTR ast);
@@ -15,12 +22,5 @@ private:
 	static AST_NODE_PTR getExpressionNodeLeft(AST_NODE_PTR n);
 	static AST_NODE_PTR getExpressionNodeRight(AST_NODE_PTR n);
 
-	QueryNode clause_node_;
-public:
-	Pattern(QueryNode clause_node);
-	
-	static bool exactExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle);
-	static bool partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle);
-
-	void getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_result_list);
+	QueryNode pattern_node_;
 };
