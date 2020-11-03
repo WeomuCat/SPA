@@ -102,15 +102,21 @@ void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList&
 			}
 		}
 	}
-	
 
 	/* Filter wrong relationships in valid_results, using PKB */
+	
+	// Optimization for queries with no synonyms:
+	// The ResultList will always be empty because there are no synonyms.
+	// Therefore if there is at least one valid result found,
+	// we can skip checking the other results, as this clause will always return true!
+	bool no_synonyms = refs[0].getNodeType() != QUERY_NODE_TYPE::synonym && refs[1].getNodeType() != QUERY_NODE_TYPE::synonym;
+
 	for (auto it = valid_results.begin(); it != valid_results.end(); ) {
 		std::pair<SYNONYM_VALUE, SYNONYM_VALUE> relationship = *it;
 		SYNONYM_VALUE v0 = it->first;
 		SYNONYM_VALUE v1 = it->second;
 
-		bool valid = false;
+		bool valid;
 		switch (type) {
 		case QUERY_NODE_TYPE::affects:
 			// (a, a)
@@ -168,6 +174,13 @@ void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList&
 			// (s, v)
 			valid = pkb.isUses(synValueToStmtNum(v0), v1);
 			break;
+		default:
+			throw "QE: Relationship: Relationship given is not valid.";
+		}
+
+		if (no_synonyms && valid) {
+			clause_bool = true;
+			return;
 		}
 
 		if (!valid) {
