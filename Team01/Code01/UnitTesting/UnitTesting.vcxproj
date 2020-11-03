@@ -169,6 +169,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TestAST.cpp" />
+    <ClCompile Include="TestClauseQueue.cpp" />
     <ClCompile Include="TestParser.cpp" />
     <ClCompile Include="TestPattern.cpp" />
     <ClCompile Include="TestQueryValidator.cpp" />

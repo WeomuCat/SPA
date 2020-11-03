@@ -1,26 +1,39 @@
-procedure firstElement {
-    wind = earth + fire;
-    print water;
-    read earth;
-    if ((!(earth == water)) && (wind <= fire)) then {
-        fire = water - 4;
-        read water;
-        while (water < earth) {
-            call secondElement;
+procedure aProc {
+    avar = bvar + cvar - dvar / evar * avar + 1;
+    if (avar == dvar) then {
+        cvar = evar;
+        while (cvar != dvar) {
+            print evar;
+            read evar;
+            call cProc;
         }
     } else {
-        water = earth * water;
-        print water;
-        call secondElement;
-        water = 4;
+        print dvar;
+        bvar = bvar + 2;
     }
-
+    print evar;
+    call bProc;
 }
 
-procedure secondElement {
-    water = earth * water;
-    water = 4;
-    read wind;
-    read fire;
-    print earth;
+procedure bProc {
+    print avar;
+    read avar;
+    cvar = dvar + dvar;
+    while ((cvar != dvar) || (evar < avar)) {
+        bvar = bvar + 3;
+        if (avar == dvar) then {
+            print dvar;
+            bvar = evar;
+        } else {
+            read evar;
+        }
+        call cProc;
+    }
+    cvar = dvar + 3;
+}
+
+procedure cProc {
+    read evar;
+    print cvar;
+    avar = avar;
 }
