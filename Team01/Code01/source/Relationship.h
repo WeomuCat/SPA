@@ -7,46 +7,35 @@
 #include "PKB.h"
 
 #include <iostream>
+#include <unordered_map>
 
 class Relationship {
 	/*Overview: This class handles the logic of such that relationships of 2 arguments. */
 public:
-	Relationship(QueryNodeType relationship_type, QueryNode child1, QueryNode child2);
 	/*
-	Description: Creates a relationship with a given relationship type, argument 1 and argument 2 of the relationship.
+	Description: Creates a relationship from a clause node.
 	*/
+	Relationship(QueryNode relationship_node);
 
-	void getRelationshipResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 	/*
 	Description: Updates the given clause_result_list with the result of this Relationship, consulting from the given pkb.
-				 Updates the give clause_bool to True if this clause result is Non-Empty. 
+				 Updates the give clause_bool to True if this clause result is Non-Empty.
 	*/
+	void getRelationshipResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 
 private:
-	QueryNode child1;
-	QueryNode child2;
-	QueryNodeType relationship_type;
+	QueryNode relationship_node_;
+	std::unordered_map<SYNONYM_VALUE, STMT_NUM> stmt_nums_;
 
-	void getFollowsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getFollowsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getParentResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getParentTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getUsesSResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getUsesPResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getModifiesSResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getModifiesPResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getCallsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getCallsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getNextResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getNextTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getAffectsResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
-	void getAffectsTResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
+	bool areSynonymsEqual(QueryNode r1, QueryNode r2);
+	SYNONYM_VALUES_LIST getStatementsFromRef(PKB pkb, QueryNode ref);
+	SYNONYM_VALUES_LIST getAssignsFromRef(PKB pkb, QueryNode ref);
+	SYNONYM_VALUES_LIST getVariablesFromRef(PKB pkb, QueryNode ref);
+	SYNONYM_VALUES_LIST getProceduresFromRef(PKB pkb, QueryNode ref);
 
+	STMT_NUM_LIST getStatementNumsFromRef(PKB pkb, QueryNode ref);
+	STMT_NUM_LIST getAssignNumsFromRef(PKB pkb, QueryNode ref);
 
-	bool isSameSynonymName(QueryNode child1, QueryNode child2);
-	STMT_NUM_LIST getStmtList(PKB pkb, QueryNode child1);
-	STMT_NUM_LIST getAssignList(PKB pkb, QueryNode node);
-	VAR_NAME_LIST getVarNameList(PKB pkb, QueryNode node);
-	PROC_NAME_LIST getProcList(PKB pkb, QueryNode node);
-
+	SYNONYM_VALUES_LIST stmtNumsToSynValues(STMT_NUM_LIST stmt_nums);
+	STMT_NUM synValueToStmtNum(SYNONYM_VALUE stmt_string);
 };

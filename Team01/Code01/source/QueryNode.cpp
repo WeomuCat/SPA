@@ -182,3 +182,212 @@ QUERY_NODE_LIST QueryNode::getChildren() {
 QUERY_NODE_CONTENT QueryNode::getQueryNodeContent() {
 	return node_content;
 }
+
+bool QueryNode::isEquals(QueryNode first, QueryNode second) {
+	QueryNodeType first_type = first.getNodeType();
+	QueryNodeType second_type = second.getNodeType();
+
+	if (first_type == second_type) {
+		if (first_type == QueryNodeType::such_that) {
+			QueryNode first_child = first.getChildren()[0];
+			QueryNode second_child = second.getChildren()[0];
+
+			// check if they have the same relationship type
+			if (first_child.getNodeType() == second_child.getNodeType()) {
+				// check if the children are the same
+				QueryNode first_lhs = first_child.getChildren()[0];
+				QueryNode first_rhs = first_child.getChildren()[1];
+				QueryNodeType first_lhs_type = first_lhs.getNodeType();
+				QueryNodeType first_rhs_type = first_rhs.getNodeType();
+
+				QueryNode second_lhs = second_child.getChildren()[0];
+				QueryNode second_rhs = second_child.getChildren()[1];
+				QueryNodeType second_lhs_type = second_lhs.getNodeType();
+				QueryNodeType second_rhs_type = second_rhs.getNodeType();
+				
+				if (first_lhs_type == second_lhs_type && first_rhs_type == second_rhs_type) {
+					bool lhsIsEqual = false;
+					bool rhsIsEqual = false;
+
+					// check if lhs of both clauses are equal
+					if (first_lhs_type == QueryNodeType::synonym) {
+						if (isSameSynonymNode(first_lhs, second_lhs)) {
+							lhsIsEqual = true;
+						}
+					}
+					else if (first_lhs_type == QueryNodeType::integer) {
+						if (isSameIntegerNode(first_lhs, second_lhs)) {
+							lhsIsEqual = true;
+						}
+					}
+					else if (first_lhs_type == QueryNodeType::ident) {
+						if (isSameIdentNode(first_lhs, second_lhs)) {
+							lhsIsEqual = true;
+						}
+					}
+					else if (first_lhs_type == QueryNodeType::wild_card) {
+						lhsIsEqual = true;
+					}
+
+
+					// check if rhs of both clauses are equal
+					if (first_rhs_type == QueryNodeType::synonym) {
+						if (isSameSynonymNode(first_rhs, second_rhs)) {
+							rhsIsEqual = true;
+						}
+					}
+					else if (first_rhs_type == QueryNodeType::integer) {
+						if (isSameIntegerNode(first_rhs, second_rhs)) {
+							rhsIsEqual = true;
+						}
+					}
+					else if (first_rhs_type == QueryNodeType::ident) {
+						if (isSameIdentNode(first_rhs, second_rhs)) {
+							rhsIsEqual = true;
+						}
+					}
+					else if (first_rhs_type == QueryNodeType::wild_card) {
+						rhsIsEqual = true;
+					}
+
+					if (lhsIsEqual && rhsIsEqual) {
+						return true;
+					}
+				}
+
+			}
+		}
+
+		if (first_type == QueryNodeType::with) {
+			QueryNode first_lhs = first.getChildren()[0];
+			QueryNode first_rhs = first.getChildren()[1];
+			QueryNodeType first_lhs_type = first_lhs.getNodeType();
+			QueryNodeType first_rhs_type = first_rhs.getNodeType();
+
+			QueryNode second_lhs = second.getChildren()[0];
+			QueryNode second_rhs = second.getChildren()[1];
+			QueryNodeType second_lhs_type = second_lhs.getNodeType();
+			QueryNodeType second_rhs_type = second_rhs.getNodeType();
+
+			if (first_lhs_type == second_lhs_type && first_rhs_type == second_rhs_type) {
+				bool lhsIsEqual = false;
+				bool rhsIsEqual = false;
+
+				// check if lhs are equal
+				if (first_lhs_type == QueryNodeType::attr) {
+					if (isSameAttrNode(first_lhs, second_lhs)) {
+						lhsIsEqual = true;
+					} 
+				}
+				else if (first_lhs_type == QueryNodeType::integer) {
+					if (isSameIntegerNode(first_lhs, second_lhs)) {
+						lhsIsEqual = true;
+					}
+				}
+				else if (first_lhs_type == QueryNodeType::ident) {
+					if (isSameIdentNode(first_lhs, second_lhs)) {
+						lhsIsEqual = true;
+					}
+				}
+				else if (first_lhs_type == QueryNodeType::wild_card) {
+					lhsIsEqual = true;
+				}
+
+				// check if rhs are equal
+				if (first_rhs_type == QueryNodeType::attr) {
+					if (isSameAttrNode(first_rhs, second_rhs)) {
+						rhsIsEqual = true;
+					}
+				}
+				else if (first_rhs_type == QueryNodeType::integer) {
+					if (isSameIntegerNode(first_rhs, second_rhs)) {
+						rhsIsEqual = true;
+					}
+				}
+				else if (first_rhs_type == QueryNodeType::ident) {
+					if (isSameIdentNode(first_rhs, second_rhs)) {
+						rhsIsEqual = true;
+					}
+				}
+				else if (first_rhs_type == QueryNodeType::wild_card) {
+					rhsIsEqual = true;
+				}
+
+
+				if (lhsIsEqual && rhsIsEqual) {
+					return true;
+				}
+			}
+
+		}
+
+		if (first_type == QueryNodeType::pattern) {
+			QueryNode first_synonym_node = first.getChildren()[0];
+			QuerySynonymType first_synonym_type = first_synonym_node.getSynonymType();
+			SYNONYM_NAME first_synonym_name = first_synonym_node.getString();
+
+			QueryNode second_synonym_node = second.getChildren()[0];
+			QuerySynonymType second_synonym_type = second_synonym_node.getSynonymType();
+			SYNONYM_NAME second_synonym_name = second_synonym_node.getString();
+
+			if (first_synonym_type == second_synonym_type && first_synonym_name == second_synonym_name) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool QueryNode::isSameSynonymNode(QueryNode first, QueryNode second) {
+	SYNONYM_TYPE first_type = first.getSynonymType();
+	SYNONYM_NAME first_name = first.getString();
+	SYNONYM_TYPE second_type = second.getSynonymType();
+	SYNONYM_NAME second_name = second.getString();
+
+	if (first_type == second_type && first_name == second_name) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool QueryNode::isSameIntegerNode(QueryNode first, QueryNode second) {
+	INTEGER first_int = first.getInteger();
+	INTEGER second_int = second.getInteger();
+
+	if (first_int == second_int) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool QueryNode::isSameIdentNode(QueryNode first, QueryNode second) {
+	STRING first_ident = first.getString();
+	STRING second_ident = second.getString();
+
+	if (first_ident == second_ident) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool QueryNode::isSameAttrNode(QueryNode first, QueryNode second) {
+	SYNONYM_NAME first_name = first.getString();
+	ATTRIBUTE first_attr = first.getAttr();
+
+	SYNONYM_NAME second_name = second.getString();
+	ATTRIBUTE second_attr = second.getAttr();
+
+	if (first_name == second_name && first_attr == second_attr) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}

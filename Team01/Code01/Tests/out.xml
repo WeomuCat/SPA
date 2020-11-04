@@ -1,8 +1,15 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>AutoTester</name><parsing_time_taken>13.000000</parsing_time_taken>
+<name>AutoTester</name><parsing_time_taken>27.000000</parsing_time_taken>
 </info>
 <queries>
 <query>
-<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" comment="Boolean Call">2</id><querystr><![CDATA[call cl; Select BOOLEAN with cl.stmt# = 8 and cl.procName = "secondElement"]]></querystr>
+<id ReturnTuple="1" Follows="4" SuchThat="1" With="1" CondNum="7" RelNum="4" comment="Boolean Call">1</id><querystr><![CDATA[stmt s1, s2, s3, s4, s5; Select <s1, s2, s3, s4, s5> such that Follows(s1, s2) and Follows(s2, s3) and Follows(s3, s4) and Follows(s4, s5) with s2.stmt# = 13]]></querystr>
+<stuans>12 13 14 15 22</stuans>
+<correct>12 13 14 15 22</correct>
+<time_taken>275.000000</time_taken>
+<passed/>
+</query>
+</queries>
+</test_results>
