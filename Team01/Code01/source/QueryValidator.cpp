@@ -11,7 +11,7 @@ const std::regex brac_tuple_format_("<\\s*([a-zA-Z][a-zA-Z0-9]*|[a-zA-Z][a-zA-Z0
 const std::regex declaration_format_("(stmt|read|print|call|while|if|assign|variable|constant|prog_line|procedure)\\s+[a-zA-Z][a-zA-Z0-9]*\\s*(\\,\\s*[a-zA-Z][a-zA-Z0-9]*)*\\s*");
 
 const std::regex clause_select_format_("Select\\s+([a-zA-Z][a-zA-Z0-9]*|<.*>).*");
-const std::regex clause_relation_format_("(Follows|Follows\\*|Parent|Parent\\*|Uses|Modifies|Calls|Calls\\*|Next|Next\\*)\\s*\\(\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*,\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*\\)");
+const std::regex clause_relation_format_("(Follows|Follows\\*|Parent|Parent\\*|Uses|Modifies|Calls|Calls\\*|Next|Next\\*|Affects|Affects\\*)\\s*\\(\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*,\\s*\"?\\s*[a-zA-Z0-9_][a-zA-Z0-9]*\\s*\"?\\s*\\)");
 const std::regex clause_pattern_assign_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*(\"\\s*[^\\s].*\\s*\"|_\\s*\"\\s*[^\\s].*\\s*\"\\s*_|_)\\s*\\)(\\s+and)?");
 const std::regex clause_pattern_if_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)(\\s+and)?");
 const std::regex clause_pattern_while_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)(\\s+and)?");
@@ -28,7 +28,7 @@ Validation rules:
 		- Has 'Select'
 		- If is not 'Select BOOLEAN', should have declarations
 */
-VALIDATION_RESULT QueryValidator ::isValidStructure(QUERY q) {
+VALIDATION_RESULT QueryValidator ::isValidStructure(INPUT_QUERY q) {
 	if (q.length() <= 0) {
 		return false;
 	}
@@ -379,6 +379,7 @@ Validation rules:
 			- entity references as their second argument
 		- Calls and CallsT can only have entity references (excluding variable) as arguments
 		- Next and NextT can only have line references as arguments
+		- Affects and AffectsT can only have statement references as arguments
 
 */
 VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS proc_s, RELATIONSHIP rel,
@@ -512,15 +513,26 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		}
 	}
 	else if (rel.compare("Next") == 0 || rel.compare("Next*") == 0) {
-	if (!isLineRef(proc_s, first_arg)) {
-		return false;
+		if (!isLineRef(proc_s, first_arg)) {
+			return false;
+		}
+		else if (!isLineRef(proc_s, second_arg)) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
-	else if (!isLineRef(proc_s, second_arg)) {
-		return false;
-	}
-	else {
-		return true;
-	}
+	else if (rel.compare("Affects") == 0 || rel.compare("Affects*") == 0) {
+		if (!isStatementRef(proc_s, first_arg)) {
+			return false;
+		}
+		else if (!isStatementRef(proc_s, second_arg)) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	return false;

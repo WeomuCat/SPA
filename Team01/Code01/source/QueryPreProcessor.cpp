@@ -10,6 +10,7 @@
 #include "PKB/ASTNode/ExpressionTypeEnum.h"
 #include "PKB/ASTNode/ExpressionNode.h"
 #include "QueryNode.h"
+#include "ClauseQueue.h"
 #include "QueryNodeType.h"
 #include "QueryPreProcessor.h"
 #include "QueryValidator.h"
@@ -707,7 +708,7 @@ QueryNode QueryPreProcessor::createWithNode(PROCESSED_SYNONYMS proc_s, SINGLE_CL
 	}
 }
 
-SPLIT_QUERY QueryPreProcessor::splitQuery(QUERY q) {
+SPLIT_QUERY QueryPreProcessor::splitQuery(INPUT_QUERY q) {
 	SPLIT_QUERY split_q;
 	DECLARATIONS d = "";
 	CLAUSES c = "";
@@ -807,6 +808,8 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 	VALIDATION_RESULT is_syntax_valid = true;
 	bool is_bool = false;
 
+	CLAUSE_LIST all_clauses;
+	ClauseQueue clause_queue(true);
 
 	if (QueryValidator::isValidClause(c)) {
 		select_node.setNodeType({ QueryNodeType::select });
@@ -908,7 +911,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						}
 						else {
 							such_that_node.addChild(relation_node);
-							select_node.addChild(such_that_node);
+							all_clauses.push_back(such_that_node);
 						}
 						
 						
@@ -959,7 +962,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 					}
 					else {
-						select_node.addChild(pattern_node);
+						all_clauses.push_back(pattern_node);
 					}
 				
 				}
@@ -998,7 +1001,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 						}
 						else {
-							select_node.addChild(with_node);
+							all_clauses.push_back(with_node);
 						}
 
 						if (is_last) {
@@ -1023,6 +1026,13 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 	}
 
 	if (is_valid) {
+		clause_queue.addAllClauses(all_clauses);
+
+		while (clause_queue.hasNext()) {
+			CLAUSE next_clause = clause_queue.pop();
+			select_node.addChild(next_clause);
+		}
+
 		return select_node;
 	}
 	else if (is_bool && is_syntax_valid) {

@@ -1,5 +1,0 @@
-1 - Next*, Uses and Pattern
-assign a; variable v; procedure p; if i;
-Select <i, a, p, v> such that Next* (a, _) and Uses (p, v) and Parent (i, a) pattern a (v, _)
-NO ANSWER
-5000
