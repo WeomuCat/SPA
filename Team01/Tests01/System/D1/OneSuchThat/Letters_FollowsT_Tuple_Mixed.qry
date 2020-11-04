@@ -1,62 +1,42 @@
-1 - Follows* Read Print
-read r; print p;
-Select <r, p> such that Follows*(r, p)
-23 24
-1000
-1 - Follows* Read Print
-read r; print p;
-Select <r, p> such that Follows*(p, r)
-13 12,6 5
-1000
-1 - Follows* Read Print
-read r; print p;
-Select <r, r.stmt#, p, p.stmt#> such that Follows*(r, p)
-23 23 24 24
-1000
-1 - Follows* Read Print
-read r; print p;
-Select <r, r.varName, p, p.varName> such that Follows*(r, p)
-23 eVar 24 cVar
+1 - Follows* Read Call
+read r; call c;
+Select <r, r.stmt#, r.varName, c, c.stmt#, c.procName> such that Follows*(r, c)
+6 6 eVar 7 7 cProc
 1000
 1 - Follows* Read Call
 read r; call c;
-Select <r, c> such that Follows*(r, c)
-6 7
-1000
-1 - Follows* Read Call
-read r; call c;
-Select <r, c> such that Follows*(c, r)
+Select <r, r.stmt#, r.varName, c, c.stmt#, c.procName> such that Follows*(c, r)
 none
 1000
-1 - Follows* Read Call
-read r; call c;
-Select <r, r.stmt#, c, c.stmt#> such that Follows*(r, c)
-6 6 7 7
+1 - Follows* Statement Read
+stmt s; read r;
+Select <s, s.stmt#, r, r.stmt#, r.varName> such that Follows*(s, r)
+12 12 13 13 aVar,5 5 6 6 eVar
 1000
-1 - Follows* Read Call
-read r; call c;
-Select <r, r.varName, c, c.procName> such that Follows*(r, c)
-6 eVar 7 cProc
+1 - Follows* Statement Read
+stmt s; read r;
+Select <s, s.stmt#, r, r.stmt#, r.varName> such that Follows*(r, s)
+14 14 13 13 aVar,15 15 13 13 aVar,22 22 13 13 aVar,24 24 23 23 eVar,25 25 23 23 eVar,7 7 6 6 eVar
+1000
+1 - Follows* Read Print
+read r; print p;
+Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName> such that Follows*(r, p)
+23 23 eVar 24 24 cVar
+1000
+1 - Follows* Read Print
+read r; print p;
+Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName> such that Follows*(p, r)
+13 13 aVar 12 12 aVar,6 6 eVar 5 5 eVar
 1000
 1 - Follows* Print Call
 print p; call c;
-Select <p, c> such that Follows*(p, c)
-10 11,5 7
+Select <p, p.stmt#, p.varName, c, c.stmt#, c.procName> such that Follows*(p, c)
+10 10 eVar 11 11 bProc,5 5 eVar 7 7 cProc
 1000
 1 - Follows* Print Call
 print p; call c;
-Select <p, c> such that Follows*(c, p)
+Select <p, p.stmt#, p.varName, c, c.stmt#, c.procName> such that Follows*(c, p)
 none
-1000
-1 - Follows* Print Call
-print p; call c;
-Select <p, p.stmt#, c, c.stmt#> such that Follows*(p, c)
-10 10 11 11,5 5 7 7
-1000
-1 - Follows* Print Call
-print p; call c;
-Select <p, p.varName, c, c.procName> such that Follows*(p, c)
-10 eVar 11 bProc,5 eVar 7 cProc
 1000
 1 - Follows* Call While
 call c; while w;
