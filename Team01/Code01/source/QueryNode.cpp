@@ -62,6 +62,12 @@ void QueryNode::setNodeType(NODE_TYPE_STRING node_type_string) {
 	else if (node_type_string.compare("Next*") == 0) {
 		this->node_type = QueryNodeType::nextT;
 	}
+	else if (node_type_string.compare("Affects") == 0) {
+		this->node_type = QueryNodeType::affects;
+	}
+	else if (node_type_string.compare("Affects*") == 0) {
+		this->node_type = QueryNodeType::affectsT;
+	}
 }
 
 QUERY_NODE_TYPE QueryNode::getNodeType() {

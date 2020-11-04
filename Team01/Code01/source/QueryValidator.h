@@ -6,7 +6,7 @@
 #include "QueryNode.h"
 
 typedef bool VALIDATION_RESULT;
-typedef std::string QUERY;
+typedef std::string INPUT_QUERY;
 typedef std::string CLAUSES;
 typedef std::string ELEMENT;
 typedef std::string RESULT;
@@ -28,7 +28,7 @@ public:
 	/*
 	Description: Returns a VALIDATION_RESULT based on general structure of input query.
 	*/
-	static VALIDATION_RESULT isValidStructure(QUERY q);
+	static VALIDATION_RESULT isValidStructure(INPUT_QUERY q);
 
 	/*
 	Description: Returns a VALIDATION_RESULT based on grammer for declarations.

@@ -5,7 +5,7 @@ Select <s1, s2> such that Follows* (s1, s2) and Parent (9, s1)
 5000
 2 - Modifies and Uses
 assign a; variable v;
-Select <a, v> such that Modifies (s, v) and Uses (s, v)
+Select <a, v> such that Modifies (a, v) and Uses (a, v)
 1, aaa
 5000
 3 - Uses and Calls
@@ -16,7 +16,7 @@ aaaProc bbbProc, aaaProc cccProc, bbbProc cccProc, bbbProc dddProc, cccProc dddP
 4 - Next and Next*
 prog_line n1, n2;
 Select <n1, n2> such that Next (n1, n2) and Next* (n2, 7)
-1 2, 2 3, 3, 4, 4 5, 5 6, 6 7
+1 2, 2 3, 3 4, 4 5, 5 6, 6 7
 5000
 5 - Follows and Uses
 stmt s1, s2;
