@@ -707,7 +707,7 @@ QueryNode QueryPreProcessor::createWithNode(PROCESSED_SYNONYMS proc_s, SINGLE_CL
 	}
 }
 
-SPLIT_QUERY QueryPreProcessor::splitQuery(QUERY q) {
+SPLIT_QUERY QueryPreProcessor::splitQuery(INPUT_QUERY q) {
 	SPLIT_QUERY split_q;
 	DECLARATIONS d = "";
 	CLAUSES c = "";
