@@ -1,0 +1,35 @@
+1 - Assign Pattern and Assign Pattern
+assign a;
+Select a pattern a (_, _"charmander"_) pattern a ("charizard", _)
+15
+5000
+2 - Assign Pattern and While Pattern
+assign a; while w; variable v;
+Select v pattern a (v, _) pattern w (v, _)
+charmander, squirtle, bulbasaur, charmeleon, charizard, blastoise
+5000
+3 - Assign Pattern and Assign Pattern
+assign a;
+Select a pattern a (_, _"24"_) pattern a (_, _"bulbasaur"_)
+3
+5000
+4 - Assign Pattern and While Pattern
+assign a; while w; variable v;
+Select a pattern a (v, _) pattern w (v, _)
+3, 5, 9, 14, 15, 16, 21, 31, 37, 41, 42, 46, 65, 72
+5000
+5 - While Pattern and While Pattern
+while w; variable v;
+Select w pattern w ("charmander", _) pattern w ("squirtle", _)
+2
+5000
+6 - Assign Pattern and If Pattern
+assign a; if i; variable v;
+Select i pattern a (v, _"venusaur"_) pattern i (v, _, _)
+36, 53
+5000
+7 - While Pattern and If Pattern
+while w; if i; variable v;
+Select v pattern w (v, _) pattern i (v, _, _)
+bulbasaur, charmander, squirtle, charizard, blastoise
+5000

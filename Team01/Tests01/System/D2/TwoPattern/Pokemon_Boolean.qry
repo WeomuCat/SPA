@@ -1,0 +1,40 @@
+1 - Assign Pattern and Assign Pattern
+assign a;
+Select BOOLEAN pattern a (_, _"ivysaur"_) pattern a ("blastoise", _)
+TRUE
+5000
+2 - Assign Pattern and Assign Pattern
+assign a1, a2;
+Select BOOLEAN pattern a1 (_, _"charmander"_) pattern a2 ("charizard", _)
+TRUE
+5000
+3 - Assign Pattern and While Pattern
+assign a; while w;
+Select BOOLEAN pattern a (_, "21") pattern w ("bulbasaur",_)
+TRUE
+5000
+4 - Assign Pattern and Assign Pattern
+assign a1, a2;
+Select BOOLEAN pattern a1 ("charmander", _"ivysaur"_) pattern a2 ("charizard", _)
+TRUE
+5000
+5 - While Pattern and While Pattern
+while w1, w2;
+Select BOOLEAN pattern w1 ("bulbasaur", _) pattern w2 ("blastoise", _)
+TRUE
+5000
+6 - While Pattern and While Pattern
+while w;
+Select BOOLEAN pattern w ("bulbasaur", _) pattern w ("ivysaur", _)
+FALSE
+5000
+7 - Assign Pattern and If pattern
+assign a; if i;
+Select BOOLEAN pattern a (_, _) pattern i (_, _, _)
+TRUE
+5000
+8 - Assign Pattern and If pattern
+assign a; if i;
+Select BOOLEAN pattern a (_, _"bulbasaur"_) pattern i ("bulbasaur", _, _)
+TRUE
+5000
