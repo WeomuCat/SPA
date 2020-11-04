@@ -77,5 +77,12 @@ private:
 
 	//Helper functions for Adding Next R/s
 	void findLastStmts(STMT_LIST_NODE_PTR stmt_list_node_ptr, std::set<STMT_NUM>& stmt_num_set);
+
+	//Helper functions for valid Calls Checking
+	bool hasNonExistentProcedureCalls();
+	bool hasCyclicRecursiveCalls(std::unordered_map<PROC_NAME, std::set<PROC_NAME>>& proc_call_graph
+		, std::deque<PROC_NAME>& sorted_procs);
+	bool hasCyclesDFS(PROC_NAME proc_name, std::unordered_map<PROC_NAME, std::set<PROC_NAME>>& proc_call_graph
+		, std::set<PROC_NAME>& visited_set, std::set<PROC_NAME>& checked_nodes_set);
 };
 

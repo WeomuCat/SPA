@@ -1,0 +1,11 @@
+procedure main {
+	call sub;
+}
+
+procedure sub {
+	call subsub;
+}
+
+procedure subsub {
+	call main;
+}
