@@ -20,7 +20,7 @@ Select cl with p.procName = "evolve" and cl.procName = p.procName
 5000
 5 - Assign Statement and Assign Variable Name
 assign a; variable v;
-Select v with a.stmt# = 62 and a.varName = v.varName
+Select v with a.stmt# = 62 and v.varName = "ivysaur"
 ivysaur
 5000
 6 - Read Variable Name and Read Statement Same as Constant

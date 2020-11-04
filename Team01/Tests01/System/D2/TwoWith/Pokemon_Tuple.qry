@@ -11,5 +11,20 @@ Select <cl, p2> with cl.procName = p1.procName and p2.procName = "evolve"
 3 - Print Variable Same as Read Variable
 variable v; print pn; read re;
 Select <pn, v> with pn.varName = v.varName and re.varName = v.varName
-59 bulbasaur, 70 bulbasaur, 33 ivysaur, 63 ivysaur, 26 venusaur, 54 venusaur, 7 charmander, 17 charizard, 20 charizard, 67 charizard, 47 wartortle, 61 wartortle, 56 blastoise
+7 charmander, 17 charizard, 20 charizard, 26 venusaur, 33 ivysaur, 47 wartortle, 54 venusaur, 56 blastoise, 59 bulbasaur, 61 wartortle, 63 ivysaur, 67 charizard, 70 bulbasaur
+5000
+4 - While Statement Number and Assign Variable Name
+while w; assign a;
+Select <w, a> with w.stmt# = 2 and a.stmt# = 24
+2 24
+5000
+5 - Variable Name and Call Statement
+variable v; call cl;
+Select <v, cl> with v.varName = "bulbasaur" and cl.stmt# = 27
+bulbasaur 27
+5000
+6 - Read Statement Same as Constant and Read Variable
+read re; constant c; variable v;
+Select <c, v> with re.stmt# = c.value and re.varName = v.varName
+22 charmander
 5000
