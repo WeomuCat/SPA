@@ -1,0 +1,40 @@
+1 - Assign Pattern and Assign Pattern
+assign a; variable v;
+Select <a, v> pattern a (v, _) pattern a (_, _"ivysaur"_)
+37 blastoise, 58 ivysaur, 65 charmander
+5000
+2 - Assign Pattern and Assign Pattern
+assign a1, a2; variable v;
+Select <a1, a2> pattern a1 (v, _) pattern a2 (v, _)
+3 16, 3 21, 3 65, 16 21, 16 65, 21 65, 14 15, 14 72, 15 72, 42 46, 24 40, 23 58, 23 62, 58 62, 5 31, 5 41, 31 41, 3 3, 16 16, 21 21, 65 65, 14 14, 15 15, 72 72, 5 5, 31 31, 41 41, 42 42, 46 46, 24 24, 40 40, 23 23, 58 58, 62 62, 9 9, 69 69, 37 37, 16 3, 21 3, 65 3, 21 16, 65 16, 65 21, 15 14, 72 14, 72 15, 46 42, 40 24, 58 23, 62 23, 62 58, 31 5, 41 5, 41 31
+5000
+2 - Assign Pattern and Assign Pattern
+assign a1, a2; variable v;
+Select <a1, a2> pattern a1 ("bulbasaur", _) pattern a2 ("bulbasaur", _)
+5 31, 5 41, 31 41, 5 5, 31 31, 41 41, 31 5, 41 5, 41 31
+5000
+3 - Assign Pattern and While Pattern
+assign a; while w; variable v;
+Select <w, v> pattern a (v, _) pattern w (v, _)
+2 charmander, 2 squirtle, 45 bulbasaur, 45 charmeleon, 45 squirtle, 50 bulbasaur, 57 blastoise, 68 charizard
+5000
+4 - Assign Pattern and If Pattern
+assign a; if i;
+Select <a, i> pattern a (_, _"ivysaur"_) pattern i ("bulbasaur", _, _)
+37 30, 58 30, 65 30, 37 51, 58 51, 65 51
+5000
+5 - While Pattern and If Pattern
+while w; if i;
+Select <w, i> pattern w ("squirtle", _) pattern i ("bulbasaur", _, _)
+2 30, 45 30, 2 51, 45 51 
+5000
+6 - While Pattern and While Pattern
+while w1, w2;
+Select <w1, w2> pattern w1 ("bulbasaur" , _) pattern w2 ("bulbasaur" , _)
+45 50, 50 45, 45 45, 50 50
+5000
+7 - While Pattern and While Pattern
+while w; variable v;
+Select <w, v> pattern w (v, _) pattern w ("squirtle", _)
+2 charmander, 2 squirtle, 45 bulbasaur, 45 charmeleon, 45 squirtle
+5000
