@@ -25,11 +25,16 @@ third 41, fourth 41, sixth 41, seventh 41, ninth 41, third 42, fourth 42, sixth 
 5000
 6 - Next, Next*, Next 
 call cl; if i; while w; print pn;
-Select <cl.procName, i, w> such that Next (i, cl) and Next* (cl, w) and Next (w, pn) pattern i ("go", _, _) and pattern w ("go", _)
+Select <cl.procName, i, w> such that Next (i, cl) and Next* (cl, w) and Next (w, pn) pattern i ("go", _, _) and w ("go", _)
 22 30, 24 30
 5000
 7 - Affects, Affects*, Affects
 assign a1, a2, a3, a4;
 Select <a1, a2, a2> such that Affects (a1, a2) and Affects* (a2, a3) and Affects (a3, a4) pattern a1 ("ichi", "zero - nana + 8") and a2 ("kyuu", _"ni"_) and a3 (_, _) and a4 ("go", _)
-TEMPORARY
+none
+5000
+8 - Assign patterns
+assign a1, a2, a3, a4, a5, a6, a7;
+Select <a1, a2.stmt#, a3, a4.stmt#, a5, a6.stmt#, a7> such that Follows (a1, a2) and Follows (a2, a3) and Next (a3, a4) and Next (a4, a5) and Follows (a5, a6) and Next (a6, a7) pattern a1 ("zero", _) and a2 (_, _"ni + san"_) and a3 ("ni", _"san + yon + go"_) and a4 (_, _) and a5 ("yon", "go + roku + nana + hachi + kyuu")
+91 92 93 94 95 96 97
 5000

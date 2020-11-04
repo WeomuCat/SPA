@@ -70,7 +70,7 @@
 053                 acacia = 50 + 54 + 58 - oak - birch - spruce - acacia;
 054                 while (50 == 50) {
 055                     call craft;
-056                     bird = 50 + 54 + 58 - oak - birch - spruce - acacia;
+056                     birch = 50 + 54 + 58 - oak - birch - spruce - acacia;
 ---                 }
 057                 emerald = 52 * 56 / coal / diamond / emerald / gold / iron / lapis / redstone;
 058                 call craft;

@@ -70,7 +70,7 @@ procedure third {
                 acacia = 50 + 54 + 58 - oak - birch - spruce - acacia;
                 while (50 == 50) {
                     call craft;
-                    bird = 50 + 54 + 58 - oak - birch - spruce - acacia;
+                    birch = 50 + 54 + 58 - oak - birch - spruce - acacia;
                 }
                 emerald = 52 * 56 / coal / diamond / emerald / gold / iron / lapis / redstone;
                 call craft;

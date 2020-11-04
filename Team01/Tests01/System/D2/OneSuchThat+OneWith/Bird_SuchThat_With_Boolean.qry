@@ -48,3 +48,13 @@ prog_line n;
 Select BOOLEAN such that Next* (19, n) with n = 17
 FALSE
 5000
+11 - Affects
+assign a;
+Select BOOLEAN such that Affects (a, 18) with a.stmt# = 15
+TRUE
+5000
+12 - Affects*
+assign a;
+Select BOOLEAN such that Affects* (a, a) with a.stmt# = 20
+TRUE
+5000

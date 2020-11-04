@@ -1,6 +1,6 @@
 1 - Follows*, Next, Next*
-stmt s; assign a;
-Select BOOLEAN such that Follows (22, s) and Next (a, s) and Next* (s, 126) with s.stmt# = 115
+stmt s, s1; assign a;
+Select BOOLEAN such that Follows (22, s) and Next (a, s) and Next* (s1, 126) with s1.stmt# = 115
 TRUE
 5000
 2 - Modifies, Uses
@@ -29,13 +29,22 @@ Select BOOLEAN such that Parent (_, cl) and Uses (p, v1) and Modifies (p, v2) wi
 TRUE
 5000
 7 - Follows, Next*
-stmt s1, s2, s3, s4;
-Select BOOLEAN such that Follows (s1, s2) and Follows (s2, s3) and Next* (s3, s4) with s1.stmt# = s4.stmt#
+assign a; stmt s1, s2; print pn;
+Select BOOLEAN such that Follows (s1, s2) and Follows (s2, pn) and Next* (pn, a) with s1.stmt# = a.stmt#
 TRUE
 5000
 8 - Uses, Uses, Uses, Uses
 constant cs; stmt s; variable v1, v2, v3, v4;
-Select BOOLEAN such that Uses (s, v1) and Uses (s, v2) and Uses (s, v3) and Uses (s, v4) with s.stmt# = cs.value and v1.varName = "spruce" and v2.varName = "acacia" and v3.varName = "iron" and v4.varName = "lapis"
+Select BOOLEAN with s.stmt# = cs.value and v1.varName = "spruce" and v2.varName = "acacia" and v3.varName = "iron" and v4.varName = "lapis" such that Uses (s, v1) and Uses (s, v2) and Uses (s, v3) and Uses (s, v4)
 TRUE
 5000
-
+9 - Affects, Affects
+assign a1, a2, a3; constant cs;
+Select BOOLEAN such that Affects (a1, a2) and Affects (a2, a3) with a3.stmt# = cs.value
+TRUE
+5000
+10 - Affects*
+stmt s1, s2; constant cs1, cs2;
+Select BOOLEAN such that Affects* (s1, s2) with s1.stmt# = cs1.value and s2.stmt# = cs2.value
+FALSE
+5000

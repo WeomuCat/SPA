@@ -15,7 +15,7 @@ TRUE
 5000
 4 - If synonym
 if i1, i2;
-Select i1 such that Next (i1, i2) pattern i1 (_, _, _) and pattern i2 (_, _, _)
+Select i1 such that Next (i1, i2) pattern i1 (_, _, _) and i2 (_, _, _)
 51, 52
 5000
 5 - While and If synonym
@@ -25,7 +25,7 @@ Select w such that Next(w, i) pattern i ("bulbasaur", _, _)
 5000
 6 - Multiple pattern
 assign a; if i;
-Select i such that Next(i, a) pattern a ("blastoise", _) and pattern a (_, _"ivysaur"_) and pattern i ("charizard", _, _)
+Select i such that Next(i, a) pattern a ("blastoise", _) and a (_, _"ivysaur"_) and i ("charizard", _, _)
 36
 5000
 7 - Program line

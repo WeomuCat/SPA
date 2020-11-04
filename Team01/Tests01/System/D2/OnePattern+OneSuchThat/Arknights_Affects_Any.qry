@@ -1,0 +1,70 @@
+1 - Simple Affects
+assign a;
+Select BOOLEAN such that Affects (1, a) pattern a ("ceobe", "beagle")
+TRUE
+5000
+2 - Affect across call
+assign a;
+Select BOOLEAN such that Affects (12, a) pattern a (_, "amiya")
+FALSE
+5000
+3 - Affects across If
+assign a;
+Select BOOLEAN such that Affects (1, a) pattern a ("durin", _"beagle"_)
+TRUE
+5000
+4 - Affects across While
+stmt s;
+Select BOOLEAN such that Affects (9, a) pattern a ("amiya", _)
+TRUE
+5000
+5 - Read Affects?
+assign a;
+Select BOOLEAN such that Affects (17, a) pattern a (_, _)
+FALSE
+5000
+6 - Affects itself over and over
+assign a;
+Select a such that Affects (a, a) pattern a (_, _)
+21, 24
+5000
+7 - Affects in a While loop
+assign a1, a2;
+Select <a1, a2> such that Affects (a1, a2) pattern a1 ("eyjaf", "ceobe + eyjaf")
+24 20
+5000
+8 - Affected by multiple things
+assign a1, a2;
+Select <a1, a2> such that Affects (a1, a2) pattern a2 ("eyjaf", "amiya + beagle + ceobe + durin + eyjaf + 1")
+26 30, 27 30, 28 30, 29 30
+5000
+9 - Affects through different branch
+assign a;
+Select BOOLEAN such that Affects (33, a) pattern a ("ceobe", "beagle")
+FALSE
+5000
+10 - Affects through different branch, but in while loop
+assign a;
+Select BOOLEAN such that Affects (39, a) pattern a ("durin", "1")
+TRUE
+5000
+11 - Cannot Affects through call in if statement, both path blocked
+assign a;
+Select BOOLEAN such that Affects (41, a) pattern a ("eyjaf", "amiya")
+FALSE
+5000
+12 - Cannot Affects through call in if statement, one path blocked
+assign a;
+Select BOOLEAN such that Affects (44, a) pattern a ("eyjaf", "beagle")
+FALSE
+5000
+13 - Cannot Affects through call in while statement
+assign a;
+Select BOOLEAN such that Affects (44, a) pattern a ("eyjaf", "durin")
+FALSE
+5000
+14 - Cannot Affects through call in while statement or even if statement
+assign a;
+Select BOOLEAN such that Affects (52, a) pattern a ("eyjaf", "eyjaf")
+FALSE
+5000

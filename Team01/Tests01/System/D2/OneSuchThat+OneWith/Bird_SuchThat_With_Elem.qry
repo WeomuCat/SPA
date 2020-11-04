@@ -48,3 +48,13 @@ prog_line n; while w;
 Select w such that Next* (n, w) with n = 53
 51, 58
 5000
+11 - Affects
+assign a;
+Select a such that Affects (a, 18) with a.stmt# = 15
+15
+5000
+12 - Affects*
+assign a1, a2;
+Select a2 such that Affects* (a1, a2) with a1.stmt# = 20
+20
+5000
