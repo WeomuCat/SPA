@@ -1,7 +1,7 @@
 procedure pokemon {
     print squirtle;
     while (charmander != squirtle) {
-        charmander = 24 + bulbasaur + 21 ;
+        charmander = 24 + bulbasaur + 21;
         read bulbasaur;
         bulbasaur = squirtle + 23;
     } 
