@@ -1,4 +1,34 @@
 1 - Pattern Assign
+assign a;
+Select BOOLEAN pattern a ("aVar", "bVar + cVar - dVar / eVar * aVar + 1")
+TRUE
+1000
+1 - Pattern Assign
+assign a;
+Select BOOLEAN pattern a ("aVar", _"dVar"_)
+TRUE
+1000
+1 - Pattern Assign
+assign a;
+Select BOOLEAN pattern a ("aVar", _)
+TRUE
+1000
+1 - Pattern Assign
+assign a;
+Select BOOLEAN pattern a (_, "bVar + cVar - dVar / eVar * aVar + 1")
+TRUE
+1000
+1 - Pattern Assign
+assign a;
+Select BOOLEAN pattern a (_, _"dVar"_)
+TRUE
+1000
+1 - Pattern Assign
+assign a;
+Select BOOLEAN pattern a (_, _)
+TRUE
+1000
+1 - Pattern Assign
 assign a; variable v;
 Select BOOLEAN pattern a (v, "bVar + cVar - dVar / eVar * aVar + 1")
 TRUE
@@ -28,39 +58,9 @@ assign a; variable v;
 Select BOOLEAN pattern a (v, _)
 TRUE
 1000
-1 - Pattern Assign
-assign a;
-Select BOOLEAN pattern a (_, "bVar + cVar - dVar / eVar * aVar + 1")
-TRUE
-1000
-1 - Pattern Assign
-assign a;
-Select BOOLEAN pattern a (_, _"dVar"_)
-TRUE
-1000
-1 - Pattern Assign
-assign a;
-Select BOOLEAN pattern a (_, _)
-TRUE
-1000
-1 - Pattern Assign
-assign a;
-Select BOOLEAN pattern a ("aVar", "bVar + cVar - dVar / eVar * aVar + 1")
-TRUE
-1000
-1 - Pattern Assign
-assign a;
-Select BOOLEAN pattern a ("aVar", _"dVar"_)
-TRUE
-1000
-1 - Pattern Assign
-assign a;
-Select BOOLEAN pattern a ("aVar", _)
-TRUE
-1000
 1 - Pattern While
-while w; variable v;
-Select BOOLEAN pattern w (v, _)
+while w;
+Select BOOLEAN pattern w ("aVar", _)
 TRUE
 1000
 1 - Pattern While
@@ -69,13 +69,13 @@ Select BOOLEAN pattern w (_, _)
 TRUE
 1000
 1 - Pattern While
-while w;
-Select BOOLEAN pattern w ("aVar", _)
+while w; variable v;
+Select BOOLEAN pattern w (v, _)
 TRUE
 1000
 1 - Pattern If
-if i; variable v;
-Select BOOLEAN pattern i (v, _, _)
+if i;
+Select BOOLEAN pattern i ("aVar", _, _)
 TRUE
 1000
 1 - Pattern If
@@ -84,7 +84,7 @@ Select BOOLEAN pattern i (_, _, _)
 TRUE
 1000
 1 - Pattern If
-if i;
-Select BOOLEAN pattern i ("aVar", _, _)
+if i; variable v;
+Select BOOLEAN pattern i (v, _, _)
 TRUE
 1000

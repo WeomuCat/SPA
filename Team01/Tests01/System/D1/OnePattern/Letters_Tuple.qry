@@ -1,4 +1,94 @@
 1 - Pattern Assign
+assign a;
+Select <a> pattern a ("aVar", "bVar + cVar - dVar / eVar * aVar + 1")
+1
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a> pattern a ("aVar", "bVar + cVar - dVar / eVar * aVar + 1")
+1 1
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a.stmt#> pattern a ("aVar", "bVar + cVar - dVar / eVar * aVar + 1")
+1 1
+1000
+1 - Pattern Assign
+assign a;
+Select <a> pattern a ("aVar", _"dVar"_)
+1
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a> pattern a ("aVar", _"dVar"_)
+1 1
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a.stmt#> pattern a ("aVar", _"dVar"_)
+1 1
+1000
+1 - Pattern Assign
+assign a;
+Select <a> pattern a ("aVar", _)
+1,25
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a> pattern a ("aVar", _)
+1 1,25 25
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a.stmt#> pattern a ("aVar", _)
+1 1,25 25
+1000
+1 - Pattern Assign
+assign a;
+Select <a> pattern a (_, "bVar + cVar - dVar / eVar * aVar + 1")
+1
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a> pattern a (_, "bVar + cVar - dVar / eVar * aVar + 1")
+1 1
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a.stmt#> pattern a (_, "bVar + cVar - dVar / eVar * aVar + 1")
+1 1
+1000
+1 - Pattern Assign
+assign a;
+Select <a> pattern a (_, _"dVar"_)
+1,14,22
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a> pattern a (_, _"dVar"_)
+1 1,14 14,22 22
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a.stmt#> pattern a (_, _"dVar"_)
+1 1,14 14,22 22
+1000
+1 - Pattern Assign
+assign a;
+Select <a> pattern a (_, _)
+1,14,16,19,22,25,3,9
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a> pattern a (_, _)
+1 1,14 14,16 16,19 19,22 22,25 25,3 3,9 9
+1000
+1 - Pattern Assign
+assign a;
+Select <a, a.stmt#> pattern a (_, _)
+1 1,14 14,16 16,19 19,22 22,25 25,3 3,9 9
+1000
+1 - Pattern Assign
 assign a; variable v;
 Select <a> pattern a (v, "bVar + cVar - dVar / eVar * aVar + 1")
 1
@@ -58,95 +148,25 @@ assign a; variable v;
 Select <a, a.stmt#, v, v.varName> pattern a (v, _)
 1 1 aVar aVar,14 14 cVar cVar,16 16 bVar bVar,19 19 bVar bVar,22 22 cVar cVar,25 25 aVar aVar,3 3 cVar cVar,9 9 bVar bVar
 1000
-1 - Pattern Assign
-assign a;
-Select <a> pattern a (_, "bVar + cVar - dVar / eVar * aVar + 1")
-1
+1 - Pattern While
+while w;
+Select <w> pattern w ("aVar", _)
+15
 1000
-1 - Pattern Assign
-assign a;
-Select <a, a> pattern a (_, "bVar + cVar - dVar / eVar * aVar + 1")
-1 1
+1 - Pattern While
+while w;
+Select <w, w.stmt#> pattern w ("aVar", _)
+15 15
 1000
-1 - Pattern Assign
-assign a;
-Select <a, a.stmt#> pattern a (_, "bVar + cVar - dVar / eVar * aVar + 1")
-1 1
+1 - Pattern While
+while w;
+Select <w> pattern w (_, _)
+15,4
 1000
-1 - Pattern Assign
-assign a;
-Select <a> pattern a (_, _"dVar"_)
-1,14,22
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a> pattern a (_, _"dVar"_)
-1 1,14 14,22 22
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a.stmt#> pattern a (_, _"dVar"_)
-1 1,14 14,22 22
-1000
-1 - Pattern Assign
-assign a;
-Select <a> pattern a (_, _)
-1,14,16,19,22,25,3,9
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a> pattern a (_, _)
-1 1,14 14,16 16,19 19,22 22,25 25,3 3,9 9
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a.stmt#> pattern a (_, _)
-1 1,14 14,16 16,19 19,22 22,25 25,3 3,9 9
-1000
-1 - Pattern Assign
-assign a;
-Select <a> pattern a ("aVar", "bVar + cVar - dVar / eVar * aVar + 1")
-1
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a> pattern a ("aVar", "bVar + cVar - dVar / eVar * aVar + 1")
-1 1
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a.stmt#> pattern a ("aVar", "bVar + cVar - dVar / eVar * aVar + 1")
-1 1
-1000
-1 - Pattern Assign
-assign a;
-Select <a> pattern a ("aVar", _"dVar"_)
-1
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a> pattern a ("aVar", _"dVar"_)
-1 1
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a.stmt#> pattern a ("aVar", _"dVar"_)
-1 1
-1000
-1 - Pattern Assign
-assign a;
-Select <a> pattern a ("aVar", _)
-1,25
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a> pattern a ("aVar", _)
-1 1,25 25
-1000
-1 - Pattern Assign
-assign a;
-Select <a, a.stmt#> pattern a ("aVar", _)
-1 1,25 25
+1 - Pattern While
+while w;
+Select <w, w.stmt#> pattern w (_, _)
+15 15,4 4
 1000
 1 - Pattern While
 while w; variable v;
@@ -168,25 +188,25 @@ while w; variable v;
 Select <w, w.stmt#, v, v.varName> pattern w (v, _)
 15 15 aVar aVar,15 15 cVar cVar,15 15 dVar dVar,15 15 eVar eVar,4 4 cVar cVar,4 4 dVar dVar
 1000
-1 - Pattern While
-while w;
-Select <w> pattern w (_, _)
-15,4
+1 - Pattern If
+if i;
+Select <i> pattern i ("aVar", _, _)
+17,2
 1000
-1 - Pattern While
-while w;
-Select <w, w.stmt#> pattern w (_, _)
-15 15,4 4
+1 - Pattern If
+if i;
+Select <i, i.stmt#> pattern i ("aVar", _, _)
+17 17,2 2
 1000
-1 - Pattern While
-while w;
-Select <w> pattern w ("aVar", _)
-15
+1 - Pattern If
+if i;
+Select <i> pattern i (_, _, _)
+17,2
 1000
-1 - Pattern While
-while w;
-Select <w, w.stmt#> pattern w ("aVar", _)
-15 15
+1 - Pattern If
+if i;
+Select <i, i.stmt#> pattern i (_, _, _)
+17 17,2 2
 1000
 1 - Pattern If
 if i; variable v;
@@ -207,24 +227,4 @@ Select <i, v> pattern i (v, _, _)
 if i; variable v;
 Select <i, i.stmt#, v, v.varName> pattern i (v, _, _)
 17 17 aVar aVar,17 17 dVar dVar,2 2 aVar aVar,2 2 dVar dVar
-1000
-1 - Pattern If
-if i;
-Select <i> pattern i (_, _, _)
-17,2
-1000
-1 - Pattern If
-if i;
-Select <i, i.stmt#> pattern i (_, _, _)
-17 17,2 2
-1000
-1 - Pattern If
-if i;
-Select <i> pattern i ("aVar", _, _)
-17,2
-1000
-1 - Pattern If
-if i;
-Select <i, i.stmt#> pattern i ("aVar", _, _)
-17 17,2 2
 1000

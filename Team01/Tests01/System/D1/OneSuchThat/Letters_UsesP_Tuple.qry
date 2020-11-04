@@ -1,0 +1,5 @@
+1 - UsesP Procedure
+procedure p; variable v;
+Select <p, v> such that Uses(p, v)
+aProc aVar,aProc bVar,aProc cVar,aProc dVar,aProc eVar,bProc aVar,bProc bVar,bProc cVar,bProc dVar,bProc eVar,cProc aVar,cProc cVar
+1000

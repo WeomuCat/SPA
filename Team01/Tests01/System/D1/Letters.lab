@@ -14,7 +14,7 @@
 010     print eVar;
 011     call bProc;
 --- }
---- 
+---
 --- procedure bProc {
 012     print aVar;
 013     read aVar;
@@ -31,7 +31,7 @@
 ---     }
 022     cVar = dVar + 3;
 --- }
---- 
+---
 --- procedure cProc {
 023     read eVar;
 024     print cVar;

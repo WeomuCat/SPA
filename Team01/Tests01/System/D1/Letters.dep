@@ -21,6 +21,12 @@ OneSuchThat/Letters_FollowsT_Boolean_Mixed
 OneSuchThat/Letters_FollowsT_Elem
 OneSuchThat/Letters_FollowsT_Tuple
 OneSuchThat/Letters_FollowsT_Tuple_Mixed
+OneSuchThat/Letters_ModifiesP_Boolean
+OneSuchThat/Letters_ModifiesP_Elem
+OneSuchThat/Letters_ModifiesP_Tuple
+OneSuchThat/Letters_ModifiesS_Boolean
+OneSuchThat/Letters_ModifiesS_Elem
+OneSuchThat/Letters_ModifiesS_Tuple
 OneSuchThat/Letters_Next_Boolean
 OneSuchThat/Letters_Next_Boolean_Mixed
 OneSuchThat/Letters_Next_Elem
@@ -41,6 +47,12 @@ OneSuchThat/Letters_ParentT_Boolean_Mixed
 OneSuchThat/Letters_ParentT_Elem
 OneSuchThat/Letters_ParentT_Tuple
 OneSuchThat/Letters_ParentT_Tuple_Mixed
+OneSuchThat/Letters_UsesP_Boolean
+OneSuchThat/Letters_UsesP_Elem
+OneSuchThat/Letters_UsesP_Tuple
+OneSuchThat/Letters_UsesS_Boolean
+OneSuchThat/Letters_UsesS_Elem
+OneSuchThat/Letters_UsesS_Tuple
 OneWith/Letters_Boolean
 OneWith/Letters_Boolean_Mixed
 OneWith/Letters_Elem
