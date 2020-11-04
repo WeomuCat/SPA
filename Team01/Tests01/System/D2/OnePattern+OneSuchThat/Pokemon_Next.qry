@@ -1,6 +1,6 @@
 1 - Constant and Assign
 assign a;
-Select BOOLEAN such that Next (2, a) pattern a ("charmander", _);
+Select BOOLEAN such that Next (2, a) pattern a ("charmander", _)
 TRUE
 5000
 2 - Read and Assign synonym 
@@ -11,7 +11,7 @@ TRUE
 3 - While synonym
 print p; while w;
 Select BOOLEAN such that Next (w, p) pattern w (_, _)
-FALSE
+TRUE
 5000
 4 - If synonym
 if i1, i2;
