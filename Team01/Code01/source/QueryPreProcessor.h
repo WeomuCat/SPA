@@ -26,7 +26,7 @@ public:
 	/*
 	Description: Returns a SPLIT_QUERY.
 	*/
-	SPLIT_QUERY splitQuery(QUERY q);
+	SPLIT_QUERY splitQuery(INPUT_QUERY q);
 
 	/*
 	Description: Returns PROCESSED_SYNONYMS.
