@@ -48,4 +48,3 @@ call cl; stmt s1, s2; variable v1, v2;
 Select s1 such that Modifies (s1, v1) and Uses (s2, v2) and Follows (s1, cl) and Follows (cl, s2)
 11, 13, 19, 47, 86, 94, 126, 128, 129, 143, 144, 152, 165, 195, 199, 207, 218, 221, 222, 228, 229
 60000
-
