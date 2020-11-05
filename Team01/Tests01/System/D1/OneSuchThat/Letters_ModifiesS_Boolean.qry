@@ -1,0 +1,180 @@
+1 - ModifiesS
+constant c;
+Select BOOLEAN such that Modifies(1, "aVar")
+TRUE
+1000
+1 - ModifiesS
+constant c;
+Select BOOLEAN such that Modifies(1, "bVar")
+FALSE
+1000
+1 - ModifiesS
+constant c;
+Select BOOLEAN such that Modifies(1, _)
+TRUE
+1000
+1 - ModifiesS
+variable v;
+Select BOOLEAN such that Modifies(1, v)
+TRUE
+1000
+1 - ModifiesS Statement
+stmt s;
+Select BOOLEAN such that Modifies(s, "aVar")
+TRUE
+1000
+1 - ModifiesS Statement
+stmt s;
+Select BOOLEAN such that Modifies(s, _)
+TRUE
+1000
+1 - ModifiesS Statement
+stmt s; variable v;
+Select BOOLEAN such that Modifies(s, v)
+TRUE
+1000
+1 - ModifiesS Statement
+stmt s; variable v;
+Select BOOLEAN such that Modifies(s, v)
+TRUE
+1000
+1 - ModifiesS Read
+read r;
+Select BOOLEAN such that Modifies(r, "aVar")
+TRUE
+1000
+1 - ModifiesS Read
+read r;
+Select BOOLEAN such that Modifies(r, _)
+TRUE
+1000
+1 - ModifiesS Read
+read r; variable v;
+Select BOOLEAN such that Modifies(r, v)
+TRUE
+1000
+1 - ModifiesS Read
+read r; variable v;
+Select BOOLEAN such that Modifies(r, v)
+TRUE
+1000
+1 - ModifiesS Print
+print p;
+Select BOOLEAN such that Modifies(p, "aVar")
+FALSE
+1000
+1 - ModifiesS Print
+print p;
+Select BOOLEAN such that Modifies(p, _)
+FALSE
+1000
+1 - ModifiesS Print
+print p; variable v;
+Select BOOLEAN such that Modifies(p, v)
+FALSE
+1000
+1 - ModifiesS Print
+print p; variable v;
+Select BOOLEAN such that Modifies(p, v)
+FALSE
+1000
+1 - ModifiesS Call
+call c;
+Select BOOLEAN such that Modifies(c, "cVar")
+TRUE
+1000
+1 - ModifiesS Call
+call c;
+Select BOOLEAN such that Modifies(c, _)
+TRUE
+1000
+1 - ModifiesS Call
+call c; variable v;
+Select BOOLEAN such that Modifies(c, v)
+TRUE
+1000
+1 - ModifiesS Call
+call c; variable v;
+Select BOOLEAN such that Modifies(c, v)
+TRUE
+1000
+1 - ModifiesS While
+while w;
+Select BOOLEAN such that Modifies(w, "aVar")
+TRUE
+1000
+1 - ModifiesS While
+while w;
+Select BOOLEAN such that Modifies(w, _)
+TRUE
+1000
+1 - ModifiesS While
+while w; variable v;
+Select BOOLEAN such that Modifies(w, v)
+TRUE
+1000
+1 - ModifiesS While
+while w; variable v;
+Select BOOLEAN such that Modifies(w, v)
+TRUE
+1000
+1 - ModifiesS If
+if i;
+Select BOOLEAN such that Modifies(i, "aVar")
+TRUE
+1000
+1 - ModifiesS If
+if i;
+Select BOOLEAN such that Modifies(i, _)
+TRUE
+1000
+1 - ModifiesS If
+if i; variable v;
+Select BOOLEAN such that Modifies(i, v)
+TRUE
+1000
+1 - ModifiesS If
+if i; variable v;
+Select BOOLEAN such that Modifies(i, v)
+TRUE
+1000
+1 - ModifiesS Assign
+assign a;
+Select BOOLEAN such that Modifies(a, "aVar")
+TRUE
+1000
+1 - ModifiesS Assign
+assign a;
+Select BOOLEAN such that Modifies(a, _)
+TRUE
+1000
+1 - ModifiesS Assign
+assign a; variable v;
+Select BOOLEAN such that Modifies(a, v)
+TRUE
+1000
+1 - ModifiesS Assign
+assign a; variable v;
+Select BOOLEAN such that Modifies(a, v)
+TRUE
+1000
+1 - ModifiesS ProgLine
+prog_line n;
+Select BOOLEAN such that Modifies(n, "aVar")
+TRUE
+1000
+1 - ModifiesS ProgLine
+prog_line n;
+Select BOOLEAN such that Modifies(n, _)
+TRUE
+1000
+1 - ModifiesS ProgLine
+prog_line n; variable v;
+Select BOOLEAN such that Modifies(n, v)
+TRUE
+1000
+1 - ModifiesS ProgLine
+prog_line n; variable v;
+Select BOOLEAN such that Modifies(n, v)
+TRUE
+1000

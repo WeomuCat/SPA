@@ -739,6 +739,10 @@ def run():
         for queries_path in deps_paths:
             tests.append((source_path, queries_path))
 
+    if len(tests) == 0:
+        printwarn("No query files were found!")
+        return
+
     # Clean up previous xml files
     printinfo("Cleaning up previous xml files...")
     files = glob.glob("{}/*.xml".format(OUTPUT_DIRECTORY))
@@ -786,6 +790,10 @@ def run():
         # Update total queries
         total_queries_passed += num_passed
         total_queries += num_queries
+
+    if total_queries == 0:
+        printwarn("No query file contained any queries!")
+        return
 
     printinfoaccent("All tests done! :) Please check '{}' directory for all AutoTester outputs!".format(os.path.relpath(OUTPUT_DIRECTORY)))
 

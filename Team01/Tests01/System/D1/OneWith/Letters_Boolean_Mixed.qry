@@ -1,0 +1,175 @@
+1 - With Read Print
+read r; print p;
+Select BOOLEAN with r.stmt# = p.stmt#
+FALSE
+1000
+1 - With Read Print
+read r; print p;
+Select BOOLEAN with p.stmt# = r.stmt#
+FALSE
+1000
+1 - With Read Print
+read r; print p;
+Select BOOLEAN with p.varName = r.varName
+TRUE
+1000
+1 - With Read Call
+read r; call c;
+Select BOOLEAN with r.stmt# = c.stmt#
+FALSE
+1000
+1 - With Read Call
+read r; call c;
+Select BOOLEAN with c.stmt# = r.stmt#
+FALSE
+1000
+1 - With Read Call
+read r; call c;
+Select BOOLEAN with c.procName = r.varName
+FALSE
+1000
+1 - With Print Call
+print p; call c;
+Select BOOLEAN with p.stmt# = c.stmt#
+FALSE
+1000
+1 - With Print Call
+print p; call c;
+Select BOOLEAN with c.stmt# = p.stmt#
+FALSE
+1000
+1 - With Print Call
+print p; call c;
+Select BOOLEAN with c.procName = p.varName
+FALSE
+1000
+1 - With Call While
+call c; while w;
+Select BOOLEAN with c.stmt# = w.stmt#
+FALSE
+1000
+1 - With Call While
+call c; while w;
+Select BOOLEAN with w.stmt# = c.stmt#
+FALSE
+1000
+1 - With While If
+while w; if i;
+Select BOOLEAN with w.stmt# = i.stmt#
+FALSE
+1000
+1 - With While If
+while w; if i;
+Select BOOLEAN with i.stmt# = w.stmt#
+FALSE
+1000
+1 - With If Assign
+if i; assign a;
+Select BOOLEAN with i.stmt# = a.stmt#
+FALSE
+1000
+1 - With If Assign
+if i; assign a;
+Select BOOLEAN with a.stmt# = i.stmt#
+FALSE
+1000
+1 - With Assign ProgLine
+assign a; prog_line n;
+Select BOOLEAN with a.stmt# = n
+TRUE
+1000
+1 - With Assign ProgLine
+assign a; prog_line n;
+Select BOOLEAN with n = a.stmt#
+TRUE
+1000
+1 - With Statement Constant
+stmt s; constant c;
+Select BOOLEAN with s.stmt# = c.value
+TRUE
+1000
+1 - With Statement Constant
+stmt s; constant c;
+Select BOOLEAN with c.value = s.stmt#
+TRUE
+1000
+1 - With Statement ProgLine
+stmt s; prog_line n;
+Select BOOLEAN with s.stmt# = n
+TRUE
+1000
+1 - With Statement ProgLine
+stmt s; prog_line n;
+Select BOOLEAN with n = s.stmt#
+TRUE
+1000
+1 - With Read Variable
+read r; variable v;
+Select BOOLEAN with r.varName = v.varName
+TRUE
+1000
+1 - With Read Variable
+read r; variable v;
+Select BOOLEAN with v.varName = r.varName
+TRUE
+1000
+1 - With Print Variable
+print p; variable v;
+Select BOOLEAN with p.varName = v.varName
+TRUE
+1000
+1 - With Print Variable
+print p; variable v;
+Select BOOLEAN with v.varName = p.varName
+TRUE
+1000
+1 - With Call Variable
+call c; variable v;
+Select BOOLEAN with c.procName = v.varName
+FALSE
+1000
+1 - With Call Variable
+call c; variable v;
+Select BOOLEAN with v.varName = c.procName
+FALSE
+1000
+1 - With Read Procedure
+read r; procedure p;
+Select BOOLEAN with r.varName = p.procName
+FALSE
+1000
+1 - With Read Procedure
+read r; procedure p;
+Select BOOLEAN with p.procName = r.varName
+FALSE
+1000
+1 - With Print Procedure
+print p; procedure proc;
+Select BOOLEAN with p.varName = proc.procName
+FALSE
+1000
+1 - With Print Procedure
+print p; procedure proc;
+Select BOOLEAN with proc.procName = p.varName
+FALSE
+1000
+1 - With Call Procedure
+call c; procedure p;
+Select BOOLEAN with c.procName = p.procName
+TRUE
+1000
+1 - With Call Procedure
+call c; procedure p;
+Select BOOLEAN with p.procName = c.procName
+TRUE
+1000
+1 - With Variable Procedure
+variable v; procedure p;
+Select BOOLEAN with v.varName = p.procName
+FALSE
+1000
+1 - With Variable Procedure
+variable v; procedure p;
+Select BOOLEAN with p.procName = v.varName
+FALSE
+1000

@@ -1,0 +1,180 @@
+1 - UsesS
+constant c;
+Select BOOLEAN such that Uses(1, "aVar")
+TRUE
+1000
+1 - UsesS
+constant c;
+Select BOOLEAN such that Uses(4, "bVar")
+FALSE
+1000
+1 - UsesS
+constant c;
+Select BOOLEAN such that Uses(1, _)
+TRUE
+1000
+1 - UsesS
+variable v;
+Select BOOLEAN such that Uses(1, v)
+TRUE
+1000
+1 - UsesS Statement
+stmt s;
+Select BOOLEAN such that Uses(s, "aVar")
+TRUE
+1000
+1 - UsesS Statement
+stmt s;
+Select BOOLEAN such that Uses(s, _)
+TRUE
+1000
+1 - UsesS Statement
+stmt s; variable v;
+Select BOOLEAN such that Uses(s, v)
+TRUE
+1000
+1 - UsesS Statement
+stmt s; variable v;
+Select BOOLEAN such that Uses(s, v)
+TRUE
+1000
+1 - UsesS Read
+read r;
+Select BOOLEAN such that Uses(r, "aVar")
+FALSE
+1000
+1 - UsesS Read
+read r;
+Select BOOLEAN such that Uses(r, _)
+FALSE
+1000
+1 - UsesS Read
+read r; variable v;
+Select BOOLEAN such that Uses(r, v)
+FALSE
+1000
+1 - UsesS Read
+read r; variable v;
+Select BOOLEAN such that Uses(r, v)
+FALSE
+1000
+1 - UsesS Print
+print p;
+Select BOOLEAN such that Uses(p, "aVar")
+TRUE
+1000
+1 - UsesS Print
+print p;
+Select BOOLEAN such that Uses(p, _)
+TRUE
+1000
+1 - UsesS Print
+print p; variable v;
+Select BOOLEAN such that Uses(p, v)
+TRUE
+1000
+1 - UsesS Print
+print p; variable v;
+Select BOOLEAN such that Uses(p, v)
+TRUE
+1000
+1 - UsesS Call
+call c;
+Select BOOLEAN such that Uses(c, "cVar")
+TRUE
+1000
+1 - UsesS Call
+call c;
+Select BOOLEAN such that Uses(c, _)
+TRUE
+1000
+1 - UsesS Call
+call c; variable v;
+Select BOOLEAN such that Uses(c, v)
+TRUE
+1000
+1 - UsesS Call
+call c; variable v;
+Select BOOLEAN such that Uses(c, v)
+TRUE
+1000
+1 - UsesS While
+while w;
+Select BOOLEAN such that Uses(w, "aVar")
+TRUE
+1000
+1 - UsesS While
+while w;
+Select BOOLEAN such that Uses(w, _)
+TRUE
+1000
+1 - UsesS While
+while w; variable v;
+Select BOOLEAN such that Uses(w, v)
+TRUE
+1000
+1 - UsesS While
+while w; variable v;
+Select BOOLEAN such that Uses(w, v)
+TRUE
+1000
+1 - UsesS If
+if i;
+Select BOOLEAN such that Uses(i, "cVar")
+TRUE
+1000
+1 - UsesS If
+if i;
+Select BOOLEAN such that Uses(i, _)
+TRUE
+1000
+1 - UsesS If
+if i; variable v;
+Select BOOLEAN such that Uses(i, v)
+TRUE
+1000
+1 - UsesS If
+if i; variable v;
+Select BOOLEAN such that Uses(i, v)
+TRUE
+1000
+1 - UsesS Assign
+assign a;
+Select BOOLEAN such that Uses(a, "aVar")
+TRUE
+1000
+1 - UsesS Assign
+assign a;
+Select BOOLEAN such that Uses(a, _)
+TRUE
+1000
+1 - UsesS Assign
+assign a; variable v;
+Select BOOLEAN such that Uses(a, v)
+TRUE
+1000
+1 - UsesS Assign
+assign a; variable v;
+Select BOOLEAN such that Uses(a, v)
+TRUE
+1000
+1 - UsesS ProgLine
+prog_line n;
+Select BOOLEAN such that Uses(n, "aVar")
+TRUE
+1000
+1 - UsesS ProgLine
+prog_line n;
+Select BOOLEAN such that Uses(n, _)
+TRUE
+1000
+1 - UsesS ProgLine
+prog_line n; variable v;
+Select BOOLEAN such that Uses(n, v)
+TRUE
+1000
+1 - UsesS ProgLine
+prog_line n; variable v;
+Select BOOLEAN such that Uses(n, v)
+TRUE
+1000

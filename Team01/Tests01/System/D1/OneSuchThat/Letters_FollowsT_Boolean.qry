@@ -1,0 +1,265 @@
+1 - Follows* Integer
+constant c;
+Select BOOLEAN such that Follows*(1, 2)
+TRUE
+1000
+1 - Follows* Integer
+constant c;
+Select BOOLEAN such that Follows*(2, 3)
+FALSE
+1000
+1 - Follows* Wildcard
+constant c;
+Select BOOLEAN such that Follows*(1, _)
+TRUE
+1000
+1 - Follows* Wildcard
+constant c;
+Select BOOLEAN such that Follows*(_, 1)
+FALSE
+1000
+1 - Follows* Wildcard
+constant c;
+Select BOOLEAN such that Follows*(_, _)
+TRUE
+1000
+1 - Follows* Statement
+stmt s;
+Select BOOLEAN such that Follows*(1, s)
+TRUE
+1000
+1 - Follows* Statement
+stmt s;
+Select BOOLEAN such that Follows*(s, 1)
+FALSE
+1000
+1 - Follows* Statement
+stmt s;
+Select BOOLEAN such that Follows*(s, s)
+FALSE
+1000
+1 - Follows* Statement
+stmt s;
+Select BOOLEAN such that Follows*(s, _)
+TRUE
+1000
+1 - Follows* Statement
+stmt s;
+Select BOOLEAN such that Follows*(_, s)
+TRUE
+1000
+1 - Follows* Statement
+stmt s1, s2;
+Select BOOLEAN such that Follows*(s1, s2)
+TRUE
+1000
+1 - Follows* Read
+read r;
+Select BOOLEAN such that Follows*(24, r)
+FALSE
+1000
+1 - Follows* Read
+read r;
+Select BOOLEAN such that Follows*(r, 24)
+TRUE
+1000
+1 - Follows* Read
+read r;
+Select BOOLEAN such that Follows*(r, r)
+FALSE
+1000
+1 - Follows* Read
+read r;
+Select BOOLEAN such that Follows*(r, _)
+TRUE
+1000
+1 - Follows* Read
+read r;
+Select BOOLEAN such that Follows*(_, r)
+TRUE
+1000
+1 - Follows* Read
+read r1, r2;
+Select BOOLEAN such that Follows*(r1, r2)
+FALSE
+1000
+1 - Follows* Print
+print p;
+Select BOOLEAN such that Follows*(19, p)
+FALSE
+1000
+1 - Follows* Print
+print p;
+Select BOOLEAN such that Follows*(p, 19)
+TRUE
+1000
+1 - Follows* Print
+print p;
+Select BOOLEAN such that Follows*(p, p)
+FALSE
+1000
+1 - Follows* Print
+print p;
+Select BOOLEAN such that Follows*(p, _)
+TRUE
+1000
+1 - Follows* Print
+print p;
+Select BOOLEAN such that Follows*(_, p)
+TRUE
+1000
+1 - Follows* Print
+print p1, p2;
+Select BOOLEAN such that Follows*(p1, p2)
+FALSE
+1000
+1 - Follows* Call
+call c;
+Select BOOLEAN such that Follows*(1, c)
+TRUE
+1000
+1 - Follows* Call
+call c;
+Select BOOLEAN such that Follows*(c, 1)
+FALSE
+1000
+1 - Follows* Call
+call c;
+Select BOOLEAN such that Follows*(c, c)
+FALSE
+1000
+1 - Follows* Call
+call c;
+Select BOOLEAN such that Follows*(c, _)
+FALSE
+1000
+1 - Follows* Call
+call c;
+Select BOOLEAN such that Follows*(_, c)
+TRUE
+1000
+1 - Follows* Call
+call c1, c2;
+Select BOOLEAN such that Follows*(c1, c2)
+FALSE
+1000
+1 - Follows* While
+while w;
+Select BOOLEAN such that Follows*(3, w)
+TRUE
+1000
+1 - Follows* While
+while w;
+Select BOOLEAN such that Follows*(w, 3)
+FALSE
+1000
+1 - Follows* While
+while w;
+Select BOOLEAN such that Follows*(w, w)
+FALSE
+1000
+1 - Follows* While
+while w;
+Select BOOLEAN such that Follows*(w, _)
+TRUE
+1000
+1 - Follows* While
+while w;
+Select BOOLEAN such that Follows*(_, w)
+TRUE
+1000
+1 - Follows* While
+while w1, w2;
+Select BOOLEAN such that Follows*(w1, w2)
+FALSE
+1000
+1 - Follows* If
+if i;
+Select BOOLEAN such that Follows*(1, i)
+TRUE
+1000
+1 - Follows* If
+if i;
+Select BOOLEAN such that Follows*(i, 1)
+FALSE
+1000
+1 - Follows* If
+if i;
+Select BOOLEAN such that Follows*(i, i)
+FALSE
+1000
+1 - Follows* If
+if i;
+Select BOOLEAN such that Follows*(i, _)
+TRUE
+1000
+1 - Follows* If
+if i;
+Select BOOLEAN such that Follows*(_, i)
+TRUE
+1000
+1 - Follows* If
+if i1, i2;
+Select BOOLEAN such that Follows*(i1, i2)
+FALSE
+1000
+1 - Follows* Assign
+assign a;
+Select BOOLEAN such that Follows*(2, a)
+FALSE
+1000
+1 - Follows* Assign
+assign a;
+Select BOOLEAN such that Follows*(a, 2)
+TRUE
+1000
+1 - Follows* Assign
+assign a;
+Select BOOLEAN such that Follows*(a, a)
+FALSE
+1000
+1 - Follows* Assign
+assign a;
+Select BOOLEAN such that Follows*(a, _)
+TRUE
+1000
+1 - Follows* Assign
+assign a;
+Select BOOLEAN such that Follows*(_, a)
+TRUE
+1000
+1 - Follows* Assign
+assign a1, a2;
+Select BOOLEAN such that Follows*(a1, a2)
+TRUE
+1000
+1 - Follows* ProgLine
+prog_line n;
+Select BOOLEAN such that Follows*(2, n)
+TRUE
+1000
+1 - Follows* ProgLine
+prog_line n;
+Select BOOLEAN such that Follows*(n, 2)
+TRUE
+1000
+1 - Follows* ProgLine
+prog_line n;
+Select BOOLEAN such that Follows*(n, n)
+FALSE
+1000
+1 - Follows* ProgLine
+prog_line n;
+Select BOOLEAN such that Follows*(n, _)
+TRUE
+1000
+1 - Follows* ProgLine
+prog_line n;
+Select BOOLEAN such that Follows*(_, n)
+TRUE
+1000
+1 - Follows* ProgLine
+prog_line n1, n2;
+Select BOOLEAN such that Follows*(n1, n2)
+TRUE
+1000

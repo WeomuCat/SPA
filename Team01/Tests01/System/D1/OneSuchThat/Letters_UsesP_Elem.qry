@@ -1,0 +1,40 @@
+1 - UsesP
+constant c;
+Select c such that Uses("aProc", "aVar")
+1,2,3
+1000
+1 - UsesP
+constant c;
+Select c such that Uses("cProc", "eVar")
+none
+1000
+1 - UsesP
+constant c;
+Select c such that Uses("aProc", _)
+1,2,3
+1000
+1 - UsesP
+variable v;
+Select v such that Uses("bProc", v)
+aVar,bVar,cVar,dVar,eVar
+1000
+1 - UsesP Procedure
+procedure p;
+Select p such that Uses(p, "dVar")
+aProc,bProc
+1000
+1 - UsesP Procedure
+procedure p;
+Select p such that Uses(p, _)
+aProc,bProc,cProc
+1000
+1 - UsesP Procedure
+procedure p; variable v;
+Select p such that Uses(p, v)
+aProc,bProc,cProc
+1000
+1 - UsesP Procedure
+procedure p; variable v;
+Select v such that Uses(p, v)
+aVar,bVar,cVar,dVar,eVar
+1000

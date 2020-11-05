@@ -1,0 +1,190 @@
+1 - Parent* While Statement
+while w; stmt s;
+Select <w, w.stmt#, s, s.stmt#> such that Parent*(w, s)
+15 15 16 16,15 15 17 17,15 15 18 18,15 15 19 19,15 15 20 20,15 15 21 21,4 4 5 5,4 4 6 6,4 4 7 7
+1000
+1 - Parent* While Statement
+while w; stmt s;
+Select <w, w.stmt#, s, s.stmt#> such that Parent*(s, w)
+4 4 2 2
+1000
+1 - Parent* While Read
+while w; read r;
+Select <w, w.stmt#, r, r.stmt#, r.varName> such that Parent*(w, r)
+15 15 20 20 eVar,4 4 6 6 eVar
+1000
+1 - Parent* While Read
+while w; read r;
+Select <w, w.stmt#, r, r.stmt#, r.varName> such that Parent*(r, w)
+none
+1000
+1 - Parent* While Print
+while w; print p;
+Select <w, w.stmt#, p, p.stmt#, p.varName> such that Parent*(w, p)
+15 15 18 18 dVar,4 4 5 5 eVar
+1000
+1 - Parent* While Print
+while w; print p;
+Select <w, w.stmt#, p, p.stmt#, p.varName> such that Parent*(p, w)
+none
+1000
+1 - Parent* While Call
+while w; call c;
+Select <w, w.stmt#, c, c.stmt#, c.procName> such that Parent*(w, c)
+15 15 21 21 cProc,4 4 7 7 cProc
+1000
+1 - Parent* While Call
+while w; call c;
+Select <w, w.stmt#, c, c.stmt#, c.procName> such that Parent*(c, w)
+none
+1000
+1 - Parent* While Assign
+while w; assign a;
+Select <w, w.stmt#, a, a.stmt#> such that Parent*(w, a)
+15 15 16 16,15 15 19 19
+1000
+1 - Parent* While Assign
+while w; assign a;
+Select <w, w.stmt#, a, a.stmt#> such that Parent*(a, w)
+none
+1000
+1 - Parent* While ProgLine
+while w; prog_line n;
+Select <w, w.stmt#, n> such that Parent*(w, n)
+15 15 16,15 15 17,15 15 18,15 15 19,15 15 20,15 15 21,4 4 5,4 4 6,4 4 7
+1000
+1 - Parent* While ProgLine
+while w; prog_line n;
+Select <w, w.stmt#, n> such that Parent*(n, w)
+4 4 2
+1000
+1 - Parent* If Statement
+if i; stmt s;
+Select <i, i.stmt#, s, s.stmt#> such that Parent*(i, s)
+17 17 18 18,17 17 19 19,17 17 20 20,2 2 3 3,2 2 4 4,2 2 5 5,2 2 6 6,2 2 7 7,2 2 8 8,2 2 9 9
+1000
+1 - Parent* If Statement
+if i; stmt s;
+Select <i, i.stmt#, s, s.stmt#> such that Parent*(s, i)
+17 17 15 15
+1000
+1 - Parent* If Read
+if i; read r;
+Select <i, i.stmt#, r, r.stmt#, r.varName> such that Parent*(i, r)
+17 17 20 20 eVar,2 2 6 6 eVar
+1000
+1 - Parent* If Read
+if i; read r;
+Select <i, i.stmt#, r, r.stmt#, r.varName> such that Parent*(r, i)
+none
+1000
+1 - Parent* If Print
+if i; print p;
+Select <i, i.stmt#, p, p.stmt#, p.varName> such that Parent*(i, p)
+17 17 18 18 dVar,2 2 5 5 eVar,2 2 8 8 dVar
+1000
+1 - Parent* If Print
+if i; print p;
+Select <i, i.stmt#, p, p.stmt#, p.varName> such that Parent*(p, i)
+none
+1000
+1 - Parent* If Call
+if i; call c;
+Select <i, i.stmt#, c, c.stmt#, c.procName> such that Parent*(i, c)
+2 2 7 7 cProc
+1000
+1 - Parent* If Call
+if i; call c;
+Select <i, i.stmt#, c, c.stmt#, c.procName> such that Parent*(c, i)
+none
+1000
+1 - Parent* If ProgLine
+if i; prog_line n;
+Select <i, i.stmt#, n> such that Parent*(i, n)
+17 17 18,17 17 19,17 17 20,2 2 3,2 2 4,2 2 5,2 2 6,2 2 7,2 2 8,2 2 9
+1000
+1 - Parent* If ProgLine
+if i; prog_line n;
+Select <i, i.stmt#, n> such that Parent*(n, i)
+17 17 15
+1000
+1 - Parent* Statement Read
+stmt s; read r;
+Select <s, s.stmt#, r, r.stmt#, r.varName> such that Parent*(s, r)
+15 15 20 20 eVar,17 17 20 20 eVar,2 2 6 6 eVar,4 4 6 6 eVar
+1000
+1 - Parent* Statement Read
+stmt s; read r;
+Select <s, s.stmt#, r, r.stmt#, r.varName> such that Parent*(r, s)
+none
+1000
+1 - Parent* Read Print
+read r; print p;
+Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName> such that Parent*(r, p)
+none
+1000
+1 - Parent* Read Print
+read r; print p;
+Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName> such that Parent*(p, r)
+none
+1000
+1 - Parent* Print Call
+print p; call c;
+Select <p, p.stmt#, p.varName, c, c.stmt#, c.procName> such that Parent*(p, c)
+none
+1000
+1 - Parent* Print Call
+print p; call c;
+Select <p, p.stmt#, p.varName, c, c.stmt#, c.procName> such that Parent*(c, p)
+none
+1000
+1 - Parent* Call While
+call c; while w;
+Select <c, c.stmt#, c.procName, w, w.stmt#> such that Parent*(c, w)
+none
+1000
+1 - Parent* Call While
+call c; while w;
+Select <c, c.stmt#, c.procName, w, w.stmt#> such that Parent*(w, c)
+21 21 cProc 15 15,7 7 cProc 4 4
+1000
+1 - Parent* While If
+while w; if i;
+Select <w, w.stmt#, i, i.stmt#> such that Parent*(w, i)
+15 15 17 17
+1000
+1 - Parent* While If
+while w; if i;
+Select <w, w.stmt#, i, i.stmt#> such that Parent*(i, w)
+4 4 2 2
+1000
+1 - Parent* If Assign
+if i; assign a;
+Select <i, i.stmt#, a, a.stmt#> such that Parent*(i, a)
+17 17 19 19,2 2 3 3,2 2 9 9
+1000
+1 - Parent* If Assign
+if i; assign a;
+Select <i, i.stmt#, a, a.stmt#> such that Parent*(a, i)
+none
+1000
+1 - Parent* Assign ProgLine
+assign a; prog_line n;
+Select <a, a.stmt#, n> such that Parent*(a, n)
+none
+1000
+1 - Parent* Assign ProgLine
+assign a; prog_line n;
+Select <a, a.stmt#, n> such that Parent*(n, a)
+16 16 15,19 19 15,19 19 17,3 3 2,9 9 2
+1000
+1 - Parent* ProgLine Statement
+prog_line n; stmt s;
+Select <n, s, s.stmt#> such that Parent*(n, s)
+15 16 16,15 17 17,15 18 18,15 19 19,15 20 20,15 21 21,17 18 18,17 19 19,17 20 20,2 3 3,2 4 4,2 5 5,2 6 6,2 7 7,2 8 8,2 9 9,4 5 5,4 6 6,4 7 7
+1000
+1 - Parent* ProgLine Statement
+prog_line n; stmt s;
+Select <n, s, s.stmt#> such that Parent*(s, n)
+16 15 15,17 15 15,18 15 15,18 17 17,19 15 15,19 17 17,20 15 15,20 17 17,21 15 15,3 2 2,4 2 2,5 2 2,5 4 4,6 2 2,6 4 4,7 2 2,7 4 4,8 2 2,9 2 2
+1000

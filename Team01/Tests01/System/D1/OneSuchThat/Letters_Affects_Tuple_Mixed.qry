@@ -1,0 +1,80 @@
+1 - Affects Statement Read
+stmt s; read r;
+Select <s, s.stmt#, r, r.stmt#, r.varName> such that Affects(s, r)
+none
+1000
+1 - Affects Statement Read
+stmt s; read r;
+Select <s, s.stmt#, r, r.stmt#, r.varName> such that Affects(r, s)
+none
+1000
+1 - Affects Read Print
+read r; print p;
+Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName> such that Affects(r, p)
+none
+1000
+1 - Affects Read Print
+read r; print p;
+Select <r, r.stmt#, r.varName, p, p.stmt#, p.varName> such that Affects(p, r)
+none
+1000
+1 - Affects Print Call
+print p; call c;
+Select <p, p.stmt#, p.varName, c, c.stmt#, c.procName> such that Affects(p, c)
+none
+1000
+1 - Affects Print Call
+print p; call c;
+Select <p, p.stmt#, p.varName, c, c.stmt#, c.procName> such that Affects(c, p)
+none
+1000
+1 - Affects Call While
+call c; while w;
+Select <c, c.stmt#, c.procName, w, w.stmt#> such that Affects(c, w)
+none
+1000
+1 - Affects Call While
+call c; while w;
+Select <c, c.stmt#, c.procName, w, w.stmt#> such that Affects(w, c)
+none
+1000
+1 - Affects While If
+while w; if i;
+Select <w, w.stmt#, i, i.stmt#> such that Affects(w, i)
+none
+1000
+1 - Affects While If
+while w; if i;
+Select <w, w.stmt#, i, i.stmt#> such that Affects(i, w)
+none
+1000
+1 - Affects If Assign
+if i; assign a;
+Select <i, i.stmt#, a, a.stmt#> such that Affects(i, a)
+none
+1000
+1 - Affects If Assign
+if i; assign a;
+Select <i, i.stmt#, a, a.stmt#> such that Affects(a, i)
+none
+1000
+1 - Affects Assign ProgLine
+assign a; prog_line n;
+Select <a, a.stmt#, n> such that Affects(a, n)
+16 16 16,19 19 16
+1000
+1 - Affects Assign ProgLine
+assign a; prog_line n;
+Select <a, a.stmt#, n> such that Affects(n, a)
+16 16 16,16 16 19
+1000
+1 - Affects ProgLine Statement
+prog_line n; stmt s;
+Select <n, s, s.stmt#> such that Affects(n, s)
+16 16 16,19 16 16
+1000
+1 - Affects ProgLine Statement
+prog_line n; stmt s;
+Select <n, s, s.stmt#> such that Affects(s, n)
+16 16 16,16 19 19
+1000

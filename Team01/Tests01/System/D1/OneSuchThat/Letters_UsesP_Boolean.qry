@@ -1,0 +1,40 @@
+1 - UsesP
+constant c;
+Select BOOLEAN such that Uses("aProc", "aVar")
+TRUE
+1000
+1 - UsesP
+constant c;
+Select BOOLEAN such that Uses("cProc", "eVar")
+FALSE
+1000
+1 - UsesP
+constant c;
+Select BOOLEAN such that Uses("aProc", _)
+TRUE
+1000
+1 - UsesP
+variable v;
+Select BOOLEAN such that Uses("bProc", v)
+TRUE
+1000
+1 - UsesP Procedure
+procedure p;
+Select BOOLEAN such that Uses(p, "dVar")
+TRUE
+1000
+1 - UsesP Procedure
+procedure p;
+Select BOOLEAN such that Uses(p, _)
+TRUE
+1000
+1 - UsesP Procedure
+procedure p; variable v;
+Select BOOLEAN such that Uses(p, v)
+TRUE
+1000
+1 - UsesP Procedure
+procedure p; variable v;
+Select BOOLEAN such that Uses(p, v)
+TRUE
+1000

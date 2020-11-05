@@ -1,39 +1,39 @@
 procedure aProc {
-    avar = bvar + cvar - dvar / evar * avar + 1;
-    if (avar == dvar) then {
-        cvar = evar;
-        while (cvar != dvar) {
-            print evar;
-            read evar;
+    aVar = bVar + cVar - dVar / eVar * aVar + 1;
+    if (aVar == dVar) then {
+        cVar = eVar;
+        while (cVar != dVar) {
+            print eVar;
+            read eVar;
             call cProc;
         }
     } else {
-        print dvar;
-        bvar = bvar + 2;
+        print dVar;
+        bVar = bVar + 2;
     }
-    print evar;
+    print eVar;
     call bProc;
 }
 
 procedure bProc {
-    print avar;
-    read avar;
-    cvar = dvar + dvar;
-    while ((cvar != dvar) || (evar < avar)) {
-        bvar = bvar + 3;
-        if (avar == dvar) then {
-            print dvar;
-            bvar = evar;
+    print aVar;
+    read aVar;
+    cVar = dVar + dVar;
+    while ((cVar != dVar) || (eVar < aVar)) {
+        bVar = bVar + 3;
+        if (aVar == dVar) then {
+            print dVar;
+            bVar = eVar;
         } else {
-            read evar;
+            read eVar;
         }
         call cProc;
     }
-    cvar = dvar + 3;
+    cVar = dVar + 3;
 }
 
 procedure cProc {
-    read evar;
-    print cvar;
-    avar = avar;
+    read eVar;
+    print cVar;
+    aVar = aVar;
 }

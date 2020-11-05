@@ -1,0 +1,40 @@
+1 - ModifiesP
+constant c;
+Select BOOLEAN such that Modifies("aProc", "aVar")
+TRUE
+1000
+1 - ModifiesP
+constant c;
+Select BOOLEAN such that Modifies("cProc", "cVar")
+FALSE
+1000
+1 - ModifiesP
+constant c;
+Select BOOLEAN such that Modifies("aProc", _)
+TRUE
+1000
+1 - ModifiesP
+variable v;
+Select BOOLEAN such that Modifies("aProc", v)
+TRUE
+1000
+1 - ModifiesP Procedure
+procedure p;
+Select BOOLEAN such that Modifies(p, "cVar")
+TRUE
+1000
+1 - ModifiesP Procedure
+procedure p;
+Select BOOLEAN such that Modifies(p, _)
+TRUE
+1000
+1 - ModifiesP Procedure
+procedure p; variable v;
+Select BOOLEAN such that Modifies(p, v)
+TRUE
+1000
+1 - ModifiesP Procedure
+procedure p; variable v;
+Select BOOLEAN such that Modifies(p, v)
+TRUE
+1000
