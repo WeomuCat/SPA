@@ -58,7 +58,7 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 			such_that_relationship.getRelationshipResult(pkb, clause_bool, clause_result_list);
 		}
 		else if (clause_type == QueryNodeType::pattern) {
-			Pattern pattern = Pattern(clause);
+			Pattern pattern = Pattern(clause, result_list);
 			pattern.getPatternResult(pkb, clause_bool, clause_result_list);
 		}
 		else if (clause_type == QueryNodeType::with) {

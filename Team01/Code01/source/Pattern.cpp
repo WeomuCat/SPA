@@ -1,15 +1,23 @@
 #include <queue>
 #include <unordered_map>
 #include <vector>
+#include <algorithm>
 #include "Pattern.h"
 
-Pattern::Pattern(QueryNode pattern_node) {
+Pattern::Pattern(QueryNode pattern_node, ResultList& intermediate_result_list) {
     this->pattern_node_ = pattern_node;
+    this->intermediate_result_list = intermediate_result_list;
 }
 
 void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_result_list) {
     // Get ref nodes of the pattern node
     QUERY_NODE_LIST refs = pattern_node_.getChildren();
+    SYNONYM_NAME refs0_name = refs[0].getString();
+
+    SYNONYM_VALUES_LIST resultlist_values;
+    if (intermediate_result_list.containsSynonym(refs0_name)) {
+        resultlist_values = intermediate_result_list.getValuesOfSynonym(refs0_name);
+    }
 
 
     /* Initialization */
@@ -35,25 +43,56 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
             STMT_NUM s = a->getStatementNumber();
             AST_NODE_PTR v = a->getVariableNode();
             EXPR_NODE_PTR e = a->getExpressionNode();
-            valid_stmt_nums.push_back(s);
-            var_ast_map.insert({ s, v });
-            expr_ast_map.insert({ s, e });
+
+            if (!resultlist_values.empty()) {
+                if (std::find(resultlist_values.begin(), resultlist_values.end(), std::to_string(s)) != resultlist_values.end()) {
+                    valid_stmt_nums.push_back(s);
+                    var_ast_map.insert({ s, v });
+                    expr_ast_map.insert({ s, e });
+                }
+            }
+            else {
+                valid_stmt_nums.push_back(s);
+                var_ast_map.insert({ s, v });
+                expr_ast_map.insert({ s, e });
+            }
+            
         }
         break;
     case SYNONYM_TYPE::ifs:
         for (IF_NODE_PTR i : pkb.getIfs()) {
             STMT_NUM s = i->getStatementNumber();
             AST_NODE_PTR v = i->getConditionNode();
-            valid_stmt_nums.push_back(s);
-            var_ast_map.insert({ s, v });
+
+            if (!resultlist_values.empty()) {
+                if (std::find(resultlist_values.begin(), resultlist_values.end(), std::to_string(s)) != resultlist_values.end()) {
+                    valid_stmt_nums.push_back(s);
+                    var_ast_map.insert({ s, v });
+                }
+            }
+            else {
+                valid_stmt_nums.push_back(s);
+                var_ast_map.insert({ s, v });
+            }
+            
         }
         break;
     case SYNONYM_TYPE::whiles:
         for (WHILE_NODE_PTR w : pkb.getWhiles()) {
             STMT_NUM s = w->getStatementNumber();
             AST_NODE_PTR v = w->getConditionNode();
-            valid_stmt_nums.push_back(s);
-            var_ast_map.insert({ s, v });
+
+            if (!resultlist_values.empty()) {
+                if (std::find(resultlist_values.begin(), resultlist_values.end(), std::to_string(s)) != resultlist_values.end()) {
+                    valid_stmt_nums.push_back(s);
+                    var_ast_map.insert({ s, v });
+                }
+            }
+            else {
+                valid_stmt_nums.push_back(s);
+                var_ast_map.insert({ s, v });
+            }
+            
         }
         break;
     }

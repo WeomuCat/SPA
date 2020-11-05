@@ -8,7 +8,7 @@
 
 class Pattern {
 public:
-	Pattern(QueryNode pattern_node);
+	Pattern(QueryNode pattern_node, ResultList& intermediate_result_list);
 	
 	static bool exactExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle);
 	static bool partialExpressionTreeMatch(EXPR_NODE_PTR haystack, EXPR_NODE_PTR needle);
@@ -23,4 +23,5 @@ private:
 	static AST_NODE_PTR getExpressionNodeRight(AST_NODE_PTR n);
 
 	QueryNode pattern_node_;
+	ResultList intermediate_result_list;
 };
