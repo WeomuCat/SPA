@@ -1,8 +1,9 @@
 #include <vector>
 #include "Relationship.h"
 
-Relationship::Relationship(QueryNode relationship_node) {
+Relationship::Relationship(QueryNode relationship_node, ResultList& intermediate_result_list) {
 	this->relationship_node_ = relationship_node;
+	this->intermediate_result_list = intermediate_result_list;
 }
 
 void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list) {
@@ -22,6 +23,7 @@ void Relationship::getRelationshipResult(PKB pkb, bool& clause_bool, ResultList&
 	/* Populate valid_results from synonyms */
 	std::vector<SYNONYM_VALUE> values_0;
 	std::vector<SYNONYM_VALUE> values_1;
+
 
 	// Populate values_0 and values_1
 	switch (type) {
@@ -242,11 +244,33 @@ bool Relationship::areSynonymsEqual(QueryNode r1, QueryNode r2) {
 }
 
 SYNONYM_VALUES_LIST Relationship::getStatementsFromRef(PKB pkb, QueryNode ref) {
-	return stmtNumsToSynValues(getStatementNumsFromRef(pkb, ref));
+	if (ref.getNodeType() == QueryNodeType::synonym) {
+		SYNONYM_NAME ref_synonym_name = ref.getString();
+		if (intermediate_result_list.containsSynonym(ref_synonym_name)) {
+			return intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+		}
+		else {
+			return stmtNumsToSynValues(getStatementNumsFromRef(pkb, ref));
+		}
+	}
+	else {
+		return stmtNumsToSynValues(getStatementNumsFromRef(pkb, ref));
+	}
 }
 
 SYNONYM_VALUES_LIST Relationship::getAssignsFromRef(PKB pkb, QueryNode ref) {
-	return stmtNumsToSynValues(getAssignNumsFromRef(pkb, ref));
+	if (ref.getNodeType() == QueryNodeType::synonym) {
+		SYNONYM_NAME ref_synonym_name = ref.getString();
+		if (intermediate_result_list.containsSynonym(ref_synonym_name)) {
+			return intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+		}
+		else {
+			return stmtNumsToSynValues(getAssignNumsFromRef(pkb, ref));
+		}
+	}
+	else {
+		return stmtNumsToSynValues(getAssignNumsFromRef(pkb, ref));
+	}
 }
 
 SYNONYM_VALUES_LIST Relationship::getVariablesFromRef(PKB pkb, QueryNode ref) {
@@ -257,6 +281,11 @@ SYNONYM_VALUES_LIST Relationship::getVariablesFromRef(PKB pkb, QueryNode ref) {
 		return { ref.getString() };
 	case QUERY_NODE_TYPE::synonym:
 	{
+		SYNONYM_NAME ref_synonym_name = ref.getString();
+		if (intermediate_result_list.containsSynonym(ref_synonym_name)) {
+			return intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+		}
+		
 		QuerySynonymType syn_type = ref.getSynonymType();
 		switch (syn_type) {
 		case QuerySynonymType::variable:
@@ -280,6 +309,11 @@ SYNONYM_VALUES_LIST Relationship::getProceduresFromRef(PKB pkb, QueryNode ref) {
 		return { ref.getString() };
 	case QUERY_NODE_TYPE::synonym:
 	{
+		SYNONYM_NAME ref_synonym_name = ref.getString();
+		if (intermediate_result_list.containsSynonym(ref_synonym_name)) {
+			return intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+		}
+		
 		QuerySynonymType syn_type = ref.getSynonymType();
 		switch (syn_type) {
 		case QuerySynonymType::procedure:
@@ -302,7 +336,7 @@ STMT_NUM_LIST Relationship::getStatementNumsFromRef(PKB pkb, QueryNode ref) {
 	case QUERY_NODE_TYPE::integer:
 		return { ref.getInteger() };
 	case QUERY_NODE_TYPE::synonym:
-	{
+	{	
 		QuerySynonymType syn_type = ref.getSynonymType();
 		switch (syn_type) {
 		case QuerySynonymType::assign:

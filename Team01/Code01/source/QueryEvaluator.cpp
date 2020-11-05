@@ -54,7 +54,7 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 		if (clause_type == QueryNodeType::such_that) {
 			QueryNode relationship = clause.getChildren()[0];
 			// Get the result of the relationship from pkb, fill in clause_result_list, get clause_bool
-			Relationship such_that_relationship = Relationship(relationship);
+			Relationship such_that_relationship = Relationship(relationship, result_list);
 			such_that_relationship.getRelationshipResult(pkb, clause_bool, clause_result_list);
 		}
 		else if (clause_type == QueryNodeType::pattern) {

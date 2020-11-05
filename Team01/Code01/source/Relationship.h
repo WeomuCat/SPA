@@ -15,7 +15,7 @@ public:
 	/*
 	Description: Creates a relationship from a clause node.
 	*/
-	Relationship(QueryNode relationship_node);
+	Relationship(QueryNode relationship_node, ResultList& intermediate_result_list);
 
 	/*
 	Description: Updates the given clause_result_list with the result of this Relationship, consulting from the given pkb.
@@ -25,6 +25,7 @@ public:
 
 private:
 	QueryNode relationship_node_;
+	ResultList intermediate_result_list;
 	std::unordered_map<SYNONYM_VALUE, STMT_NUM> stmt_nums_;
 
 	bool areSynonymsEqual(QueryNode r1, QueryNode r2);
