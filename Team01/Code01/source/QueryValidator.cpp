@@ -424,29 +424,24 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		else if (!std::regex_match(first_arg, stmt_ref_format_) && !std::regex_match(first_arg, ent_ref_format_)) {
 			return false;
 		}
-		else if (!std::regex_match(second_arg, ent_ref_format_)) {
+		else if (!isEntityRef(proc_s, second_arg)) {
+			return false;
+		}
+		else if (std::regex_match(second_arg, name_format_) && proc_s.find(second_arg)->second.getSynonymType() == QuerySynonymType::procedure) {
 			return false;
 		}
 		else if (std::regex_match(first_arg, name_format_)) {
-			if (second_arg.compare("_") == 0) {
+			if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::read) {
+				return false;
+			}
+			else if (isStatementRef(proc_s, first_arg)) {
 				return true;
 			}
-			else if (isEntityRef(proc_s, second_arg)) {
-				if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::read) {
-					return false;
-				}
-				else if (isStatementRef(proc_s, first_arg)) {
-					return true;
-				}
-				else if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::variable) {
-					return false;
-				}
-				else if (isEntityRef(proc_s, first_arg)) {
-					return true;
-				}
-				else {
-					return false;
-				}
+			else if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+				return false;
+			}
+			else if (isEntityRef(proc_s, first_arg)) {
+				return true;
 			}
 			else {
 				return false;
@@ -463,29 +458,24 @@ VALIDATION_RESULT QueryValidator::isValidRelationArguments(PROCESSED_SYNONYMS pr
 		else if (!std::regex_match(first_arg, stmt_ref_format_) && !std::regex_match(first_arg, ent_ref_format_)) {
 			return false;
 		}
-		else if (!std::regex_match(second_arg, ent_ref_format_)) {
+		else if (!isEntityRef(proc_s, second_arg)) {
+			return false;
+		}
+		else if (std::regex_match(second_arg, name_format_) && proc_s.find(second_arg)->second.getSynonymType() == QuerySynonymType::procedure) {
 			return false;
 		}
 		else if (std::regex_match(first_arg, name_format_)) {
-			if (second_arg.compare("_") == 0) {
+			if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::print) {
+				return false;
+			}
+			else if (isStatementRef(proc_s, first_arg)) {
 				return true;
 			}
-			else if (isEntityRef(proc_s, second_arg)) {
-				if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::print) {
-					return false;
-				}
-				else if (isStatementRef(proc_s, first_arg)) {
-					return true;
-				}
-				else if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::variable) {
-					return false;
-				}
-				else if (isEntityRef(proc_s, first_arg)) {
-					return true;
-				}
-				else {
-					return false;
-				}
+			else if (proc_s.find(first_arg)->second.getSynonymType() == QuerySynonymType::variable) {
+				return false;
+			}
+			else if (isEntityRef(proc_s, first_arg)) {
+				return true;
 			}
 			else {
 				return false;
