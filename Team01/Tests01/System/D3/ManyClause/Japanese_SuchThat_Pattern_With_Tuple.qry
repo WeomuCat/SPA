@@ -31,7 +31,7 @@ Select <r.stmt#, pn.stmt#> such that Follows* (r, pn) and Follows* (pn, cl) and 
 7 - Uses, Uses, Uses, Next, Next*
 while w1, w2, w3; variable v;
 Select <w1, w2, w3> such that Uses (w1, v) and Uses (w2, v) and Uses (w3, v) and Next (w1, w2) and Next* (w2, w3) pattern w1 ("nana", _) and w2 ("ichi", _) with v.varName = "go" and w1.stmt# = 40
-40 41 42, 40 41 45
+40 41 42, 40 41 45, 40 41 40, 40 41 41, 40 41 49
 10000
 8- Affects
 stmt s; assign a;

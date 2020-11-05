@@ -807,7 +807,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 	bool is_bool = false;
 
 	CLAUSE_LIST all_clauses;
-	ClauseQueue clause_queue(false);
+	ClauseQueue clause_queue(true);
 
 	if (QueryValidator::isValidClause(c)) {
 		select_node.setNodeType({ QueryNodeType::select });

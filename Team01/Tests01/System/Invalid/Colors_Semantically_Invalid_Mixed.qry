@@ -378,7 +378,7 @@ while w; stmt s;
 Select BOOLEAN pattern w (s, _)
 FALSE
 1000
-77 - Pattern Assign Wrong Synonym
+77 - Pattern If Wrong Synonym
 if i; stmt s;
 Select BOOLEAN pattern i (s, _, _)
 FALSE
