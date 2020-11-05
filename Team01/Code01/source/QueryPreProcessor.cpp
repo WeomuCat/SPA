@@ -587,10 +587,8 @@ QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE
 	pattern_node.setNodeType({ QueryNodeType::pattern });
 
 	// get synonym
-	int syn_start_index = c.find(" ");
 	int open_brac_index = c.find("(");
-	SYNONYM_NAME s = trimWhitespaces(c.substr(syn_start_index,
-		open_brac_index - syn_start_index));
+	SYNONYM_NAME s = trimWhitespaces(c.substr(0, open_brac_index));
 
 	ARGUMENTS args = getArguments(c);
 
@@ -865,13 +863,15 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 			}
 
 			while (clause_start_index != -1) {
-				// check type of clause
-				// get clause
-				// check format validity
-				// get clause arguments
-				// check argument validity
-				// create clause node
-				// add to children of select node
+				/*
+				check type of clause
+				get clause
+				check format validity
+				get clause arguments
+				check argument validity
+				create clause node
+				add to children of select node
+				*/
 				if (c[clause_start_index] == 's') {
 					// suchthat-cl
 					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index + 9,
@@ -879,7 +879,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 					bool is_last = false;
 					INDEX split_index = 0;
-					INDEX and_index = current_c.find("and", split_index);
+					INDEX and_index = current_c.find("and ", split_index);
 
 					if (and_index == -1) {
 						is_last = true;
@@ -920,7 +920,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						}
 						else {
 							split_index = and_index + 3;
-							and_index = current_c.find("and", split_index);
+							and_index = current_c.find("and ", split_index);
 
 							if (and_index == -1) {
 								is_last = true;
@@ -930,39 +930,54 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 				}
 				else if (c[clause_start_index] == 'p') {
 					// pattern-cl
-					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index, clause_end_index - clause_start_index));
+					SINGLE_CLAUSE current_c = trimWhitespaces(c.substr(clause_start_index + 7,
+						clause_end_index - (clause_start_index + 7)));
 
-					if (!QueryValidator::isValidPatternFormat(current_c)) {
-						is_valid = false;
-						is_syntax_valid = false;
-						break;
+					bool is_last = false;
+					INDEX split_index = 0;
+					INDEX and_index = current_c.find("and ", split_index);
+
+					if (and_index == -1) {
+						is_last = true;
 					}
-					else if (current_c.find("and") != -1) {
-						// if has pattern 'and', next clause should be pattern
 
-						INDEX next_clause_start = getNextClauseIndex(c, clause_end_index)[0];
+					while (is_valid && (and_index != -1 || is_last)) {
+						SINGLE_CLAUSE pattern_c = trimWhitespaces(current_c.substr(split_index, and_index - split_index));
 
-						if (c[next_clause_start] != 'p') {
+
+						if (!QueryValidator::isValidPatternFormat(pattern_c)) {
 							is_valid = false;
 							is_syntax_valid = false;
 							break;
 						}
-					}
 
-					QueryNode pattern_node = createPatternNode(proc_s, current_c);
+						QueryNode pattern_node = createPatternNode(proc_s, pattern_c);
 
-					if (pattern_node.getNodeType() == QueryNodeType::unassigned) {
-						is_valid = false;
-						is_syntax_valid = false;
-						break;
-					}
-					else if (pattern_node.getNodeType() == QueryNodeType::pattern && pattern_node.getChildren().size() == 0) {
-						is_valid = false;
-						break;
+						if (pattern_node.getNodeType() == QueryNodeType::unassigned) {
+							is_valid = false;
+							is_syntax_valid = false;
+							break;
+						}
+						else if (pattern_node.getNodeType() == QueryNodeType::pattern && pattern_node.getChildren().size() == 0) {
+							is_valid = false;
+							break;
 
-					}
-					else {
-						all_clauses.push_back(pattern_node);
+						}
+						else {
+							all_clauses.push_back(pattern_node);
+						}
+
+						if (is_last) {
+							is_last = false;
+						}
+						else {
+							split_index = and_index + 3;
+							and_index = current_c.find("and ", split_index);
+
+							if (and_index == -1) {
+								is_last = true;
+							}
+						}
 					}
 				
 				}
@@ -973,7 +988,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 
 					bool is_last = false;
 					INDEX split_index = 0;
-					INDEX and_index = current_c.find("and", split_index);
+					INDEX and_index = current_c.find("and ", split_index);
 
 					if (and_index == -1) {
 						is_last = true;
@@ -1009,7 +1024,7 @@ PROCESSED_CLAUSES QueryPreProcessor::preProcessClauses(PROCESSED_SYNONYMS proc_s
 						}
 						else {
 							split_index = and_index + 3;
-							and_index = current_c.find("and", split_index);
+							and_index = current_c.find("and ", split_index);
 
 							if (and_index == -1) {
 								is_last = true;
