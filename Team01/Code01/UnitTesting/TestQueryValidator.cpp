@@ -2687,13 +2687,13 @@ namespace UnitTesting
 		}
 
 		TEST_METHOD(isValidPatternFormat_Valid_Success) {
-			SINGLE_CLAUSE p1 = "pattern a(_, _)";
-			SINGLE_CLAUSE p2 = "pattern a(a, _)";
-			SINGLE_CLAUSE p3 = "pattern a(\"identity\", _)";
-			SINGLE_CLAUSE p4 = "pattern a(_, _\"x\"_)";
-			SINGLE_CLAUSE p5 = "pattern a(_, _\"1\"_)";
-			SINGLE_CLAUSE p6 = "pattern a ( _    , _   )";
-			SINGLE_CLAUSE p7 = "pattern if( _, _, _)";
+			SINGLE_CLAUSE p1 = "a(_, _)";
+			SINGLE_CLAUSE p2 = "a(a, _)";
+			SINGLE_CLAUSE p3 = "a(\"identity\", _)";
+			SINGLE_CLAUSE p4 = "a(_, _\"x\"_)";
+			SINGLE_CLAUSE p5 = "a(_, _\"1\"_)";
+			SINGLE_CLAUSE p6 = "a ( _    , _   )";
+			SINGLE_CLAUSE p7 = "if( _, _, _)";
 
 			Assert::IsTrue(QueryValidator::isValidPatternFormat(p1));
 			Assert::IsTrue(QueryValidator::isValidPatternFormat(p2));
@@ -2705,15 +2705,15 @@ namespace UnitTesting
 		}
 
 		TEST_METHOD(isValidPatternFormat_Invalid_Success) {
-			SINGLE_CLAUSE p1 = "pattern (_, _)";
-			SINGLE_CLAUSE p2 = "pattern 1(_, _)";
-			SINGLE_CLAUSE p3 = "pattern a(1, _)";
-			SINGLE_CLAUSE p4 = "pattern a(_, 1)";
-			SINGLE_CLAUSE p5 = "pattern a(_, v)";
-			SINGLE_CLAUSE p6 = "pattern a(_, _\"x\")";
-			SINGLE_CLAUSE p7 = "pattern a(_, \"x\"_)";
-			SINGLE_CLAUSE p8 = "pattern a(_\"x\"_, _)";
-			SINGLE_CLAUSE p9 = "pattern if(_, _, 1)";
+			SINGLE_CLAUSE p1 = "(_, _)";
+			SINGLE_CLAUSE p2 = "1(_, _)";
+			SINGLE_CLAUSE p3 = "a(1, _)";
+			SINGLE_CLAUSE p4 = "a(_, 1)";
+			SINGLE_CLAUSE p5 = "a(_, v)";
+			SINGLE_CLAUSE p6 = "a(_, _\"x\")";
+			SINGLE_CLAUSE p7 = "a(_, \"x\"_)";
+			SINGLE_CLAUSE p8 = "a(_\"x\"_, _)";
+			SINGLE_CLAUSE p9 = "if(_, _, 1)";
 
 			Assert::IsFalse(QueryValidator::isValidPatternFormat(p1));
 			Assert::IsFalse(QueryValidator::isValidPatternFormat(p2));
