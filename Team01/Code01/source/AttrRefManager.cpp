@@ -41,6 +41,31 @@ ATTR_REF_VALUES_LIST AttrRefManager::getAttrRefValues(PKB pkb, SYNONYM_TYPE syno
 	return values;
 }
 
+ATTR_REF_VALUES_LIST AttrRefManager::getAttrRefValues(PKB pkb, SYNONYM_TYPE synonym_type, SYNONYM_VALUES_LIST synonym_values, ATTRIBUTE attribute) {
+	if (synonym_values.size() == 0) {
+		return synonym_values;
+	}
+
+	SYNONYM_VALUE one_value = synonym_values[0];
+
+	// only call.procName, read.varName, print.varName are the non-default attrRef
+	if (synonym_type == QuerySynonymType::call && attribute == AttributeType::procName) {
+		ATTR_REF_VALUES_LIST calls_procname_list = getCallsProcname(pkb, synonym_values);
+		return calls_procname_list;
+	}
+	else if (synonym_type == QuerySynonymType::read && attribute == AttributeType::varName) {
+		ATTR_REF_VALUES_LIST read_varname_list = getReadVarname(pkb, synonym_values);
+		return read_varname_list;
+	}
+	else if (synonym_type == QuerySynonymType::print && attribute == AttributeType::varName) {
+		ATTR_REF_VALUES_LIST print_varname_list = getPrintVarname(pkb, synonym_values);
+		return print_varname_list;
+	}
+	else {
+		return synonym_values;
+	}
+}
+
 ATTR_REF_VALUES_LIST AttrRefManager::getCallsProcname(PKB pkb, SYNONYM_VALUES_LIST stmtnum_values) {
 	ATTR_REF_VALUES_LIST call_procname_list;
 	CALL_NODE_PTR_LIST call_nodes = pkb.getCalls();

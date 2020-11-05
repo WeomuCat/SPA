@@ -62,7 +62,7 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 			pattern.getPatternResult(pkb, clause_bool, clause_result_list);
 		}
 		else if (clause_type == QueryNodeType::with) {
-			WithClause with = WithClause(processed_synonyms, clause);
+			WithClause with = WithClause(processed_synonyms, clause, result_list);
 			with.getWithResult(pkb, clause_bool, clause_result_list);
 		}
 		else {

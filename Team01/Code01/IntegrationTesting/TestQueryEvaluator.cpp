@@ -1562,12 +1562,8 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage("Evaluate exception caught");
 			}
-			STRING_RESULT correct_result = "a a, a b, a c, a d, a e, b a, b b, b c, b d, b e, c a, c b, c c, c d, "
-				"c e, d a, d b, d c, d d, d e, e a, e b, e c, e d, e e, a a, a b, a c, a d, a e, b a, b b, b c, "
-				"b d, b e, c a, c b, c c, c d, c e, d a, d b, d c, d d, d e, e a, e b, e c, e d, e e, a a, a b, a c, "
-				"a d, a e, b a, b b, b c, b d, b e, c a, c b, c c, c d, c e, d a, d b, d c, d d, d e, e a, e b, e c, "
-				"e d, e e, a a, a b, a c, a d, a e, b a, b b, b c, b d, b e, c a, c b, c c, c d, c e, d a, d b, d c, "
-				"d d, d e, e a, e b, e c, e d, e e";
+			STRING_RESULT correct_result = "a a, a b, a c, a d, a e, b a, b b, b c, b d, b e, c a, c b, c c, c d, c e, d a, d b, d c, d d, d e, e a, e b, e c, e d, e e";
+			
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
@@ -4846,7 +4842,7 @@ namespace IntegrationTesting
 			catch (const char* msg) {
 				Logger::WriteMessage(msg);
 			}
-			STRING_RESULT correct_result = "newspaper 100, menu 100, pain 100, newspaper 100, menu 100, pain 100, newspaper 100, menu 100, pain 100, newspaper 100, menu 100, pain 100, newspaper 100, menu 100, pain 100, newspaper 100, menu 100, pain 100, newspaper 100, menu 100, pain 100, newspaper 100, menu 100, pain 100";
+			STRING_RESULT correct_result = "newspaper 100, menu 100, pain 100";
 
 			Logger::WriteMessage(result_string.c_str());
 			Assert::IsTrue(result_string.compare(correct_result) == 0);
