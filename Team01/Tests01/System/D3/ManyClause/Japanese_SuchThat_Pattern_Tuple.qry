@@ -20,13 +20,13 @@ Select <i, v.varName> such that Parent (i, a) and Modifies (i, v) and Uses (i, v
 5000
 5 - Calls, Uses, Modifies
 procedure p; variable v; while w;
-Select <p, w> such that Calls (p, "tenth") and Uses (w, v) and Modifies (w, v) pattern w ("hachi", _)
+Select <p, w> such that Calls (p, "tenth") and Modifies (w, v) pattern w ("hachi", _)
 third 41, fourth 41, sixth 41, seventh 41, ninth 41, third 42, fourth 42, sixth 42, seventh 42, ninth 42
 5000
 6 - Next, Next*, Next 
 call cl; if i; while w; print pn;
-Select <cl.procName, i, w> such that Next (i, cl) and Next* (cl, w) and Next (w, pn) pattern i ("go", _, _) and w ("go", _)
-22 30, 24 30
+Select <cl.procName, i, w> such that Next (i, cl) and Next* (i, w) and Next (w, pn) pattern i ("go", _, _) and w ("go", _)
+fourth 22 30
 5000
 7 - Affects, Affects*, Affects
 assign a1, a2, a3, a4;

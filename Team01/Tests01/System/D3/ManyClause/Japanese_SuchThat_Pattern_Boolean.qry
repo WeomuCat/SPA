@@ -59,8 +59,8 @@ Select BOOLEAN such that Uses (i1, "ichi") and Uses (i2, "ni") and Uses (i3, "sa
 FALSE
 5000
 13 - While patterns
-while w1, w2, w3; variable v1, v2, v3;
-Select BOOLEAN such that Modifies (w1, v1) and Modifies (w2, v2) and Modifies (w3, v3) pattern w1 (v1, _) and w2 (v2, _) and w3 (v3, _) 
+while w1, w2, w3;
+Select BOOLEAN such that Modifies (w1, "ichi") and Modifies (w2, "ni") and Modifies (w3, "nana") pattern w1 ("ichi", _) and w2 ("ni", _) and w3 ("nana", _) 
 TRUE
 5000
 14 - Affects assign pattern

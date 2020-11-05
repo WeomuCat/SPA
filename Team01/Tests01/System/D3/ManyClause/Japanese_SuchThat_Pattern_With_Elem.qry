@@ -30,7 +30,7 @@ zero, ichi, ni, san, yon, go, roku, nana, hachi, kyuu
 5000
 7 - Next* and Next* and Next*
 assign a1, a2, a3, a4;
-Select a3 such that Next* (a1, a2) and Next* (a2, a3) and Next* (a3, a4) pattern a1 (_, _"ni"_) and a2 ("roku", _) and a3 (_, "3") and a4 (_, _) with a1.stmt# = a2.stmt# and a2.stmt# = a3.stmt# and a3.stmt# = a4.stmt#
+Select a3 such that Next* (a1, a2) and Next* (a2, a3) and Next* (a3, a4) pattern a1 (_, _"ni"_) and a2 ("roku", _) and a3 (_, _"3"_) and a4 (_, _) with a1.stmt# = a2.stmt# and a2.stmt# = a3.stmt# and a3.stmt# = a4.stmt#
 50
 5000
 8 - Follows*, Parent* and Parent*
@@ -43,10 +43,10 @@ if i1, i2; procedure p; variable v;
 Select i1 such that Parent (i1, i2) and Uses (i1, v) and Uses (p, v) and Calls (p, "fourth") pattern i1 ("zero", _, _) and i2 ("yon", _, _) with p.procName = "third" and v.varName = "ichi"
 22
 5000
-10 - Modifies, Uses, Uses and Uses
+10 - Modifies, Uses, Uses
 assign a; variable v1, v2, v3, v4;
-Select a.stmt# such that Modifies (a, v1) and Uses (a, v2) and Uses (a, v3) and Uses (a, v4) pattern a (_, _"kyuu"_) with v2.varName = "hachi" and v3.varName = "nana" and v4.varName = "roku"
-1, 91, 92, 93, 94, 95, 96
+Select a.stmt# such that Modifies (a, v1) and Uses (a, v2) and Uses (a, v3) pattern a (_, _"kyuu"_) with v2.varName = "hachi" and v3.varName = "nana"
+1, 91, 92, 93, 94, 95, 96, 97
 5000
 11 - Follows*, Follows*, Follows*
 assign a; read r; print pn; call cl;

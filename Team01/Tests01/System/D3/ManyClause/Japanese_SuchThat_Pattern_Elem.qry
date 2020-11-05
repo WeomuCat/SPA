@@ -5,7 +5,7 @@ seventh
 5000
 2 - Follows and Parent
 assign a; while w;
-Select a.stmt# such that Follows (w, _) and Parent (w, a) pattern w (nana, _) and a (_, _"2"_)
+Select a.stmt# such that Follows (w, _) and Parent (w, a) pattern w ("nana", _) and a (_, _"2"_)
 44, 46
 5000
 3 - Follows* and Modifies
@@ -50,13 +50,13 @@ Select i.stmt# such that Modifies (i, v) and Uses (p, v) and Calls (p, "ninth") 
 5000
 12 - If patterns
 if i1, i2, i3, i4, i5;
-Select i1 such that Uses (i1, "ichi") and Uses (i2, "ni") and Parent (i1, i2) pattern i1 ("go", _, _) and pattern i2 ("yon", _, _)
+Select i1 such that Uses (i1, "ichi") and Uses (i2, "ni") and Parent (i1, i2) pattern i1 ("go", _, _) and i2 ("yon", _, _)
 22
 5000
 13 - While patterns
 while w1, w2, w3; variable v;
 Select w1 such that Modifies (w1, "ichi") and Modifies (w2, "ni") and Modifies (w3, v) pattern w1 (v, _) and w2 (v, _) and w3 (v, _) 
-2, 40, 41, 49
+2, 40, 41, 42, 45, 49
 5000
 14 - Affects assign pattern
 assign a1, a2, a3, a4;

@@ -5,23 +5,23 @@ zero first, ichi first, ni first, san first, yon first, go first, roku first, na
 5000
 2 - Next* and Next* and Next*
 assign a1, a2, a3, a4;
-Select <a1, a2, a3, a4> such that Next* (a1, a2) and Next* (a2, a3) and Next* (a3, a4) pattern a1 (_, _"ni"_) and a2 ("roku", _) and a3 (_, "3") and a4 (_, _) with a1.stmt# = a2.stmt# and a2.stmt# = a3.stmt# and a3.stmt# = a4.stmt#
+Select <a1, a2, a3, a4> such that Next* (a1, a2) and Next* (a2, a3) and Next* (a3, a4) pattern a1 (_, _"ni"_) and a2 ("roku", _) and a3 (_, _"3"_) and a4 (_, _) with a1.stmt# = a2.stmt# and a2.stmt# = a3.stmt# and a3.stmt# = a4.stmt#
 50 50 50 50
 5000
 3 - Follows*, Parent* and Parent*
 if i; assign a; stmt s;
 Select <i, a> such that Follows* (s, a) and Parent* (i, a) and Parent* (i, s) pattern a (_, _"4"_) and i ("go", _, _) with s.stmt# = 26
-22 27, 24, 27
+22 27, 24 27
 5000
 4 - Parent and Uses and Modifies and Calls*
 if i1, i2; procedure p; variable v;
 Select <i1, i2> such that Parent (i1, i2) and Uses (i1, v) and Uses (p, v) and Calls (p, "fourth") pattern i1 ("zero", _, _) and i2 ("yon", _, _) with p.procName = "third" and v.varName = "ichi"
 22 24
 5000
-5 - Modifies, Uses, Uses and Uses
-assign a; variable v1, v2, v3, v4;
-Select <a.stmt#, v1.varName> such that Modifies (a, v1) and Uses (a, v2) and Uses (a, v3) and Uses (a, v4) pattern a (_, _"kyuu"_) with v2.varName = "hachi" and v3.varName = "nana" and v4.varName = "roku"
-1 zero, 91 zero, 92 ichi, 93 ni, 94 san, 95 yon, 96 go
+5 - Modifies, Uses, Uses
+assign a; variable v1, v2, v3;
+Select <a.stmt#, v1.varName> such that Modifies (a, v1) and Uses (a, v2) and Uses (a, v3) pattern a (_, _"kyuu"_) with v2.varName = "hachi" and v3.varName = "nana"
+1 zero, 91 zero, 92 ichi, 93 ni, 94 san, 95 yon, 96 go, 97 roku
 5000
 6 - Follows*, Follows*, Follows*
 assign a; read r; print pn; call cl;
@@ -30,9 +30,9 @@ Select <r.stmt#, pn.stmt#> such that Follows* (r, pn) and Follows* (pn, cl) and 
 5000
 7 - Uses, Uses, Uses, Next, Next*
 while w1, w2, w3; variable v;
-Select <w1, w2, w3> such that Uses (w1, v) and Uses (w2, v) and Uses (w3, v) and Next (w1, w2) and Next* (w2, w3) pattern w1 ("nana", _) and w2 ("ichi", _) with v.varName = "go"
+Select <w1, w2, w3> such that Uses (w1, v) and Uses (w2, v) and Uses (w3, v) and Next (w1, w2) and Next* (w2, w3) pattern w1 ("nana", _) and w2 ("ichi", _) with v.varName = "go" and w1.stmt# = 40
 40 41 42, 40 41 45
-5000
+10000
 8- Affects
 stmt s; assign a;
 Select <s, a> such that Affects (s, a) pattern a ("kyuu", _) with s.stmt# = 44
