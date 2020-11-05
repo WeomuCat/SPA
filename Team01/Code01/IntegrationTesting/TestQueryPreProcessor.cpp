@@ -1071,6 +1071,7 @@ namespace IntegrationTesting
 			CLAUSES c9 = "Select v pattern a(v, \"3 + b / ( c - d )\")";
 			CLAUSES c10 = "Select v pattern a(v, \"3+bark/    (c-d)\")";
 			CLAUSES c11 = "Select v pattern a(v, \"a + (c + d) + e\")";
+			CLAUSES c12 = "Select v pattern a (\"charmander\", _)";
 
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
 			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
@@ -1083,6 +1084,7 @@ namespace IntegrationTesting
 			PROCESSED_CLAUSES proc_c9 = qpp.preProcessClauses(proc_s, c9);
 			PROCESSED_CLAUSES proc_c10 = qpp.preProcessClauses(proc_s, c10);
 			PROCESSED_CLAUSES proc_c11 = qpp.preProcessClauses(proc_s, c11);
+			PROCESSED_CLAUSES proc_c12 = qpp.preProcessClauses(proc_s, c12);
 
 			Assert::IsTrue(proc_c1.getChildren()[1].getNodeType() == QueryNodeType::pattern);
 			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
@@ -1232,6 +1234,14 @@ namespace IntegrationTesting
 			Assert::IsTrue(expr_node_c11_3->getExpressionType() == ExpressionTypeEnum::plus);
 			Assert::IsTrue(expr_node_c11_3->getLeftAstNode()->getNodeType() == NodeTypeEnum::variableNode);
 			Assert::IsTrue(expr_node_c11_3->getRightAstNode()->getNodeType() == NodeTypeEnum::variableNode);
+
+			Assert::IsTrue(proc_c12.getChildren()[1].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[0].getString().compare("a") == 0);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[1].getNodeType() == QueryNodeType::ident);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[1].getString().compare("charmander") == 0);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
 		}
 
 		TEST_METHOD(preProcessClauses_Pattern_Assign_Complex_Valid_Success) {
