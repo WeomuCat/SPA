@@ -1,5 +1,5 @@
-7 - Cross product or Don't
-call cl; stmt s1, s2; variable v1, v2;
-Select s1 such that Modifies (s1, v1) and Uses (s2, v2) and Follows (s1, cl) and Follows (cl, s2)
-11, 13, 19, 47, 86, 94, 126, 128, 129, 143, 144, 152, 165, 195, 199, 207, 218, 221, 222, 228, 229
+2 - Can While Pattern Constant even speed up
+while w; stmt s1, s2, s3, s4, s5, s6;
+Select w such that Next* (w, s1) and Next* (w, s2) and Next* (w, s3) and Next* (w, s4) and Next* (w, s5) and Next* (w, s6)
+297, 306
 60000

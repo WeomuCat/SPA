@@ -14,7 +14,7 @@ Select BOOLEAN such that Affects (1, a) pattern a ("durin", _"beagle"_)
 TRUE
 5000
 4 - Affects across While
-stmt s;
+assign a;
 Select BOOLEAN such that Affects (9, a) pattern a ("amiya", _)
 TRUE
 5000
@@ -31,7 +31,7 @@ Select a such that Affects (a, a) pattern a (_, _)
 7 - Affects in a While loop
 assign a1, a2;
 Select <a1, a2> such that Affects (a1, a2) pattern a1 ("eyjaf", "ceobe + eyjaf")
-24 20
+24 20, 24 24
 5000
 8 - Affected by multiple things
 assign a1, a2;
@@ -45,7 +45,7 @@ FALSE
 5000
 10 - Affects through different branch, but in while loop
 assign a;
-Select BOOLEAN such that Affects (39, a) pattern a ("durin", "1")
+Select BOOLEAN such that Affects (38, a) pattern a ("amiya", "durin")
 TRUE
 5000
 11 - Cannot Affects through call in if statement, both path blocked

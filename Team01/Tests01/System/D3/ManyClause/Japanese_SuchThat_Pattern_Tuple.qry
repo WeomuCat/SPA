@@ -19,7 +19,7 @@ Select <i, v.varName> such that Parent (i, a) and Modifies (i, v) and Uses (i, v
 16 ni, 16 hachi, 24 hachi, 58 zero, 78 hachi
 5000
 5 - Calls, Uses, Modifies
-proceudre p; variable v; while w;
+procedure p; variable v; while w;
 Select <p, w> such that Calls (p, "tenth") and Uses (w, v) and Modifies (w, v) pattern w ("hachi", _)
 third 41, fourth 41, sixth 41, seventh 41, ninth 41, third 42, fourth 42, sixth 42, seventh 42, ninth 42
 5000

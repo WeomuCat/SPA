@@ -21,7 +21,7 @@ Select i such that Follows (s, i) and Modifies (s, v) pattern i (v, _, _)
 5 - Follows and Next* and Uses
 stmt s; assign a; variable v;
 Select a such that Follows (s, a) and Next* (a, s) and Uses (a, v) pattern a (v, _)
-none
+8
 5000
 6 - Parent and Parent*
 while w; if i;

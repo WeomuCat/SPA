@@ -11,7 +11,7 @@ Select r.stmt# such that Parent (w, r) pattern w ("ichi", _) with w.stmt# = 2
 3 - Modifies
 if i;
 Select i such that Modifies (i, "yon") pattern i ("yon", _, _) with i.stmt# = 24
-27
+24
 5000
 4 - Uses
 assign a; variable v;
@@ -46,7 +46,7 @@ Select i1 such that Parent (i1, i2) and Uses (i1, v) and Uses (p, v) and Calls (
 10 - Modifies, Uses, Uses and Uses
 assign a; variable v1, v2, v3, v4;
 Select a.stmt# such that Modifies (a, v1) and Uses (a, v2) and Uses (a, v3) and Uses (a, v4) pattern a (_, _"kyuu"_) with v2.varName = "hachi" and v3.varName = "nana" and v4.varName = "roku"
-91, 92, 93, 94, 95, 96
+1, 91, 92, 93, 94, 95, 96
 5000
 11 - Follows*, Follows*, Follows*
 assign a; read r; print pn; call cl;
@@ -64,9 +64,9 @@ Select a such that Affects (s, a) pattern a ("kyuu", _) with s.stmt# = 44
 46
 5000
 14 - Affects*
-assign a; print pn;
-Select pn such that Affects* (65, 66) pattern a (_, "zero - nana + 8") with pn.stmt# = 63 and pn.varName = "ichi"
-none
+assign a1, a2;
+Select a1 such that Affects* (a1, a2) pattern a1 ("zero", _) with a2.stmt# = 46
+44
 5000
 15 - Affects, Parent* and Parent*
 assign a1, a2; stmt s1, s2;
@@ -76,11 +76,15 @@ none
 16 - Can we Imitate an Affects? 
 assign a; stmt s; variable v;
 Select s such that Modifies (a, v) and Uses (s, v) and Next* (a, s) pattern a (v, _) with a.stmt# = 8 and v.varName = "san"
-8
+2, 6, 7, 8, 11
 5000
 17 - No we cannot imiate an Affects easily
 assign a; stmt s; variable v;
 Select s such that Affects (a, s) pattern a (v, _) with v.varName = "san" and a.stmt# = 8
 none
 5000
-
+18 - Affects* but we separate things out
+assign a; print pn;
+Select pn such that Affects* (65, 66) pattern a (_, "zero - nana + 8") with pn.stmt# = 63 and pn.varName = "ichi"
+63
+5000

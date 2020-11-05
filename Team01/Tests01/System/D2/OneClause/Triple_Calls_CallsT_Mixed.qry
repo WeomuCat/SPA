@@ -58,3 +58,13 @@ procedure p1, p2;
 Select <p1, p2> such that Calls* (p1, p2)
 aaaProc bbbProc, aaaProc cccProc, aaaProc dddProc, bbbProc dddProc, cccProc dddProc, bbbProc cccProc
 2000
+13 - Recursive Calls
+procedure p;
+Select p such that Calls (p, p)
+none
+2000
+14 - Recursive Calls*
+procedure p;
+Select p such that Calls* (p, p)
+none
+3000

@@ -4,5 +4,5 @@ OnePattern+OneWith/Bird_Pattern_With_Tuple
 OneSuchThat+OneWith/Bird_SuchThat_With_Boolean
 OneSuchThat+OneWith/Bird_SuchThat_With_Elem
 OneSuchThat+OneWith/Bird_SuchThat_With_Tuple
-OnePattern+OneSuchThat/Bird_Calls_Any
-OnePattern+OneSuchThat/Bird_CallsT_Any
+OnePattern+OneSuchThat/Bird_Calls_Mixed
+OnePattern+OneSuchThat/Bird_CallsT_Mixed

@@ -1,7 +1,7 @@
 1 - Simple Affects*
 assign a1, a2;
 Select a2 such that Affects* (a1, a2) pattern a1 ("beagle", "amiya")
-2, 3, 4, 5, 8, 9, 12
+2, 3, 4, 8, 9, 12
 5000
 2 - Affects* Through Calls
 assign a;
@@ -11,7 +11,7 @@ FALSE
 3 - Affects* in a while loop
 assign a1, a2;
 Select a2 such that Affects* (a1, a2) pattern a1 ("eyjaf", "ceobe + eyjaf")
-20 24
+20, 24
 5000
 4 - Harder Affects* 
 assign a1, a2;

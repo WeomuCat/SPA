@@ -19,8 +19,8 @@ Select BOOLEAN such that Follows (s, i) and Modifies (s, v) pattern i (v, _, _)
 TRUE
 5000
 5 - Follows and Next* and Uses
-stmt s; assign a; variable v;
-Select BOOLEAN such that Follows (s, a) and Next* (a, s) and Uses (a, v) pattern a (v, _"ichi"_)
+stmt s; assign a;
+Select BOOLEAN such that Follows (s, a) and Next* (a, s) and Uses (a, "ichi") pattern a ("zero", _)
 TRUE
 5000
 6 - Parent and Parent*
