@@ -410,5 +410,9 @@ SYNONYM_VALUES_LIST Relationship::stmtNumsToSynValues(STMT_NUM_LIST stmt_nums) {
 }
 
 STMT_NUM Relationship::synValueToStmtNum(SYNONYM_VALUE stmt_string) {
-	return stmt_nums_.at(stmt_string);
+	auto it = stmt_nums_.find(stmt_string);
+	if (it == stmt_nums_.end()) {
+		return std::stoi(stmt_string);
+	}
+	return it->second;
 }

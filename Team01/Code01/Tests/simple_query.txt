@@ -1,5 +1,5 @@
 1 - Pass 4000 fail 5000
-stmt s1, s2, s3, s4, s5;
-Select <s1, s2> such that Follows*(s3, s4) and Follows*(s4, s5)
+stmt s1, s2, s3, s4, s5; assign a;
+Select <s3, a> such that Follows*(s3, s4) and Follows*(s4, a) with s3.stmt# = 13 pattern a("cvar", _)
 12 13 14 15 22
 4000
