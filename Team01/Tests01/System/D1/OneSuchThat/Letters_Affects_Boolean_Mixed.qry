@@ -1,0 +1,80 @@
+1 - Affects Statement Read
+stmt s; read r;
+Select BOOLEAN such that Affects(s, r)
+FALSE
+1000
+1 - Affects Statement Read
+stmt s; read r;
+Select BOOLEAN such that Affects(r, s)
+FALSE
+1000
+1 - Affects Read Print
+read r; print p;
+Select BOOLEAN such that Affects(r, p)
+FALSE
+1000
+1 - Affects Read Print
+read r; print p;
+Select BOOLEAN such that Affects(p, r)
+FALSE
+1000
+1 - Affects Print Call
+print p; call c;
+Select BOOLEAN such that Affects(p, c)
+FALSE
+1000
+1 - Affects Print Call
+print p; call c;
+Select BOOLEAN such that Affects(c, p)
+FALSE
+1000
+1 - Affects Call While
+call c; while w;
+Select BOOLEAN such that Affects(c, w)
+FALSE
+1000
+1 - Affects Call While
+call c; while w;
+Select BOOLEAN such that Affects(w, c)
+FALSE
+1000
+1 - Affects While If
+while w; if i;
+Select BOOLEAN such that Affects(w, i)
+FALSE
+1000
+1 - Affects While If
+while w; if i;
+Select BOOLEAN such that Affects(i, w)
+FALSE
+1000
+1 - Affects If Assign
+if i; assign a;
+Select BOOLEAN such that Affects(i, a)
+FALSE
+1000
+1 - Affects If Assign
+if i; assign a;
+Select BOOLEAN such that Affects(a, i)
+FALSE
+1000
+1 - Affects Assign ProgLine
+assign a; prog_line n;
+Select BOOLEAN such that Affects(a, n)
+TRUE
+1000
+1 - Affects Assign ProgLine
+assign a; prog_line n;
+Select BOOLEAN such that Affects(n, a)
+TRUE
+1000
+1 - Affects ProgLine Statement
+prog_line n; stmt s;
+Select BOOLEAN such that Affects(n, s)
+TRUE
+1000
+1 - Affects ProgLine Statement
+prog_line n; stmt s;
+Select BOOLEAN such that Affects(s, n)
+TRUE
+1000

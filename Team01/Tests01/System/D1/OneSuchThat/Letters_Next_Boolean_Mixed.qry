@@ -1,0 +1,80 @@
+1 - Next Statement Read
+stmt s; read r;
+Select BOOLEAN such that Next(s, r)
+TRUE
+1000
+1 - Next Statement Read
+stmt s; read r;
+Select BOOLEAN such that Next(r, s)
+TRUE
+1000
+1 - Next Read Print
+read r; print p;
+Select BOOLEAN such that Next(r, p)
+TRUE
+1000
+1 - Next Read Print
+read r; print p;
+Select BOOLEAN such that Next(p, r)
+TRUE
+1000
+1 - Next Print Call
+print p; call c;
+Select BOOLEAN such that Next(p, c)
+TRUE
+1000
+1 - Next Print Call
+print p; call c;
+Select BOOLEAN such that Next(c, p)
+FALSE
+1000
+1 - Next Call While
+call c; while w;
+Select BOOLEAN such that Next(c, w)
+TRUE
+1000
+1 - Next Call While
+call c; while w;
+Select BOOLEAN such that Next(w, c)
+FALSE
+1000
+1 - Next While If
+while w; if i;
+Select BOOLEAN such that Next(w, i)
+FALSE
+1000
+1 - Next While If
+while w; if i;
+Select BOOLEAN such that Next(i, w)
+FALSE
+1000
+1 - Next If Assign
+if i; assign a;
+Select BOOLEAN such that Next(i, a)
+TRUE
+1000
+1 - Next If Assign
+if i; assign a;
+Select BOOLEAN such that Next(a, i)
+TRUE
+1000
+1 - Next Assign ProgLine
+assign a; prog_line n;
+Select BOOLEAN such that Next(a, n)
+TRUE
+1000
+1 - Next Assign ProgLine
+assign a; prog_line n;
+Select BOOLEAN such that Next(n, a)
+TRUE
+1000
+1 - Next ProgLine Statement
+prog_line n; stmt s;
+Select BOOLEAN such that Next(n, s)
+TRUE
+1000
+1 - Next ProgLine Statement
+prog_line n; stmt s;
+Select BOOLEAN such that Next(s, n)
+TRUE
+1000

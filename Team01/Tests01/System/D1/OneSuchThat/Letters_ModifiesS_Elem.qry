@@ -1,0 +1,180 @@
+1 - ModifiesS
+constant c;
+Select c such that Modifies(1, "aVar")
+1,2,3
+1000
+1 - ModifiesS
+constant c;
+Select c such that Modifies(1, "bVar")
+none
+1000
+1 - ModifiesS
+constant c;
+Select c such that Modifies(1, _)
+1,2,3
+1000
+1 - ModifiesS
+variable v;
+Select v such that Modifies(1, v)
+aVar
+1000
+1 - ModifiesS Statement
+stmt s;
+Select s such that Modifies(s, "aVar")
+1,11,13,15,2,21,25,4,7
+1000
+1 - ModifiesS Statement
+stmt s;
+Select s such that Modifies(s, _)
+1,11,13,14,15,16,17,19,2,20,21,22,23,25,3,4,6,7,9
+1000
+1 - ModifiesS Statement
+stmt s; variable v;
+Select s such that Modifies(s, v)
+1,11,13,14,15,16,17,19,2,20,21,22,23,25,3,4,6,7,9
+1000
+1 - ModifiesS Statement
+stmt s; variable v;
+Select v such that Modifies(s, v)
+aVar,bVar,cVar,eVar
+1000
+1 - ModifiesS Read
+read r;
+Select r such that Modifies(r, "aVar")
+13
+1000
+1 - ModifiesS Read
+read r;
+Select r such that Modifies(r, _)
+13,20,23,6
+1000
+1 - ModifiesS Read
+read r; variable v;
+Select r such that Modifies(r, v)
+13,20,23,6
+1000
+1 - ModifiesS Read
+read r; variable v;
+Select v such that Modifies(r, v)
+aVar,eVar
+1000
+1 - ModifiesS Print
+print p;
+Select p such that Modifies(p, "aVar")
+none
+1000
+1 - ModifiesS Print
+print p;
+Select p such that Modifies(p, _)
+none
+1000
+1 - ModifiesS Print
+print p; variable v;
+Select p such that Modifies(p, v)
+none
+1000
+1 - ModifiesS Print
+print p; variable v;
+Select v such that Modifies(p, v)
+none
+1000
+1 - ModifiesS Call
+call c;
+Select c such that Modifies(c, "cVar")
+11
+1000
+1 - ModifiesS Call
+call c;
+Select c such that Modifies(c, _)
+11,21,7
+1000
+1 - ModifiesS Call
+call c; variable v;
+Select c such that Modifies(c, v)
+11,21,7
+1000
+1 - ModifiesS Call
+call c; variable v;
+Select v such that Modifies(c, v)
+aVar,bVar,cVar,eVar
+1000
+1 - ModifiesS While
+while w;
+Select w such that Modifies(w, "aVar")
+15,4
+1000
+1 - ModifiesS While
+while w;
+Select w such that Modifies(w, _)
+15,4
+1000
+1 - ModifiesS While
+while w; variable v;
+Select w such that Modifies(w, v)
+15,4
+1000
+1 - ModifiesS While
+while w; variable v;
+Select v such that Modifies(w, v)
+aVar,bVar,eVar
+1000
+1 - ModifiesS If
+if i;
+Select i such that Modifies(i, "aVar")
+2
+1000
+1 - ModifiesS If
+if i;
+Select i such that Modifies(i, _)
+17,2
+1000
+1 - ModifiesS If
+if i; variable v;
+Select i such that Modifies(i, v)
+17,2
+1000
+1 - ModifiesS If
+if i; variable v;
+Select v such that Modifies(i, v)
+aVar,bVar,cVar,eVar
+1000
+1 - ModifiesS Assign
+assign a;
+Select a such that Modifies(a, "aVar")
+1,25
+1000
+1 - ModifiesS Assign
+assign a;
+Select a such that Modifies(a, _)
+1,14,16,19,22,25,3,9
+1000
+1 - ModifiesS Assign
+assign a; variable v;
+Select a such that Modifies(a, v)
+1,14,16,19,22,25,3,9
+1000
+1 - ModifiesS Assign
+assign a; variable v;
+Select v such that Modifies(a, v)
+aVar,bVar,cVar
+1000
+1 - ModifiesS ProgLine
+prog_line n;
+Select n such that Modifies(n, "aVar")
+1,11,13,15,2,21,25,4,7
+1000
+1 - ModifiesS ProgLine
+prog_line n;
+Select n such that Modifies(n, _)
+1,11,13,14,15,16,17,19,2,20,21,22,23,25,3,4,6,7,9
+1000
+1 - ModifiesS ProgLine
+prog_line n; variable v;
+Select n such that Modifies(n, v)
+1,11,13,14,15,16,17,19,2,20,21,22,23,25,3,4,6,7,9
+1000
+1 - ModifiesS ProgLine
+prog_line n; variable v;
+Select v such that Modifies(n, v)
+aVar,bVar,cVar,eVar
+1000

@@ -1,0 +1,40 @@
+1 - UsesS Statement
+stmt s; variable v;
+Select <s, v> such that Uses(s, v)
+1 aVar,1 bVar,1 cVar,1 dVar,1 eVar,10 eVar,11 aVar,11 bVar,11 cVar,11 dVar,11 eVar,12 aVar,14 dVar,15 aVar,15 bVar,15 cVar,15 dVar,15 eVar,16 bVar,17 aVar,17 dVar,17 eVar,18 dVar,19 eVar,2 aVar,2 bVar,2 cVar,2 dVar,2 eVar,21 aVar,21 cVar,22 dVar,24 cVar,25 aVar,3 eVar,4 aVar,4 cVar,4 dVar,4 eVar,5 eVar,7 aVar,7 cVar,8 dVar,9 bVar
+1000
+1 - UsesS Read
+read r; variable v;
+Select <r, v> such that Uses(r, v)
+none
+1000
+1 - UsesS Print
+print p; variable v;
+Select <p, v> such that Uses(p, v)
+10 eVar,12 aVar,18 dVar,24 cVar,5 eVar,8 dVar
+1000
+1 - UsesS Call
+call c; variable v;
+Select <c, v> such that Uses(c, v)
+11 aVar,11 bVar,11 cVar,11 dVar,11 eVar,21 aVar,21 cVar,7 aVar,7 cVar
+1000
+1 - UsesS While
+while w; variable v;
+Select <w, v> such that Uses(w, v)
+15 aVar,15 bVar,15 cVar,15 dVar,15 eVar,4 aVar,4 cVar,4 dVar,4 eVar
+1000
+1 - UsesS If
+if i; variable v;
+Select <i, v> such that Uses(i, v)
+17 aVar,17 dVar,17 eVar,2 aVar,2 bVar,2 cVar,2 dVar,2 eVar
+1000
+1 - UsesS Assign
+assign a; variable v;
+Select <a, v> such that Uses(a, v)
+1 aVar,1 bVar,1 cVar,1 dVar,1 eVar,14 dVar,16 bVar,19 eVar,22 dVar,25 aVar,3 eVar,9 bVar
+1000
+1 - UsesS ProgLine
+prog_line n; variable v;
+Select <n, v> such that Uses(n, v)
+1 aVar,1 bVar,1 cVar,1 dVar,1 eVar,10 eVar,11 aVar,11 bVar,11 cVar,11 dVar,11 eVar,12 aVar,14 dVar,15 aVar,15 bVar,15 cVar,15 dVar,15 eVar,16 bVar,17 aVar,17 dVar,17 eVar,18 dVar,19 eVar,2 aVar,2 bVar,2 cVar,2 dVar,2 eVar,21 aVar,21 cVar,22 dVar,24 cVar,25 aVar,3 eVar,4 aVar,4 cVar,4 dVar,4 eVar,5 eVar,7 aVar,7 cVar,8 dVar,9 bVar
+1000

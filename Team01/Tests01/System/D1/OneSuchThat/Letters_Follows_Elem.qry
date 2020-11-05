@@ -1,265 +1,305 @@
 1 - Follows Integer
 constant c;
 Select c such that Follows(1, 2)
-we didn't write the result for this query
+1,2,3
+1000
+1 - Follows Integer
+constant c;
+Select c such that Follows(2, 3)
+none
 1000
 1 - Follows Wildcard
 constant c;
 Select c such that Follows(1, _)
-we didn't write the result for this query
+1,2,3
 1000
 1 - Follows Wildcard
 constant c;
 Select c such that Follows(_, 1)
-we didn't write the result for this query
+none
 1000
 1 - Follows Wildcard
 constant c;
 Select c such that Follows(_, _)
-we didn't write the result for this query
+1,2,3
 1000
 1 - Follows Statement
 stmt s;
 Select s such that Follows(1, s)
-we didn't write the result for this query
+2
 1000
 1 - Follows Statement
 stmt s;
 Select s such that Follows(s, 1)
-we didn't write the result for this query
+none
 1000
 1 - Follows Statement
 stmt s;
 Select s such that Follows(s, s)
-we didn't write the result for this query
+none
 1000
 1 - Follows Statement
 stmt s;
 Select s such that Follows(s, _)
-we didn't write the result for this query
+1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
 1000
 1 - Follows Statement
 stmt s;
 Select s such that Follows(_, s)
-we didn't write the result for this query
+10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
 1000
 1 - Follows Statement
 stmt s1, s2;
 Select s1 such that Follows(s1, s2)
-we didn't write the result for this query
+1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
 1000
 1 - Follows Statement
 stmt s1, s2;
 Select s2 such that Follows(s1, s2)
-we didn't write the result for this query
+10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
 1000
 1 - Follows Read
 read r;
-Select r such that Follows(1, r)
-we didn't write the result for this query
+Select r such that Follows(24, r)
+none
 1000
 1 - Follows Read
 read r;
-Select r such that Follows(r, 1)
-we didn't write the result for this query
+Select r such that Follows(r, 24)
+23
 1000
 1 - Follows Read
 read r;
 Select r such that Follows(r, r)
-we didn't write the result for this query
+none
 1000
 1 - Follows Read
 read r;
 Select r such that Follows(r, _)
-we didn't write the result for this query
+13,23,6
 1000
 1 - Follows Read
 read r;
 Select r such that Follows(_, r)
-we didn't write the result for this query
+13,6
 1000
 1 - Follows Read
 read r1, r2;
 Select r1 such that Follows(r1, r2)
-we didn't write the result for this query
+none
 1000
 1 - Follows Read
 read r1, r2;
 Select r2 such that Follows(r1, r2)
-we didn't write the result for this query
+none
 1000
 1 - Follows Print
 print p;
-Select p such that Follows(1, p)
-we didn't write the result for this query
+Select p such that Follows(19, p)
+none
 1000
 1 - Follows Print
 print p;
-Select p such that Follows(p, 1)
-we didn't write the result for this query
+Select p such that Follows(p, 19)
+18
 1000
 1 - Follows Print
 print p;
 Select p such that Follows(p, p)
-we didn't write the result for this query
+none
 1000
 1 - Follows Print
 print p;
 Select p such that Follows(p, _)
-we didn't write the result for this query
+10,12,18,24,5,8
 1000
 1 - Follows Print
 print p;
 Select p such that Follows(_, p)
-we didn't write the result for this query
+10,24
 1000
 1 - Follows Print
 print p1, p2;
 Select p1 such that Follows(p1, p2)
-we didn't write the result for this query
+none
 1000
 1 - Follows Print
 print p1, p2;
 Select p2 such that Follows(p1, p2)
-we didn't write the result for this query
+none
 1000
 1 - Follows Call
 call c;
 Select c such that Follows(1, c)
-we didn't write the result for this query
+none
 1000
 1 - Follows Call
 call c;
 Select c such that Follows(c, 1)
-we didn't write the result for this query
+none
 1000
 1 - Follows Call
 call c;
 Select c such that Follows(c, c)
-we didn't write the result for this query
+none
 1000
 1 - Follows Call
 call c;
 Select c such that Follows(c, _)
-we didn't write the result for this query
+none
 1000
 1 - Follows Call
 call c;
 Select c such that Follows(_, c)
-we didn't write the result for this query
+11,21,7
 1000
 1 - Follows Call
 call c1, c2;
 Select c1 such that Follows(c1, c2)
-we didn't write the result for this query
+none
 1000
 1 - Follows Call
 call c1, c2;
 Select c2 such that Follows(c1, c2)
-we didn't write the result for this query
+none
 1000
 1 - Follows While
 while w;
-Select w such that Follows(1, w)
-we didn't write the result for this query
+Select w such that Follows(3, w)
+4
 1000
 1 - Follows While
 while w;
-Select w such that Follows(w, 1)
-we didn't write the result for this query
+Select w such that Follows(w, 3)
+none
 1000
 1 - Follows While
 while w;
 Select w such that Follows(w, w)
-we didn't write the result for this query
+none
 1000
 1 - Follows While
 while w;
 Select w such that Follows(w, _)
-we didn't write the result for this query
+15
 1000
 1 - Follows While
 while w;
 Select w such that Follows(_, w)
-we didn't write the result for this query
+15,4
 1000
 1 - Follows While
 while w1, w2;
 Select w1 such that Follows(w1, w2)
-we didn't write the result for this query
+none
 1000
 1 - Follows While
 while w1, w2;
 Select w2 such that Follows(w1, w2)
-we didn't write the result for this query
+none
 1000
 1 - Follows If
 if i;
 Select i such that Follows(1, i)
-we didn't write the result for this query
+2
 1000
 1 - Follows If
 if i;
 Select i such that Follows(i, 1)
-we didn't write the result for this query
+none
 1000
 1 - Follows If
 if i;
 Select i such that Follows(i, i)
-we didn't write the result for this query
+none
 1000
 1 - Follows If
 if i;
 Select i such that Follows(i, _)
-we didn't write the result for this query
+17,2
 1000
 1 - Follows If
 if i;
 Select i such that Follows(_, i)
-we didn't write the result for this query
+17,2
 1000
 1 - Follows If
 if i1, i2;
 Select i1 such that Follows(i1, i2)
-we didn't write the result for this query
+none
 1000
 1 - Follows If
 if i1, i2;
 Select i2 such that Follows(i1, i2)
-we didn't write the result for this query
+none
 1000
 1 - Follows Assign
 assign a;
-Select a such that Follows(1, a)
-we didn't write the result for this query
+Select a such that Follows(2, a)
+none
 1000
 1 - Follows Assign
 assign a;
-Select a such that Follows(a, 1)
-we didn't write the result for this query
+Select a such that Follows(a, 2)
+1
 1000
 1 - Follows Assign
 assign a;
 Select a such that Follows(a, a)
-we didn't write the result for this query
+none
 1000
 1 - Follows Assign
 assign a;
 Select a such that Follows(a, _)
-we didn't write the result for this query
+1,14,16,3
 1000
 1 - Follows Assign
 assign a;
 Select a such that Follows(_, a)
-we didn't write the result for this query
+14,19,22,25,9
 1000
 1 - Follows Assign
 assign a1, a2;
 Select a1 such that Follows(a1, a2)
-we didn't write the result for this query
+none
 1000
 1 - Follows Assign
 assign a1, a2;
 Select a2 such that Follows(a1, a2)
-we didn't write the result for this query
+none
+1000
+1 - Follows ProgLine
+prog_line n;
+Select n such that Follows(2, n)
+10
+1000
+1 - Follows ProgLine
+prog_line n;
+Select n such that Follows(n, 2)
+1
+1000
+1 - Follows ProgLine
+prog_line n;
+Select n such that Follows(n, n)
+none
+1000
+1 - Follows ProgLine
+prog_line n;
+Select n such that Follows(n, _)
+1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+1000
+1 - Follows ProgLine
+prog_line n;
+Select n such that Follows(_, n)
+10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
+1000
+1 - Follows ProgLine
+prog_line n1, n2;
+Select n1 such that Follows(n1, n2)
+1,10,12,13,14,15,16,17,18,2,23,24,3,5,6,8
+1000
+1 - Follows ProgLine
+prog_line n1, n2;
+Select n2 such that Follows(n1, n2)
+10,11,13,14,15,17,19,2,21,22,24,25,4,6,7,9
 1000

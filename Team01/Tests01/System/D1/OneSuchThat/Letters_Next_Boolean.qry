@@ -1,0 +1,265 @@
+1 - Next Integer
+constant c;
+Select BOOLEAN such that Next(1, 2)
+TRUE
+1000
+1 - Next Integer
+constant c;
+Select BOOLEAN such that Next(2, 1)
+FALSE
+1000
+1 - Next Wildcard
+constant c;
+Select BOOLEAN such that Next(1, _)
+TRUE
+1000
+1 - Next Wildcard
+constant c;
+Select BOOLEAN such that Next(_, 1)
+FALSE
+1000
+1 - Next Wildcard
+constant c;
+Select BOOLEAN such that Next(_, _)
+TRUE
+1000
+1 - Next Statement
+stmt s;
+Select BOOLEAN such that Next(1, s)
+TRUE
+1000
+1 - Next Statement
+stmt s;
+Select BOOLEAN such that Next(s, 1)
+FALSE
+1000
+1 - Next Statement
+stmt s;
+Select BOOLEAN such that Next(s, s)
+FALSE
+1000
+1 - Next Statement
+stmt s;
+Select BOOLEAN such that Next(s, _)
+TRUE
+1000
+1 - Next Statement
+stmt s;
+Select BOOLEAN such that Next(_, s)
+TRUE
+1000
+1 - Next Statement
+stmt s1, s2;
+Select BOOLEAN such that Next(s1, s2)
+TRUE
+1000
+1 - Next Read
+read r;
+Select BOOLEAN such that Next(17, r)
+TRUE
+1000
+1 - Next Read
+read r;
+Select BOOLEAN such that Next(r, 17)
+FALSE
+1000
+1 - Next Read
+read r;
+Select BOOLEAN such that Next(r, r)
+FALSE
+1000
+1 - Next Read
+read r;
+Select BOOLEAN such that Next(r, _)
+TRUE
+1000
+1 - Next Read
+read r;
+Select BOOLEAN such that Next(_, r)
+TRUE
+1000
+1 - Next Read
+read r1, r2;
+Select BOOLEAN such that Next(r1, r2)
+FALSE
+1000
+1 - Next Print
+print p;
+Select BOOLEAN such that Next(17, p)
+TRUE
+1000
+1 - Next Print
+print p;
+Select BOOLEAN such that Next(p, 17)
+FALSE
+1000
+1 - Next Print
+print p;
+Select BOOLEAN such that Next(p, p)
+FALSE
+1000
+1 - Next Print
+print p;
+Select BOOLEAN such that Next(p, _)
+TRUE
+1000
+1 - Next Print
+print p;
+Select BOOLEAN such that Next(_, p)
+TRUE
+1000
+1 - Next Print
+print p1, p2;
+Select BOOLEAN such that Next(p1, p2)
+FALSE
+1000
+1 - Next Call
+call c;
+Select BOOLEAN such that Next(19, c)
+TRUE
+1000
+1 - Next Call
+call c;
+Select BOOLEAN such that Next(c, 19)
+FALSE
+1000
+1 - Next Call
+call c;
+Select BOOLEAN such that Next(c, c)
+FALSE
+1000
+1 - Next Call
+call c;
+Select BOOLEAN such that Next(c, _)
+TRUE
+1000
+1 - Next Call
+call c;
+Select BOOLEAN such that Next(_, c)
+TRUE
+1000
+1 - Next Call
+call c1, c2;
+Select BOOLEAN such that Next(c1, c2)
+FALSE
+1000
+1 - Next While
+while w;
+Select BOOLEAN such that Next(3, w)
+TRUE
+1000
+1 - Next While
+while w;
+Select BOOLEAN such that Next(w, 3)
+FALSE
+1000
+1 - Next While
+while w;
+Select BOOLEAN such that Next(w, w)
+FALSE
+1000
+1 - Next While
+while w;
+Select BOOLEAN such that Next(w, _)
+TRUE
+1000
+1 - Next While
+while w;
+Select BOOLEAN such that Next(_, w)
+TRUE
+1000
+1 - Next While
+while w1, w2;
+Select BOOLEAN such that Next(w1, w2)
+FALSE
+1000
+1 - Next If
+if i;
+Select BOOLEAN such that Next(1, i)
+TRUE
+1000
+1 - Next If
+if i;
+Select BOOLEAN such that Next(i, 1)
+FALSE
+1000
+1 - Next If
+if i;
+Select BOOLEAN such that Next(i, i)
+FALSE
+1000
+1 - Next If
+if i;
+Select BOOLEAN such that Next(i, _)
+TRUE
+1000
+1 - Next If
+if i;
+Select BOOLEAN such that Next(_, i)
+TRUE
+1000
+1 - Next If
+if i1, i2;
+Select BOOLEAN such that Next(i1, i2)
+FALSE
+1000
+1 - Next Assign
+assign a;
+Select BOOLEAN such that Next(2, a)
+TRUE
+1000
+1 - Next Assign
+assign a;
+Select BOOLEAN such that Next(a, 2)
+TRUE
+1000
+1 - Next Assign
+assign a;
+Select BOOLEAN such that Next(a, a)
+FALSE
+1000
+1 - Next Assign
+assign a;
+Select BOOLEAN such that Next(a, _)
+TRUE
+1000
+1 - Next Assign
+assign a;
+Select BOOLEAN such that Next(_, a)
+TRUE
+1000
+1 - Next Assign
+assign a1, a2;
+Select BOOLEAN such that Next(a1, a2)
+FALSE
+1000
+1 - Next ProgLine
+prog_line n;
+Select BOOLEAN such that Next(1, n)
+TRUE
+1000
+1 - Next ProgLine
+prog_line n;
+Select BOOLEAN such that Next(n, 1)
+FALSE
+1000
+1 - Next ProgLine
+prog_line n;
+Select BOOLEAN such that Next(n, n)
+FALSE
+1000
+1 - Next ProgLine
+prog_line n;
+Select BOOLEAN such that Next(n, _)
+TRUE
+1000
+1 - Next ProgLine
+prog_line n;
+Select BOOLEAN such that Next(_, n)
+TRUE
+1000
+1 - Next ProgLine
+prog_line n1, n2;
+Select BOOLEAN such that Next(n1, n2)
+TRUE
+1000
