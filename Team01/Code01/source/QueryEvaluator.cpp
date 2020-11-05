@@ -265,6 +265,14 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 		// merge missing synonyms with current result list
 		int count = 0;
 		if (!missing_synonyms.empty()) {
+			int return_num_synonyms = all_children.size();
+
+			// if number of missing synonyms equals to number of return synonyms, it means that no synonyms in the result list needs to be returned.
+			if (missing_synonyms.size() == return_num_synonyms) {
+				ResultList empty_list;
+				result_list = empty_list;
+			}
+
 			for (SYNONYM_NAME missing_synonym : missing_synonyms) {
 				ResultList current_synonym;
 				int missing_synonym_index = missing_synonym_indexes[count];
