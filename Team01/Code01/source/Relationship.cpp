@@ -247,7 +247,10 @@ SYNONYM_VALUES_LIST Relationship::getStatementsFromRef(PKB pkb, QueryNode ref) {
 	if (ref.getNodeType() == QueryNodeType::synonym) {
 		SYNONYM_NAME ref_synonym_name = ref.getString();
 		if (intermediate_result_list.containsSynonym(ref_synonym_name)) {
-			return intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+			SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+			std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+			SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+			return unique_values_list;
 		}
 		else {
 			return stmtNumsToSynValues(getStatementNumsFromRef(pkb, ref));
@@ -262,7 +265,10 @@ SYNONYM_VALUES_LIST Relationship::getAssignsFromRef(PKB pkb, QueryNode ref) {
 	if (ref.getNodeType() == QueryNodeType::synonym) {
 		SYNONYM_NAME ref_synonym_name = ref.getString();
 		if (intermediate_result_list.containsSynonym(ref_synonym_name)) {
-			return intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+			SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+			std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+			SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+			return unique_values_list;
 		}
 		else {
 			return stmtNumsToSynValues(getAssignNumsFromRef(pkb, ref));
@@ -283,7 +289,10 @@ SYNONYM_VALUES_LIST Relationship::getVariablesFromRef(PKB pkb, QueryNode ref) {
 	{
 		SYNONYM_NAME ref_synonym_name = ref.getString();
 		if (intermediate_result_list.containsSynonym(ref_synonym_name)) {
-			return intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+			SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+			std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+			SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+			return unique_values_list;
 		}
 		
 		QuerySynonymType syn_type = ref.getSynonymType();
@@ -311,7 +320,10 @@ SYNONYM_VALUES_LIST Relationship::getProceduresFromRef(PKB pkb, QueryNode ref) {
 	{
 		SYNONYM_NAME ref_synonym_name = ref.getString();
 		if (intermediate_result_list.containsSynonym(ref_synonym_name)) {
-			return intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+			SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(ref_synonym_name);
+			std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+			SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+			return unique_values_list;
 		}
 		
 		QuerySynonymType syn_type = ref.getSynonymType();
