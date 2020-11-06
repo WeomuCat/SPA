@@ -1,6 +1,7 @@
 #include <queue>
 #include <unordered_map>
 #include <vector>
+#include <set>
 #include <algorithm>
 #include "Pattern.h"
 
@@ -14,9 +15,14 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
     QUERY_NODE_LIST refs = pattern_node_.getChildren();
     SYNONYM_NAME refs0_name = refs[0].getString();
 
-    SYNONYM_VALUES_LIST resultlist_values;
+    std::unordered_set<SYNONYM_VALUE> resultlist_values;
     if (intermediate_result_list.containsSynonym(refs0_name)) {
-        resultlist_values = intermediate_result_list.getValuesOfSynonym(refs0_name);
+        
+        SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(refs0_name);
+        std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+        resultlist_values = unique_values;
+        
+        //resultlist_values = intermediate_result_list.getValuesOfSynonym(refs0_name);
     }
 
 
@@ -45,7 +51,7 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
             EXPR_NODE_PTR e = a->getExpressionNode();
 
             if (!resultlist_values.empty()) {
-                if (std::find(resultlist_values.begin(), resultlist_values.end(), std::to_string(s)) != resultlist_values.end()) {
+                if (resultlist_values.find(std::to_string(s)) != resultlist_values.end()) {
                     valid_stmt_nums.push_back(s);
                     var_ast_map.insert({ s, v });
                     expr_ast_map.insert({ s, e });
@@ -65,7 +71,7 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
             AST_NODE_PTR v = i->getConditionNode();
 
             if (!resultlist_values.empty()) {
-                if (std::find(resultlist_values.begin(), resultlist_values.end(), std::to_string(s)) != resultlist_values.end()) {
+                if (resultlist_values.find(std::to_string(s)) != resultlist_values.end()) {
                     valid_stmt_nums.push_back(s);
                     var_ast_map.insert({ s, v });
                 }
@@ -83,7 +89,7 @@ void Pattern::getPatternResult(PKB pkb, bool &clause_bool, ResultList &clause_re
             AST_NODE_PTR v = w->getConditionNode();
 
             if (!resultlist_values.empty()) {
-                if (std::find(resultlist_values.begin(), resultlist_values.end(), std::to_string(s)) != resultlist_values.end()) {
+                if (resultlist_values.find(std::to_string(s)) != resultlist_values.end()) {
                     valid_stmt_nums.push_back(s);
                     var_ast_map.insert({ s, v });
                 }
