@@ -11,15 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\AbstractDataTypes.h" />
     <ClInclude Include="..\source\AttrRefManager.h" />
     <ClInclude Include="..\source\ClauseQueue.h" />
-    <ClInclude Include="..\source\AbstractDataTypes.h" />
     <ClInclude Include="..\source\AttributeType.h" />
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\ParserPrintTree.h" />
     <ClInclude Include="..\source\Pattern.h" />
-    <ClInclude Include="..\source\PKB.h" />
-    <ClInclude Include="..\source\PKBBuilder.h" />
     <ClInclude Include="..\source\PKB\ASTNode\AssignNode.h" />
     <ClInclude Include="..\source\PKB\ASTNode\ASTNode.h" />
     <ClInclude Include="..\source\PKB\ASTNode\CallNode.h" />
@@ -55,6 +53,8 @@
     <ClInclude Include="..\source\PKB\DesignEntities\VariableTable.h" />
     <ClInclude Include="..\source\PKB\DesignEntities\WhileTable.h" />
     <ClInclude Include="..\source\PKB\Hashing.h" />
+    <ClInclude Include="..\source\PKB\PKB.h" />
+    <ClInclude Include="..\source\PKB\PKBBuilder.h" />
     <ClInclude Include="..\source\PKB\Relationships\AffectsTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\CallsTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\FollowsTable.h" />
@@ -82,12 +82,9 @@
   <ItemGroup>
     <ClCompile Include="..\source\AttrRefManager.cpp" />
     <ClCompile Include="..\source\ClauseQueue.cpp" />
-    <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\ParserPrintTree.cpp" />
     <ClCompile Include="..\source\Pattern.cpp" />
-    <ClCompile Include="..\source\PKB.cpp" />
-    <ClCompile Include="..\source\PKBBuilder.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\AssignNode.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\ASTNode.cpp" />
     <ClCompile Include="..\source\PKB\ASTNode\CallNode.cpp" />
@@ -118,6 +115,8 @@
     <ClCompile Include="..\source\PKB\DesignEntities\TryTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\VariableTable.cpp" />
     <ClCompile Include="..\source\PKB\DesignEntities\WhileTable.cpp" />
+    <ClCompile Include="..\source\PKB\PKB.cpp" />
+    <ClCompile Include="..\source\PKB\PKBBuilder.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\AffectsTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\CallsTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\FollowsTable.cpp" />
