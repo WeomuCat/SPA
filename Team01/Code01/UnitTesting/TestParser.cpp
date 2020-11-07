@@ -8,7 +8,7 @@
 #include <string>
 #include <cstdlib>
 
-#include "..\source\Parser.h"
+#include "..\source\Parser\Parser.h"
 
 typedef std::shared_ptr<PKB> PKB_PTR;
 
@@ -1230,5 +1230,50 @@ namespace UnitTesting {
 			}
 		}
 		//*************END TEST NEXT R/S*****************
+
+		//*************START TEST CALLS TO NON-EXISTENT PROCS*****************
+		TEST_METHOD(parseCallsNonExistentProcs) {
+			Parser parser = Parser();
+			try {
+				PKB_PTR actual_pkb =
+					std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-Non-Existent Procs.txt"));
+				
+				//If it reaches here, exception not thrown which means error.
+				Assert::IsTrue(false);
+			} catch (const char* msg) {
+				Assert::IsTrue(strcmp(msg, "Call to Non-Existent Procedure made.") == 0);
+			}
+		}
+		//*************END TEST CALLS TO NON-EXISTENT PROCS*****************
+
+		//*************START TEST RECURSIVE/CYCLIC CALLS*****************
+		TEST_METHOD(parseCallsRecursive) {
+			Parser parser = Parser();
+			try {
+				PKB_PTR actual_pkb =
+					std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-Calls Recursive.txt"));
+
+				//If it reaches here, exception not thrown which means error.
+				Assert::IsTrue(false);
+			}
+			catch (const char* msg) {
+				Assert::IsTrue(strcmp(msg, "Cyclic or Recursive Calls made.") == 0);
+			}
+		}
+
+		TEST_METHOD(parseCallsCyclic) {
+			Parser parser = Parser();
+			try {
+				PKB_PTR actual_pkb =
+					std::make_shared<PKB>(parser.parseFile("../UnitTesting/Parser/TestParser-Calls Cyclic.txt"));
+
+				//If it reaches here, exception not thrown which means error.
+				Assert::IsTrue(false);
+			}
+			catch (const char* msg) {
+				Assert::IsTrue(strcmp(msg, "Cyclic or Recursive Calls made.") == 0);
+			}
+		}
+		//*************END TEST RECURSIVE/CYCLIC CALLS*****************
 	};
 }

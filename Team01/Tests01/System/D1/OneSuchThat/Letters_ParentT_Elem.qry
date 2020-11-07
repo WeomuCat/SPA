@@ -1,0 +1,305 @@
+1 - Parent* Integer
+constant c;
+Select c such that Parent*(2, 3)
+1,2,3
+1000
+1 - Parent* Integer
+constant c;
+Select c such that Parent*(1, 2)
+none
+1000
+1 - Parent* Wildcard
+constant c;
+Select c such that Parent*(2, _)
+1,2,3
+1000
+1 - Parent* Wildcard
+constant c;
+Select c such that Parent*(_, 2)
+none
+1000
+1 - Parent* Wildcard
+constant c;
+Select c such that Parent*(_, _)
+1,2,3
+1000
+1 - Parent* Statement
+stmt s;
+Select s such that Parent*(2, s)
+3,4,5,6,7,8,9
+1000
+1 - Parent* Statement
+stmt s;
+Select s such that Parent*(s, 2)
+none
+1000
+1 - Parent* Statement
+stmt s;
+Select s such that Parent*(s, s)
+none
+1000
+1 - Parent* Statement
+stmt s;
+Select s such that Parent*(s, _)
+15,17,2,4
+1000
+1 - Parent* Statement
+stmt s;
+Select s such that Parent*(_, s)
+16,17,18,19,20,21,3,4,5,6,7,8,9
+1000
+1 - Parent* Statement
+stmt s1, s2;
+Select s1 such that Parent*(s1, s2)
+15,17,2,4
+1000
+1 - Parent* Statement
+stmt s1, s2;
+Select s2 such that Parent*(s1, s2)
+16,17,18,19,20,21,3,4,5,6,7,8,9
+1000
+1 - Parent* Read
+read r;
+Select r such that Parent*(2, r)
+6
+1000
+1 - Parent* Read
+read r;
+Select r such that Parent*(r, 2)
+none
+1000
+1 - Parent* Read
+read r;
+Select r such that Parent*(r, r)
+none
+1000
+1 - Parent* Read
+read r;
+Select r such that Parent*(r, _)
+none
+1000
+1 - Parent* Read
+read r;
+Select r such that Parent*(_, r)
+20,6
+1000
+1 - Parent* Read
+read r1, r2;
+Select r1 such that Parent*(r1, r2)
+none
+1000
+1 - Parent* Read
+read r1, r2;
+Select r2 such that Parent*(r1, r2)
+none
+1000
+1 - Parent* Print
+print p;
+Select p such that Parent*(2, p)
+5,8
+1000
+1 - Parent* Print
+print p;
+Select p such that Parent*(p, 2)
+none
+1000
+1 - Parent* Print
+print p;
+Select p such that Parent*(p, p)
+none
+1000
+1 - Parent* Print
+print p;
+Select p such that Parent*(p, _)
+none
+1000
+1 - Parent* Print
+print p;
+Select p such that Parent*(_, p)
+18,5,8
+1000
+1 - Parent* Print
+print p1, p2;
+Select p1 such that Parent*(p1, p2)
+none
+1000
+1 - Parent* Print
+print p1, p2;
+Select p2 such that Parent*(p1, p2)
+none
+1000
+1 - Parent* Call
+call c;
+Select c such that Parent*(2, c)
+7
+1000
+1 - Parent* Call
+call c;
+Select c such that Parent*(c, 2)
+none
+1000
+1 - Parent* Call
+call c;
+Select c such that Parent*(c, c)
+none
+1000
+1 - Parent* Call
+call c;
+Select c such that Parent*(c, _)
+none
+1000
+1 - Parent* Call
+call c;
+Select c such that Parent*(_, c)
+21,7
+1000
+1 - Parent* Call
+call c1, c2;
+Select c1 such that Parent*(c1, c2)
+none
+1000
+1 - Parent* Call
+call c1, c2;
+Select c2 such that Parent*(c1, c2)
+none
+1000
+1 - Parent* While
+while w;
+Select w such that Parent*(2, w)
+4
+1000
+1 - Parent* While
+while w;
+Select w such that Parent*(w, 2)
+none
+1000
+1 - Parent* While
+while w;
+Select w such that Parent*(w, w)
+none
+1000
+1 - Parent* While
+while w;
+Select w such that Parent*(w, _)
+15,4
+1000
+1 - Parent* While
+while w;
+Select w such that Parent*(_, w)
+4
+1000
+1 - Parent* While
+while w1, w2;
+Select w1 such that Parent*(w1, w2)
+none
+1000
+1 - Parent* While
+while w1, w2;
+Select w2 such that Parent*(w1, w2)
+none
+1000
+1 - Parent* If
+if i;
+Select i such that Parent*(15, i)
+17
+1000
+1 - Parent* If
+if i;
+Select i such that Parent*(i, 15)
+none
+1000
+1 - Parent* If
+if i;
+Select i such that Parent*(i, i)
+none
+1000
+1 - Parent* If
+if i;
+Select i such that Parent*(i, _)
+17,2
+1000
+1 - Parent* If
+if i;
+Select i such that Parent*(_, i)
+17
+1000
+1 - Parent* If
+if i1, i2;
+Select i1 such that Parent*(i1, i2)
+none
+1000
+1 - Parent* If
+if i1, i2;
+Select i2 such that Parent*(i1, i2)
+none
+1000
+1 - Parent* Assign
+assign a;
+Select a such that Parent*(15, a)
+16,19
+1000
+1 - Parent* Assign
+assign a;
+Select a such that Parent*(a, 15)
+none
+1000
+1 - Parent* Assign
+assign a;
+Select a such that Parent*(a, a)
+none
+1000
+1 - Parent* Assign
+assign a;
+Select a such that Parent*(a, _)
+none
+1000
+1 - Parent* Assign
+assign a;
+Select a such that Parent*(_, a)
+16,19,3,9
+1000
+1 - Parent* Assign
+assign a1, a2;
+Select a1 such that Parent*(a1, a2)
+none
+1000
+1 - Parent* Assign
+assign a1, a2;
+Select a2 such that Parent*(a1, a2)
+none
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select n such that Parent*(2, n)
+3,4,5,6,7,8,9
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select n such that Parent*(n, 2)
+none
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select n such that Parent*(n, n)
+none
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select n such that Parent*(n, _)
+15,17,2,4
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select n such that Parent*(_, n)
+16,17,18,19,20,21,3,4,5,6,7,8,9
+1000
+1 - Parent* ProgLine
+prog_line n1, n2;
+Select n1 such that Parent*(n1, n2)
+15,17,2,4
+1000
+1 - Parent* ProgLine
+prog_line n1, n2;
+Select n2 such that Parent*(n1, n2)
+16,17,18,19,20,21,3,4,5,6,7,8,9
+1000

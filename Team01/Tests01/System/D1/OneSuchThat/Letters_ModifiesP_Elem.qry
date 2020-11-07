@@ -1,0 +1,40 @@
+1 - ModifiesP
+constant c;
+Select c such that Modifies("aProc", "aVar")
+1,2,3
+1000
+1 - ModifiesP
+constant c;
+Select c such that Modifies("cProc", "cVar")
+none
+1000
+1 - ModifiesP
+constant c;
+Select c such that Modifies("aProc", _)
+1,2,3
+1000
+1 - ModifiesP
+variable v;
+Select v such that Modifies("aProc", v)
+aVar,bVar,cVar,eVar
+1000
+1 - ModifiesP Procedure
+procedure p;
+Select p such that Modifies(p, "cVar")
+aProc,bProc
+1000
+1 - ModifiesP Procedure
+procedure p;
+Select p such that Modifies(p, _)
+aProc,bProc,cProc
+1000
+1 - ModifiesP Procedure
+procedure p; variable v;
+Select p such that Modifies(p, v)
+aProc,bProc,cProc
+1000
+1 - ModifiesP Procedure
+procedure p; variable v;
+Select v such that Modifies(p, v)
+aVar,bVar,cVar,eVar
+1000

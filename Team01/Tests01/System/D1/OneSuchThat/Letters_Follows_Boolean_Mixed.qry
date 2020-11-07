@@ -1,0 +1,90 @@
+1 - Follows Read Call
+read r; call c;
+Select BOOLEAN such that Follows(r, c)
+TRUE
+1000
+1 - Follows Read Call
+read r; call c;
+Select BOOLEAN such that Follows(c, r)
+FALSE
+1000
+1 - Follows Statement Read
+stmt s; read r;
+Select BOOLEAN such that Follows(s, r)
+TRUE
+1000
+1 - Follows Statement Read
+stmt s; read r;
+Select BOOLEAN such that Follows(r, s)
+TRUE
+1000
+1 - Follows Read Print
+read r; print p;
+Select BOOLEAN such that Follows(r, p)
+TRUE
+1000
+1 - Follows Read Print
+read r; print p;
+Select BOOLEAN such that Follows(p, r)
+TRUE
+1000
+1 - Follows Print Call
+print p; call c;
+Select BOOLEAN such that Follows(p, c)
+TRUE
+1000
+1 - Follows Print Call
+print p; call c;
+Select BOOLEAN such that Follows(c, p)
+FALSE
+1000
+1 - Follows Call While
+call c; while w;
+Select BOOLEAN such that Follows(c, w)
+FALSE
+1000
+1 - Follows Call While
+call c; while w;
+Select BOOLEAN such that Follows(w, c)
+FALSE
+1000
+1 - Follows While If
+while w; if i;
+Select BOOLEAN such that Follows(w, i)
+FALSE
+1000
+1 - Follows While If
+while w; if i;
+Select BOOLEAN such that Follows(i, w)
+FALSE
+1000
+1 - Follows If Assign
+if i; assign a;
+Select BOOLEAN such that Follows(i, a)
+FALSE
+1000
+1 - Follows If Assign
+if i; assign a;
+Select BOOLEAN such that Follows(a, i)
+TRUE
+1000
+1 - Follows Assign ProgLine
+assign a; prog_line n;
+Select BOOLEAN such that Follows(a, n)
+TRUE
+1000
+1 - Follows Assign ProgLine
+assign a; prog_line n;
+Select BOOLEAN such that Follows(n, a)
+TRUE
+1000
+1 - Follows ProgLine Statement
+prog_line n; stmt s;
+Select BOOLEAN such that Follows(n, s)
+TRUE
+1000
+1 - Follows ProgLine Statement
+prog_line n; stmt s;
+Select BOOLEAN such that Follows(s, n)
+TRUE
+1000

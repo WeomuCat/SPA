@@ -1,6 +1,6 @@
 OnePattern+OneSuchThat/CatDog_Modifies_Elem
 OnePattern+OneSuchThat/CatDog_Uses_Elem
 OneClause/CatDog_Pattern_Elem
-OneClause/CatDog_FollowsT
-OneClause/CatDog_Parent
-OneClause/CatDog_ParentT
+OneClause/CatDog_FollowsT_Elem
+OneClause/CatDog_Parent_Elem
+OneClause/CatDog_ParentT_Elem

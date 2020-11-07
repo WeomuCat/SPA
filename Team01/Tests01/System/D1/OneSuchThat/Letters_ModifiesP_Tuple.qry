@@ -1,0 +1,5 @@
+1 - ModifiesP Procedure
+procedure p; variable v;
+Select <p, v> such that Modifies(p, v)
+aProc aVar,aProc bVar,aProc cVar,aProc eVar,bProc aVar,bProc bVar,bProc cVar,bProc eVar,cProc aVar,cProc eVar
+1000

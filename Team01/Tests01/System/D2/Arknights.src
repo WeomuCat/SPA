@@ -1,0 +1,118 @@
+procedure first {
+    beagle = amiya;
+    ceobe = beagle;
+    durin = ceobe;
+    eyjaf = durin;
+    if (beagle == ceobe) then {
+        beagle = 1;
+    } else {
+        ceobe = 1;
+    }
+    durin = beagle;
+    eyjaf = ceobe;
+    while (eyjaf != durin) {
+        eyjaf = 1;
+    }
+    amiya = eyjaf + beagle;
+    call fifth;
+    eyjaf = amiya;
+    call fifth;
+    amiya = 1;
+    read amiya;
+    beagle = amiya;
+}
+
+procedure second {
+    while (amiya != amiya) {
+        durin = eyjaf;
+        amiya = amiya;
+        beagle = 1;
+        ceobe = beagle;
+        eyjaf = ceobe + eyjaf;
+    }
+    call fifth;
+    amiya = amiya + beagle + ceobe + durin + eyjaf + 1;
+    beagle = amiya + beagle + ceobe + durin + eyjaf + 1;
+    ceobe = amiya + beagle + ceobe + durin + eyjaf + 1;
+    durin = amiya + beagle + ceobe + durin + eyjaf + 1;
+    eyjaf = amiya + beagle + ceobe + durin + eyjaf + 1;
+    call fifth;
+    if (beagle == beagle) then {
+        beagle = 1;
+    } else {
+        ceobe = beagle;
+    }
+    call fifth;
+    while (durin < durin) {
+        if (durin < durin) then {
+            durin = 1;
+        } else {
+            amiya = durin;
+        }
+        ceobe = durin;
+    }
+}
+
+procedure third {
+    amiya = 1;
+    call fourth;
+    eyjaf = amiya;
+    beagle = 1;
+    call fourth;
+    eyjaf = beagle;
+    ceobe = 1;
+    call fourth;
+    durin = 1;
+    call fourth;
+    eyjaf = durin;
+    eyjaf = 1;
+    call fourth;
+    eyjaf = eyjaf;
+}
+
+procedure fourth {
+    if (amiya > 1) then {
+        amiya = 1;
+    } else {
+        amiya = 1;
+    }
+    if (beagle < ceobe) then {
+        beagle = 1;
+    } else {
+        ceobe = 1;
+        ceobe = beagle;
+    }
+    while (durin == durin) {
+        durin = 1;
+    }
+    if (eyjaf == eyjaf) then {
+        eyjaf = 1;
+        while (eyjaf == eyjaf) {
+            eyjaf = 1;
+        }
+        eyjaf = 1;
+    } else {
+        eyjaf = 1;
+        while (eyjaf == eyjaf) {
+            eyjaf = 1;
+        }
+        eyjaf = 1;
+    }
+    while (eyjaf == eyjaf) {
+        eyjaf = 1;
+        if (eyjaf == eyjaf) then {
+            eyjaf = 1;
+        } else {
+            eyjaf = 1;
+        }
+        eyjaf = 1;
+    }
+}
+
+procedure fifth {
+    amiya = 1;
+    beagle = 1;
+    ceobe = 1;
+    durin = 1;
+    eyjaf = 1;
+}

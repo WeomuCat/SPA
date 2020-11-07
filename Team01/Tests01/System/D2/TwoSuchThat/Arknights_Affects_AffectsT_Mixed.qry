@@ -1,0 +1,20 @@
+1 - Affects and Affects
+assign a1, a2; stmt s;
+Select a1 such that Affects (s, a1) and Affects(a1, a2)
+2, 3, 9, 21, 23, 24, 27, 28, 29
+5000
+2 - Affects and Affects*
+
+Select BOOLEAN such that Affects (26, 27) and Affects* (26, 28)
+TRUE
+5000
+3 - Affects* and Affects*
+assign a1, a2;
+Select <a1, a2> such that Affects* (a1, 21) and Affects* (21, a2)
+21 21
+5000
+4 - Affects* and Affects* 
+
+Select BOOLEAN such that Affects* (1, 9) and Affects* (23, 20)
+TRUE
+5000

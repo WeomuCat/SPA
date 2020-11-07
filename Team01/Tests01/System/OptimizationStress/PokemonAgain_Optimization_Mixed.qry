@@ -1,0 +1,105 @@
+1 - Unlinked clauses
+stmt s1, s2, s3, s4, s5;
+Select s1 with s1.stmt# = 1 such that Parent* (s1, _) and Parent* (s2, _) and Parent* (s3, _) and Parent* (s4, _) and Parent* (s5, _) and Next* (s1, _) and Next* (s2, _) and Next* (s3, _) and Next* (s4, _) and Next* (s5, _)
+NO ANSWER
+60000
+2 - Parent determines Affects can't be calculated
+stmt s1, s2, s3, s4, s5, s6, s7, s8;
+Select s1 such that Parent* (s1, _) and Parent* (s2, _) and Parent* (s3, _) and Parent* (s4, _) and Parent* (s5, _) and Parent* (s6, _) and Parent* (s7, _) and Parent* (s8, _) and Affects* (s1, _) and Affects* (s2, _) and Affects* (s3, _) and Affects* (s4, _) and Affects* (s5, _) and Affects* (s6, _) and Affects* (s7, _) and Affects* (s8, _)
+none
+60000
+3 - Evaluate Follows Constant Before Follows* Synonym
+stmt s;
+Select s such that Follows* (s, _) and Follows (102, s)
+103
+60000
+4 - Evaluate Parent Constant Before Parent* Synonym
+stmt s;
+Select s such that Parent* (s, _) and Parent (s, 107)
+106
+60000
+5 - Evaluate Next* Constant before Next Synonym
+prog_line n;
+Select n such that Next* (n, _) and Next (25, n)
+26
+60000
+6 - Evaluate All Constants Before All Synonyms
+stmt s1, s2, s3, s4, s5, s6; procedure p;
+Select <s1, s2, s3, s4, s5, s6, p> such that Follows* (s1, _) and Parent* (_, s2) and Uses (s3, _) and Modifies (s4, _) and Next* (s5, _) and Calls* (p, _) and Affects* (s6, _) and Next (2, s1) and Next (s2, 4) and Next (11, s3) and Next (s4, 23) and Next (s5, 55) and Calls (p, "five") and Next (s6, 109)
+2 3 12 22 54 108 one, 2 3 12 22 54 108 two, 2 3 12 22 54 108 three
+60000
+7 - Evaluate Assign With before Such That
+assign a;
+Select a such that Next* (a, _) and Next* (_, a) and Follows* (a, _) with a.stmt# = 150
+150
+60000
+8 - Evaluate Call With before Such That
+call cl;
+Select cl such that Next* (cl, _) and Next* (_, cl) and Follows* (cl, _) with cl.stmt# = 153
+153
+60000
+9 - Evaluate Print With before Such That
+print pn;
+Select pn such that Next* (pn, _) and Next* (_, pn) and Follows* (pn, _) with pn.stmt# = 151
+151
+60000
+10 - Evaluate Read With before Such That
+read r;
+Select r such that Next* (r, _) and Next* (_, r) and Follows* (r, _) with r.stmt# = 152
+152
+60000
+11 - Evaluate Statement With before Such That
+stmt s;
+Select s such that Next* (s, _) with s.stmt# = 155
+155
+60000
+12 - Evaluate If With before Such That
+if i;
+Select i such that Next* (i, _) and Next* (_, i) and Follows* (i, _) and Parent* (i, _) with i.stmt# = 157
+157
+60000
+13 - Evaluate While With before Such That
+while w;
+Select w such that Next* (w, _) and Next* (_, w) and Follows* (w, _) and Parent* (w, _) with w.stmt# = 140
+140
+60000
+14 - Evaluate Program Line With before Such That
+prog_line n;
+Select n such that Next* (n, _) with n = 156
+156
+60000
+15 - Evaluate All Synonym With Clauses before Such That Clauses
+assign a; call cl; print pn; procedure pd; read r; stmt s, s1; if i; while w; variable v; prog_line n;
+Select <a, cl.procName, pn.varName, pd, r.varName, s, i, w, v, n> with a.stmt# = 108 and cl.stmt# = 189 and pn.stmt# = 183 and pd.procName = "two" and r.stmt# = 265 and s.stmt# = 295 and i.stmt# = 216 and w.stmt# = 252 and v.varName = "cacnea" and n = 95 and s1.stmt# = 203 such that Affects* (a, _) and Next* (cl, _) and Follows* (_, pn) and Calls* (pd, _) and Next* (r, _) and Next* (_, s) and Parent* (i, _) and Parent* (w, _) and Modifies (s1, v) and Uses (n, _)
+108 "nine" "eelektrik" "two" "igglybuff" 295 216 252 "cacnea" 95
+60000
+16 - Evaluate Assign Pattern before Such That
+assign a;
+Select a such that Next* (a, _) and Next* (_, a) and Follows* (a, _) pattern a ("gabite", "(8766) / (2987) * gabite + falinks * 91295 % 229 / 6378 - abomasnow")
+143
+60000
+17 - Evaluate While Pattern before Such That
+while w;
+Select w such that Next* (w, _) and Next* (_, w) and Follows* (w, _) and Parent* (w, _) pattern w ("darkrai", _)
+19, 115, 117, 193
+60000
+18 - Evaluate If Pattern before Such That
+if i;
+Select i such that Next* (i, _) and Next* (_, i) and Follows* (i, _) and Parent* (i, _) pattern i ("abomasnow", _, _)
+8, 113, 157, 242
+60000
+19 - Evaluate 1 Synonym + 1 Constant before 2 Synonym for Next
+stmt s1, s2;
+Select s1 such that Next* (s1, s2) and Next (51, s1) and Next (s2, 54)
+52
+60000
+20 - Evaluating related and easier synonyms first
+assign a; print pn; read r; if i; while w; 
+Select a such that Next* (pn, r) and Parent* (w, a) and Next* (a, pn) and Next* (a, r) and Parent (i, a)
+46, 47, 58, 255, 257, 266, 268, 301, 303
+60000
+21 - Evaluate to prevent cross product
+call cl; assign a1, a2; variable v1, v2;
+Select s1 such that Modifies (a1, v1) and Uses (a2, v2) and Follows (a1, cl) and Follows (cl, a2)
+11, 13, 19, 47, 86, 94, 126, 128, 129, 143, 144, 152, 165, 195, 199, 207, 218, 221, 222, 228, 229
+60000

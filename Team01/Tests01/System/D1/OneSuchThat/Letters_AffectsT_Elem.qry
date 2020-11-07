@@ -1,0 +1,305 @@
+1 - Affects* Integer
+constant c;
+Select c such that Affects*(19, 16)
+1,2,3
+1000
+1 - Affects* Integer
+constant c;
+Select c such that Affects*(16, 19)
+none
+1000
+1 - Affects* Wildcard
+constant c;
+Select c such that Affects*(16, _)
+1,2,3
+1000
+1 - Affects* Wildcard
+constant c;
+Select c such that Affects*(_, 16)
+1,2,3
+1000
+1 - Affects* Wildcard
+constant c;
+Select c such that Affects*(_, _)
+1,2,3
+1000
+1 - Affects* Statement
+stmt s;
+Select s such that Affects*(16, s)
+16
+1000
+1 - Affects* Statement
+stmt s;
+Select s such that Affects*(s, 16)
+16,19
+1000
+1 - Affects* Statement
+stmt s;
+Select s such that Affects*(s, s)
+16
+1000
+1 - Affects* Statement
+stmt s;
+Select s such that Affects*(s, _)
+16,19
+1000
+1 - Affects* Statement
+stmt s;
+Select s such that Affects*(_, s)
+16
+1000
+1 - Affects* Statement
+stmt s1, s2;
+Select s1 such that Affects*(s1, s2)
+16,19
+1000
+1 - Affects* Statement
+stmt s1, s2;
+Select s2 such that Affects*(s1, s2)
+16
+1000
+1 - Affects* Read
+read r;
+Select r such that Affects*(16, r)
+none
+1000
+1 - Affects* Read
+read r;
+Select r such that Affects*(r, 16)
+none
+1000
+1 - Affects* Read
+read r;
+Select r such that Affects*(r, r)
+none
+1000
+1 - Affects* Read
+read r;
+Select r such that Affects*(r, _)
+none
+1000
+1 - Affects* Read
+read r;
+Select r such that Affects*(_, r)
+none
+1000
+1 - Affects* Read
+read r1, r2;
+Select r1 such that Affects*(r1, r2)
+none
+1000
+1 - Affects* Read
+read r1, r2;
+Select r2 such that Affects*(r1, r2)
+none
+1000
+1 - Affects* Print
+print p;
+Select p such that Affects*(16, p)
+none
+1000
+1 - Affects* Print
+print p;
+Select p such that Affects*(p, 16)
+none
+1000
+1 - Affects* Print
+print p;
+Select p such that Affects*(p, p)
+none
+1000
+1 - Affects* Print
+print p;
+Select p such that Affects*(p, _)
+none
+1000
+1 - Affects* Print
+print p;
+Select p such that Affects*(_, p)
+none
+1000
+1 - Affects* Print
+print p1, p2;
+Select p1 such that Affects*(p1, p2)
+none
+1000
+1 - Affects* Print
+print p1, p2;
+Select p2 such that Affects*(p1, p2)
+none
+1000
+1 - Affects* Call
+call c;
+Select c such that Affects*(16, c)
+none
+1000
+1 - Affects* Call
+call c;
+Select c such that Affects*(c, 16)
+none
+1000
+1 - Affects* Call
+call c;
+Select c such that Affects*(c, c)
+none
+1000
+1 - Affects* Call
+call c;
+Select c such that Affects*(c, _)
+none
+1000
+1 - Affects* Call
+call c;
+Select c such that Affects*(_, c)
+none
+1000
+1 - Affects* Call
+call c1, c2;
+Select c1 such that Affects*(c1, c2)
+none
+1000
+1 - Affects* Call
+call c1, c2;
+Select c2 such that Affects*(c1, c2)
+none
+1000
+1 - Affects* While
+while w;
+Select w such that Affects*(16, w)
+none
+1000
+1 - Affects* While
+while w;
+Select w such that Affects*(w, 16)
+none
+1000
+1 - Affects* While
+while w;
+Select w such that Affects*(w, w)
+none
+1000
+1 - Affects* While
+while w;
+Select w such that Affects*(w, _)
+none
+1000
+1 - Affects* While
+while w;
+Select w such that Affects*(_, w)
+none
+1000
+1 - Affects* While
+while w1, w2;
+Select w1 such that Affects*(w1, w2)
+none
+1000
+1 - Affects* While
+while w1, w2;
+Select w2 such that Affects*(w1, w2)
+none
+1000
+1 - Affects* If
+if i;
+Select i such that Affects*(16, i)
+none
+1000
+1 - Affects* If
+if i;
+Select i such that Affects*(i, 16)
+none
+1000
+1 - Affects* If
+if i;
+Select i such that Affects*(i, i)
+none
+1000
+1 - Affects* If
+if i;
+Select i such that Affects*(i, _)
+none
+1000
+1 - Affects* If
+if i;
+Select i such that Affects*(_, i)
+none
+1000
+1 - Affects* If
+if i1, i2;
+Select i1 such that Affects*(i1, i2)
+none
+1000
+1 - Affects* If
+if i1, i2;
+Select i2 such that Affects*(i1, i2)
+none
+1000
+1 - Affects* Assign
+assign a;
+Select a such that Affects*(16, a)
+16
+1000
+1 - Affects* Assign
+assign a;
+Select a such that Affects*(a, 16)
+16,19
+1000
+1 - Affects* Assign
+assign a;
+Select a such that Affects*(a, a)
+16
+1000
+1 - Affects* Assign
+assign a;
+Select a such that Affects*(a, _)
+16,19
+1000
+1 - Affects* Assign
+assign a;
+Select a such that Affects*(_, a)
+16
+1000
+1 - Affects* Assign
+assign a1, a2;
+Select a1 such that Affects*(a1, a2)
+16,19
+1000
+1 - Affects* Assign
+assign a1, a2;
+Select a2 such that Affects*(a1, a2)
+16
+1000
+1 - Affects* ProgLine
+prog_line n;
+Select n such that Affects*(16, n)
+16
+1000
+1 - Affects* ProgLine
+prog_line n;
+Select n such that Affects*(n, 16)
+16,19
+1000
+1 - Affects* ProgLine
+prog_line n;
+Select n such that Affects*(n, n)
+16
+1000
+1 - Affects* ProgLine
+prog_line n;
+Select n such that Affects*(n, _)
+16,19
+1000
+1 - Affects* ProgLine
+prog_line n;
+Select n such that Affects*(_, n)
+16
+1000
+1 - Affects* ProgLine
+prog_line n1, n2;
+Select n1 such that Affects*(n1, n2)
+16,19
+1000
+1 - Affects* ProgLine
+prog_line n1, n2;
+Select n2 such that Affects*(n1, n2)
+16
+1000

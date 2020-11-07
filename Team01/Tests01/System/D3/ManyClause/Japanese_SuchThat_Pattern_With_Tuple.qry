@@ -1,0 +1,65 @@
+1 - Calls and Uses and Modifies
+if i; procedure pd; variable v;
+Select <v, pd> such that Calls (pd, "third") and Uses(i, v) and Modifies (pd, v) pattern i ("zero", _, _) with i.stmt# = 22
+zero first, ichi first, ni first, san first, yon first, go first, roku first, nana first, hachi first, kyuu first
+5000
+2 - Next* and Next* and Next*
+assign a1, a2, a3, a4;
+Select <a1, a2, a3, a4> such that Next* (a1, a2) and Next* (a2, a3) and Next* (a3, a4) pattern a1 (_, _"ni"_) and a2 ("roku", _) and a3 (_, _"3"_) and a4 (_, _) with a1.stmt# = a2.stmt# and a2.stmt# = a3.stmt# and a3.stmt# = a4.stmt#
+50 50 50 50
+5000
+3 - Follows*, Parent* and Parent*
+if i; assign a; stmt s;
+Select <i, a> such that Follows* (s, a) and Parent* (i, a) and Parent* (i, s) pattern a (_, _"4"_) and i ("go", _, _) with s.stmt# = 26
+22 27, 24 27
+5000
+4 - Parent and Uses and Modifies and Calls*
+if i1, i2; procedure p; variable v;
+Select <i1, i2> such that Parent (i1, i2) and Uses (i1, v) and Uses (p, v) and Calls (p, "fourth") pattern i1 ("zero", _, _) and i2 ("yon", _, _) with p.procName = "third" and v.varName = "ichi"
+22 24
+5000
+5 - Modifies, Uses, Uses
+assign a; variable v1, v2, v3;
+Select <a.stmt#, v1.varName> such that Modifies (a, v1) and Uses (a, v2) and Uses (a, v3) pattern a (_, _"kyuu"_) with v2.varName = "hachi" and v3.varName = "nana"
+1 zero, 91 zero, 92 ichi, 93 ni, 94 san, 95 yon, 96 go, 97 roku
+5000
+6 - Follows*, Follows*, Follows*
+assign a; read r; print pn; call cl;
+Select <r.stmt#, pn.stmt#> such that Follows* (r, pn) and Follows* (pn, cl) and Follows* (cl, a) pattern a (_, _"nana"_) with cl.procName = "tenth"
+83 84
+5000
+7 - Uses, Uses, Uses, Next, Next*
+while w1, w2, w3; variable v;
+Select <w1, w2, w3> such that Uses (w1, v) and Uses (w2, v) and Uses (w3, v) and Next (w1, w2) and Next* (w2, w3) pattern w1 ("nana", _) and w2 ("ichi", _) with v.varName = "go" and w1.stmt# = 40
+40 41 42, 40 41 45, 40 41 40, 40 41 41, 40 41 49
+10000
+8- Affects
+stmt s; assign a;
+Select <s, a> such that Affects (s, a) pattern a ("kyuu", _) with s.stmt# = 44
+44 46
+5000
+9 - Affects*
+assign a1, a2;
+Select <a1, a2> such that Affects* (a1, a2) pattern a1 ("zero", _) with a2.stmt# = 46
+44 46
+5000
+10 - Affects, Parent* and Parent*
+assign a1, a2; stmt s1, s2;
+Select <a1, a2> such that Affects (a1, a2) and Parent* (s1, a1) and Parent* (s2, a2) pattern a1 ("san", _) and a2 (_, _"san"_) with a1.stmt# = a2.stmt#
+none
+5000
+11 - Can we Imitate an Affects? 
+assign a; stmt s; variable v;
+Select <s, v> such that Modifies (a, v) and Uses (s, v) and Next* (a, s) pattern a (v, _) with a.stmt# = 8 and v.varName = "san"
+2 san, 6 san, 7 san, 8 san, 11 san
+5000
+12 - No we cannot imiate an Affects easily
+assign a; stmt s; variable v;
+Select <s, v> such that Affects (a, s) pattern a (v, _) with v.varName = "san" and a.stmt# = 8
+none
+5000
+13 - Affects* but separated
+assign a; print pn;
+Select <pn, a> such that Affects* (65, 66) pattern a (_, "zero - nana + 8") with pn.stmt# = 63 and pn.varName = "ichi"
+63 65
+5000

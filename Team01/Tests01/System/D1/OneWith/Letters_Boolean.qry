@@ -1,0 +1,230 @@
+1 - With Integer
+constant c;
+Select BOOLEAN with 0 = 0
+TRUE
+1000
+1 - With Integer
+constant c;
+Select BOOLEAN with 1 = 1
+TRUE
+1000
+1 - With Integer
+constant c;
+Select BOOLEAN with 1 = 2
+FALSE
+1000
+1 - With Ident
+constant c;
+Select BOOLEAN with "x" = "x"
+TRUE
+1000
+1 - With Statement
+stmt s;
+Select BOOLEAN with s.stmt# = 1
+TRUE
+1000
+1 - With Statement
+stmt s;
+Select BOOLEAN with 1 = s.stmt#
+TRUE
+1000
+1 - With Statement
+stmt s;
+Select BOOLEAN with s.stmt# = s.stmt#
+TRUE
+1000
+1 - With Read
+read r;
+Select BOOLEAN with r.stmt# = 6
+TRUE
+1000
+1 - With Read
+read r;
+Select BOOLEAN with 6 = r.stmt#
+TRUE
+1000
+1 - With Read
+read r;
+Select BOOLEAN with r.stmt# = r.stmt#
+TRUE
+1000
+1 - With Read
+read r;
+Select BOOLEAN with r.varName = "eVar"
+TRUE
+1000
+1 - With Read
+read r;
+Select BOOLEAN with "eVar" = r.varName
+TRUE
+1000
+1 - With Read
+read r;
+Select BOOLEAN with r.varName = r.varName
+TRUE
+1000
+1 - With Print
+print p;
+Select BOOLEAN with p.stmt# = 24
+TRUE
+1000
+1 - With Print
+print p;
+Select BOOLEAN with 24 = p.stmt#
+TRUE
+1000
+1 - With Print
+print p;
+Select BOOLEAN with p.stmt# = p.stmt#
+TRUE
+1000
+1 - With Print
+print p;
+Select BOOLEAN with p.varName = "eVar"
+TRUE
+1000
+1 - With Print
+print p;
+Select BOOLEAN with "eVar" = p.varName
+TRUE
+1000
+1 - With Print
+print p;
+Select BOOLEAN with p.varName = p.varName
+TRUE
+1000
+1 - With Call
+call c;
+Select BOOLEAN with c.stmt# = 7
+TRUE
+1000
+1 - With Call
+call c;
+Select BOOLEAN with 7 = c.stmt#
+TRUE
+1000
+1 - With Call
+call c;
+Select BOOLEAN with c.stmt# = c.stmt#
+TRUE
+1000
+1 - With Call
+call c;
+Select BOOLEAN with c.procName = "cProc"
+TRUE
+1000
+1 - With Call
+call c;
+Select BOOLEAN with "cProc" = c.procName
+TRUE
+1000
+1 - With Call
+call c;
+Select BOOLEAN with c.procName = c.procName
+TRUE
+1000
+1 - With While
+while w;
+Select BOOLEAN with w.stmt# = 15
+TRUE
+1000
+1 - With While
+while w;
+Select BOOLEAN with 15 = w.stmt#
+TRUE
+1000
+1 - With While
+while w;
+Select BOOLEAN with w.stmt# = w.stmt#
+TRUE
+1000
+1 - With If
+if i;
+Select BOOLEAN with i.stmt# = 17
+TRUE
+1000
+1 - With If
+if i;
+Select BOOLEAN with 17 = i.stmt#
+TRUE
+1000
+1 - With If
+if i;
+Select BOOLEAN with i.stmt# = i.stmt#
+TRUE
+1000
+1 - With Assign
+assign a;
+Select BOOLEAN with a.stmt# = 1
+TRUE
+1000
+1 - With Assign
+assign a;
+Select BOOLEAN with 1 = a.stmt#
+TRUE
+1000
+1 - With Assign
+assign a;
+Select BOOLEAN with a.stmt# = a.stmt#
+TRUE
+1000
+1 - With Variable
+variable v;
+Select BOOLEAN with v.varName = "eVar"
+TRUE
+1000
+1 - With Variable
+variable v;
+Select BOOLEAN with "eVar" = v.varName
+TRUE
+1000
+1 - With Variable
+variable v;
+Select BOOLEAN with v.varName = v.varName
+TRUE
+1000
+1 - With Constant
+constant c;
+Select BOOLEAN with c.value = 2
+TRUE
+1000
+1 - With Constant
+constant c;
+Select BOOLEAN with 2 = c.value
+TRUE
+1000
+1 - With Constant
+constant c;
+Select BOOLEAN with c.value = c.value
+TRUE
+1000
+1 - With ProgLine
+prog_line n;
+Select BOOLEAN with n = 25
+TRUE
+1000
+1 - With ProgLine
+prog_line n;
+Select BOOLEAN with 25 = n
+TRUE
+1000
+1 - With ProgLine
+prog_line n;
+Select BOOLEAN with n = n
+TRUE
+1000
+1 - With Procedure
+procedure p;
+Select BOOLEAN with p.procName = "aProc"
+TRUE
+1000
+1 - With Procedure
+procedure p;
+Select BOOLEAN with "aProc" = p.procName
+TRUE
+1000
+1 - With Procedure
+procedure p;
+Select BOOLEAN with p.procName = p.procName
+TRUE
+1000

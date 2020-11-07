@@ -1,5 +1,0 @@
-1 - Assign, While and If pattern with same variable name
-variable v1, v2, v3; assign a; while w; if i;
-Select <v1, w> pattern a (v1, _) and w (v2, _) and i (v3, _, _) with v1.varName = v2.varName and v2.varName = v3.varName
-diamond 16, gold 16, redstone 16
-5000

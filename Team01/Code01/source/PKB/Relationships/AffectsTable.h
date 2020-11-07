@@ -5,7 +5,6 @@
 #include <queue>
 
 #include "../../AbstractDataTypes.h"
-#include "../DesignEntities/AssignTable.h"
 #include "ModifiesTable.h"
 #include "UsesTable.h"
 #include "StatementTypeTable.h"

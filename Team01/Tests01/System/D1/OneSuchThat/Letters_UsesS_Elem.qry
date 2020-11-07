@@ -1,0 +1,180 @@
+1 - UsesS
+constant c;
+Select c such that Uses(1, "aVar")
+1,2,3
+1000
+1 - UsesS
+constant c;
+Select c such that Uses(4, "bVar")
+none
+1000
+1 - UsesS
+constant c;
+Select c such that Uses(1, _)
+1,2,3
+1000
+1 - UsesS
+variable v;
+Select v such that Uses(1, v)
+aVar,bVar,cVar,dVar,eVar
+1000
+1 - UsesS Statement
+stmt s;
+Select s such that Uses(s, "aVar")
+1,11,12,15,17,2,21,25,4,7
+1000
+1 - UsesS Statement
+stmt s;
+Select s such that Uses(s, _)
+1,10,11,12,14,15,16,17,18,19,2,21,22,24,25,3,4,5,7,8,9
+1000
+1 - UsesS Statement
+stmt s; variable v;
+Select s such that Uses(s, v)
+1,10,11,12,14,15,16,17,18,19,2,21,22,24,25,3,4,5,7,8,9
+1000
+1 - UsesS Statement
+stmt s; variable v;
+Select v such that Uses(s, v)
+aVar,bVar,cVar,dVar,eVar
+1000
+1 - UsesS Read
+read r;
+Select r such that Uses(r, "aVar")
+none
+1000
+1 - UsesS Read
+read r;
+Select r such that Uses(r, _)
+none
+1000
+1 - UsesS Read
+read r; variable v;
+Select r such that Uses(r, v)
+none
+1000
+1 - UsesS Read
+read r; variable v;
+Select v such that Uses(r, v)
+none
+1000
+1 - UsesS Print
+print p;
+Select p such that Uses(p, "aVar")
+12
+1000
+1 - UsesS Print
+print p;
+Select p such that Uses(p, _)
+10,12,18,24,5,8
+1000
+1 - UsesS Print
+print p; variable v;
+Select p such that Uses(p, v)
+10,12,18,24,5,8
+1000
+1 - UsesS Print
+print p; variable v;
+Select v such that Uses(p, v)
+aVar,cVar,dVar,eVar
+1000
+1 - UsesS Call
+call c;
+Select c such that Uses(c, "cVar")
+11,21,7
+1000
+1 - UsesS Call
+call c;
+Select c such that Uses(c, _)
+11,21,7
+1000
+1 - UsesS Call
+call c; variable v;
+Select c such that Uses(c, v)
+11,21,7
+1000
+1 - UsesS Call
+call c; variable v;
+Select v such that Uses(c, v)
+aVar,bVar,cVar,dVar,eVar
+1000
+1 - UsesS While
+while w;
+Select w such that Uses(w, "aVar")
+15,4
+1000
+1 - UsesS While
+while w;
+Select w such that Uses(w, _)
+15,4
+1000
+1 - UsesS While
+while w; variable v;
+Select w such that Uses(w, v)
+15,4
+1000
+1 - UsesS While
+while w; variable v;
+Select v such that Uses(w, v)
+aVar,bVar,cVar,dVar,eVar
+1000
+1 - UsesS If
+if i;
+Select i such that Uses(i, "cVar")
+2
+1000
+1 - UsesS If
+if i;
+Select i such that Uses(i, _)
+17,2
+1000
+1 - UsesS If
+if i; variable v;
+Select i such that Uses(i, v)
+17,2
+1000
+1 - UsesS If
+if i; variable v;
+Select v such that Uses(i, v)
+aVar,bVar,cVar,dVar,eVar
+1000
+1 - UsesS Assign
+assign a;
+Select a such that Uses(a, "aVar")
+1,25
+1000
+1 - UsesS Assign
+assign a;
+Select a such that Uses(a, _)
+1,14,16,19,22,25,3,9
+1000
+1 - UsesS Assign
+assign a; variable v;
+Select a such that Uses(a, v)
+1,14,16,19,22,25,3,9
+1000
+1 - UsesS Assign
+assign a; variable v;
+Select v such that Uses(a, v)
+aVar,bVar,cVar,dVar,eVar
+1000
+1 - UsesS ProgLine
+prog_line n;
+Select n such that Uses(n, "aVar")
+1,11,12,15,17,2,21,25,4,7
+1000
+1 - UsesS ProgLine
+prog_line n;
+Select n such that Uses(n, _)
+1,10,11,12,14,15,16,17,18,19,2,21,22,24,25,3,4,5,7,8,9
+1000
+1 - UsesS ProgLine
+prog_line n; variable v;
+Select n such that Uses(n, v)
+1,10,11,12,14,15,16,17,18,19,2,21,22,24,25,3,4,5,7,8,9
+1000
+1 - UsesS ProgLine
+prog_line n; variable v;
+Select v such that Uses(n, v)
+aVar,bVar,cVar,dVar,eVar
+1000

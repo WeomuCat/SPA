@@ -3,8 +3,9 @@
 
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "../source/QueryPreProcessor.h"
-#include "../source/QueryNode.h"
+
+#include "../source/QP/QueryPreProcessor.h"
+#include "../source/QP/QueryNode.h"
 #include "../source/PKB/ASTNode/ExpressionNode.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -1071,6 +1072,7 @@ namespace IntegrationTesting
 			CLAUSES c9 = "Select v pattern a(v, \"3 + b / ( c - d )\")";
 			CLAUSES c10 = "Select v pattern a(v, \"3+bark/    (c-d)\")";
 			CLAUSES c11 = "Select v pattern a(v, \"a + (c + d) + e\")";
+			CLAUSES c12 = "Select v pattern a (\"charmander\", _)";
 
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
 			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
@@ -1083,6 +1085,7 @@ namespace IntegrationTesting
 			PROCESSED_CLAUSES proc_c9 = qpp.preProcessClauses(proc_s, c9);
 			PROCESSED_CLAUSES proc_c10 = qpp.preProcessClauses(proc_s, c10);
 			PROCESSED_CLAUSES proc_c11 = qpp.preProcessClauses(proc_s, c11);
+			PROCESSED_CLAUSES proc_c12 = qpp.preProcessClauses(proc_s, c12);
 
 			Assert::IsTrue(proc_c1.getChildren()[1].getNodeType() == QueryNodeType::pattern);
 			Assert::IsTrue(proc_c1.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
@@ -1232,6 +1235,14 @@ namespace IntegrationTesting
 			Assert::IsTrue(expr_node_c11_3->getExpressionType() == ExpressionTypeEnum::plus);
 			Assert::IsTrue(expr_node_c11_3->getLeftAstNode()->getNodeType() == NodeTypeEnum::variableNode);
 			Assert::IsTrue(expr_node_c11_3->getRightAstNode()->getNodeType() == NodeTypeEnum::variableNode);
+
+			Assert::IsTrue(proc_c12.getChildren()[1].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[0].getString().compare("a") == 0);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[1].getNodeType() == QueryNodeType::ident);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[1].getString().compare("charmander") == 0);
+			Assert::IsTrue(proc_c12.getChildren()[1].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
 		}
 
 		TEST_METHOD(preProcessClauses_Pattern_Assign_Complex_Valid_Success) {
@@ -1402,6 +1413,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(proc_c3.getChildren()[1].getChildren()[1].getString().compare("hello") == 0);
 			Assert::IsTrue(proc_c3.getChildren()[1].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
 		}
+
 		TEST_METHOD(preProcessClauses_Pattern_Assign_Invalid_Success) {
 			QueryPreProcessor qpp = QueryPreProcessor();
 
@@ -1644,18 +1656,20 @@ namespace IntegrationTesting
 		TEST_METHOD(preProcessClauses_Select_Bool_Invalid_Success) {
 			QueryPreProcessor qpp = QueryPreProcessor();
 
-			DECLARATIONS d = "while w; variable v; stmt s;";
+			DECLARATIONS d = "while w; variable v; stmt s; if ifs;";
 			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
 
 			CLAUSES c1 = "Select BOOLEAN such that Uses(a, v)";
 			CLAUSES c2 = "Select BOOLEAN such that Parent(v, _)";
 			CLAUSES c3 = "Select BOOLEAN pattern w(, _)";
 			CLAUSES c4 = "Select BOOLEAN pattern w(s, _)";
+			CLAUSES c5 = "Select BOOLEAN pattern ifs(s, _, _)";
 
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
 			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
 			PROCESSED_CLAUSES proc_c3 = qpp.preProcessClauses(proc_s, c3);
 			PROCESSED_CLAUSES proc_c4 = qpp.preProcessClauses(proc_s, c4);
+			PROCESSED_CLAUSES proc_c5 = qpp.preProcessClauses(proc_s, c5);
 
 			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c1.getChildren().size() == 0);
@@ -1668,6 +1682,9 @@ namespace IntegrationTesting
 
 			Assert::IsTrue(proc_c4.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c4.getChildren()[0].getNodeType() == QueryNodeType::boolean);
+
+			Assert::IsTrue(proc_c5.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c5.getChildren()[0].getNodeType() == QueryNodeType::boolean);
 		}
 
 		TEST_METHOD(preProcessClauses_Multiple_SuchThat_Valid_Success) {
@@ -2029,11 +2046,13 @@ namespace IntegrationTesting
 			DECLARATIONS d = "assign a; variable v; if ifs; while w;";
 			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
 
-			CLAUSES c1 = "Select v pattern a(v, _) and pattern ifs(_, _, _)";
-			CLAUSES c2 = "Select v pattern a(v, \"3 + b / ( c - d )\") and pattern ifs(v, _, _) and pattern w(v, _)";
+			CLAUSES c1 = "Select v pattern a(v, _) and ifs(_, _, _)";
+			CLAUSES c2 = "Select v pattern a(v, \"3 + b / ( c - d )\") and ifs(v, _, _) and w(v, _)";
+			CLAUSES c3 = "Select a pattern a(_, _) and w(_, _)";
 
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
 			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
+			PROCESSED_CLAUSES proc_c3 = qpp.preProcessClauses(proc_s, c3);
 
 			// c1 pattern-assign
 			Assert::IsTrue(proc_c1.getChildren()[1].getNodeType() == QueryNodeType::pattern);
@@ -2091,6 +2110,21 @@ namespace IntegrationTesting
 			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[1].getSynonymType() == QuerySynonymType::variable);
 			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[1].getString().compare("v") == 0);
 			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
+
+			// c1 pattern-assign
+			Assert::IsTrue(proc_c3.getChildren()[1].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c3.getChildren()[1].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c3.getChildren()[1].getChildren()[0].getSynonymType() == QuerySynonymType::assign);
+			Assert::IsTrue(proc_c3.getChildren()[1].getChildren()[0].getString().compare("a") == 0);
+			Assert::IsTrue(proc_c3.getChildren()[1].getChildren()[1].getNodeType() == QueryNodeType::wild_card);
+			Assert::IsTrue(proc_c3.getChildren()[1].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
+			// c1 pattern-assign
+			Assert::IsTrue(proc_c3.getChildren()[2].getNodeType() == QueryNodeType::pattern);
+			Assert::IsTrue(proc_c3.getChildren()[2].getChildren()[0].getNodeType() == QueryNodeType::synonym);
+			Assert::IsTrue(proc_c3.getChildren()[2].getChildren()[0].getSynonymType() == QuerySynonymType::whiles);
+			Assert::IsTrue(proc_c3.getChildren()[2].getChildren()[0].getString().compare("w") == 0);
+			Assert::IsTrue(proc_c3.getChildren()[2].getChildren()[1].getNodeType() == QueryNodeType::wild_card);
+			Assert::IsTrue(proc_c3.getChildren()[2].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
 		}
 
 		TEST_METHOD(preProcessClauses_And_With_Valid_Success) {
@@ -2142,6 +2176,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[1].getString().compare("s") == 0);
 			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[1].getAttr() == AttributeType::stmtNum);
 		}
+
 		TEST_METHOD(preProcessClauses_And_Invalid_Success) {
 			QueryPreProcessor qpp = QueryPreProcessor();
 
@@ -2149,7 +2184,7 @@ namespace IntegrationTesting
 			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
 
 			CLAUSES c1 = "Select s such that Follows(1, s) and such that Follows*(_, s)";
-			CLAUSES c2 = "Select s pattern a(v, _) and pattern ifs(_, _, )";
+			CLAUSES c2 = "Select s pattern a(v, _) and pattern ifs(_, _, _)";
 			CLAUSES c3 = "Select a such that Parent* (w, a) and Modifies (a, “x”) and such that Next* (1, a)";
 			CLAUSES c4 = "Select a such that Parent* (w, a) and pattern a (“x”, _)";
 			CLAUSES c5 = "Select a pattern a (“x”, _) and Next* (1, a)";

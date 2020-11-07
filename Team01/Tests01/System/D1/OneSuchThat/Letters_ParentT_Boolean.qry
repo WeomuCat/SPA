@@ -1,0 +1,265 @@
+1 - Parent* Integer
+constant c;
+Select BOOLEAN such that Parent*(2, 3)
+TRUE
+1000
+1 - Parent* Integer
+constant c;
+Select BOOLEAN such that Parent*(1, 2)
+FALSE
+1000
+1 - Parent* Wildcard
+constant c;
+Select BOOLEAN such that Parent*(2, _)
+TRUE
+1000
+1 - Parent* Wildcard
+constant c;
+Select BOOLEAN such that Parent*(_, 2)
+FALSE
+1000
+1 - Parent* Wildcard
+constant c;
+Select BOOLEAN such that Parent*(_, _)
+TRUE
+1000
+1 - Parent* Statement
+stmt s;
+Select BOOLEAN such that Parent*(2, s)
+TRUE
+1000
+1 - Parent* Statement
+stmt s;
+Select BOOLEAN such that Parent*(s, 2)
+FALSE
+1000
+1 - Parent* Statement
+stmt s;
+Select BOOLEAN such that Parent*(s, s)
+FALSE
+1000
+1 - Parent* Statement
+stmt s;
+Select BOOLEAN such that Parent*(s, _)
+TRUE
+1000
+1 - Parent* Statement
+stmt s;
+Select BOOLEAN such that Parent*(_, s)
+TRUE
+1000
+1 - Parent* Statement
+stmt s1, s2;
+Select BOOLEAN such that Parent*(s1, s2)
+TRUE
+1000
+1 - Parent* Read
+read r;
+Select BOOLEAN such that Parent*(2, r)
+TRUE
+1000
+1 - Parent* Read
+read r;
+Select BOOLEAN such that Parent*(r, 2)
+FALSE
+1000
+1 - Parent* Read
+read r;
+Select BOOLEAN such that Parent*(r, r)
+FALSE
+1000
+1 - Parent* Read
+read r;
+Select BOOLEAN such that Parent*(r, _)
+FALSE
+1000
+1 - Parent* Read
+read r;
+Select BOOLEAN such that Parent*(_, r)
+TRUE
+1000
+1 - Parent* Read
+read r1, r2;
+Select BOOLEAN such that Parent*(r1, r2)
+FALSE
+1000
+1 - Parent* Print
+print p;
+Select BOOLEAN such that Parent*(2, p)
+TRUE
+1000
+1 - Parent* Print
+print p;
+Select BOOLEAN such that Parent*(p, 2)
+FALSE
+1000
+1 - Parent* Print
+print p;
+Select BOOLEAN such that Parent*(p, p)
+FALSE
+1000
+1 - Parent* Print
+print p;
+Select BOOLEAN such that Parent*(p, _)
+FALSE
+1000
+1 - Parent* Print
+print p;
+Select BOOLEAN such that Parent*(_, p)
+TRUE
+1000
+1 - Parent* Print
+print p1, p2;
+Select BOOLEAN such that Parent*(p1, p2)
+FALSE
+1000
+1 - Parent* Call
+call c;
+Select BOOLEAN such that Parent*(2, c)
+TRUE
+1000
+1 - Parent* Call
+call c;
+Select BOOLEAN such that Parent*(c, 2)
+FALSE
+1000
+1 - Parent* Call
+call c;
+Select BOOLEAN such that Parent*(c, c)
+FALSE
+1000
+1 - Parent* Call
+call c;
+Select BOOLEAN such that Parent*(c, _)
+FALSE
+1000
+1 - Parent* Call
+call c;
+Select BOOLEAN such that Parent*(_, c)
+TRUE
+1000
+1 - Parent* Call
+call c1, c2;
+Select BOOLEAN such that Parent*(c1, c2)
+FALSE
+1000
+1 - Parent* While
+while w;
+Select BOOLEAN such that Parent*(2, w)
+TRUE
+1000
+1 - Parent* While
+while w;
+Select BOOLEAN such that Parent*(w, 2)
+FALSE
+1000
+1 - Parent* While
+while w;
+Select BOOLEAN such that Parent*(w, w)
+FALSE
+1000
+1 - Parent* While
+while w;
+Select BOOLEAN such that Parent*(w, _)
+TRUE
+1000
+1 - Parent* While
+while w;
+Select BOOLEAN such that Parent*(_, w)
+TRUE
+1000
+1 - Parent* While
+while w1, w2;
+Select BOOLEAN such that Parent*(w1, w2)
+FALSE
+1000
+1 - Parent* If
+if i;
+Select BOOLEAN such that Parent*(15, i)
+TRUE
+1000
+1 - Parent* If
+if i;
+Select BOOLEAN such that Parent*(i, 15)
+FALSE
+1000
+1 - Parent* If
+if i;
+Select BOOLEAN such that Parent*(i, i)
+FALSE
+1000
+1 - Parent* If
+if i;
+Select BOOLEAN such that Parent*(i, _)
+TRUE
+1000
+1 - Parent* If
+if i;
+Select BOOLEAN such that Parent*(_, i)
+TRUE
+1000
+1 - Parent* If
+if i1, i2;
+Select BOOLEAN such that Parent*(i1, i2)
+FALSE
+1000
+1 - Parent* Assign
+assign a;
+Select BOOLEAN such that Parent*(15, a)
+TRUE
+1000
+1 - Parent* Assign
+assign a;
+Select BOOLEAN such that Parent*(a, 15)
+FALSE
+1000
+1 - Parent* Assign
+assign a;
+Select BOOLEAN such that Parent*(a, a)
+FALSE
+1000
+1 - Parent* Assign
+assign a;
+Select BOOLEAN such that Parent*(a, _)
+FALSE
+1000
+1 - Parent* Assign
+assign a;
+Select BOOLEAN such that Parent*(_, a)
+TRUE
+1000
+1 - Parent* Assign
+assign a1, a2;
+Select BOOLEAN such that Parent*(a1, a2)
+FALSE
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select BOOLEAN such that Parent*(2, n)
+TRUE
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select BOOLEAN such that Parent*(n, 2)
+FALSE
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select BOOLEAN such that Parent*(n, n)
+FALSE
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select BOOLEAN such that Parent*(n, _)
+TRUE
+1000
+1 - Parent* ProgLine
+prog_line n;
+Select BOOLEAN such that Parent*(_, n)
+TRUE
+1000
+1 - Parent* ProgLine
+prog_line n1, n2;
+Select BOOLEAN such that Parent*(n1, n2)
+TRUE
+1000

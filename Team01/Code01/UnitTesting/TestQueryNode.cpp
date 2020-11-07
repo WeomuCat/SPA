@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "../source/QueryNode.h"
-#include "../source/QueryNodeType.h"
+
+#include "../source/QP/QueryNode.h"
+#include "../source/QP/QueryNodeType.h"
 #include "../source/PKB/ASTNode/ConstantNode.h"
 #include "../source/PKB/ASTNode/ExpressionNode.h"
 #include "../source/PKB/ASTNode/AssignNode.h"

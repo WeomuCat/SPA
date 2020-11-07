@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "Pattern.h"
+
+#include "../source/QP/Pattern.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
