@@ -1412,6 +1412,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(proc_c3.getChildren()[1].getChildren()[1].getString().compare("hello") == 0);
 			Assert::IsTrue(proc_c3.getChildren()[1].getChildren()[2].getNodeType() == QueryNodeType::wild_card);
 		}
+
 		TEST_METHOD(preProcessClauses_Pattern_Assign_Invalid_Success) {
 			QueryPreProcessor qpp = QueryPreProcessor();
 
@@ -1654,18 +1655,20 @@ namespace IntegrationTesting
 		TEST_METHOD(preProcessClauses_Select_Bool_Invalid_Success) {
 			QueryPreProcessor qpp = QueryPreProcessor();
 
-			DECLARATIONS d = "while w; variable v; stmt s;";
+			DECLARATIONS d = "while w; variable v; stmt s; if ifs;";
 			PROCESSED_SYNONYMS proc_s = qpp.preProcessSynonyms(d);
 
 			CLAUSES c1 = "Select BOOLEAN such that Uses(a, v)";
 			CLAUSES c2 = "Select BOOLEAN such that Parent(v, _)";
 			CLAUSES c3 = "Select BOOLEAN pattern w(, _)";
 			CLAUSES c4 = "Select BOOLEAN pattern w(s, _)";
+			CLAUSES c5 = "Select BOOLEAN pattern ifs(s, _, _)";
 
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
 			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
 			PROCESSED_CLAUSES proc_c3 = qpp.preProcessClauses(proc_s, c3);
 			PROCESSED_CLAUSES proc_c4 = qpp.preProcessClauses(proc_s, c4);
+			PROCESSED_CLAUSES proc_c5 = qpp.preProcessClauses(proc_s, c5);
 
 			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c1.getChildren().size() == 0);
@@ -1678,6 +1681,9 @@ namespace IntegrationTesting
 
 			Assert::IsTrue(proc_c4.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c4.getChildren()[0].getNodeType() == QueryNodeType::boolean);
+
+			Assert::IsTrue(proc_c5.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c5.getChildren()[0].getNodeType() == QueryNodeType::boolean);
 		}
 
 		TEST_METHOD(preProcessClauses_Multiple_SuchThat_Valid_Success) {
@@ -2169,6 +2175,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[1].getString().compare("s") == 0);
 			Assert::IsTrue(proc_c2.getChildren()[3].getChildren()[1].getAttr() == AttributeType::stmtNum);
 		}
+
 		TEST_METHOD(preProcessClauses_And_Invalid_Success) {
 			QueryPreProcessor qpp = QueryPreProcessor();
 

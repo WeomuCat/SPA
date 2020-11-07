@@ -601,7 +601,7 @@ QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE
 		else if (std::regex_match(args[0], name_format_) && !QueryValidator::isSynonymDeclared(proc_s, args[0])) {
 			is_syntax_valid = false;
 		}
-		else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::ifs && !std::regex_match(args[0], clause_pattern_if_format_)) {
+		else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::ifs && std::regex_match(args[0], clause_pattern_if_format_)) {
 			is_syntax_valid = false;
 		}
 		else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::whiles && std::regex_match(args[0], clause_pattern_while_format_)) {
