@@ -4,7 +4,7 @@
 #include "QueryNodeType.h"
 #include "QuerySynonymType.h"
 #include "ResultList.h"
-#include "./PKB/PKB.h"
+#include "../PKB/PKB.h"
 
 class Pattern {
 public:

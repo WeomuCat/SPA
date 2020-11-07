@@ -7,7 +7,7 @@
 #include "QueryNodeType.h"
 #include "QuerySynonymType.h"
 #include "ResultList.h"
-#include "./PKB/PKB.h"
+#include "../PKB/PKB.h"
 
 class Relationship {
 	/*Overview: This class handles the logic of such that relationships of 2 arguments. */

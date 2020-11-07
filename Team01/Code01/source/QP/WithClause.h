@@ -2,8 +2,8 @@
 
 #include <unordered_map>
 
-#include "./PKB/PKB.h"
-#include "./PKB/PKBBuilder.h"
+#include "../PKB/PKB.h"
+#include "../PKB/PKBBuilder.h"
 #include "QueryNode.h"
 #include "QueryNodeType.h"
 #include "QuerySynonymType.h"

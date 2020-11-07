@@ -2,7 +2,7 @@
 
 #include "AttributeType.h"
 #include "AttrRefManager.h"
-#include "./PKB/PKB.h"
+#include "../PKB/PKB.h"
 #include "Pattern.h"
 #include "QueryEvaluatorReturnType.h"
 #include "QueryNode.h"

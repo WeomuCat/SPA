@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "GUIWrapper.h"
-#include "../source/Parser.h"
+#include "../source/Parser/Parser.h"
 #include "../source/PKB/DesignEntities/AssignTable.cpp"
 #include "../source/PKB/DesignEntities/ConstantTable.cpp"
 #include "../source/PKB/DesignEntities/IfTable.cpp"
@@ -15,14 +15,14 @@
 #include "../source/PKB/Relationships/ParentTable.cpp"
 #include "../source/PKB/Relationships/UsesTable.cpp"
 #include "../source/PKB/Relationships/ModifiesTable.cpp"
-#include "../source/QueryNodeContent.cpp"
-#include "../source/QueryNode.cpp"
-#include "../source/QueryProcessor.cpp"
-#include "../source/QueryEvaluator.cpp"
-#include "../source/ResultList.cpp"
-#include "../source/ResultListManager.h"
-#include "../source/PKB.cpp"
-#include "../source/PKBBuilder.cpp"
+#include "../source/QP/QueryNodeContent.cpp"
+#include "../source/QP/QueryNode.cpp"
+#include "../source/QP/QueryProcessor.cpp"
+#include "../source/QP/QueryEvaluator.cpp"
+#include "../source/QP/ResultList.cpp"
+#include "../source/QP/ResultListManager.h"
+#include "../source/PKB/PKB.cpp"
+#include "../source/PKB/PKBBuilder.cpp"
 #include "../source/PKB/ASTNode/VariableNode.cpp"
 
 
