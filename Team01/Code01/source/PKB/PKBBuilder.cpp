@@ -92,6 +92,18 @@ void PKBBuilder::setProgramNode(PROGRAM_NODE_PTR program_node_ptr) {
 }
 
 PKB PKBBuilder::build() {
+    assign_table_.preCompute();
+    call_table_.preCompute();
+    constant_table_.preCompute();
+    if_table_.preCompute();
+    print_table_.preCompute();
+    proc_table_.preCompute();
+    read_table_.preCompute();
+    stmt_table_.preCompute();
+    try_table_.preCompute();
+    var_table_.preCompute();
+    while_table_.preCompute();
+
     follows_table_.preComputeTransitive();
     parent_table_.preComputeTransitive();
     calls_table_.preComputeTransitive();
