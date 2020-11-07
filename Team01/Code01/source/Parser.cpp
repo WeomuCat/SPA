@@ -213,7 +213,7 @@
 		}
 		
 		
-		//Add Uses & Modifies relationships that are a result of Call to their respective tables
+		//Set up Call Graph
 		std::set<PROC_NAME> called_procs;
 		std::unordered_map<PROC_NAME, std::set<PROC_NAME>> proc_call_graph;
 		//For each proc create a proc,vector pair
@@ -235,9 +235,19 @@
 		//Topo sort Procedures
 		std::deque<PROC_NAME> sorted_procs;
 		
-		topoSort(proc_call_graph, sorted_procs);
+		//Check for Calls to Non-Existent Procedures
 		
-		//Add Uses & Modifies relationships that result from Calls
+		topoSort(proc_call_graph, sorted_procs);
+		if (hasNonExistentProcedureCalls()) {
+			throw "Call to Non-Existent Procedure made.";		
+		}
+		
+		//Check for Cyclic or Recursive Calls
+		if (hasCyclicRecursiveCalls(proc_call_graph, sorted_procs)) {
+			throw "Cyclic or Recursive Calls made.";
+		}
+		
+		//Add Uses & Modifies relationships that are a result of Call to their respective tables
 		while (!sorted_procs.empty()) {
 			PROC_NAME caller_proc_name = sorted_procs.front();
 			sorted_procs.pop_front();
@@ -2852,3 +2862,69 @@
 		}
 	}
 	//===== END OF HELPER FUNCTIONS FOR ADDING NEXT R/S =====
+
+	//===== START OF HELPER FUNCTIONS FOR VALID CALLS CHECKING ======
+	bool Parser::hasNonExistentProcedureCalls() {
+		
+		std::set<PROC_NAME> proc_name_set;
+		//Get a set of procedure names
+		for (PROC_NODE_PTR proc_ptr : this->pkb_builder_.getProcedures()) {
+			proc_name_set.insert(proc_ptr->getProcedureName());
+		}
+		
+		//Loop through all call nodes
+		for (CALL_NODE_PTR call_ptr : this->pkb_builder_.getCalls()) {
+			//Check if call nodes 
+			if (proc_name_set.count(call_ptr->getCalleeProcedureName()) < 1) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool Parser::hasCyclicRecursiveCalls(std::unordered_map<PROC_NAME, std::set<PROC_NAME>> &proc_call_graph,
+		std::deque<PROC_NAME> &sorted_procs) {
+
+		std::set<PROC_NAME> visited_set;
+		std::set<PROC_NAME> checked_nodes_set;
+
+		//For each node in topologically sorted nodes
+		for (auto proc_iter = sorted_procs.rbegin(); proc_iter != sorted_procs.rend(); ++proc_iter) {
+			if (checked_nodes_set.count(*proc_iter) < 1) {
+
+				bool hasCycles = hasCyclesDFS(*proc_iter, proc_call_graph, visited_set, checked_nodes_set);
+
+				if (hasCycles) {
+					return true;
+				} else {
+					//Populate checked_node_set
+					checked_nodes_set.insert(visited_set.begin(), visited_set.end());
+					//Flush visited_set
+					visited_set.clear();
+				}
+			}
+		}
+
+		return false;
+	}
+
+	bool Parser::hasCyclesDFS(PROC_NAME proc_name, std::unordered_map<PROC_NAME, std::set<PROC_NAME>>& proc_call_graph
+		, std::set<PROC_NAME> &visited_set, std::set<PROC_NAME>& checked_nodes_set) {
+		std::cout << proc_name << "\n"; 
+
+		if (visited_set.count(proc_name) > 0) {
+			return true;
+		}
+
+		visited_set.insert(proc_name);
+		for (auto callee_proc : proc_call_graph[proc_name]) {
+			if (hasCyclesDFS(callee_proc, proc_call_graph, visited_set, checked_nodes_set)) {
+				return true;
+			}
+		}
+		visited_set.erase(proc_name);
+		checked_nodes_set.insert(proc_name);
+		return false;
+	}
+
+	//===== END OF HELPER FUNCTIONS FOR VALID CALLS CHECKING =====
