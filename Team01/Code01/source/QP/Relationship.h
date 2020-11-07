@@ -1,13 +1,13 @@
 #pragma once
 
+#include <iostream>
+#include <unordered_map>
+
 #include "QueryNode.h"
 #include "QueryNodeType.h"
 #include "QuerySynonymType.h"
 #include "ResultList.h"
-#include "PKB.h"
-
-#include <iostream>
-#include <unordered_map>
+#include "./PKB/PKB.h"
 
 class Relationship {
 	/*Overview: This class handles the logic of such that relationships of 2 arguments. */

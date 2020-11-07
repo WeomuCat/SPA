@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "../source/QueryEvaluator.h"
-#include "../source/QueryNode.h"
-#include "../source/QueryNodeType.h"
+#include "../source/QP/QueryEvaluator.h"
+#include "../source/QP/QueryNode.h"
+#include "../source/QP/QueryNodeType.h"
 #include "../source/PKB/ASTNode/PrintNode.h"
 #include "../source/PKB/ASTNode/StatementNode.h"
 #include "../source/PKB/ASTNode/VariableNode.h"
-#include "../source/PKBBuilder.h"
-#include "../source/PKB.h"
+#include "../source/PKB/PKBBuilder.h"
+#include "../source/PKB/PKB.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

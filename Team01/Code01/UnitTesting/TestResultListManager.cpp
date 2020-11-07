@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "../source/ResultList.h"
-#include "../source/ResultListManager.h"
+#include "../source/QP/ResultList.h"
+#include "../source/QP/ResultListManager.h"
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

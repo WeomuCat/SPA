@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "QueryValidator.h"
+#include "../source/QP/QueryValidator.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

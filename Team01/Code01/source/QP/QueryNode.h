@@ -1,12 +1,11 @@
 #pragma once
 
-#include "QueryNodeType.h"
-#include "QuerySynonymType.h"
-#include "QueryNodeContent.h"
-
 #include <string>
 #include <vector>
 
+#include "QueryNodeType.h"
+#include "QuerySynonymType.h"
+#include "QueryNodeContent.h"
 
 class QueryNode {
 private:

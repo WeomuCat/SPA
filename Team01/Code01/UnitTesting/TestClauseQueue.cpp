@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "../source/ClauseQueue.h"
+#include "../source/QP/ClauseQueue.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

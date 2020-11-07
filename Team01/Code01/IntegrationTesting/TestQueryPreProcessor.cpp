@@ -3,8 +3,9 @@
 
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "../source/QueryPreProcessor.h"
-#include "../source/QueryNode.h"
+
+#include "../source/QP/QueryPreProcessor.h"
+#include "../source/QP/QueryNode.h"
 #include "../source/PKB/ASTNode/ExpressionNode.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

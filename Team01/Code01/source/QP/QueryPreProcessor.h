@@ -1,10 +1,19 @@
 #pragma once
 
+#include <queue>
+#include <regex>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
+#include "./PKB/ASTNode/ConstantNode.h"
+#include "./PKB/ASTNode/VariableNode.h"
+#include "./PKB/ASTNode/ExpressionTypeEnum.h"
+#include "./PKB/ASTNode/ExpressionNode.h"
 #include "QueryNode.h"
+#include "ClauseQueue.h"
+#include "QueryNodeType.h"
 #include "QueryValidator.h"
 
 typedef std::vector<std::string> SPLIT_QUERY;

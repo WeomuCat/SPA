@@ -1,7 +1,6 @@
 #include <regex>
 
 #include "QueryNode.h"
-#include "QueryNodeType.h"
 #include <iterator>
 
 QueryNode::QueryNode() {
