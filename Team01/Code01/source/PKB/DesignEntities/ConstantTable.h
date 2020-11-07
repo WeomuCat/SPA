@@ -22,4 +22,12 @@ public:
     Description: Returns a CONSTANT_VALUE_LIST of the CONSTANT_NODE_PTR from the table.
     */
     CONSTANT_VALUE_LIST getConstantValueList();
+
+    /*
+    Description: Precomputes the necessary information within the table.
+    */
+    void preCompute();
+
+private:
+    CONSTANT_VALUE_LIST constant_num_list_;
 };

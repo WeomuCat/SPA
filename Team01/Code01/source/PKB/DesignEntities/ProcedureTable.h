@@ -22,4 +22,12 @@ public:
     Description: Returns a PROC_NAME_LIST of the PROC_NODE_PTR from the table.
     */
     PROC_NAME_LIST getProcedureNameList();
+
+    /*
+    Description: Precomputes the necessary information within the table.
+    */  
+    void preCompute();
+
+private:
+    PROC_NAME_LIST proc_name_list_;
 };

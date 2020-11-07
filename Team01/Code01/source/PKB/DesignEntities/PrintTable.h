@@ -27,4 +27,13 @@ public:
     Description: Returns a VAR_NAME_LIST of the VAR_NODE_PTR of each PRINT_NODE_PTR from the table.
     */
     VAR_NAME_LIST getPrintVarNameList();
+
+    /*
+    Description: Precomputes the necessary information within the table.
+    */
+    void preCompute();
+
+private:
+    STMT_NUM_LIST stmt_num_list_;
+    VAR_NAME_LIST var_name_list_;
 };

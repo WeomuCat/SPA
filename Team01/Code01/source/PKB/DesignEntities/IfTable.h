@@ -22,4 +22,12 @@ public:
     Description: Returns a STMT_NUM_LIST of the IF_NODE_PTR from the table.
     */
     STMT_NUM_LIST getIfNumList();
+    
+    /*
+    Description: Precomputes the necessary information within the table.
+    */
+    void preCompute();
+
+private :
+    STMT_NUM_LIST stmt_num_list_;
 };

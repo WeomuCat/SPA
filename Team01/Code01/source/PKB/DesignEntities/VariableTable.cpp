@@ -10,10 +10,14 @@ VAR_NODE_PTR_LIST VariableTable::getVariableNodeList() {
 }
 
 VAR_NAME_LIST VariableTable::getVariableNameList() {
+    return var_name_list_;
+}
+
+void VariableTable::preCompute() {
     std::unordered_set<VAR_NAME> set;
     for (VAR_NODE_PTR n : nodes_) {
         VAR_NAME v = n.get()->getVariableName();
         set.insert(v);
     }
-    return VAR_NAME_LIST(set.begin(), set.end());
+    var_name_list_ = VAR_NAME_LIST(set.begin(), set.end());
 }

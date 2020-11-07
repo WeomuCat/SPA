@@ -27,4 +27,13 @@ public:
     Description: Returns a PROC_NAME_LIST of the PROC_NAME of each CALL_NODE_PTR from the table.
     */
     PROC_NAME_LIST getCallProcNameList();
+
+    /*
+    Description: Precomputes the necessary information within the table.
+    */
+    void preCompute();
+
+private:
+    STMT_NUM_LIST stmt_num_list_;
+    PROC_NAME_LIST proc_name_list_;
 };

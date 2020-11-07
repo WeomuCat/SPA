@@ -9,10 +9,14 @@ PROC_NODE_PTR_LIST ProcedureTable::getProcedureNodeList() {
 }
 
 PROC_NAME_LIST ProcedureTable::getProcedureNameList() {
+    return proc_name_list_;
+}
+
+void ProcedureTable::preCompute() {
     std::vector<PROC_NAME> result;
     for (PROC_NODE_PTR n : nodes_) {
         PROC_NAME p = n.get()->getProcedureName();
         result.push_back(p);
     }
-    return result;
+    proc_name_list_ = result;
 }
