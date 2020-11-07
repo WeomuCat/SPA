@@ -1,6 +1,3 @@
-#include <regex>
-#include <string>
-
 #include "QueryValidator.h"
 
 const std::regex name_format_("[a-zA-Z][a-zA-Z0-9]*");

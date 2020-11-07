@@ -1,7 +1,7 @@
 #pragma once
 
-#include "./PKB/ASTNode/ASTNode.h"
-#include "./AttributeType.h"
+#include "../PKB/ASTNode/ASTNode.h"
+#include "AttributeType.h"
 #include <string>
 
 class QueryNodeContent;

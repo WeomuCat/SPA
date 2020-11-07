@@ -4,8 +4,8 @@
 #include <string>
 #include <iostream>
 #include <list>
-#include "../../Code01/source/PKB.h"
-#include "../../Code01/source/PKBBuilder.h"
+#include "../../Code01/source/PKB/PKB.h"
+#include "../../Code01/source/PKB/PKBBuilder.h"
 
 
 class GUIWrapper {

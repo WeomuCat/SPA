@@ -1,9 +1,5 @@
 #pragma once
 
-#include "AttrRefManager.h"
-#include "ResultList.h"
-#include "QueryNode.h"
-
 #include <iostream>
 #include <vector>
 #include <map>
@@ -11,6 +7,9 @@
 #include <string>
 #include <iterator>
 
+#include "AttrRefManager.h"
+#include "ResultList.h"
+#include "QueryNode.h"
 
 class ResultListManager {
 public:

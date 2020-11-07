@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractDataTypes.h"
+#include "../AbstractDataTypes.h"
 #include "PKB.h"
 
 class PKBBuilder : public PKB {

@@ -94,12 +94,6 @@
     <ClCompile Include="..\source\ParserPrintTree.cpp">
       <Filter>Source\Parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\PKB.cpp">
-      <Filter>Source\PKB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKBBuilder.cpp">
-      <Filter>Source\PKB</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\QueryEvaluator.cpp">
       <Filter>Source\QP</Filter>
     </ClCompile>
@@ -117,9 +111,6 @@
     </ClCompile>
     <ClCompile Include="..\source\ResultList.cpp">
       <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>Source\PKB</Filter>
     </ClCompile>
     <ClCompile Include="..\source\PKB\Relationships\CallsTable.cpp">
       <Filter>Source\Relationship</Filter>
@@ -171,6 +162,12 @@
     </ClCompile>
     <ClCompile Include="..\source\PKB\Relationships\StatementTypeTable.cpp">
       <Filter>Source\Relationship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\PKB\PKB.cpp">
+      <Filter>Source\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\PKB\PKBBuilder.cpp">
+      <Filter>Source\PKB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -300,15 +297,6 @@
     <ClInclude Include="..\source\Parser.h">
       <Filter>Header\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\PKB.h">
-      <Filter>Header\PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKBBuilder.h">
-      <Filter>Header\PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB\Hashing.h">
-      <Filter>Header\PKB</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\PKB\Relationships\CallsTable.h">
       <Filter>Header\Relationship</Filter>
     </ClInclude>
@@ -332,9 +320,6 @@
     </ClInclude>
     <ClInclude Include="..\source\PKB\DesignEntities\DesignEntityTable.h">
       <Filter>Header\DesignEntity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AbstractDataTypes.h">
-      <Filter>Header\PKB</Filter>
     </ClInclude>
     <ClInclude Include="..\source\PKB\ASTNode\RelationTypeEnum.h">
       <Filter>Header\ASTNode</Filter>
@@ -374,6 +359,18 @@
     </ClInclude>
     <ClInclude Include="..\source\PKB\Relationships\StatementTypeEnum.h">
       <Filter>Header\Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\Hashing.h">
+      <Filter>Header\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\PKB.h">
+      <Filter>Header\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PKB\PKBBuilder.h">
+      <Filter>Header\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AbstractDataTypes.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

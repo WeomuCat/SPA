@@ -5,7 +5,7 @@
 #include <vector>
 #include <set>
 
-#include "PKB.h"
+#include "../PKB/PKB.h"
 #include "QuerySynonymType.h"
 #include "QueryNode.h"
 #include "ResultList.h"

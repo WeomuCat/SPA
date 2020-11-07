@@ -1,12 +1,4 @@
 #include "QueryProcessor.h"
-#include "QueryPreProcessor.h"
-#include "QueryEvaluator.h"
-#include "QueryNode.h"
-#include "QueryNodeType.h"
-#include "QuerySynonymType.h"
-
-#include <unordered_map>
-#include <string>
 
 QueryProcessor::QueryProcessor(PKB pkb) {
 	this->pkb = pkb;

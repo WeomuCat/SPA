@@ -9,11 +9,11 @@
 #include <set>
 #include <unordered_map>
 
-#include "PKB.h"
-#include "PKBBuilder.h"
+#include "../PKB/PKB.h"
+#include "../PKB/PKBBuilder.h"
+#include "../PKB/ASTNode/NodeTypeEnum.h"
+#include "../PKB/ASTNode/RelationNode.h"
 #include "Parser.h"
-#include "PKB/ASTNode/NodeTypeEnum.h"
-#include "PKB/ASTNode/RelationNode.h"
 
 
 	PKB Parser::parseFile(STRING filename) {

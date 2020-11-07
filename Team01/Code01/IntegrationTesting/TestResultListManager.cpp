@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "../source/PKB.h"
-#include "../source/PKBBuilder.h"
-#include "../source/ResultListManager.h"
-#include "../source/QueryNode.h"
-#include "../source/QuerySynonymType.h"
+#include "../source/PKB/PKB.h"
+#include "../source/PKB/PKBBuilder.h"
+#include "../source/QP/ResultListManager.h"
+#include "../source/QP/QueryNode.h"
+#include "../source/QP/QuerySynonymType.h"
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
