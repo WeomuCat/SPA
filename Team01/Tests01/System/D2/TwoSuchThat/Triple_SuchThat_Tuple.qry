@@ -1,0 +1,75 @@
+1 - Follows* and Parent
+stmt s1, s2;
+Select <s1, s2> such that Follows* (s1, s2) and Parent (9, s1)
+10 11, 10 12, 11 12
+5000
+2 - Modifies and Uses
+assign a; variable v;
+Select <a, v> such that Modifies (a, v) and Uses (a, v)
+10 hhh, 25 aaa, 31 fff
+5000
+3 - Uses and Calls
+procedure p1, p2;
+Select <p1, p2> such that Uses (p1, "eee") and Calls (p1, p2)
+aaaProc bbbProc, aaaProc cccProc, bbbProc cccProc, bbbProc dddProc, cccProc dddProc
+5000
+4 - Next and Next*
+prog_line n1, n2;
+Select <n1, n2> such that Next (n1, n2) and Next* (n2, 7)
+1 2, 2 3, 3 4, 4 5, 5 6
+5000
+5 - Follows and Uses
+variable v; stmt s;
+Select <s, v> such that Follows (8, s) and Uses(s, v)
+9 aaa, 9 bbb, 9 ccc, 9 ddd, 9 eee, 9 fff, 9 ggg, 9 hhh
+5000
+6 - Follows* and Modifies
+stmt s1; variable v; call ca;
+Select <s1, v> such that Follows* (ca, s1) and Modifies (s1, v)
+4 aaa, 4 fff, 4 ddd, 4 eee, 5 ddd, 5 hhh, 5 aaa, 5 fff, 5 eee, 5 bbb, 5 ggg, 9 hhh, 9 aaa, 9 fff, 9 ddd, 9 eee, 14 aaa, 18 aaa, 18 bbb, 18 ddd, 18 eee, 18 fff, 31 fff, 32 ggg, 22 eee, 30 aaa, 35 bbb, 36 aaa, 38 aaa, 38 bbb, 38 ddd, 38 ggg, 38 eee, 38 fff, 38 hhh, 39 ccc, 39 hhh, 39 eee, 39 fff, 39 aaa, 39 bbb, 39 ddd, 39 ggg, 47 e, 48 aaa, 48 fff, 48 ddd, 48 eee, 50 aaa, 51 bbb, 51 aaa, 51 fff, 51 ddd, 51 eee, 51 ggg, 58 ggg, 61 fff, 61 aaa, 61 ddd, 61 eee, 67 hhh, 65 aaa, 65 ddd, 66 aaa, 66 fff, 66 ddd, 66 eee, 70 aaa, 70 ddd, 70 fff, 81 ddd, 82 eee, 83 aaa, 83 ddd
+5000
+7 - Parent and Next*
+while w; read re;
+Select <w, re> such that Parent (w, re) and Next* (4, w)
+9 11, 16 30, 23 24
+5000
+8 - Uses and Next*
+if ifs; print pn;
+Select <ifs, pn> such that Uses (pn, "eee") and Next* (ifs, pn)
+5 7, 5 37, 18 37
+5000
+9 - Parent and Uses
+if ifs; assign a;
+Select <ifs, a> such that Parent (ifs, a) and Uses (a, "ccc")
+18 19, 51 52
+5000
+10 - Follows and Parent
+assign a; while w;
+Select <w, a> such that Follows (w, a) and Parent (w, a)
+none
+5000
+11 - Parent* and Modifies
+stmt s1, s2;
+Select <s1, s2> such that Parent* (s1, s2) and Modifies (s2, "ggg")
+5 16, 5 32, 16 32, 58 60, 16 17, 5 17, 5 34, 39 46, 51 56
+5000
+12 - Modifies and Calls
+procedure p1, p2;
+Select <p1, p2> such that Modifies (p2, "ggg") and Calls (p1, p2)
+aaaProc bbbProc
+5000
+13 - Uses and Modifies
+if i; variable v;
+Select <i, v> such that Uses (i, "eee") and Modifies (i, v)
+5 ddd, 5 hhh, 5 aaa, 5 bbb, 5 fff, 5 ggg, 5 eee, 18 aaa, 18 bbb, 18 fff, 18 ddd, 18 eee, 41 hhh, 41 eee, 41 fff, 51 bbb, 51 aaa, 51 ddd, 51 eee, 51 fff, 51 ggg, 72 aaa, 72 ddd, 72 fff, 73 aaa, 73 ddd
+5000
+14 - Parent and Follows
+if i; assign a1, a2;
+Select <i, a2> such that Parent (i, a1) and Follows (a1, a2)
+18 20
+5000
+15 - Uses and Uses
+assign a; variable v;
+Select <a, v> such that Uses (a, v) and Uses (a, "aaa")
+10 ggg, 10 ccc, 10 ddd, 10 eee, 10 aaa, 10 hhh, 25 aaa, 25 bbb, 25 ccc, 25 ddd, 25 eee, 25 fff, 25 ggg, 25 hhh, 44 aaa, 44 hhh
+5000

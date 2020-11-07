@@ -1,0 +1,118 @@
+--- procedure first {
+001     beagle = amiya;
+002     ceobe = beagle;
+003     durin = ceobe;
+004     eyjaf = durin;
+005     if (beagle == ceobe) then {
+006         beagle = 1;
+---     } else {
+007         ceobe = 1;
+---     }
+008     durin = beagle;
+009     eyjaf = ceobe;
+010     while (eyjaf != durin) {
+011         eyjaf = 1;
+---     }
+012     amiya = eyjaf + beagle;
+013     call fifth;
+014     eyjaf = amiya;
+015     call fifth;
+016     amiya = 1;
+017     read amiya;
+018     beagle = amiya;
+--- }
+--- 
+--- procedure second {
+019     while (amiya != amiya) {
+020         durin = eyjaf;
+021         amiya = amiya;
+022         beagle = 1;
+023         ceobe = beagle;
+024         eyjaf = ceobe + eyjaf;
+---     }
+025     call fifth;
+026     amiya = amiya + beagle + ceobe + durin + eyjaf + 1;
+027     beagle = amiya + beagle + ceobe + durin + eyjaf + 1;
+028     ceobe = amiya + beagle + ceobe + durin + eyjaf + 1;
+029     durin = amiya + beagle + ceobe + durin + eyjaf + 1;
+030     eyjaf = amiya + beagle + ceobe + durin + eyjaf + 1;
+031     call fifth;
+032     if (beagle == beagle) then {
+033         beagle = 1;
+---     } else {
+034         ceobe = beagle;
+---     }
+035     call fifth;
+036     while (durin < durin) {
+037         if (durin < durin) then {
+038             durin = 1;
+---         } else {
+039             amiya = durin;
+---         }
+040         ceobe = durin;
+---     }
+--- }
+--- 
+--- procedure third {
+041     amiya = 1;
+042     call fourth;
+043     eyjaf = amiya;
+044     beagle = 1;
+045     call fourth;
+046     eyjaf = beagle;
+047     ceobe = 1;
+048     call fourth;
+049     durin = 1;
+050     call fourth;
+051     eyjaf = durin;
+052     eyjaf = 1;
+053     call fourth;
+054     eyjaf = eyjaf;
+--- }
+--- 
+--- procedure fourth {
+055     if (amiya > 1) then {
+056         amiya = 1;
+---     } else {
+057         amiya = 1;
+---     }
+058     if (beagle < ceobe) then {
+059         beagle = 1;
+---     } else {
+060         ceobe = 1;
+061         ceobe = beagle;
+---     }
+062     while (durin == durin) {
+063         durin = 1;
+---     }
+064     if (eyjaf == eyjaf) then {
+065         eyjaf = 1;
+066         while (eyjaf == eyjaf) {
+067             eyjaf = 1;
+---         }
+068         eyjaf = 1;
+---     } else {
+069         eyjaf = 1;
+070         while (eyjaf == eyjaf) {
+071             eyjaf = 1;
+---         }
+072         eyjaf = 1;
+---     }
+073     while (eyjaf == eyjaf) {
+074         eyjaf = 1;
+075         if (eyjaf == eyjaf) then {
+076             eyjaf = 1;
+---         } else {
+077             eyjaf = 1;
+---         }
+078         eyjaf = 1;
+---     }
+--- }
+--- 
+--- procedure fifth {
+079     amiya = 1;
+080     beagle = 1;
+081     ceobe = 1;
+082     durin = 1;
+083     eyjaf = 1;
+--- }

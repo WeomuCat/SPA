@@ -1,0 +1,30 @@
+1 - Basic Assign Pattern
+assign a1, a2; variable v;
+Select BOOLEAN pattern a1 (v, "22 + 24 + 26 + 28 + 30") and a2 (v, _"spruce"_) with v.varName = "oak" and a1.stmt# = 151 and a2.stmt# = 35
+TRUE
+5000
+2 - Assign Pattern with constant value
+assign a1, a2; constant cs1, cs2;
+Select BOOLEAN pattern a1 (_, "50 + 54 + 58 - oak - birch - spruce - acacia") and a2 (_, _"52 * 56 / coal / diamond / emerald"_) with a1.stmt# = cs1.value and a2.stmt# = cs2.value
+TRUE
+5000
+3 - If Pattern with call stmt same as constant value
+if i1, i2; call cl; constant cs; variable v;
+Select BOOLEAN pattern i1 (_, _, _) and i2 (v, _, _) with cl.procName = "craft" and cl.stmt# = cs.value
+TRUE
+5000
+4 - While Pattern with print stmt and read stmt
+while w1, w2; variable v; print pn; read r;
+Select BOOLEAN pattern w1 (v, _) and w2 (_, _) with pn.varName = r.varName and pn.varName = v.varName
+TRUE
+5000 
+5 - Assign, While and If same as constant number, with same variable
+assign a; while w; if i; constant cs1, cs2, cs3; variable v;
+Select v pattern a (v, _) and w (v, _) and i (v, _, _) with a.stmt# = cs1.value and w.stmt# = cs2.value and i.stmt# = cs3.value
+redstone
+5000
+6 - Assign, While and If pattern with same variable name
+variable v1, v2, v3; assign a; while w; if i;
+Select <v1, w> pattern a (v1, _) and w (v2, _) and i (v3, _, _) with v1.varName = v2.varName and v2.varName = v3.varName
+diamond 16, gold 16, redstone 16
+5000

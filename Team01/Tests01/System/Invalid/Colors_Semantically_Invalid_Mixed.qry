@@ -1,0 +1,385 @@
+1 - Follows and Variables
+variable v;
+Select BOOLEAN such that Follows (_, v)
+FALSE
+1000
+2 - Follows and Procedure
+procedure pd;
+Select BOOLEAN such that Follows (pd, _)
+FALSE
+1000
+3 - Follows and Constants
+constant cs;
+Select BOOLEAN such that Follows (cs, _)
+FALSE
+1000
+4 - Parent and Variables
+variable v;
+Select BOOLEAN such that Parent (_, v)
+FALSE
+1000
+5 - Parent and Procedure
+procedure pd;
+Select BOOLEAN such that Parent (pd, _)
+FALSE
+1000
+6 - Parent and Constants
+constant cs;
+Select BOOLEAN such that Follows (_, cs)
+FALSE
+1000
+7 - Parent and Assign
+assign a;
+Select BOOLEAN such that Parent (a, _)
+FALSE
+1000
+8 - Parent and Calls
+call cl;
+Select BOOLEAN such that Parent (cl, _)
+FALSE
+1000
+9 - Parent and Print
+print pn;
+Select BOOLEAN such that Parent (pn, _)
+FALSE
+1000
+10 - Parent and Read
+read r;
+Select BOOLEAN such that Parent (r, _)
+FALSE
+1000
+11 - Uses Everything
+
+Select BOOLEAN such that Uses (_, _)
+FALSE
+1000
+12 - Uses Right Statement
+stmt s1, s2; 
+Select BOOLEAN such that Uses (s1, s2)
+FALSE
+1000
+13 - Uses Right Procedure
+stmt s; procedure p; 
+Select BOOLEAN such that Uses (s, p)
+FALSE
+1000
+14 - Uses Right Constant
+stmt s; constant cs; 
+Select BOOLEAN such that Uses (s, cs)
+FALSE
+1000
+15 - Uses Left Variable
+variable v;
+Select BOOLEAN such that Uses (v, _)
+FALSE
+1000
+16 - Uses Left Constant
+constant cs;
+Select BOOLEAN such that Uses (cs, _)
+FALSE
+1000
+17 - Modifies Everything
+
+Select BOOLEAN such that Modifies (_, _)
+FALSE
+1000
+18 - Modifies Right Statement
+stmt s1, s2; 
+Select BOOLEAN such that Modifies (s1, s2)
+FALSE
+1000
+19 - Modifies Right Procedure
+stmt s; procedure p; 
+Select BOOLEAN such that Modifies (s, p)
+FALSE
+1000
+20 - Modifies Right Constant
+stmt s; constant cs; 
+Select BOOLEAN such that Modifies (s, cs)
+FALSE
+1000
+21 - Modifies Left Variable
+variable v;
+Select BOOLEAN such that Modifies (v, _)
+FALSE
+1000
+22 - Modifies Left Constant
+constant cs;
+Select BOOLEAN such that Modifies (cs, _)
+FALSE
+1000
+23 - Calls Statement
+stmt s; procedure p;
+Select BOOLEAN such that Calls (p, s)
+FALSE
+1000
+24 - Calls Assign
+assign a; procedure p;
+Select BOOLEAN such that Calls (p, a)
+FALSE
+1000
+25 - Calls Call
+call cl; procedure p; 
+Select BOOLEAN such that Calls (p, cl)
+FALSE
+1000
+26 - Calls Print
+print pn; procedure p;
+Select BOOLEAN such that Calls (p, pn)
+FALSE
+1000
+27 - Calls Read
+read r; procedure p;
+Select BOOLEAN such that Calls (p, r)
+FALSE
+1000
+28 - Calls If
+if i; procedure p;
+Select BOOLEAN such that Calls (p, i)
+FALSE
+1000
+29 - Calls While
+while w; procedure p;
+Select BOOLEAN such that Calls (p, w)
+FALSE
+1000
+30 - Calls Constant
+constant cs; procedure p;
+Select BOOLEAN such that Calls (p, cs)
+FALSE
+1000
+31 - Calls Variable
+variable v; procedure p;
+Select BOOLEAN such that Calls (p, v)
+FALSE
+1000
+32 - Calls Program Line
+prog_line n; procedure p;
+Select BOOLEAN such that Calls (p, n)
+FALSE
+1000
+33 - Next Constant
+constant cs; prog_line n;
+Select BOOLEAN such that Next (n, cs)
+FALSE
+1000
+34 - Next Variable
+variable v; prog_line n;
+Select BOOLEAN such that Next (n, v)
+FALSE
+1000
+35 - Next Procedure
+procedure p; prog_line n;
+Select BOOLEAN such that Next (n, p)
+FALSE
+1000
+36 - Affects Calls
+call cl;
+Select BOOLEAN such that Affects (cl, _)
+FALSE
+1000
+37 - Affects Print
+print pn;
+Select BOOLEAN such that Affects (pn, _)
+FALSE
+1000
+38 - Affects Read
+read r;
+Select BOOLEAN such that Affects (r, _)
+FALSE
+1000
+39 - Affects If
+if i;
+Select BOOLEAN such that Affects (i, _)
+FALSE
+1000
+40 - Affects While
+while w;
+Select BOOLEAN such that Affects (w, _)
+FALSE
+1000
+41 - Affects Constant
+constant cs;
+Select BOOLEAN such that Affects (cs, _)
+FALSE
+1000
+42 - Affects Procedure
+procedure p;
+Select BOOLEAN such that Affects (p, _)
+FALSE
+1000
+43 - Affects Variable
+variable v;
+Select BOOLEAN such that Affects (v, _)
+FALSE
+1000
+44 - With assign procName
+assign a;
+Select BOOLEAN with a.procName = "first"
+FALSE
+1000
+45 - With assign varName
+assign a;
+Select BOOLEAN with a.varName = "red"
+FALSE
+1000
+46 - With assign value
+assign a;
+Select BOOLEAN with a.value = 2
+FALSE
+1000
+47 - With call varName
+call cl;
+Select BOOLEAN with cl.varName = "red"
+FALSE
+1000
+48 - With call value
+call cl;
+Select BOOLEAN with cl.value = 2
+FALSE
+1000
+49 - With print procName
+print pn;
+Select BOOLEAN with pn.procName = "first"
+FALSE
+1000
+50 - With print value
+print pn;
+Select BOOLEAN with pn.value = 2
+FALSE
+1000
+51 - With read procName
+read r;
+Select BOOLEAN with r.procName = "first"
+FALSE
+1000
+52 - With read value
+read r;
+Select BOOLEAN with r.value = 2
+FALSE
+1000
+53 - With stmt procName
+stmt s;
+Select BOOLEAN with s.procName = "first"
+FALSE
+1000
+54 - With stmt varName
+stmt s;
+Select BOOLEAN with s.varName = "red"
+FALSE
+1000
+55 - With stmt value
+stmt s;
+Select BOOLEAN with s.value = 2
+FALSE
+1000
+56 - With if procName
+if i;
+Select BOOLEAN with i.procName = "first"
+FALSE
+1000
+57 - With if varName
+if i;
+Select BOOLEAN with i.varName = "red"
+FALSE
+1000
+58 - With if value
+if i;
+Select BOOLEAN with i.value = 2
+FALSE
+1000
+59 - With while procName
+while w;
+Select BOOLEAN with w.procName = "first"
+FALSE
+1000
+60 - With while varName
+while w;
+Select BOOLEAN with w.varName = "red"
+FALSE
+1000
+61 - With while value
+while w;
+Select BOOLEAN with w.value = 2
+FALSE
+1000
+62 - With constant procName
+constant cs;
+Select BOOLEAN with cs.procName = "invalid"
+FALSE
+1000
+63 - With constant varName
+constant cs;
+Select BOOLEAN with cs.varName = "red"
+FALSE
+1000
+64 - With constant stmt#
+constant cs;
+Select BOOLEAN with cs.stmt# = 2
+FALSE
+1000
+65 - With procedure varName
+procedure pd;
+Select BOOLEAN with pd.varName = "red"
+FALSE
+1000
+66 - With procedure stmt#
+procedure pd;
+Select BOOLEAN with pd.stmt# = "red"
+FALSE
+1000
+67 - With procedure value
+procedure pd;
+Select BOOLEAN with pd.value = 2
+FALSE
+1000
+68 - With variable procName
+variable v;
+Select BOOLEAN with v.procName = "first"
+FALSE
+1000
+69 - With variable stmt#
+variable v;
+Select BOOLEAN with v.stmt# = 2
+FALSE
+1000
+70 - With variable value
+variable v;
+Select BOOLEAN with v.value = 2
+FALSE
+1000
+71 - With prog_line procName
+prog_line n;
+Select BOOLEAN with n.procName = "first"
+FALSE
+1000
+72 - With prog_line varName
+prog_line n;
+Select BOOLEAN with n.varName = "red"
+FALSE
+1000
+73 - With variable stmt#
+prog_line n;
+Select BOOLEAN with n.stmt# = 2
+FALSE
+1000
+74 - With variable value
+prog_line n;
+Select BOOLEAN with n.value = 2
+FALSE
+1000
+75 - Pattern Assign Wrong Synonym
+assign a; stmt s;
+Select BOOLEAN pattern a (s, _)
+FALSE
+1000
+76 - Pattern While Wrong Synonym
+while w; stmt s;
+Select BOOLEAN pattern w (s, _)
+FALSE
+1000
+77 - Pattern If Wrong Synonym
+if i; stmt s;
+Select BOOLEAN pattern i (s, _, _)
+FALSE
+1000

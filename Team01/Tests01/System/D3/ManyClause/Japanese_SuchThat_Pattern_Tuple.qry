@@ -1,0 +1,40 @@
+1 - Follows and Follows*
+assign a; while w; call cl;
+Select <a, w, cl.procName> pattern a ("zero", "ichi + ni + san + yon + go + roku + nana + hachi + kyuu") such that Follows (a, w) and Follows* (w, cl)
+1 2 seventh
+5000
+2 - Uses, Uses, Uses, Modifies
+variable v1, v2, v3; assign a;
+Select <v1, v2, v3> such that Uses (a, v1) and Uses (a, v2) and Uses (a, v3) and Modifies (a, v1) pattern a ("san", _)
+san san san
+5000
+3 - Modifies, Modifies, Modifies
+assign a1, a2, a3; variable v;
+Select <a1, a2, a3> such that Modifies (a1, v) and Modifies (a2, v) and Modifies (a3, v) pattern a1 (v, "ichi - ni") and a2 (v, _"zero"_) and a3 (v, "0")
+66 46 72, 66 46 100
+5000
+4 - Parent, Uses, Modifies
+if i; variable v; assign a;
+Select <i, v.varName> such that Parent (i, a) and Modifies (i, v) and Uses (i, v) pattern a (v, _) and i (_, _, _)
+16 ni, 16 hachi, 24 hachi, 58 zero, 78 hachi
+5000
+5 - Calls, Uses, Modifies
+procedure p; variable v; while w;
+Select <p, w> such that Calls (p, "tenth") and Modifies (w, v) pattern w ("hachi", _)
+third 41, fourth 41, sixth 41, seventh 41, ninth 41, third 42, fourth 42, sixth 42, seventh 42, ninth 42
+5000
+6 - Next, Next*, Next 
+call cl; if i; while w; print pn;
+Select <cl.procName, i, w> such that Next (i, cl) and Next* (i, w) and Next (w, pn) pattern i ("go", _, _) and w ("go", _)
+fourth 22 30
+5000
+7 - Affects, Affects*, Affects
+assign a1, a2, a3, a4;
+Select <a1, a2, a2> such that Affects (a1, a2) and Affects* (a2, a3) and Affects (a3, a4) pattern a1 ("ichi", "zero - nana + 8") and a2 ("kyuu", _"ni"_) and a3 (_, _) and a4 ("go", _)
+none
+5000
+8 - Assign patterns
+assign a1, a2, a3, a4, a5, a6, a7;
+Select <a1, a2.stmt#, a3, a4.stmt#, a5, a6.stmt#, a7> such that Follows (a1, a2) and Follows (a2, a3) and Next (a3, a4) and Next (a4, a5) and Follows (a5, a6) and Next (a6, a7) pattern a1 ("zero", _) and a2 (_, _"ni + san"_) and a3 ("ni", _"san + yon + go"_) and a4 (_, _) and a5 ("yon", "go + roku + nana + hachi + kyuu")
+91 92 93 94 95 96 97
+5000
