@@ -8,7 +8,7 @@
 #include <string>
 #include <cstdlib>
 
-#include "..\source\Parser.h"
+#include "..\source\Parser\Parser.h"
 
 typedef std::shared_ptr<PKB> PKB_PTR;
 
