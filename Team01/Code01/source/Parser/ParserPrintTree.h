@@ -1,8 +1,8 @@
 #pragma once
 
-#include "PKB.h"
+#include "../PKB/PKB.h"
+#include "../PKB/ASTNode/NodeTypeEnum.h"
 #include "Parser.h"
-#include "PKB/ASTNode/NodeTypeEnum.h"
 
 class ParserPrintTree {
 public:

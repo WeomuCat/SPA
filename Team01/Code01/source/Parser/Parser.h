@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <set>
 
-#include "../source/PKB.h"
-#include "../source/PKBBuilder.h"
+#include "../PKB/PKB.h"
+#include "../PKB/PKBBuilder.h"
 #include "OperatorTypeEnum.h"
 #include "RelOperatorTypeEnum.h"
 
