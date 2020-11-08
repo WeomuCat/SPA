@@ -1,0 +1,125 @@
+1 - Evaluate Follows Constant Before Follows* Synonym
+stmt s;
+Select s such that Follows* (s, _) and Follows (102, s)
+103
+60000
+2 - Evaluate Parent Constant Before Parent* Synonym
+stmt s;
+Select s such that Parent* (s, _) and Parent (s, 107)
+106
+60000
+3 - Evaluate Next* Constant before Next Synonym
+prog_line n;
+Select n such that Next* (n, _) and Next (25, n)
+26
+60000
+4 - Evaluate Assign With before Such That
+assign a;
+Select a such that Next* (a, _) and Next* (_, a) and Follows* (a, _) with a.stmt# = 150
+150
+60000
+5 - Evaluate Call With before Such That
+call cl;
+Select cl such that Next* (cl, _) and Next* (_, cl) and Follows* (cl, _) with cl.stmt# = 153
+153
+60000
+6 - Evaluate Print With before Such That
+print pn;
+Select pn such that Next* (pn, _) and Next* (_, pn) and Follows* (pn, _) with pn.stmt# = 151
+151
+60000
+7 - Evaluate Read With before Such That
+read r;
+Select r such that Next* (r, _) and Next* (_, r) and Follows* (r, _) with r.stmt# = 152
+152
+60000
+8 - Evaluate Statement With before Such That
+stmt s;
+Select s such that Next* (s, _) with s.stmt# = 155
+155
+60000
+9 - Evaluate If With before Such That
+if i;
+Select i such that Next* (i, _) and Next* (_, i) and Follows* (i, _) and Parent* (i, _) with i.stmt# = 157
+157
+60000
+10 - Evaluate While With before Such That
+while w;
+Select w such that Next* (w, _) and Next* (_, w) and Follows* (w, _) and Parent* (w, _) with w.stmt# = 140
+140
+60000
+11 - Evaluate Program Line With before Such That
+prog_line n;
+Select n such that Next* (n, _) with n = 156
+156
+60000
+12 - Evaluate Assign Pattern before Such That
+assign a;
+Select a such that Next* (a, _) and Next* (_, a) and Follows* (a, _) pattern a ("gabite", "(8766) / (2987) * gabite + falinks * 91295 % 229 / 6378 - abomasnow")
+143
+60000
+13 - Evaluate While Pattern before Such That
+while w;
+Select w such that Next* (w, _) and Next* (_, w) and Follows* (w, _) and Parent* (w, _) pattern w ("darkrai", _)
+19, 115, 117, 193
+60000
+14 - Evaluate If Pattern before Such That
+if i;
+Select i such that Next* (i, _) and Next* (_, i) and Follows* (i, _) and Parent* (i, _) pattern i ("abomasnow", _, _)
+8, 113, 157, 242
+60000
+15 - Evaluate 1 Synonym + 1 Constant before 2 Synonym for Next
+stmt s1, s2;
+Select s1 such that Next* (s1, s2) and Next (51, s1) and Next (s2, 54)
+52
+60000
+16 - Evaluating related and easier synonyms first
+assign a; print pn; read r; if i; while w;
+Select a such that Next* (pn, r) and Parent* (w, a) and Next* (a, pn) and Next* (a, r) and Parent (i, a)
+46, 47, 58, 255, 257, 266, 268, 301, 303
+60000
+17 - Evaluate to prevent cross product
+call cl; stmt s1, s2; variable v1, v2;
+Select s1 such that Modifies (s1, v1) and Uses (s2, v2) and Follows (s1, cl) and Follows (cl, s2)
+11, 13, 19, 47, 86, 94, 126, 128, 129, 143, 144, 152, 165, 195, 199, 207, 218, 221, 222, 228, 229
+60000
+18 - Such That Affects
+assign a1, a2;
+Select a1 such that Affects* (a1, _) and Affects* (_, a2)
+NO ANSWER
+60000
+19 - Pattern Assign
+assign a1, a2, a3, a4, a5, a6;
+Select <a1, a2, a3, a4, a5, a6> pattern a1 (_, _"abomasnow"_) and a2 (_, _"bagon"_) and a3 ("cacnea", _) and a4 ("darkrai", _) and a5 ("eelektrik", _"falinks"_) and a6 ("gabite", _"2"_)
+NO ANSWER
+60000
+20 - With Assign
+assign a1, a2, a3, a4, a5, a6;
+Select BOOLEAN with a1.stmt# = a2.stmt# and a3.stmt# = a4.stmt# and a5.stmt# = a6.stmt#
+NO ANSWER
+60000
+21 - With Statement
+assign s1, s2, s3, s4;
+Select <s1, s2, s3, s4> with s1.stmt# = s2.stmt# and s3.stmt# = s4.stmt#
+NO_ANSWER
+60000
+22 - Next*, Uses and
+assign a; variable v; procedure p; if i;
+Select <i, a, p, v> such that Next* (a, _) and Uses (p, v) and Parent (i, a) pattern a (v, _)
+NO ANSWER
+60000
+23 - Multiple Such That and With
+stmt s1, s2, s3, s4, s5, s6; procedure p1, p2;
+Select BOOLEAN such that Follows* (s1, _) and Parent* (_, s2) Uses (s3, _) and Modifies (s4, _) and Calls (p1, p2) and Next* (s5, _) and Affects* (s6, _) with s1.stmt# = s1.stmt# and s2.stmt# = s2.stmt# and s3.stmt# = s3.stmt# and s4.stmt# = s4.stmt# and s5.stmt# = s5.stmt# and s6.stmt# = s6.stmt# and p1.procName = p1.procName and p2.procName = p2.procName
+NO ANSWER
+60000
+24 - Pattern With
+assign a; while w; if i; constant cs;
+Select <a, w, i> pattern a (_, _) and w (_, _) and i (_, _, _) with i.stmt# = cs.value
+NO ANSWER
+60000
+25 - SuchThat, Pattern, With
+assign a; stmt s; print pn; constant cs;
+Select <s, a> such that Next*(s, pn) pattern a (_, _) with s.stmt# = cs.value
+NO ANSWER
+60000

@@ -1,0 +1,305 @@
+1 - Constant and Assign
+assign a;
+Select BOOLEAN such that Next (2, a) pattern a ("charmander", _)
+TRUE
+5000
+2 - Read and Assign synonym
+assign a; read r; while w;
+Select BOOLEAN such that Next (a, r) pattern a (_, _"16"_)
+TRUE
+5000
+3 - While synonym
+print p; while w;
+Select BOOLEAN such that Next (w, p) pattern w (_, _)
+TRUE
+5000
+4 - If synonym
+if i1, i2;
+Select i1 such that Next (i1, i2) pattern i1 (_, _, _) and i2 (_, _, _)
+51, 52
+5000
+5 - While and If synonym
+while w; if i;
+Select w such that Next(w, i) pattern i ("bulbasaur", _, _)
+50
+5000
+6 - Multiple pattern
+assign a; if i;
+Select i such that Next(i, a) pattern a ("blastoise", _) and a (_, _"ivysaur"_) and i ("charizard", _, _)
+36
+5000
+7 - Program line
+prog_line n; while w;
+Select n such that Next(w, n) pattern w ("bulbasaur", _)
+46, 49, 51, 70
+5000
+8 - Statement line
+assign a; stmt s;
+Select s such that Next(s, a) pattern a (_, "1")
+22, 23
+5000
+9 - Wildcard
+assign a;
+Select a such that Next(a, _) pattern a ("charizard", _)
+14, 15
+5000
+10 - Constant and Assign
+assign a;
+Select BOOLEAN such that Next* (2, a) pattern a ("charmander", _)
+TRUE
+5000
+11 - Read and Assign synonym
+assign a; read r;
+Select BOOLEAN such that Next* (a, r) pattern a (_, _"16"_)
+TRUE
+5000
+12 - While synonym
+print p; while w;
+Select BOOLEAN such that Next* (w, p) pattern w (_, _)
+TRUE
+5000
+13 - If synonym
+if i1, i2;
+Select i1 such that Next* (i1, i2) pattern i1 (_, _, _) and i2 (_, _, _)
+6, 11, 25, 30, 51, 52, 53
+5000
+14 - While and If synonym
+while w; if i;
+Select w such that Next* (w, i) pattern i ("bulbasaur", _, _)
+2, 50, 57, 68
+5000
+15 - Multiple pattern
+assign a; if i;
+Select i such that Next* (i, a) pattern a ("blastoise", _) and a (_, _"ivysaur"_) and i ("charizard", _, _)
+36
+5000
+16 - Program line
+prog_line n; while w;
+Select n such that Next* (w, n) pattern w ("bulbasaur", _)
+45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72
+5000
+17 - Statement line
+assign a; stmt s;
+Select s such that Next* (s, a) pattern a (_, "1")
+1, 2, 3, 4, 5, 6, 21, 22, 23
+5000
+18 - Wildcard
+assign a;
+Select a such that Next* (a, _) pattern a ("charizard", _)
+14, 15
+5000
+19 - Assign Pattern and Assign Pattern
+assign a;
+Select a pattern a (_, _"charmander"_) pattern a ("charizard", _)
+15
+5000
+20 - Assign Pattern and While Pattern
+assign a; while w; variable v;
+Select v pattern a (v, _) pattern w (v, _)
+charmander, squirtle, bulbasaur, charmeleon, charizard, blastoise
+5000
+21 - Assign Pattern and Assign Pattern
+assign a;
+Select a pattern a (_, _"24"_) pattern a (_, _"bulbasaur"_)
+3
+5000
+22 - Assign Pattern and While Pattern
+assign a; while w; variable v;
+Select a pattern a (v, _) pattern w (v, _)
+3, 5, 9, 14, 15, 16, 21, 31, 37, 41, 42, 46, 65, 72
+5000
+23 - While Pattern and While Pattern
+while w; variable v;
+Select w pattern w ("charmander", _) pattern w ("squirtle", _)
+2
+5000
+24 - Assign Pattern and If Pattern
+assign a; if i; variable v;
+Select i pattern a (v, _"venusaur"_) pattern i (v, _, _)
+36, 53
+5000
+25 - While Pattern and If Pattern
+while w; if i; variable v;
+Select v pattern w (v, _) pattern i (v, _, _)
+bulbasaur, charmander, squirtle, charizard, blastoise
+5000
+26 - Assign Pattern and Assign Pattern
+assign a;
+Select BOOLEAN pattern a (_, _"ivysaur"_) pattern a ("blastoise", _)
+TRUE
+5000
+27 - Assign Pattern and Assign Pattern
+assign a1, a2;
+Select BOOLEAN pattern a1 (_, _"charmander"_) pattern a2 ("charizard", _)
+TRUE
+5000
+28 - Assign Pattern and While Pattern
+assign a; while w;
+Select BOOLEAN pattern a (_, "21") pattern w ("bulbasaur",_)
+TRUE
+5000
+29 - Assign Pattern and Assign Pattern
+assign a1, a2;
+Select BOOLEAN pattern a1 ("charmander", _"ivysaur"_) pattern a2 ("charizard", _)
+TRUE
+5000
+30 - While Pattern and While Pattern
+while w1, w2;
+Select BOOLEAN pattern w1 ("bulbasaur", _) pattern w2 ("blastoise", _)
+TRUE
+5000
+31 - While Pattern and While Pattern
+while w;
+Select BOOLEAN pattern w ("bulbasaur", _) pattern w ("ivysaur", _)
+FALSE
+5000
+32 - Assign Pattern and If pattern
+assign a; if i;
+Select BOOLEAN pattern a (_, _) pattern i (_, _, _)
+TRUE
+5000
+33 - Assign Pattern and If pattern
+assign a; if i;
+Select BOOLEAN pattern a (_, _"bulbasaur"_) pattern i ("bulbasaur", _, _)
+TRUE
+5000
+34 - Assign Pattern and Assign Pattern
+assign a; variable v;
+Select <a, v> pattern a (v, _) pattern a (_, _"ivysaur"_)
+37 blastoise, 58 ivysaur, 65 charmander
+5000
+35 - Assign Pattern and Assign Pattern
+assign a1, a2; variable v;
+Select <a1, a2> pattern a1 (v, _) pattern a2 (v, _)
+3 16, 3 21, 3 65, 16 21, 16 65, 21 65, 14 15, 14 72, 15 72, 42 46, 24 40, 23 58, 23 62, 58 62, 5 31, 5 41, 31 41, 3 3, 16 16, 21 21, 65 65, 14 14, 15 15, 72 72, 5 5, 31 31, 41 41, 42 42, 46 46, 24 24, 40 40, 23 23, 58 58, 62 62, 9 9, 69 69, 37 37, 16 3, 21 3, 65 3, 21 16, 65 16, 65 21, 15 14, 72 14, 72 15, 46 42, 40 24, 58 23, 62 23, 62 58, 31 5, 41 5, 41 31
+5000
+36 - Assign Pattern and Assign Pattern
+assign a1, a2; variable v;
+Select <a1, a2> pattern a1 ("bulbasaur", _) pattern a2 ("bulbasaur", _)
+5 31, 5 41, 31 41, 5 5, 31 31, 41 41, 31 5, 41 5, 41 31
+5000
+37 - Assign Pattern and While Pattern
+assign a; while w; variable v;
+Select <w, v> pattern a (v, _) pattern w (v, _)
+2 charmander, 2 squirtle, 45 bulbasaur, 45 charmeleon, 45 squirtle, 50 bulbasaur, 57 blastoise, 68 charizard
+5000
+38 - Assign Pattern and If Pattern
+assign a; if i;
+Select <a, i> pattern a (_, _"ivysaur"_) pattern i ("bulbasaur", _, _)
+37 30, 58 30, 65 30, 37 51, 58 51, 65 51
+5000
+39 - While Pattern and If Pattern
+while w; if i;
+Select <w, i> pattern w ("squirtle", _) pattern i ("bulbasaur", _, _)
+2 30, 45 30, 2 51, 45 51
+5000
+40 - While Pattern and While Pattern
+while w1, w2;
+Select <w1, w2> pattern w1 ("bulbasaur" , _) pattern w2 ("bulbasaur" , _)
+45 50, 50 45, 45 45, 50 50
+5000
+41 - While Pattern and While Pattern
+while w; variable v;
+Select <w, v> pattern w (v, _) pattern w ("squirtle", _)
+2 charmander, 2 squirtle, 45 bulbasaur, 45 charmeleon, 45 squirtle
+5000
+42 - Print Variable Same as Read Variable and Print Statement
+variable v; print pn; read re;
+Select v with pn.varName = re.varName and pn.stmt# = 26
+bulbasaur, ivysaur, venusaur, charmander, charmeleon, charizard, squirtle, wartortle, blastoise
+5000
+43 - Call Procedure Name Same as Procedure Name and Call Statement
+call cl; procedure p;
+Select p with cl.procName = p.procName and cl.stmt# = 38
+evolveagain
+5000
+44 - Assign Statement Same as Constant and Read Statement Same as Constant
+assign a; read re; constant c1, c2;
+Select c1 with a.stmt# = c1.value and re.stmt# = c2.value
+16, 21, 23, 24
+5000
+45 - Procedure Name and Call Procedure Name
+procedure p; call cl;
+Select cl with p.procName = "evolve" and cl.procName = p.procName
+8, 27, 29, 32
+5000
+46 - Assign Statement and Assign Variable Name
+assign a; variable v;
+Select v with a.stmt# = 62 and v.varName = "ivysaur"
+ivysaur
+5000
+47 - Read Variable Name and Read Statement Same as Constant
+read re; constant c;
+Select c with re.varName = "bulbasaur" and re.stmt# = c.value
+none
+5000
+48 - If Statement Same as Constant and
+if ifs; constant c; print pn;
+Select ifs with ifs.stmt# = c.value and pn.varName = "charmeleon"
+36
+5000
+49 - Variable with Name and Procedure with Name
+procedure p; variable v;
+Select BOOLEAN with v.varName = "bulbasaur" and p.procName = "pokemon"
+TRUE
+5000
+50 - Print Statement Number and Call with Name
+print pn; call cl;
+Select BOOLEAN with pn.stmt# = 1 and cl.procName = "evolve"
+TRUE
+5000
+51 - Assign Wrong Statement Number and Print Statement Number
+assign a; print pn; constant c;
+Select BOOLEAN with a.stmt# = 2 and pn.stmt# = 1
+FALSE
+5000
+52 - If Statement Number Same as Constant (36) and While Statement Number
+if ifs; while w; constant c;
+Select BOOLEAN with ifs.stmt# = c.value and w.stmt# = 45
+TRUE
+5000
+53 - Read Variable Same as Print Variable and Wrong Print Statement Number
+read re; print pn;
+Select BOOLEAN with re.varName = pn.varName and pn.stmt# = 12
+FALSE
+5000
+54 - Variable with Name and Assign Statement Number
+assign a; variable v;
+Select BOOLEAN with v.varName = "charizard" and a.stmt# = 24
+TRUE
+5000
+55 - Call Statement Number and Call Procedure Name
+call cl;
+Select BOOLEAN with cl.stmt# = 29 and cl.procName = "evolveAgain"
+FALSE
+5000
+56 - If Statement Same as Constant and Assign Statement Same as Constant
+if ifs; assign a; constant c1, c2;
+Select <c1, c2> with ifs.stmt# = c1.value and a.stmt# = c2.value
+36 16, 36 21, 36 23, 36 24
+5000
+57 - Call Procedure Name Same as Procedure and Procedure Name
+call cl; procedure p1, p2;
+Select <cl, p2> with cl.procName = p1.procName and p2.procName = "evolve"
+8 evolve, 13 evolve, 18 evolve, 27 evolve, 29 evolve, 32 evolve, 34 evolve, 38 evolve, 39 evolve
+5000
+58 - Print Variable Same as Read Variable
+variable v; print pn; read re;
+Select <pn, v> with pn.varName = v.varName and re.varName = v.varName
+7 charmander, 17 charizard, 20 charizard, 26 venusaur, 33 ivysaur, 47 wartortle, 54 venusaur, 56 blastoise, 59 bulbasaur, 61 wartortle, 63 ivysaur, 67 charizard, 70 bulbasaur
+5000
+59 - While Statement Number and Assign Variable Name
+while w; assign a;
+Select <w, a> with w.stmt# = 2 and a.stmt# = 24
+2 24
+5000
+60 - Variable Name and Call Statement
+variable v; call cl;
+Select <v, cl> with v.varName = "bulbasaur" and cl.stmt# = 27
+bulbasaur 27
+5000
+61 - Read Statement Same as Constant and Read Variable
+read re; constant c; variable v;
+Select <c, v> with re.stmt# = c.value and re.varName = v.varName
+22 charmander
+5000

@@ -1,0 +1,750 @@
+1 - Assign and Constant, Select Assign
+assign a;
+Select a such that Follows* (a, 30) pattern a (_, _)
+13, 27, 29
+5000
+2 - Constant and Assign, Select Assign
+assign a;
+Select a such that Follows* (40, a) pattern a (_, _)
+60
+5000
+3 - Assign and Statement, Select Assign
+assign a; stmt s;
+Select a such that Follows* (a, s) pattern a (_, _)
+3, 7, 8, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 58, 60, 71
+5000
+4 - Assign and Assign, Select Assign
+assign a, a1;
+Select a such that Follows* (a, a1) pattern a (_, _)
+3, 7, 13, 15, 17, 19, 27, 49
+5000
+5 - Assign and Print, Select Assign
+assign a; print p;
+Select a such that Follows* (a, p) pattern a (_, _)
+7, 8, 13, 15, 17, 19, 21, 23, 25, 27, 32, 43
+5000
+6 - Assign and Read, Select Assign
+assign a; read r;
+Select a such that Follows* (a, r) pattern a (_, _)
+3, 7, 8, 13, 15, 27, 29, 58, 60, 71
+5000
+7 - Assign and If, Select Assign
+assign a; if i;
+Select a such that Follows* (a, i) pattern a (_, _)
+3, 15, 17, 19, 60
+5000
+8 - Assign and While, Select Assign
+assign a; while w;
+Select a such that Follows* (a, w) pattern a (_, _)
+7, 8, 13, 43, 60
+5000
+9 - Wildcard and Assign
+assign a;
+Select a such that Follows* (_, a) pattern a (_, _)
+3, 8, 17, 19, 25, 27, 29, 32, 43, 50, 60, 70, 71
+5000
+10 - Assign and Wildcard
+assign a;
+Select a such that Follows* (a, _) pattern a (_, _)
+3, 7, 8, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 58, 60, 71
+5000
+11 - Wildcard and Wildcard
+assign a;
+Select a such that Follows* (_, _) pattern a (_, _)
+3, 7, 8, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 50, 58, 60, 62, 69, 70, 71
+5000
+12 - Assign and Constant, Select Assign
+assign a;
+Select a such that Follows* (a, 30) pattern a (_, _"ina"_)
+29
+5000
+13 - Constant and Assign, Select Assign
+assign a;
+Select a such that Follows* (40, a) pattern a (_, _"5"_)
+60
+5000
+14 - Assign and Statement, Select Assign
+assign a; stmt s;
+Select a such that Follows* (a, s) pattern a (_, _"gura"_)
+3, 8, 29, 32, 58
+5000
+15 - Assign and Assign, Select Assign
+assign a, a1;
+Select a such that Follows* (a, a1) pattern a (_, _"2"_)
+7
+5000
+16 - Assign and Print, Select Assign
+assign a; print p;
+Select a such that Follows* (a, p) pattern a (_, _"ame"_)
+7, 43
+5000
+17 - Assign and Read, Select Assign
+assign a; read r;
+Select a such that Follows* (a, r) pattern a (_, _"1"_)
+13, 27
+5000
+18 - Assign and If, Select Assign
+assign a; if i;
+Select a such that Follows* (a, i) pattern a (_, _"kiara"_)
+3, 17
+5000
+19 - Assign and While, Select Assign
+assign a; while w;
+Select a such that Follows* (a, w) pattern a (_, _"2"_)
+7
+5000
+20 - Wildcard and Assign
+assign a;
+Select a such that Follows* (_, a) pattern a (_, _"1"_)
+27
+5000
+21 - Assign and Wildcard
+assign a;
+Select a such that Follows* (a, _) pattern a (_, _"2"_)
+7
+5000
+22 - Assign and Constant, Select Assign
+assign a;
+Select a such that Follows* (a, 30) pattern a ("kiara", _)
+13, 27, 29
+5000
+23 - Constant and Assign, Select Assign
+assign a;
+Select a such that Follows* (40, a) pattern a ("ame", _)
+60
+5000
+24 - Assign and Statement, Select Assign
+assign a; stmt s;
+Select a such that Follows* (a, s) pattern a ("ina", _)
+3, 21, 71
+5000
+25 - Assign and Assign, Select Assign
+assign a, a1;
+Select a such that Follows* (a, a1) pattern a ("gura", _)
+none
+5000
+26 - Assign and Print, Select Assign
+assign a; print p;
+Select a such that Follows* (a, p) pattern a ("kiara", _)
+13, 27, 32, 43
+5000
+27 - Assign and Read, Select Assign
+assign a; read r;
+Select a such that Follows* (a, r) pattern a ("calli", _)
+7, 8, 58
+5000
+28 - Assign and If, Select Assign
+assign a; if i;
+Select a such that Follows* (a, i) pattern a ("ame", _)
+15, 17, 19, 60
+5000
+29 - Assign and While, Select Assign
+assign a; while w;
+Select a such that Follows* (a, w) pattern a ("calli", _)
+7, 8
+5000
+30 - Wildcard and Assign
+assign a;
+Select a such that Follows* (_, a) pattern a ("ina", _)
+3, 70, 71
+5000
+31 - Assign and Wildcard
+assign a;
+Select a such that Follows* (a, _) pattern a ("calli", _)
+7, 8, 49, 58
+5000
+32 - Assign and Constant, Select Assign
+assign a;
+Select a such that Follows* (a, 30) pattern a ("kiara", _"ina"_)
+29
+5000
+33 - Constant and Assign, Select Assign
+assign a;
+Select a such that Follows* (40, a) pattern a ("ame", _"5"_)
+60
+5000
+34 - Assign and Statement, Select Assign
+assign a; stmt s;
+Select a such that Follows* (a, s) pattern a ("ina", _"gura"_)
+3
+5000
+35 - Assign and Assign, Select Assign
+assign a, a1;
+Select a such that Follows* (a, a1) pattern a ("calli", _"2"_)
+7
+5000
+36 - Assign and Print, Select Assign
+assign a; print p;
+Select a such that Follows* (a, p) pattern a ("kiara", _"ame"_)
+43
+5000
+37 - Assign and Read, Select Assign
+assign a; read r;
+Select a such that Follows* (a, r) pattern a ("kiara", _"1"_)
+13, 27
+5000
+38 - Assign and If, Select Assign
+assign a; if i;
+Select a such that Follows* (a, i) pattern a ("ame", _"kiara"_)
+17
+5000
+39 - Assign and While, Select Assign
+assign a; while w;
+Select a such that Follows* (a, w) pattern a ("calli", _"2"_)
+7
+5000
+40 - Wildcard and Assign
+assign a;
+Select a such that Follows* (_, a) pattern a ("kiara", _"1"_)
+27
+5000
+41 - Assign and Wildcard
+assign a;
+Select a such that Follows* (a, _) pattern a ("calli", _"2"_)
+7
+5000
+42 - Assign and Constant, Select Assign
+assign a; variable v;
+Select a such that Follows* (a, 30) pattern a (v, _)
+13, 27, 29
+5000
+43 - Constant and Assign, Select Assign
+assign a; variable v;
+Select a such that Follows* (40, a) pattern a (v, _)
+60
+5000
+44 - Assign and Statement, Select Assign
+assign a; stmt s; variable v;
+Select a such that Follows* (a, s) pattern a (v, _)
+3, 7, 8, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 58, 60, 71
+5000
+45 - Assign and Assign, Select Assign
+assign a, a1; variable v;
+Select a such that Follows* (a, a1) pattern a (v, _)
+3, 7, 13, 15, 17, 19, 27, 49
+5000
+46 - Assign and Print, Select Assign
+assign a; print p; variable v;
+Select a such that Follows* (a, p) pattern a (v, _)
+7, 8, 13, 15, 17, 19, 21, 23, 25, 27, 32, 43
+5000
+47 - Assign and Read, Select Assign
+assign a; read r; variable v;
+Select a such that Follows* (a, r) pattern a (v, _)
+3, 7, 8, 13, 15, 27, 29, 58, 60, 71
+5000
+48 - Assign and If, Select Assign
+assign a; if i; variable v;
+Select a such that Follows* (a, i) pattern a (v, _)
+3, 15, 17, 19, 60
+5000
+49 - Assign and While, Select Assign
+assign a; while w; variable v;
+Select a such that Follows* (a, w) pattern a (v, _)
+7, 8, 13, 43, 60
+5000
+50 - Wildcard and Assign
+assign a; variable v;
+Select a such that Follows* (_, a) pattern a (v, _)
+3, 8, 17, 19, 25, 27, 29, 32, 43, 50, 60, 70, 71
+5000
+51 - Assign and Wildcard
+assign a; variable v;
+Select a such that Follows* (a, _) pattern a (v, _)
+3, 7, 8, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 58, 60, 71
+5000
+52 - Assign and Constant, Select Assign
+assign a; variable v;
+Select a such that Follows* (a, 30) pattern a (v, _"ina"_)
+29
+5000
+53 - Constant and Assign, Select Assign
+assign a; variable v;
+Select a such that Follows* (40, a) pattern a (v, _"5"_)
+60
+5000
+54 - Assign and Statement, Select Assign
+assign a; stmt s; variable v;
+Select a such that Follows* (a, s) pattern a (v, _"gura"_)
+3, 8, 29, 32, 58
+5000
+55 - Assign and Assign, Select Assign
+assign a, a1; variable v;
+Select a such that Follows* (a, a1) pattern a (v, _"2"_)
+7
+5000
+56 - Assign and Print, Select Assign
+assign a; print p; variable v;
+Select a such that Follows* (a, p) pattern a (v, _"ame"_)
+7, 43
+5000
+57 - Assign and Read, Select Assign
+assign a; read r; variable v;
+Select a such that Follows* (a, r) pattern a (v, _"1"_)
+13, 27
+5000
+58 - Assign and If, Select Assign
+assign a; if i; variable v;
+Select a such that Follows* (a, i) pattern a (v, _"kiara"_)
+3, 17
+5000
+59 - Assign and While, Select Assign
+assign a; while w; variable v;
+Select a such that Follows* (a, w) pattern a (v, _"2"_)
+7
+5000
+60 - Wildcard and Assign
+assign a; variable v;
+Select a such that Follows* (_, a) pattern a (v, _"1"_)
+27
+5000
+61 - Assign and Wildcard
+assign a; variable v;
+Select a such that Follows* (a, _) pattern a (v, _"2"_)
+7
+5000
+62 - Constant and Assign, Select Assign
+assign a;
+Select a such that Parent* (14, a) pattern a (_, _)
+15, 17, 19, 21, 23, 25
+5000
+63 - Statement and Assign, Select Assign
+assign a; stmt s;
+Select a such that Parent* (s, a) pattern a (_, _)
+7, 8, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 50, 58, 60, 62, 69, 70
+5000
+64 - If and Assign, Select Assign
+assign a; if i;
+Select a such that Parent* (i, a) pattern a (_, _)
+7, 8, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 50, 58, 60, 62, 69, 70
+5000
+65 - While and Assign, Select Assign
+assign a; while w;
+Select a such that Parent* (w, a) pattern a (_, _)
+7, 8, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 50, 69
+5000
+66 - Statement and Assign, Select Statement
+assign a; stmt s;
+Select s such that Parent* (s, a) pattern a (_, _)
+4, 6, 9, 11, 14, 20, 39, 40, 41, 48, 61, 68
+5000
+67 - If and Assign, Select If
+assign a; if i;
+Select i such that Parent* (i, a) pattern a (_, _)
+4, 11, 20, 39, 40, 61
+5000
+68 - While and Assign, Select While
+assign a; while w;
+Select w such that Parent* (w, a) pattern a (_, _)
+6, 9, 14, 41, 48, 68
+5000
+69 - Out of Scope, Constant and Assign
+assign a;
+Select a such that Parent* (51, a) pattern a (_, _)
+none
+5000
+70 - Wildcard and Assign
+assign a;
+Select a such that Parent* (_, a) pattern a (_, _)
+7, 8, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 50, 58, 60, 62, 69, 70
+5000
+71 - Wildcard and Wildcard
+assign a;
+Select a such that Parent* (_, _) pattern a (_, _)
+3, 7, 8, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 50, 58, 60, 62, 69, 70, 71
+5000
+72 - Constant and Assign, Select Assign
+assign a;
+Select a such that Parent* (14, a) pattern a (_, _"ina"_)
+15
+5000
+73 - Statement and Assign, Select Assign
+assign a; stmt s;
+Select a such that Parent* (s, a) pattern a (_, _"2"_)
+7
+5000
+74 - If and Assign, Select Assign
+assign a; if i;
+Select a such that Parent* (i, a) pattern a (_, _"ame"_)
+7, 29, 43, 69
+5000
+75 - While and Assign, Select Assign
+assign a; while w;
+Select a such that Parent* (w, a) pattern a (_, _"gura"_)
+8, 12, 29, 32
+5000
+76 - Statement and Assign, Select Statement
+assign a; stmt s;
+Select s such that Parent* (s, a) pattern a (_, _"calli"_)
+4, 6, 9, 11, 14, 39, 40, 41, 48, 68
+5000
+77 - If and Assign, Select If
+assign a; if i;
+Select i such that Parent* (i, a) pattern a (_, _"7"_)
+4, 11, 20
+5000
+78 - While and Assign, Select While
+assign a; while w;
+Select w such that Parent* (w, a) pattern a (_, _"4"_)
+6, 9, 14
+5000
+79 - Out of Scope, Constant and Assign
+assign a;
+Select a such that Parent* (68, a) pattern a (_, _"ina"_)
+none
+5000
+80 - Wildcard and Assign
+assign a;
+Select a such that Parent* (_, a) pattern a (_, _"4"_)
+23, 32
+5000
+81 - Constant and Assign, Select Assign
+assign a;
+Select a such that Parent* (14, a) pattern a ("ame", _)
+15, 17, 19, 23, 25
+5000
+82 - Statement and Assign, Select Assign
+assign a; stmt s;
+Select a such that Parent* (s, a) pattern a ("ina", _)
+21, 69, 70
+5000
+83 - If and Assign, Select Assign
+assign a; if i;
+Select a such that Parent* (i, a) pattern a ("gura", _)
+none
+5000
+84 - While and Assign, Select Assign
+assign a; while w;
+Select a such that Parent* (w, a) pattern a ("calli", _)
+7, 8, 49, 50
+5000
+85 - Statement and Assign, Select Statement
+assign a; stmt s;
+Select s such that Parent* (s, a) pattern a ("ame", _)
+4, 6, 9, 11, 14, 20, 39, 61
+5000
+86 - If and Assign, Select If
+assign a; if i;
+Select i such that Parent* (i, a) pattern a ("calli", _)
+4, 39, 40
+5000
+87 - While and Assign, Select While
+assign a; while w;
+Select w such that Parent* (w, a) pattern a ("ina", _)
+6, 9, 14, 68
+5000
+88 - Out of Scope, Constant and Assign
+assign a;
+Select a such that Parent* (51, a) pattern a ("gura", _)
+none
+5000
+89 - Wildcard and Assign
+assign a;
+Select a such that Parent* (_, a) pattern a ("ame", _)
+12, 15, 17, 19, 23, 25, 60, 62
+5000
+90 - Constant and Assign, Select Assign
+assign a;
+Select a such that Parent* (14, a) pattern a ("ame", _"ina"_)
+15
+5000
+91 - Statement and Assign, Select Assign
+assign a; stmt s;
+Select a such that Parent* (s, a) pattern a ("calli", _"2"_)
+7
+5000
+92 - If and Assign, Select Assign
+assign a; if i;
+Select a such that Parent* (i, a) pattern a ("kiara", _"ame"_)
+29, 43
+5000
+93 - While and Assign, Select Assign
+assign a; while w;
+Select a such that Parent* (w, a) pattern a ("kiara", _"gura"_)
+29, 32
+5000
+94 - Statement and Assign, Select Statement
+assign a; stmt s;
+Select s such that Parent* (s, a) pattern a ("calli", _"calli"_)
+4, 39, 40, 48
+5000
+95 - If and Assign, Select If
+assign a; if i;
+Select i such that Parent* (i, a) pattern a ("ina", _"7"_)
+4, 11, 20
+5000
+96 - While and Assign, Select While
+assign a; while w;
+Select w such that Parent* (w, a) pattern a ("ame", _"4"_)
+6, 9, 14
+5000
+97 - Out of Scope, Constant and Assign
+assign a;
+Select a such that Parent* (68, a) pattern a ("ina", _"ina"_)
+none
+5000
+98 - Wildcard and Assign
+assign a;
+Select a such that Parent* (_, a) pattern a ("ame", _"4"_)
+23
+5000
+99 - Constant and Assign, Select Assign
+assign a; variable v;
+Select a such that Parent* (14, a) pattern a (v, _)
+15, 17, 19, 21, 23, 25
+5000
+100 - Statement and Assign, Select Assign
+assign a; stmt s; variable v;
+Select a such that Parent* (s, a) pattern a (v, _)
+7, 8, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 50, 58, 60, 62, 69, 70
+5000
+101 - If and Assign, Select Assign
+assign a; if i; variable v;
+Select a such that Parent* (i, a) pattern a (v, _)
+7, 8, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 50, 58, 60, 62, 69, 70
+5000
+102 - While and Assign, Select Assign
+assign a; while w; variable v;
+Select a such that Parent* (w, a) pattern a (v, _)
+7, 8, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29, 32, 43, 49, 50, 69
+5000
+103 - Statement and Assign, Select Statement
+assign a; stmt s; variable v;
+Select s such that Parent* (s, a) pattern a (v, _)
+4, 6, 9, 11, 14, 20, 39, 40, 41, 48, 61, 68
+5000
+104 - If and Assign, Select If
+assign a; if i; variable v;
+Select i such that Parent* (i, a) pattern a (v, _)
+4, 11, 20, 39, 40, 61
+5000
+105 - While and Assign, Select While
+assign a; while w; variable v;
+Select w such that Parent* (w, a) pattern a (v, _)
+6, 9, 14, 41, 48, 68
+5000
+106 - Out of Scope, Constant and Assign
+assign a; variable v;
+Select a such that Parent* (64, a) pattern a (v, _)
+none
+5000
+107 - Wildcard and Assign
+assign a; variable v;
+Select v such that Parent* (_, a) pattern a (v, _)
+ame, calli, ina, kiara
+5000
+108 - Constant and Assign, Select Assign
+assign a; variable v;
+Select a such that Parent* (14, a) pattern a (v, _"ina"_)
+15
+5000
+109 - Statement and Assign, Select Assign
+assign a; stmt s; variable v;
+Select a such that Parent* (s, a) pattern a (v, _"2"_)
+7
+5000
+110 - If and Assign, Select Assign
+assign a; if i; variable v;
+Select a such that Parent* (i, a) pattern a (v, _"ame"_)
+7, 29, 43, 69
+5000
+111 - While and Assign, Select Assign
+assign a; while w; variable v;
+Select a such that Parent* (w, a) pattern a (v, _"gura"_)
+8, 12, 29, 32
+5000
+112 - Statement and Assign, Select Statement
+assign a; stmt s; variable v;
+Select s such that Parent* (s, a) pattern a (v, _"calli"_)
+4, 6, 9, 11, 14, 39, 40, 41, 48, 68
+5000
+113 - If and Assign, Select If
+assign a; if i; variable v;
+Select i such that Parent* (i, a) pattern a (v, _"7"_)
+4, 11, 20
+5000
+114 - While and Assign, Select While
+assign a; while w; variable v;
+Select w such that Parent* (w, a) pattern a (v, _"4"_)
+6, 9, 14
+5000
+115 - Out of Scope, Constant and Assign
+assign a; variable v;
+Select a such that Parent* (68, a) pattern a (v, _"ina"_)
+none
+5000
+116 - Wildcard and Assign
+assign a; variable v;
+Select v such that Parent* (_, a) pattern a (v, _"4"_)
+ame, kiara
+5000
+117 - Statement and Exact Variable, Select Statement
+stmt s;
+Select s such that Modifies(s, "ame")
+1, 4, 6, 9, 11, 12, 14, 15, 16, 17, 19, 20, 23, 25, 30, 31, 39, 40, 57, 59, 60, 61, 62, 64, 65, 66
+1000
+118 - Assign and Exact Variable, Select Assign
+assign a;
+Select a such that Modifies(a, "calli")
+7, 8, 49, 50, 58
+1000
+119 - Read and Exact Variable, Select Read
+read r;
+Select r such that Modifies(r, "gura")
+34, 38
+1000
+120 - If and Exact Variable, Select If
+if i;
+Select i such that Modifies(i, "ina")
+4, 11, 20, 39, 40, 51, 61
+1000
+121 - While and Exact Variable, Select While
+while w;
+Select w such that Modifies(w, "kiara")
+6, 9, 41, 44
+1000
+122 - Assign and Synonym Variable, Select Variable
+variable v; assign a;
+Select v such that Modifies(a, v)
+ame, calli, ina, kiara
+1000
+123 - Read and Synonym Variable, Select Variable
+variable v; read r;
+Select v such that Modifies(r, v)
+ame, gura, ina, kiara
+1000
+124 - If and Synonym Variable, Select Variable
+variable v; if i;
+Select v such that Modifies(i, v)
+ame, calli, gura, ina, kiara
+1000
+125 - While and Synonym Variable, Select Variable
+variable v; while w;
+Select v such that Modifies(w, v)
+ame, calli, gura, ina, kiara
+1000
+126 - Constant and Synonym Variable, None Variable
+variable v;
+Select v such that Modifies(2, v)
+none
+1000
+127 - Constant and Synonym Variable, Assign Statement
+variable v;
+Select v such that Modifies(12, v)
+ame
+1000
+128 - Constant and Synonym Variable, Read Statement
+variable v;
+Select v such that Modifies(16, v)
+ame
+1000
+129 - Constant and Synonym Variable, If Statement
+variable v;
+Select v such that Modifies(20, v)
+ame, ina
+1000
+130 - Constant and Synonym Variable, While Statement
+variable v;
+Select v such that Modifies(48, v)
+calli
+1000
+131 - Statement and Exact Variable, Non-Existent Variable
+stmt s;
+Select s such that Modifies(s, "main")
+none
+1000
+132 - Read and Wildcard
+read r;
+Select r such that Modifies (r, _)
+1, 5, 16, 30, 31, 34, 36, 38, 46, 52, 53, 57, 59, 63, 65, 66, 72
+1000
+133 - Statement and Exact Variable, Select Statement
+stmt s;
+Select s such that Uses(s, "ina")
+2, 3, 4, 6, 9, 11, 14, 15, 20, 22, 29, 37, 39, 40, 41, 44, 51, 61, 62, 64, 67, 68
+1000
+134 - Assign and Exact Variable, Select Assign
+assign a;
+Select a such that Uses(a, "calli")
+3, 19, 29, 43, 49, 50, 69
+1000
+135 - Print and Exact Variable, Select Print
+print p;
+Select p such that Uses(p, "gura")
+10, 33, 35, 54, 55
+1000
+136 - If and Exact Variable, Select If
+if i;
+Select i such that Uses(i, "kiara")
+4, 11, 20, 39, 40
+1000
+137 - While and Exact Variable, Select While
+while w;
+Select w such that Uses(w, "ame")
+6, 9, 14, 41, 64, 68
+1000
+138 - Assign and Synonym Variable, Select Variable
+variable v; assign a;
+Select v such that Uses(a, v)
+ame, calli, gura, ina, kiara
+1000
+139 - Print and Synonym Variable, Select Variable
+variable v; print p;
+Select v such that Uses(p, v)
+ame, calli, gura, ina, kiara
+1000
+140 - If and Synonym Variable, Select Variable
+variable v; if i;
+Select v such that Uses(i, v)
+ame, calli, gura, ina, kiara
+1000
+141 - While and Synonym Variable, Select Variable
+variable v; while w;
+Select v such that Uses(w, v)
+ame, calli, gura, ina, kiara
+1000
+142 - Constant and Synonym Variable, Select None Variable
+variable v;
+Select v such that Uses(1, v)
+none
+1000
+143 - Constant and Synonym Variable, Assign Statement
+variable v;
+Select v such that Uses(1, v)
+none
+1000
+144 - Constant and Synonym Variable, If Statement
+variable v;
+Select v such that Uses(61, v)
+ame, ina
+1000
+145 - Constant and Synonym Variable, Print Statement
+variable v;
+Select v such that Uses(67, v)
+ina
+1000
+146 - Constant and Synonym Variable, While Statement
+variable v;
+Select v such that Uses(68, v)
+ame, ina, calli
+1000
+147 - Procedure and Exact Variable, Select Procedure
+procedure p;
+Select p such that Uses(p, "ina")
+vtuber
+1000
+148 - Procedure and Synonym Variable, Select Variable
+variable v; procedure p;
+Select v such that Uses(p, v)
+ame, calli, gura, ina, kiara
+1000
+149 - Exact Procedure and Synonym Variable, Select Variable
+variable v; procedure p;
+Select v such that Uses("vtuber", v)
+ame, calli, gura, ina, kiara
+1000
+150 - Statement and Exact Variable, Non-Existent Variable
+stmt s;
+Select s such that Uses(1, "main")
+none
+1000

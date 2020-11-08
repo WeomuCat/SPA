@@ -1,0 +1,5 @@
+1 - Evaluate Affects* Constant before Affect Synonym
+assign a;
+Select a such that Affects* (a, _) and Affects (a, 2)
+1
+60000

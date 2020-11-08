@@ -1,0 +1,149 @@
+procedure first {
+    zero = ichi + ni + san + yon + go + roku + nana + hachi + kyuu;
+    while (ichi == ni) {
+        zero = ichi + ni - 2;
+        print yon;
+        read go;
+        call second;
+        call third;
+        san = san + san / 2 - san;
+    }
+    zero = go + yon;
+    read ichi;
+    call seventh;
+}
+
+procedure second {
+    ichi = ni + go - roku / ((1 + hachi) * 2);
+    nana = kyuu + hachi;
+    print go;
+    call fifth;
+    if (go == ni) then {
+        ni = roku;
+        print kyuu;
+    } else {
+        hachi = roku % 3;
+        call sixth;
+    }
+    call ninth;
+}
+
+procedure third {
+    if ((zero == ni) && ((ni == ichi) || (!(ichi - nana > kyuu / go)))) then {
+        call fourth;
+        if (yon < go) then {
+            call seventh;
+            print ichi;
+            hachi = kyuu + (yon % 4);
+        } else {
+            call fifth;
+        }
+        call tenth;
+    } else {
+        while (yon == go) {
+            print roku;
+        }
+    }
+    read nana;
+}
+
+procedure fourth {
+    call fifth;
+    call sixth;
+    call seventh;
+    call eighth;
+    while (1 == 1) {
+        call ninth;
+    }
+    call tenth;
+}
+
+procedure fifth {
+    while (nana >= go) {
+        while (hachi < ichi) {
+            while (nana > hachi) {
+                call ninth;
+                zero = ichi + ni - 2;
+            }
+            while (nana < go) {
+                kyuu = zero - 2;
+                call ninth;
+                print roku;
+            }
+            while (san < ni) {
+                roku = ni - 3;
+                call sixth;
+            }
+        }
+        call seventh;
+    }
+    call eighth;
+}
+
+procedure sixth {
+    call tenth;
+    go = nana + 2 - roku;
+    read ichi;
+    call ninth;
+    if (nana != 2) then {
+        zero = ichi - 2;
+    } else {
+        call seventh;
+        read ichi;
+        print ichi;
+    }
+}
+
+procedure seventh {
+    print ichi;
+    read zero;
+    ichi = zero - nana + 8;
+    kyuu = ichi - ni;
+    call tenth;
+    read nana;
+    ichi = 1;
+    ni = 2;
+    san = 3;
+    kyuu = 0;
+    call tenth;
+    read zero;
+    go = roku - roku;
+    read roku;
+}
+
+procedure eighth {
+    read hachi;
+    if (hachi == 8) then {
+        read hachi;
+        hachi = hachi + 8;
+        print hachi;
+    } else {
+        hachi = hachi - 8;
+    }
+}
+
+procedure ninth {
+    read san;
+    print go;
+    call tenth;
+    roku = kyuu - nana;
+    if (kyuu != go) then {
+        call tenth;
+    } else {
+        call tenth;
+    }
+    roku = go + go - go;
+}
+
+procedure tenth {
+    zero = ichi + ni + san + yon + go + roku + nana + hachi + kyuu;
+    ichi = ni + san + yon + go + roku + nana + hachi + kyuu;
+    ni = san + yon + go + roku + nana + hachi + kyuu;
+    san = yon + go + roku + nana + hachi + kyuu;
+    yon = go + roku + nana + hachi + kyuu;
+    go = roku + nana + hachi + kyuu;
+    roku = nana + hachi + kyuu;
+    nana = hachi + kyuu;
+    hachi = kyuu;
+    kyuu = 0;
+}

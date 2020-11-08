@@ -40,7 +40,7 @@ There are 2 different ways to run the current System Tests. But before we begin,
 > We have a total of 18 SIMPLE Source Files and about 3424 SIMPLE queries.
 > Because we have 2 different ways to run the test, there are 2 separate files containing the different queries.
     > The first way has the set of source and queries found in the directory Team01\Test01\System
-    > The second way has the set of source and queries found in the directory Team01\Test01\Publish
+    > The second way has the set of source and queries found in the directory Team01\Test01\Published
     > Both the sources and queries are exactly the same, just that the queries are compield into a single file for ease of use for the second way.
 
 **First Way**:
@@ -59,24 +59,24 @@ Steps:
 1. Ensure that you have built AutoTester
 2. To run each of test cases via the AutoTester from a command prompt, navigate to the executable file (Code01\Release or Code01\Debug (if you chose to build with Debug configuration)) and input: 
 
-AutoTester ..\..\Tests01\Publish\D1-Letters_source.txt ..\..\Tests01\Publish\D1-Letters_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\D2-Arknights_source.txt ..\..\Tests01\Publish\D2-Arknights_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\D2-Bird_source.txt ..\..\Tests01\Publish\D2-Bird_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\D2-CatDog_source.txt ..\..\Tests01\Publish\D2-CatDog_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\D2-Life_source.txt ..\..\Tests01\Publish\D2-Life_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\D2-Pokemon_source.txt ..\..\Tests01\Publish\D2-Pokemon_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\D2-Triple_source.txt ..\..\Tests01\Publish\D2-Triple_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\D2-VTuber_source.txt ..\..\Tests01\Publish\D2-VTuber_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\D3-Japanese_source.txt ..\..\Tests01\Publish\D3-Japanese_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\D3-Minecraft_source.txt ..\..\Tests01\Publish\D3-Minecraft_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\Invalid-Colors_source.txt ..\..\Tests01\Publish\Invalid-Colors_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\OptimizationStress-Affector_source.txt ..\..\Tests01\Publish\OptimizationStress-Affector_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\OptimizationStress-PokemonAgain_source.txt ..\..\Tests01\Publish\OptimizationStress-PokemonAgain_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\Parser-AmbiguousVariables_source.txt ..\..\Tests01\Publish\Parser-AmbiguousVariables_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\Parser-ManyBrackets_source.txt ..\..\Tests01\Publish\Parser-ManyBrackets_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\Parser-Minified1_source.txt ..\..\Tests01\Publish\Parser-Minified1_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\Parser-Minified2_source.txt ..\..\Tests01\Publish\Parser-Minified2_queries.txt ..\..\Tests01\out.xml
-AutoTester ..\..\Tests01\Publish\QPP-Source_source.txt ..\..\Tests01\Publish\QPP-Source_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D1-Letters_source.txt ..\..\Tests01\Published\D1-Letters_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D2-Arknights_source.txt ..\..\Tests01\Published\D2-Arknights_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D2-Bird_source.txt ..\..\Tests01\Published\D2-Bird_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D2-CatDog_source.txt ..\..\Tests01\Published\D2-CatDog_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D2-Life_source.txt ..\..\Tests01\Published\D2-Life_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D2-Pokemon_source.txt ..\..\Tests01\Published\D2-Pokemon_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D2-Triple_source.txt ..\..\Tests01\Published\D2-Triple_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D2-VTuber_source.txt ..\..\Tests01\Published\D2-VTuber_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D3-Japanese_source.txt ..\..\Tests01\Published\D3-Japanese_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\D3-Minecraft_source.txt ..\..\Tests01\Published\D3-Minecraft_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\Invalid-Colors_source.txt ..\..\Tests01\Published\Invalid-Colors_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\OptimizationStress-Affector_source.txt ..\..\Tests01\Published\OptimizationStress-Affector_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\OptimizationStress-PokemonAgain_source.txt ..\..\Tests01\Published\OptimizationStress-PokemonAgain_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\Parser-AmbiguousVariables_source.txt ..\..\Tests01\Published\Parser-AmbiguousVariables_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\Parser-ManyBrackets_source.txt ..\..\Tests01\Published\Parser-ManyBrackets_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\Parser-Minified1_source.txt ..\..\Tests01\Published\Parser-Minified1_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\Parser-Minified2_source.txt ..\..\Tests01\Published\Parser-Minified2_queries.txt ..\..\Tests01\out.xml
+AutoTester ..\..\Tests01\Published\QPP-Source_source.txt ..\..\Tests01\Published\QPP-Source_queries.txt ..\..\Tests01\out.xml
 
 3. Done! For each file, the out.xml is located as specified in the command.
 
@@ -84,7 +84,7 @@ AutoTester ..\..\Tests01\Publish\QPP-Source_source.txt ..\..\Tests01\Publish\QPP
 NOTE: For the queries in the following file,
 "Team01\Tests01\System\OptimizationStress\PokemonAgain_Stress_Mixed"
 
-"Tests01\Publish\OptimizationStress-PokemonAgain_queries.txt" 
+"Tests01\Published\OptimizationStress-PokemonAgain_queries.txt" 
 
 Please note that failing the test case is indicative of passing while timeout is indicative of failing.
 
