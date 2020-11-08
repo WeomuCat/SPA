@@ -4,8 +4,8 @@ const std::regex name_format_("[a-zA-Z][a-zA-Z0-9]*");
 const std::regex integer_format_("[0-9]+");
 const std::regex identity_format_("\"\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"");
 const std::regex attr_ref_format_("[a-zA-Z][a-zA-Z0-9]*\\.(procName|varName|value|stmt#)");
-const std::regex clause_pattern_if_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)");
-const std::regex clause_pattern_while_format_("pattern\\s+[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)");
+const std::regex clause_pattern_if_format_("[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*,\\s*_\\s*\\)");
+const std::regex clause_pattern_while_format_("[a-zA-Z][a-zA-Z0-9]*\\s*\\(\\s*(_|\"?\\s*[a-zA-Z][a-zA-Z0-9]*\\s*\"?)\\s*,\\s*_\\s*\\)");
 const QueryNode null_node_ = QueryNode();
 
 STRING QueryPreProcessor::trimWhitespaces(STRING s) {
@@ -586,10 +586,10 @@ QueryNode QueryPreProcessor::createPatternNode(PROCESSED_SYNONYMS proc_s, SINGLE
 		else if (std::regex_match(args[0], name_format_) && !QueryValidator::isSynonymDeclared(proc_s, args[0])) {
 			is_syntax_valid = false;
 		}
-		else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::ifs && std::regex_match(args[0], clause_pattern_if_format_)) {
+		else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::ifs && !std::regex_match(c, clause_pattern_if_format_)) {
 			is_syntax_valid = false;
 		}
-		else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::whiles && std::regex_match(args[0], clause_pattern_while_format_)) {
+		else if (proc_s.find(s)->second.getSynonymType() == QuerySynonymType::whiles && !std::regex_match(c, clause_pattern_while_format_)) {
 			is_syntax_valid = false;
 		}
 	}
