@@ -9,10 +9,14 @@ WHILE_NODE_PTR_LIST WhileTable::getWhileNodeList() {
 }
 
 STMT_NUM_LIST WhileTable::getWhileNumList() {
+    return stmt_num_list_;
+}
+
+void WhileTable::preCompute() {
     std::vector<STMT_NUM> result;
     for (WHILE_NODE_PTR n : nodes_) {
         STMT_NUM s = n.get()->getStatementNumber();
         result.push_back(s);
     }
-    return result;
+    stmt_num_list_ = result;
 }

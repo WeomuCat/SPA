@@ -88,30 +88,6 @@
     <ClCompile Include="..\source\PKB\Relationships\UsesTable.cpp">
       <Filter>Source\Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Parser.cpp">
-      <Filter>Source\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParserPrintTree.cpp">
-      <Filter>Source\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryEvaluator.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryNode.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryNodeContent.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryPreProcessor.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryProcessor.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ResultList.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\PKB\Relationships\CallsTable.cpp">
       <Filter>Source\Relationship</Filter>
     </ClCompile>
@@ -124,32 +100,11 @@
     <ClCompile Include="..\source\PKB\DesignEntities\CallTable.cpp">
       <Filter>Source\DesignEntity</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Relationship.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\PKB\Relationships\RelationshipTransitiveTable.cpp">
       <Filter>Source\Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Pattern.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\PKB\DesignEntities\DesignEntityTable.cpp">
       <Filter>Source\DesignEntity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryValidator.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AttrRefManager.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ClauseQueue.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\WithClause.cpp">
-      <Filter>Source\QP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ResultListManager.cpp">
-      <Filter>Source\QP</Filter>
     </ClCompile>
     <ClCompile Include="..\source\PKB\Relationships\AffectsTable.cpp">
       <Filter>Source\Relationship</Filter>
@@ -168,6 +123,51 @@
     </ClCompile>
     <ClCompile Include="..\source\PKB\PKBBuilder.cpp">
       <Filter>Source\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\AttrRefManager.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\ClauseQueue.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\Pattern.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\QueryEvaluator.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\QueryNode.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\QueryNodeContent.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\QueryPreProcessor.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\QueryProcessor.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\QueryValidator.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\Relationship.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\ResultList.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\ResultListManager.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QP\WithClause.cpp">
+      <Filter>Source\QP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Parser\Parser.cpp">
+      <Filter>Source\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Parser\ParserPrintTree.cpp">
+      <Filter>Source\Parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -267,36 +267,6 @@
     <ClInclude Include="..\source\PKB\Relationships\UsesTable.h">
       <Filter>Header\Relationship</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryEvaluator.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryNode.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryNodeContent.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryNodeType.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessor.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QuerySynonymType.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ResultList.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ResultListManager.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParserPrintTree.h">
-      <Filter>Header\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Parser.h">
-      <Filter>Header\Parser</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\PKB\Relationships\CallsTable.h">
       <Filter>Header\Relationship</Filter>
     </ClInclude>
@@ -309,41 +279,14 @@
     <ClInclude Include="..\source\PKB\DesignEntities\CallTable.h">
       <Filter>Header\DesignEntity</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Relationship.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h">
       <Filter>Header\Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Pattern.h">
-      <Filter>Header\QP</Filter>
     </ClInclude>
     <ClInclude Include="..\source\PKB\DesignEntities\DesignEntityTable.h">
       <Filter>Header\DesignEntity</Filter>
     </ClInclude>
     <ClInclude Include="..\source\PKB\ASTNode\RelationTypeEnum.h">
       <Filter>Header\ASTNode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryPreProcessor.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryValidator.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AttributeType.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryEvaluatorReturnType.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ClauseQueue.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\WithClause.h">
-      <Filter>Header\QP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AttrRefManager.h">
-      <Filter>Header\QP</Filter>
     </ClInclude>
     <ClInclude Include="..\source\PKB\Relationships\AffectsTable.h">
       <Filter>Header\Relationship</Filter>
@@ -371,6 +314,63 @@
     </ClInclude>
     <ClInclude Include="..\source\AbstractDataTypes.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\AttributeType.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\AttrRefManager.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\Pattern.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\QueryEvaluator.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\WithClause.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\ResultList.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\ResultListManager.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\Relationship.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\QueryValidator.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\QuerySynonymType.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\QueryProcessor.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\QueryPreProcessor.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\QueryNodeType.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\QueryNodeContent.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\QueryNode.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\QueryEvaluatorReturnType.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QP\ClauseQueue.h">
+      <Filter>Header\QP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Parser\Parser.h">
+      <Filter>Header\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Parser\ParserPrintTree.h">
+      <Filter>Header\Parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

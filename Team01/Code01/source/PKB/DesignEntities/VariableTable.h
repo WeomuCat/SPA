@@ -22,4 +22,12 @@ public:
     Description: Returns a VAR_NAME_LIST of the VAR_NODE_PTR from the table.
     */
     VAR_NAME_LIST getVariableNameList();
+
+    /*
+    Description: Precomputes the necessary information within the table.
+    */
+    void preCompute();
+
+private:
+    VAR_NAME_LIST var_name_list_;
 };
