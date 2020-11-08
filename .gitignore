@@ -417,5 +417,3 @@ MigrationBackup/
 
 # Ignore AutoTester output in RunTestsOutput
 **/RunTestsOutput/*.xml
-# Ignore Publish folder in RunTestsOutput
-**/RunTestsOutput/Publish
