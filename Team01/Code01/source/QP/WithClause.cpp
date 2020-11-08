@@ -309,6 +309,19 @@ void WithClause::getAttrrefAttrrefResult(QueryNode attrref_node, QueryNode attrr
 	ATTRIBUTE attribute = attrref_node.getAttr();
 	ATTR_REF_VALUES_LIST attrref_values;
 
+	// attrref_node 2
+	SYNONYM_NAME synonym_name2 = attrref_node2.getString();
+	SYNONYM_TYPE synonym_type2 = processed_synonyms.find(synonym_name2)->second.getSynonymType();
+	ATTRIBUTE attribute2 = attrref_node2.getAttr();
+
+	ATTR_REF_VALUES_LIST attrref_values2;
+
+	// if both attrref have the same synonym name and attribute (eg s1.stmt# = s1.stmt#) return true immediately and end
+	if (synonym_name == synonym_name2 && attribute == attribute2) {
+		clause_bool = true;
+		return;
+	}
+
 	// if the intermediate resultlist contains this synonym, use the values it in. Else get from PKB.
 	if (intermediate_result_list.containsSynonym(synonym_name)) {
 		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(synonym_name);
@@ -323,13 +336,6 @@ void WithClause::getAttrrefAttrrefResult(QueryNode attrref_node, QueryNode attrr
 
 	bool isDefaultValueType1 = AttrRefManager::isDefaultValueTypeForSynonymType(attrref_values[0], synonym_type);
 	
-
-	// attrref_node 2
-	SYNONYM_NAME synonym_name2 = attrref_node2.getString();
-	SYNONYM_TYPE synonym_type2 = processed_synonyms.find(synonym_name2)->second.getSynonymType();
-	ATTRIBUTE attribute2 = attrref_node2.getAttr();
-
-	ATTR_REF_VALUES_LIST attrref_values2;
 
 	// if the intermediate resultlist contains this synonym, use the values it in. Else get from PKB.
 	if (intermediate_result_list.containsSynonym(synonym_name2)) {
@@ -477,6 +483,14 @@ void WithClause::getSynonymSynonymResult(QueryNode synonym_node1, QueryNode syno
 	SYNONYM_NAME prog_line_synonym_name1 = synonym_node1.getString();
 	ATTR_REF_VALUES_LIST prog_line_values1;
 
+	SYNONYM_NAME prog_line_synonym_name2 = synonym_node1.getString();
+	ATTR_REF_VALUES_LIST prog_line_values2;
+
+	if (prog_line_synonym_name1 == prog_line_synonym_name2) {
+		clause_bool = true;
+		return;
+	}
+
 	if (intermediate_result_list.containsSynonym(prog_line_synonym_name1)) {
 		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(prog_line_synonym_name1);
 		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
@@ -490,8 +504,6 @@ void WithClause::getSynonymSynonymResult(QueryNode synonym_node1, QueryNode syno
 		}
 	}
 
-	SYNONYM_NAME prog_line_synonym_name2 = synonym_node1.getString();
-	ATTR_REF_VALUES_LIST prog_line_values2;
 
 	if (intermediate_result_list.containsSynonym(prog_line_synonym_name2)) {
 		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(prog_line_synonym_name2);
