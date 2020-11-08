@@ -526,6 +526,10 @@ namespace UnitTesting {
 
 				r7->setStatementNumber(7);
 
+				p6->setVariableNode(std::make_shared<VariableNode>());
+				r7->setVariableNode(std::make_shared<VariableNode>());
+				p9->setVariableNode(std::make_shared<VariableNode>());
+
 				b7.addAssignNode(a1);
 				b7.addAssignNode(a2);
 				b7.addAssignNode(a3);

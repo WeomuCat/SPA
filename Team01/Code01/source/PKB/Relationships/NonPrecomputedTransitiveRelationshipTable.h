@@ -7,14 +7,8 @@
 #include "../Hashing.h"
 
 template<typename T>
-class RelationshipTransitiveTable {
-    /* Overview: This is a data structure that can store transitive relationships */
-
-public:
-    /*
-    Description: Precompute the transitive relation of this table and store it.
-    */
-    void preComputeTransitive();
+class NonPrecomputedTransitiveRelationshipTable {
+    /* Overview: This is a data structure that does not precompute transitive relationships */
 
 protected:
     /*
@@ -32,8 +26,11 @@ protected:
     */
     BOOLEAN_TYPE isRelationshipTransitive(T t1, T t2);
 
+    /*
+    Description: Get the children of a specific node of this relationship.
+    */
+    virtual std::vector<T> getChildren(T t) = 0;
+
 private:
-    std::unordered_map<T, std::vector<T>> children_;
     std::unordered_set<std::pair<T, T>> relationship_;
-    std::unordered_set<std::pair<T, T>> relationship_transitive_;
 };

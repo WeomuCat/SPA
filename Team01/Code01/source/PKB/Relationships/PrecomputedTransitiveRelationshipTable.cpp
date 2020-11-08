@@ -2,10 +2,10 @@
 
 #include <queue>
 #include <unordered_set>
-#include "RelationshipTransitiveTable.h"
+#include "PrecomputedTransitiveRelationshipTable.h"
 
 template<typename T>
-void RelationshipTransitiveTable<T>::preComputeTransitive() {
+void PrecomputedTransitiveRelationshipTable<T>::preComputeTransitive() {
     // For each node, do a BFS to all reachable nodes
     // Add transitive relationship from start to all reachable nodes
     for (auto it1 : children_) {
@@ -43,20 +43,20 @@ void RelationshipTransitiveTable<T>::preComputeTransitive() {
 }
 
 template<typename T>
-void RelationshipTransitiveTable<T>::addRelationship(T t1, T t2) {
+void PrecomputedTransitiveRelationshipTable<T>::addRelationship(T t1, T t2) {
     children_[t1].push_back(t2);
     relationship_.insert({ t1, t2 });
 }
 
 template<typename T>
-BOOLEAN_TYPE RelationshipTransitiveTable<T>::isRelationship(T t1, T t2) {
+BOOLEAN_TYPE PrecomputedTransitiveRelationshipTable<T>::isRelationship(T t1, T t2) {
     // Check if Relationship(t1, t2) exists
     return relationship_.count({ t1, t2 }) > 0;
 }
 
 
 template<typename T>
-BOOLEAN_TYPE RelationshipTransitiveTable<T>::isRelationshipTransitive(T t1, T t2) {
+BOOLEAN_TYPE PrecomputedTransitiveRelationshipTable<T>::isRelationshipTransitive(T t1, T t2) {
     // Check if RelationshipT(t1, t2) exists
     return relationship_transitive_.count({ t1, t2 }) > 0;
 }

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../../AbstractDataTypes.h"
-#include "RelationshipTransitiveTable.h"
-#include "RelationshipTransitiveTable.cpp"
+#include "PrecomputedTransitiveRelationshipTable.h"
+#include "PrecomputedTransitiveRelationshipTable.cpp"
 
-class ParentTable : public RelationshipTransitiveTable<STMT_NUM> {
+class ParentTable : public PrecomputedTransitiveRelationshipTable<STMT_NUM> {
     /* Overview: This is a data structure */
 
 public:

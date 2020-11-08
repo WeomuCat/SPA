@@ -5,9 +5,10 @@
 #include <queue>
 
 #include "../../AbstractDataTypes.h"
-#include "../Hashing.h"
+#include "NonPrecomputedTransitiveRelationshipTable.h"
+#include "NonPrecomputedTransitiveRelationshipTable.cpp"
 
-class NextTable {
+class NextTable : public NonPrecomputedTransitiveRelationshipTable<STMT_NUM> {
 
 public:
     /*
@@ -26,11 +27,15 @@ public:
     BOOLEAN_TYPE isNextTransitive(STMT_NUM s1, STMT_NUM s2);
 
     /*
+    Description: Gets a STMT_NUM_LIST of the STMT_NUM that are next of s.
+    */
+    STMT_NUM_LIST getChildren(STMT_NUM s) override;
+
+    /*
     Description: Returns the CFG of the given source that is based off next relation.
     */
     CFG getControlFlowGraph();
 
 private:
     CFG cfg_;
-    std::unordered_set<std::pair<STMT_NUM, STMT_NUM>> relationship_;
 };

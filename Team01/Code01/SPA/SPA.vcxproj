@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AbstractDataTypes.h" />
+    <ClInclude Include="..\source\PKB\Relationships\NonPrecomputedTransitiveRelationshipTable.h" />
     <ClInclude Include="..\source\QP\AttrRefManager.h" />
     <ClInclude Include="..\source\QP\ClauseQueue.h" />
     <ClInclude Include="..\source\QP\AttributeType.h" />
@@ -61,7 +62,7 @@
     <ClInclude Include="..\source\PKB\Relationships\ModifiesTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\NextTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\ParentTable.h" />
-    <ClInclude Include="..\source\PKB\Relationships\RelationshipTransitiveTable.h" />
+    <ClInclude Include="..\source\PKB\Relationships\PrecomputedTransitiveRelationshipTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\StatementTypeEnum.h" />
     <ClInclude Include="..\source\PKB\Relationships\StatementTypeTable.h" />
     <ClInclude Include="..\source\PKB\Relationships\UsesTable.h" />
@@ -80,6 +81,7 @@
     <ClInclude Include="..\source\QP\WithClause.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\PKB\Relationships\NonPrecomputedTransitiveRelationshipTable.cpp" />
     <ClCompile Include="..\source\QP\AttrRefManager.cpp" />
     <ClCompile Include="..\source\QP\ClauseQueue.cpp" />
     <ClCompile Include="..\source\Parser\Parser.cpp" />
@@ -123,7 +125,7 @@
     <ClCompile Include="..\source\PKB\Relationships\ModifiesTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\NextTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\ParentTable.cpp" />
-    <ClCompile Include="..\source\PKB\Relationships\RelationshipTransitiveTable.cpp" />
+    <ClCompile Include="..\source\PKB\Relationships\PrecomputedTransitiveRelationshipTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\StatementTypeTable.cpp" />
     <ClCompile Include="..\source\PKB\Relationships\UsesTable.cpp" />
     <ClCompile Include="..\source\QP\QueryEvaluator.cpp" />

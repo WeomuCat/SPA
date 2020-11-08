@@ -81,42 +81,10 @@ BOOLEAN_TYPE AffectsTable::isAffects(STMT_NUM s1, STMT_NUM s2) {
 }
 
 BOOLEAN_TYPE AffectsTable::isAffectsTransitive(STMT_NUM s1, STMT_NUM s2) {
-    // Do BFS
-    std::queue<STMT_NUM> queue;
-    std::unordered_set<STMT_NUM> discovered;
-    queue.push(s1);
-
-    while (!queue.empty()) {
-        STMT_NUM s = queue.front();
-        queue.pop();
-
-        // Continue if t has no children statements
-        auto affected = getAffectedList(s);
-        if (affected.empty()) {
-            continue;
-        }
-
-        // Iterate children of t and add to queue
-        for (STMT_NUM c : affected) {
-            // Continue if c has been discovered
-            if (discovered.count(c) > 0) {
-                continue;
-            }
-            
-            // Goal Test
-            if (c == s2) {
-                return true;
-            }
-
-            queue.push(c);
-            discovered.insert(c);
-        }
-    }
-
-    return false;
+    return isRelationshipTransitive(s1, s2);
 }
 
-STMT_NUM_LIST AffectsTable::getAffectedList(STMT_NUM start) {
+STMT_NUM_LIST AffectsTable::getChildren(STMT_NUM start) {
     STMT_NUM_LIST result;
 
     // Ensure start is an assignment statement
