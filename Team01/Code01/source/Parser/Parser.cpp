@@ -137,29 +137,11 @@
 			STMT_NODE_PTR whileblock_firststmt = w_ptr->getWhileStatementListNode()->getStatementNodeList().front();
 			this->pkb_builder_.addNext(w_ptr->getStatementNumber(), whileblock_firststmt->getStatementNumber());
 			
-			
-			//TODO: 01MAKE SURE LAST STMT OF ANY CONTAINER
 			std::set<STMT_NUM> last_stmts_num_set;
 			findLastStmts(w_ptr->getWhileStatementListNode(), last_stmts_num_set);
 			
 			for (STMT_NUM last_stmt_num : last_stmts_num_set) {
 				this->pkb_builder_.addNext(last_stmt_num, w_ptr->getStatementNumber());
-			}
-
-			STMT_NODE_PTR_LIST nodes_in_parent_stmt_lst = w_ptr->getParentStatementListNode()->getStatementNodeList();
-			//Find stmt after while stmt
-			//No such stmt if while stmt is last stmt
-			int i = 0;
-			// Iterate all nodes in parent stmt list until while stmt node is found.
-			while (i < (nodes_in_parent_stmt_lst.size() - 1) && (nodes_in_parent_stmt_lst[i] != w_ptr)) {
-				i++;
-			}
-			//Get stmt after while stmt and set relationship
-			if (i < (nodes_in_parent_stmt_lst.size() - 1)) {
-				
-				i = i + 1;
-				stmt_after_while_block = nodes_in_parent_stmt_lst[i];
-				this->pkb_builder_.addNext(w_ptr->getStatementNumber(), stmt_after_while_block->getStatementNumber());
 			}
 		}
 		
@@ -176,40 +158,6 @@
 
 			STMT_NODE_PTR elseblock_laststmt = if_ptr->getElseStatementListNode()->getStatementNodeList().front();
 			this->pkb_builder_.addNext(if_ptr->getStatementNumber(), elseblock_laststmt->getStatementNumber());
-			//TODO: Remove Debugging Stmt
-			std::cout << "if_ptr: " << if_ptr->getStatementNumber();
-			std::cout << "ifblock_firststmt: " << ifblock_firststmt->getStatementNumber();
-			std::cout << "elseblock_laststmt: " << elseblock_laststmt->getStatementNumber();
-
-			STMT_NODE_PTR_LIST nodes_in_parent_stmt_lst = if_ptr->getParentStatementListNode()->getStatementNodeList();
-			//Find stmt after if stmt
-			//No such stmt if if stmt is last stmt
-			int i = 0;
-			// Iterate all nodes in parent stmt list until while stmt node is found.
-			while (i < (nodes_in_parent_stmt_lst.size() - 1) && (nodes_in_parent_stmt_lst[i] != if_ptr)) {
-				i++;
-			}
-			//Get stmt after if stmt and set relationship
-			if (i < (nodes_in_parent_stmt_lst.size() - 1)) {
-				i = i + 1;
-				stmt_after_if_block = nodes_in_parent_stmt_lst[i];
-				
-				//Last stmts are dependent on the stmt_after_if_block existing
-				
-				//TODO: Fix Next relationship
-				std::set<STMT_NUM> last_stmts_num_set;
-				findLastStmts(if_ptr->getThenStatementListNode(), last_stmts_num_set);
-				findLastStmts(if_ptr->getElseStatementListNode(), last_stmts_num_set);
-
-				for (STMT_NUM last_stmt_num : last_stmts_num_set) {
-					this->pkb_builder_.addNext(last_stmt_num, stmt_after_if_block->getStatementNumber());
-				}
-				
-				//TODO: Remove Debugging Stmt
-				std::cout << "stmt_after_if_block: " << stmt_after_if_block->getStatementNumber();
-				//std::cout << "ifblock_laststmt: " << ifblock_laststmt->getStatementNumber();
-				//std::cout << "elseblock_laststmt: " << elseblock_laststmt->getStatementNumber();
-			}
 		}
 		
 		
@@ -510,9 +458,6 @@
 
 		STRING rhs_token = this->process_token_stream_.front(); //Starts taking in tokens for condition
 		this->process_token_stream_.pop_front(); // Remove var/const/operator/parentheses token for the next token
-
-		//TODO: HANDLERS FOR EMPTY STACKS / UNEXCPECTED TOKENS
-		//Need to handle gracefully
 
 		while (!this->process_token_stream_.empty() && rhs_token != "{") {
 			//These tokens will populate this->stmt_token_queue_
@@ -1178,9 +1123,6 @@
 
 		STRING rhs_token = this->process_token_stream_.front(); //Starts taking in tokens for condition
 		this->process_token_stream_.pop_front(); // Remove var/const/operator/parentheses token for the next token
-
-		//TODO: HANDLERS FOR EMPTY STACKS / UNEXCPECTED TOKENS
-		//Need to handle gracefully
 
 		while (!this->process_token_stream_.empty() && rhs_token != "then") {
 			//These tokens will populate this->stmt_token_queue_
@@ -1873,9 +1815,6 @@
 
 		STRING rhs_token = this->process_token_stream_.front();
 		this->process_token_stream_.pop_front(); // Remove rhs var/const/operator/parentheses token for the next token
-
-		//TODO: HANDLERS FOR EMPTY STACKS / UNEXCPECTED TOKENS
-		//Need to handle gracefully
 
 		while (!this->process_token_stream_.empty() && rhs_token != ";") {
 			//These tokens will populate this->stmt_token_queue_
