@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <unordered_set>
 
 #include "../PKB/PKB.h"
 #include "../PKB/PKBBuilder.h"
@@ -13,11 +14,12 @@
 
 class WithClause {
 public:
-	WithClause(PROCESSED_SYNONYMS processed_synonyms, QueryNode with_clause);
+	WithClause(PROCESSED_SYNONYMS processed_synonyms, QueryNode with_clause, ResultList& intermediate_result_list);
 	void getWithResult(PKB pkb, bool& clause_bool, ResultList& clause_result_list);
 
 private:
 	PROCESSED_SYNONYMS processed_synonyms;
+	ResultList intermediate_result_list;
 	QueryNode with_clause;
 	QueryNode lhs;
 	QueryNode rhs;

@@ -1,7 +1,8 @@
 #include "WithClause.h"
 
-WithClause::WithClause(PROCESSED_SYNONYMS processed_synonyms, QueryNode with_clause) {
+WithClause::WithClause(PROCESSED_SYNONYMS processed_synonyms, QueryNode with_clause, ResultList& intermediate_result_list) {
 	this->processed_synonyms = processed_synonyms;
+	this->intermediate_result_list = intermediate_result_list;
 	this->with_clause = with_clause;
 	this->lhs = with_clause.getChildren()[0];
 	this->rhs = with_clause.getChildren()[1];
@@ -157,7 +158,19 @@ void WithClause::getAttrrefIntResult(QueryNode attrref_node, QueryNode int_node,
 	SYNONYM_NAME synonym_name = attrref_node.getString();
 	SYNONYM_TYPE synonym_type = processed_synonyms.find(synonym_name)->second.getSynonymType();
 	ATTRIBUTE attribute = attrref_node.getAttr();
-	ATTR_REF_VALUES_LIST attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+	ATTR_REF_VALUES_LIST attrref_values;
+
+	// if the intermediate resultlist contains this synonym, use the values it in. Else get from PKB.
+	if (intermediate_result_list.containsSynonym(synonym_name)) {
+		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(synonym_name);
+		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+		SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+
+		attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, unique_values_list, attribute);
+	}
+	else {
+		attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+	}
 
 	INTEGER int_num = int_node.getInteger();
 	std::string int_num_string = std::to_string(int_num);
@@ -181,7 +194,20 @@ void WithClause::getAttrrefStringResult(QueryNode attrref_node, QueryNode string
 	SYNONYM_NAME synonym_name = attrref_node.getString();
 	SYNONYM_TYPE synonym_type = processed_synonyms.find(synonym_name)->second.getSynonymType();
 	ATTRIBUTE attribute = attrref_node.getAttr();
-	ATTR_REF_VALUES_LIST attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+	ATTR_REF_VALUES_LIST attrref_values;
+
+	// if the intermediate resultlist contains this synonym, use the values it in. Else get from PKB.
+	if (intermediate_result_list.containsSynonym(synonym_name)) {
+		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(synonym_name);
+		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+		SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+
+		attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, unique_values_list, attribute);
+	}
+	else {
+		attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+	}
+
 	bool isDefaultValueType = AttrRefManager::isDefaultValueTypeForSynonymType(attrref_values[0], synonym_type);
 
 
@@ -220,17 +246,44 @@ void WithClause::getAttrrefSynonymResult(QueryNode attrref_node, QueryNode synon
 	SYNONYM_NAME synonym_name = attrref_node.getString();
 	SYNONYM_TYPE synonym_type = processed_synonyms.find(synonym_name)->second.getSynonymType();
 	ATTRIBUTE attribute = attrref_node.getAttr();
-	ATTR_REF_VALUES_LIST attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+	ATTR_REF_VALUES_LIST attrref_values;
 
-	STMT_NUM_LIST prog_line_values = pkb.getStatementNumList();
+	// if the intermediate resultlist contains this synonym, use the values it in. Else get from PKB.
+	if (intermediate_result_list.containsSynonym(synonym_name)) {
+		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(synonym_name);
+		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+		SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+
+		attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, unique_values_list, attribute);
+	}
+	else {
+		attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+	}
+
+
 	SYNONYM_NAME prog_line_synonym_name = synonym_node.getString();
+	ATTR_REF_VALUES_LIST prog_line_values;
+
+	if (intermediate_result_list.containsSynonym(prog_line_synonym_name)) {
+		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(synonym_name);
+		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+		SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+
+		prog_line_values = unique_values_list;
+	}
+	else {
+		STMT_NUM_LIST prog_line_stmtnums = pkb.getStatementNumList();
+		for (int prog_line_stmtnum : prog_line_stmtnums) {
+			prog_line_values.push_back(std::to_string(prog_line_stmtnum));
+		}
+	}
 
 	clause_result_list.addColumn(synonym_name);
 	clause_result_list.addColumn(prog_line_synonym_name);
 
 	for (ATTR_REF_VALUE attrref_value : attrref_values) {
-		for (int prog_line_value : prog_line_values) {
-			std::string prog_line_value_string = std::to_string(prog_line_value);
+		for (ATTR_REF_VALUE prog_line_value : prog_line_values) {
+			std::string prog_line_value_string = prog_line_value;
 			if (attrref_value.compare(prog_line_value_string) == 0) {
 				ROW row;
 				row.insert({synonym_name, attrref_value});
@@ -254,15 +307,49 @@ void WithClause::getAttrrefAttrrefResult(QueryNode attrref_node, QueryNode attrr
 	SYNONYM_NAME synonym_name = attrref_node.getString();
 	SYNONYM_TYPE synonym_type = processed_synonyms.find(synonym_name)->second.getSynonymType();
 	ATTRIBUTE attribute = attrref_node.getAttr();
-	ATTR_REF_VALUES_LIST attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
-	bool isDefaultValueType1 = AttrRefManager::isDefaultValueTypeForSynonymType(attrref_values[0], synonym_type);
-	
+	ATTR_REF_VALUES_LIST attrref_values;
 
 	// attrref_node 2
 	SYNONYM_NAME synonym_name2 = attrref_node2.getString();
 	SYNONYM_TYPE synonym_type2 = processed_synonyms.find(synonym_name2)->second.getSynonymType();
 	ATTRIBUTE attribute2 = attrref_node2.getAttr();
-	ATTR_REF_VALUES_LIST attrref_values2 = AttrRefManager::getAttrRefValues(pkb, synonym_type2, attribute2);
+
+	ATTR_REF_VALUES_LIST attrref_values2;
+
+	// if both attrref have the same synonym name and attribute (eg s1.stmt# = s1.stmt#) return true immediately and end
+	if (synonym_name == synonym_name2 && attribute == attribute2) {
+		clause_bool = true;
+		return;
+	}
+
+	// if the intermediate resultlist contains this synonym, use the values it in. Else get from PKB.
+	if (intermediate_result_list.containsSynonym(synonym_name)) {
+		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(synonym_name);
+		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+		SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+
+		attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, unique_values_list, attribute);
+	}
+	else {
+		attrref_values = AttrRefManager::getAttrRefValues(pkb, synonym_type, attribute);
+	}
+
+	bool isDefaultValueType1 = AttrRefManager::isDefaultValueTypeForSynonymType(attrref_values[0], synonym_type);
+	
+
+	// if the intermediate resultlist contains this synonym, use the values it in. Else get from PKB.
+	if (intermediate_result_list.containsSynonym(synonym_name2)) {
+
+		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(synonym_name2);
+		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+		SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+
+		attrref_values2 = AttrRefManager::getAttrRefValues(pkb, synonym_type2, unique_values_list, attribute2);
+	}
+	else {
+		attrref_values2 = AttrRefManager::getAttrRefValues(pkb, synonym_type2, attribute2);
+	}
+
 	bool isDefaultValueType2 = AttrRefManager::isDefaultValueTypeForSynonymType(attrref_values2[0], synonym_type2);
 
 
@@ -355,12 +442,27 @@ void WithClause::getIntegerSynonymResult(QueryNode int_node, QueryNode synonym_n
 	INTEGER int_num = int_node.getInteger();
 	std::string int_num_string = std::to_string(int_num);
 
-	STMT_NUM_LIST prog_line_values = pkb.getStatementNumList();
 	SYNONYM_NAME prog_line_synonym_name = synonym_node.getString();
+	ATTR_REF_VALUES_LIST prog_line_values;
+
+	if (intermediate_result_list.containsSynonym(prog_line_synonym_name)) {
+
+		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(prog_line_synonym_name);
+		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+		SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+
+		prog_line_values = unique_values_list;
+	}
+	else {
+		STMT_NUM_LIST prog_line_stmtnums = pkb.getStatementNumList();
+		for (int prog_line_stmtnum : prog_line_stmtnums) {
+			prog_line_values.push_back(std::to_string(prog_line_stmtnum));
+		}
+	}
 
 	SYNONYM_VALUES_LIST final_values;
-	for (int prog_line_value : prog_line_values) {
-		std::string prog_line_value_string = std::to_string(prog_line_value);
+	for (ATTR_REF_VALUE prog_line_value : prog_line_values) {
+		std::string prog_line_value_string = prog_line_value;
 		if (prog_line_value_string.compare(int_num_string) == 0) {
 			final_values.push_back(prog_line_value_string);
 		}
@@ -375,15 +477,61 @@ void WithClause::getIntegerSynonymResult(QueryNode int_node, QueryNode synonym_n
 void WithClause::getSynonymSynonymResult(QueryNode synonym_node1, QueryNode synonym_node2, bool& clause_bool, ResultList& clause_result_list) {
 	// 10. synonym + synonym		-> [int] with n1 = n2
 
-	STMT_NUM_LIST prog_line_values = pkb.getStatementNumList();
-	SYNONYM_NAME synonym1_name = synonym_node1.getString();
-	SYNONYM_NAME synonym2_name = synonym_node1.getString();
+	STMT_NUM_LIST prog_line_stmtnums = pkb.getStatementNumList();
+	ATTR_REF_VALUES_LIST filtered_list;
+
+	SYNONYM_NAME prog_line_synonym_name1 = synonym_node1.getString();
+	ATTR_REF_VALUES_LIST prog_line_values1;
+
+	SYNONYM_NAME prog_line_synonym_name2 = synonym_node1.getString();
+	ATTR_REF_VALUES_LIST prog_line_values2;
+
+	if (prog_line_synonym_name1 == prog_line_synonym_name2) {
+		clause_bool = true;
+		return;
+	}
+
+	if (intermediate_result_list.containsSynonym(prog_line_synonym_name1)) {
+		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(prog_line_synonym_name1);
+		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+		SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+
+		prog_line_values1 = unique_values_list;
+	}
+	else {
+		for (int prog_line_stmtnum : prog_line_stmtnums) {
+			prog_line_values1.push_back(std::to_string(prog_line_stmtnum));
+		}
+	}
+
+
+	if (intermediate_result_list.containsSynonym(prog_line_synonym_name2)) {
+		SYNONYM_VALUES_LIST all_values = intermediate_result_list.getValuesOfSynonym(prog_line_synonym_name2);
+		std::unordered_set<SYNONYM_VALUE> unique_values(all_values.begin(), all_values.end());
+		SYNONYM_VALUES_LIST unique_values_list(unique_values.begin(), unique_values.end());
+
+		prog_line_values2 = unique_values_list;
+	}
+	else {
+		for (int prog_line_stmtnum : prog_line_stmtnums) {
+			prog_line_values2.push_back(std::to_string(prog_line_stmtnum));
+		}
+	}
 	
-	clause_result_list.addColumn(synonym1_name, prog_line_values);
-	clause_result_list.addColumn(synonym2_name, prog_line_values);
 
+	// check if both prog_line values are the same
+	for (ATTR_REF_VALUE progline1_value : prog_line_values1) {
+		for (ATTR_REF_VALUE progline2_value : prog_line_values2) {
+			if (progline1_value == progline2_value) {
+				filtered_list.push_back(progline1_value);
+			}
+		}
+	}
 
-	if (prog_line_values.size() > 0) {
+	clause_result_list.addColumn(prog_line_synonym_name1, filtered_list);
+	clause_result_list.addColumn(prog_line_synonym_name2, filtered_list);
+
+	if (clause_result_list.getNumRows() > 0) {
 		clause_bool = true;
 	}
 }

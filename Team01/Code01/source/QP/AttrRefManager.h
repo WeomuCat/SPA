@@ -24,6 +24,11 @@ public:
 	/*
 	Description: Returns the values of the attrRef of this synonym type. Eg synonym_type.attribute -> s.stmt#
 	*/
+
+	static ATTR_REF_VALUES_LIST getAttrRefValues(PKB pkb, SYNONYM_TYPE synonym_type, SYNONYM_VALUES_LIST synonym_values, ATTRIBUTE attribute);
+	/*
+	Description: Returns the values of the attrRef of this synonym type for the given synonym_values.
+	*/
 	
 	static ATTR_REF_VALUES_LIST getCallsProcname(PKB pkb, SYNONYM_VALUES_LIST stmtnum_values);
 	/*

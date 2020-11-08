@@ -54,15 +54,15 @@ QUERY_RESULT QueryEvaluator::evaluateQuery(PROCESSED_SYNONYMS synonyms, PROCESSE
 		if (clause_type == QueryNodeType::such_that) {
 			QueryNode relationship = clause.getChildren()[0];
 			// Get the result of the relationship from pkb, fill in clause_result_list, get clause_bool
-			Relationship such_that_relationship = Relationship(relationship);
+			Relationship such_that_relationship = Relationship(relationship, result_list);
 			such_that_relationship.getRelationshipResult(pkb, clause_bool, clause_result_list);
 		}
 		else if (clause_type == QueryNodeType::pattern) {
-			Pattern pattern = Pattern(clause);
+			Pattern pattern = Pattern(clause, result_list);
 			pattern.getPatternResult(pkb, clause_bool, clause_result_list);
 		}
 		else if (clause_type == QueryNodeType::with) {
-			WithClause with = WithClause(processed_synonyms, clause);
+			WithClause with = WithClause(processed_synonyms, clause, result_list);
 			with.getWithResult(pkb, clause_bool, clause_result_list);
 		}
 		else {
@@ -265,6 +265,14 @@ QUERY_RESULT QueryEvaluator::obtainFinalQueryResult() {
 		// merge missing synonyms with current result list
 		int count = 0;
 		if (!missing_synonyms.empty()) {
+			int return_num_synonyms = all_children.size();
+
+			// if number of missing synonyms equals to number of return synonyms, it means that no synonyms in the result list needs to be returned.
+			if (missing_synonyms.size() == return_num_synonyms) {
+				ResultList empty_list;
+				result_list = empty_list;
+			}
+
 			for (SYNONYM_NAME missing_synonym : missing_synonyms) {
 				ResultList current_synonym;
 				int missing_synonym_index = missing_synonym_indexes[count];

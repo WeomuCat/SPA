@@ -5,11 +5,13 @@
 #include <queue>
 
 #include "../../AbstractDataTypes.h"
+#include "NonPrecomputedTransitiveRelationshipTable.h"
+#include "NonPrecomputedTransitiveRelationshipTable.cpp"
 #include "ModifiesTable.h"
 #include "UsesTable.h"
 #include "StatementTypeTable.h"
 
-class AffectsTable {
+class AffectsTable : public NonPrecomputedTransitiveRelationshipTable<STMT_NUM> {
 
 public:
     /*
@@ -43,9 +45,9 @@ public:
     BOOLEAN_TYPE isAffectsTransitive(STMT_NUM s1, STMT_NUM s2);
 
     /*
-    Description: Gets a STMT_NUM_LIST of the STMT_NUM that are beign affected by s1.
+    Description: Gets a STMT_NUM_LIST of the STMT_NUM that are affected by s.
     */
-    STMT_NUM_LIST getAffectedList(STMT_NUM s);
+    STMT_NUM_LIST getChildren(STMT_NUM s) override;
 
 private:
     MODIFIES_TABLE modifies_table_;
