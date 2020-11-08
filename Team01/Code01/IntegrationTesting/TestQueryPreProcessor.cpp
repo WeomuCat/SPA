@@ -1664,12 +1664,14 @@ namespace IntegrationTesting
 			CLAUSES c3 = "Select BOOLEAN pattern w(, _)";
 			CLAUSES c4 = "Select BOOLEAN pattern w(s, _)";
 			CLAUSES c5 = "Select BOOLEAN pattern ifs(s, _, _)";
+			CLAUSES c6 = "Select BOOLEAN pattern ifs(_, _)";
 
 			PROCESSED_CLAUSES proc_c1 = qpp.preProcessClauses(proc_s, c1);
 			PROCESSED_CLAUSES proc_c2 = qpp.preProcessClauses(proc_s, c2);
 			PROCESSED_CLAUSES proc_c3 = qpp.preProcessClauses(proc_s, c3);
 			PROCESSED_CLAUSES proc_c4 = qpp.preProcessClauses(proc_s, c4);
 			PROCESSED_CLAUSES proc_c5 = qpp.preProcessClauses(proc_s, c5);
+			PROCESSED_CLAUSES proc_c6 = qpp.preProcessClauses(proc_s, c6);
 
 			Assert::IsTrue(proc_c1.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c1.getChildren().size() == 0);
@@ -1685,6 +1687,9 @@ namespace IntegrationTesting
 
 			Assert::IsTrue(proc_c5.getNodeType() == QueryNodeType::unassigned);
 			Assert::IsTrue(proc_c5.getChildren()[0].getNodeType() == QueryNodeType::boolean);
+
+			Assert::IsTrue(proc_c6.getNodeType() == QueryNodeType::unassigned);
+			Assert::IsTrue(proc_c6.getChildren().size() == 0);
 		}
 
 		TEST_METHOD(preProcessClauses_Multiple_SuchThat_Valid_Success) {
