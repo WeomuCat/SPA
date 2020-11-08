@@ -1,0 +1,170 @@
+1 - Basic Assign Pattern
+assign a1, a2; variable v;
+Select BOOLEAN pattern a1 (v, "22 + 24 + 26 + 28 + 30") and a2 (v, _"spruce"_) with v.varName = "oak" and a1.stmt# = 151 and a2.stmt# = 35
+TRUE
+5000
+2 - Assign Pattern with constant value
+assign a1, a2; constant cs1, cs2;
+Select BOOLEAN pattern a1 (_, "50 + 54 + 58 - oak - birch - spruce - acacia") and a2 (_, _"52 * 56 / coal / diamond / emerald"_) with a1.stmt# = cs1.value and a2.stmt# = cs2.value
+TRUE
+5000
+3 - If Pattern with call stmt same as constant value
+if i1, i2; call cl; constant cs; variable v;
+Select BOOLEAN pattern i1 (_, _, _) and i2 (v, _, _) with cl.procName = "craft" and cl.stmt# = cs.value
+TRUE
+5000
+4 - While Pattern with print stmt and read stmt
+while w1, w2; variable v; print pn; read r;
+Select BOOLEAN pattern w1 (v, _) and w2 (_, _) with pn.varName = r.varName and pn.varName = v.varName
+TRUE
+5000
+5 - Assign, While and If same as constant number, with same variable
+assign a; while w; if i; constant cs1, cs2, cs3; variable v;
+Select v pattern a (v, _) and w (v, _) and i (v, _, _) with a.stmt# = cs1.value and w.stmt# = cs2.value and i.stmt# = cs3.value
+redstone
+5000
+6 - Assign, While and If pattern with same variable name
+variable v1, v2, v3; assign a; while w; if i;
+Select <v1, w> pattern a (v1, _) and w (v2, _) and i (v3, _, _) with v1.varName = v2.varName and v2.varName = v3.varName
+diamond 16, gold 16, redstone 16
+5000
+7 - Follows*, Next, Next*
+stmt s, s1; assign a;
+Select BOOLEAN such that Follows (22, s) and Next (a, s) and Next* (s1, 126) with s1.stmt# = 115
+TRUE
+5000
+8 - Modifies, Uses
+variable v; print pn; read r;
+Select BOOLEAN such that Modifies (r, v) and Uses (pn, v) with v.varName = "acacia" and pn.varName = "acacia" and r.varName = "acacia"
+TRUE
+5000
+9 - Calls, Calls*, Modifies
+procedure p1, p2, p3;
+Select BOOLEAN such that Modifies (p1, "diamond") and Calls (p1, p2) and Calls* (p2, p3) with p1.procName = "sixth" and p3.procName = "craft"
+TRUE
+5000
+10 - Parent, Parent, Parent, Parent
+assign a; read r; print pn; call cl; while w; constant cs;
+Select BOOLEAN such that Parent (w, a) and Parent (w, r) and Parent (w, pn) and Parent (w, cl) with r.stmt# = cs.value
+TRUE
+5000
+11 - Follows*, Parent*, Modifies, Next*
+stmt s; assign a; variable v; prog_line n;
+Select BOOLEAN such that Follows* (73, s) and Parent* (78, a) and Modifies (s, v) and Next* (a, n) with v.varName = "spruce" and n = 109
+TRUE
+5000
+12 - Parent*, Uses, Modifies, Next, Calls*
+procedure p; variable v1, v2; call cl; while w;
+Select BOOLEAN such that Parent (_, cl) and Uses (p, v1) and Modifies (p, v2) with cl.procName = p.procName and v1.varName = v2.varName
+TRUE
+5000
+13 - Follows, Next*
+assign a; stmt s1, s2; print pn;
+Select BOOLEAN such that Follows (s1, s2) and Follows (s2, pn) and Next* (pn, a) with s1.stmt# = a.stmt#
+TRUE
+5000
+14 - Uses, Uses, Uses, Uses
+constant cs; stmt s; variable v1, v2, v3, v4;
+Select BOOLEAN with s.stmt# = cs.value and v1.varName = "spruce" and v2.varName = "acacia" and v3.varName = "iron" and v4.varName = "lapis" such that Uses (s, v1) and Uses (s, v2) and Uses (s, v3) and Uses (s, v4)
+TRUE
+5000
+15 - Affects, Affects
+assign a1, a2, a3; constant cs;
+Select BOOLEAN such that Affects (a1, a2) and Affects (a2, a3) with a3.stmt# = cs.value
+TRUE
+5000
+16 - Affects*
+stmt s1, s2; constant cs1, cs2;
+Select BOOLEAN such that Affects* (s1, s2) with s1.stmt# = cs1.value and s2.stmt# = cs2.value
+FALSE
+5000
+17 - Follows, Follows and Follows
+stmt s1, s2, s3;
+Select s1 with s2.stmt# = 123 such that Follows (s1, s2) and Follows (s2, 124) and Follows (124, s3)
+122
+5000
+18 - Follows, Modifies, Uses
+stmt s; assign a; variable v1, v2;
+Select s such that Follows (s, a) and Modifies (s, v1) and Uses (a, v2) with v1.varName = "gold" and v2.varName = "oak" and a.stmt# = 14
+13
+5000
+19 - Modifies, Calls, Calls*
+procedure p; variable v;
+Select p.procName such that Modifies (p, v) and Calls (p, "seventh") and Calls* (p, "eighth") with v.varName = "diamond"
+fifth, sixth
+5000
+20 - Modifies, Modfies, Calls
+variable v; procedure p1, p2;
+Select v such that Modifies (p1, v) and Modifies (p2, v) and Calls (p1, p2) with p2.procName = "craft"
+acacia, birch, oak, spruce, coal, diamond, emerald, gold, iron, lapis, redstone
+5000
+21 - Calls*, Calls*, Calls*
+procedure p1, p2, p3, p4;
+Select p1.procName such that Calls* (p1, p2) and Calls* (p2, p3) and Calls (p3, p4) with p4.procName = "craft"
+first, fourth, fifth, sixth, seventh, eighth, tenth
+5000
+22 - Modifies, Modifies, Uses, Uses
+assign a1, a2, a3, a4; variable v1, v2;
+Select v1 with a1.stmt# = a2.stmt# and a3.stmt# = a4.stmt# such that Modifies (a1, v1) and Modifies (a2, v2) and Uses (a3, v1) and Uses (a4, v2)
+acacia, birch, coal, diamond, emerald, gold, iron, lapis, redstone, oak, spruce
+5000
+23 - Follows*, Next*
+stmt s1, s2, s3;
+Select s1 with s1.stmt# = s3.stmt# and s2.stmt# = 49 such that Follows* (s1, s2) and Next* (s2, s3)
+48
+5000
+24 - Affects, Affects
+assign a1, a2, a3; constant cs;
+Select a1 such that Affects (a1, a2) and Affects (a2, a3) with a3.stmt# = cs.value
+112
+5000
+25 - Affects*, but it also almost affects itself
+stmt s1, s2; variable v; while w;
+Select s2 such that Affects* (s1, s2) and Modifies (s1, v) and Uses (s1, v) and Parent (w, s1) with v.varName = "diamond" and w.stmt# = 26
+27, 28
+5000
+26 - Follows, Follows*
+stmt s1, s2, s3;
+Select <s1> with s2.stmt# = 123 such that Follows (s1, s2) and Follows (s2, 124) and Follows (124, s3)
+122
+5000
+27 - Follows, Modifies, Uses
+stmt s; assign a; variable v1, v2;
+Select <s, a, v1, v2> such that Follows (s, a) and Modifies (s, v1) and Uses (a, v2) with v1.varName = "gold" and v2.varName = "oak" and a.stmt# = 14
+13 14 gold oak
+5000
+28 - Modifies, Calls, Calls*
+procedure p; variable v;
+Select <p, v> such that Modifies (p, v) and Calls (p, "seventh") and Calls* (p, "eighth") with v.varName = "diamond"
+fifth diamond, sixth diamond
+5000
+29 - Modifies, Modfies, Calls
+variable v; procedure p1, p2;
+Select <p1, p2> such that Modifies (p1, v) and Modifies (p2, v) and Calls (p1, p2) with p2.procName = "craft"
+third craft, twelve craft
+5000
+30 - Calls*, Calls*, Calls*
+procedure p1, p2, p3, p4;
+Select <p1, p3> such that Calls* (p1, p2) and Calls* (p2, p3) and Calls (p3, p4) with p4.procName = "craft"
+first third, fourth twelve, fifth twelve, sixth twelve, seventh twelve, eighth twelve, tenth twelve
+5000
+31 - Modifies, Modifies, Uses, Uses
+assign a1, a2, a3, a4; variable v1, v2;
+Select <v1, v2> with a1.stmt# = a2.stmt# and a3.stmt# = a4.stmt# and a1.stmt# = 35 such that Modifies (a1, v1) and Modifies (a2, v2) and Uses (a3, v1) and Uses (a4, v2)
+oak oak
+5000
+32 - Follows*, Next*
+stmt s1, s2, s3;
+Select <s1, s2> with s1.stmt# = s3.stmt# and s2.stmt# = 49 such that Follows* (s1, s2) and Next* (s2, s3)
+48 49
+5000
+33 - Affects, Affects
+assign a1, a2, a3; constant cs;
+Select <a1, a2, a3> such that Affects (a1, a2) and Affects (a2, a3) with a3.stmt# = cs.value
+112 27 28
+5000
+34 - Affects*, but it also almost affects itself
+stmt s1, s2; variable v; while w;
+Select <s1, s2> such that Affects* (s1, s2) and Modifies (s1, v) and Uses (s1, v) and Parent (w, s1) with v.varName = "diamond" and w.stmt# = 26
+112 27, 112 28
+5000

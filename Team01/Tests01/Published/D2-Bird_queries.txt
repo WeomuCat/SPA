@@ -1,0 +1,335 @@
+1 - Assign Pattern, Selected Variable
+assign a;
+Select BOOLEAN pattern a ("bulbul", _) with a.stmt# = 22
+TRUE
+5000
+2 - Assign Pattern, Assign same as Constants
+assign a; constant c;
+Select BOOLEAN pattern a (_, _) with a.stmt# = c.value
+TRUE
+5000
+3 - Asssign Pattern, Variable with name
+assign a; variable v;
+Select BOOLEAN pattern a (v, "2 - crow") with v.varName = "albatross"
+TRUE
+5000
+4 - Assign Pattern, but wrong name
+assign a; variable v;
+Select BOOLEAN pattern a (v, _"duck"_) with v.varName = "eagle"
+FALSE
+500
+5 - Assign Pattern, Any assignment of statement number
+assign a;
+Select BOOLEAN pattern a (_, _) with a.stmt# = 15
+TRUE
+5000
+6 - If Pattern, Selected Variable
+if i;
+Select BOOLEAN pattern i ("crow", _, _) with i.stmt# = 16
+TRUE
+5000
+7 - If Patttern, Any Variable
+if i; variable v;
+Select BOOLEAN pattern i (v, _, _) with i.stmt# = 28
+TRUE
+5000
+8 - If Pattern, Any Pattern
+if i;
+Select BOOLEAN pattern i (_, _, _) with i.stmt# = 30
+TRUE
+5000
+9 - While Pattern, Selected Left Variable
+while w;
+Select BOOLEAN pattern w ("ibisbill", _) with w.stmt# = 51
+TRUE
+5000
+10 - While Pattern, Selected Right Variable
+while w;
+Select BOOLEAN pattern w ("falcon", _) with w.stmt# = 51
+TRUE
+5000
+11 - While Pattern Any Variable
+while w; variable v;
+Select BOOLEAN pattern w (v, _) with v.varName = "bulbul"
+TRUE
+5000
+12 - Assign Pattern, Selected Variable
+assign a;
+Select a pattern a ("bulbul", _) with a.stmt# = 22
+22
+5000
+13 - Assign Pattern, Assign same as Constants
+assign a; constant c;
+Select c pattern a (_, _) with a.stmt# = c.value
+6
+5000
+14 - Asssign Pattern, Variable with name
+assign a; variable v;
+Select a pattern a (v, _"crow"_) with v.varName = "albatross"
+18, 26, 67
+5000
+15 - Assign Pattern, but wrong name
+assign a; variable v;
+Select a pattern a (v, _"duck"_) with v.varName = "eagle"
+none
+500
+16 - Assign Pattern, Any assignment of statement number
+assign a;
+Select a pattern a (_, _) with a.stmt# = 15
+15
+5000
+17 - If Pattern, Selected Variable
+if i;
+Select i pattern i ("crow", _, _) with i.stmt# = 16
+16
+5000
+18 - If Patttern, Any Variable
+if i; variable v;
+Select v.varName pattern i (v, _, _) with i.stmt# = 28
+duck, falcon, ibisbill
+5000
+19 - If Pattern, Any Pattern
+if i;
+Select i pattern i (_, _, _) with i.stmt# = 30
+30
+5000
+20 - While Pattern, Selected Left Variable
+while w;
+Select w pattern w ("ibisbill", _) with w.stmt# = 51
+51
+5000
+21 - While Pattern, Selected Right Variable
+while w;
+Select w pattern w ("falcon", _) with w.stmt# = 51
+51
+5000
+22 - While Pattern Any Variable
+while w; variable v;
+Select w pattern w (v, _) with v.varName = "bulbul"
+9, 19, 51, 58
+5000
+23 - Assign Pattern, Assign same as Constants
+assign a; constant c;
+Select <c.value, a> pattern a (_, _) with a.stmt# = c.value
+6 6
+5000
+24 - Asssign Pattern, Variable with name
+assign a; variable v;
+Select <a, v> pattern a (v, _"crow"_) with v.varName = "albatross"
+18 albatross, 26 albatross, 67 albatross
+5000
+25 - Assign Pattern, but wrong name
+assign a; variable v;
+Select a pattern a (v, _"duck"_) with v.varName = "eagle"
+none
+500
+26 - If Patttern, Any Variable
+if i; variable v;
+Select <i, v.varName> pattern i (v, _, _) with i.stmt# = 28
+28 duck, 28 falcon, 28 ibisbill
+5000
+27 - While Pattern Any Variable
+while w; variable v;
+Select <w, v> pattern w (v, _) with v.varName = "bulbul"
+9 bulbul, 19 bulbul, 51 bulbul, 58 bulbul
+5000
+28 - Follows
+stmt s;
+Select BOOLEAN such that Follows (9, s) with s.stmt# = 14
+TRUE
+5000
+29 - FollowsT
+stmt s1, s2;
+Select BOOLEAN such that Follows* (s1, s2) with s1.stmt# = s2.stmt#
+FALSE
+5000
+30 - Parent
+stmt s; if i;
+Select BOOLEAN such that Parent (i, s) with i.stmt# = 1
+TRUE
+5000
+31 - ParentT
+while w;
+Select BOOLEAN such that Parent* (w, 12) with w.stmt# = 9
+TRUE
+5000
+32 - Modifies
+variable v;
+Select BOOLEAN such that Modifies (11, v) with v.varName = "duck"
+TRUE
+5000
+33 - Uses
+variable v;
+Select BOOLEAN such that Uses (24, v) with v.varName = "bulbul"
+TRUE
+5000
+34 - Calls
+procedure p1, p2;
+Select BOOLEAN such that Calls (p1, p2) with p1.procName = "thirdbird"
+FALSE
+5000
+35 - CallsT
+procedure p;
+Select BOOLEAN such that Calls* ("firstbird", p) with p.procName = "ninthbird"
+FALSE
+5000
+36 - Next
+prog_line n;
+Select BOOLEAN such that Next (n, 10) with n = 9
+TRUE
+5000
+37 - NextT
+prog_line n;
+Select BOOLEAN such that Next* (19, n) with n = 17
+FALSE
+5000
+38 - Affects
+assign a;
+Select BOOLEAN such that Affects (a, 18) with a.stmt# = 15
+TRUE
+5000
+39 - Affects*
+assign a;
+Select BOOLEAN such that Affects* (a, a) with a.stmt# = 20
+TRUE
+5000
+40 - Follows
+stmt s;
+Select s such that Follows (9, s) with s.stmt# = 14
+14
+5000
+41 - FollowsT
+stmt s1, s2;
+Select s2 such that Follows* (s1, s2) with s1.stmt# = s2.stmt#
+none
+5000
+42 - Parent
+stmt s; if i;
+Select s such that Parent (i, s) with i.stmt# = 1
+2, 3, 4, 5
+5000
+43 - ParentT
+while w; print pn;
+Select pn such that Parent* (w, pn) with w.stmt# = 9
+12, 13
+5000
+44 - Modifies
+variable v; call cl;
+Select cl.procName such that Modifies (cl, v) with v.varName = "duck"
+secondbird, thirdbird
+5000
+45 - Uses
+variable v; if i;
+Select i such that Uses (i, v) with v.varName = "bulbul"
+1, 16, 28, 29, 30, 69
+5000
+46 - Calls
+procedure p1, p2;
+Select p2 such that Calls (p1, p2) with p2.procName = "eigthbird"
+none
+5000
+47 - CallsT
+procedure p1, p2;
+Select p1 such that Calls* (p1, p2) with p2.procName = "seventhbird"
+firstbird, fifthbird, sixthbird
+5000
+48 - Next
+prog_line n1, n2;
+Select n2 such that Next (n1, n2) with n1 = 69
+70, 71
+5000
+49 - NextT
+prog_line n; while w;
+Select w such that Next* (n, w) with n = 53
+51, 58
+5000
+50 - Affects
+assign a;
+Select a such that Affects (a, 18) with a.stmt# = 15
+15
+5000
+51 - Affects*
+assign a1, a2;
+Select a2 such that Affects* (a1, a2) with a1.stmt# = 20
+20
+5000
+52 - Follows
+stmt s1, s2;
+Select <s1, s2> such that Follows (s1, s2) with s2.stmt# = 14
+9 14
+5000
+53 - FollowsT
+stmt s1, s2;
+Select <s1, s2> such that Follows* (s1, s2) with s1.stmt# = s2.stmt#
+none
+5000
+54 - Parent
+stmt s; if i;
+Select <s> such that Parent (i, s) with i.stmt# = 1
+2, 3, 4, 5
+5000
+55 - ParentT
+while w; print pn;
+Select <w, pn> such that Parent* (w, pn) with w.stmt# = 9
+9 12, 9 13
+5000
+56 - Modifies
+variable v; call cl;
+Select <v, cl.procName> such that Modifies (cl, v) with v.varName = "duck"
+duck secondbird, duck thirdbird
+5000
+57 - Uses
+variable v; if i;
+Select <i, v> such that Uses (i, v) with v.varName = "bulbul"
+1 bulbul, 16 bulbul, 28 bulbul, 29 bulbul, 30 bulbul, 69 bulbul
+5000
+58 - Calls
+procedure p1, p2;
+Select <p1, p2> such that Calls (p1, p2) with p2.procName = "eigthbird"
+none
+5000
+59 - CallsT
+procedure p1, p2;
+Select <p1> such that Calls* (p1, p2) with p2.procName = "seventhbird"
+firstbird, fifthbird, sixthbird
+5000
+60 - Next
+prog_line n1, n2;
+Select <n1, n2> such that Next (n1, n2) with n1 = 69
+69 70, 69 71
+5000
+61 - NextT
+prog_line n; while w;
+Select <n, w> such that Next* (n, w) with n = 53
+53 51, 53 58
+5000
+62 - Affects
+assign a; stmt s;
+Select <a, s> such that Affects (a, s) with a.stmt# = 31
+none
+5000
+63 - Affects*
+assign a1, a2;
+Select <a1, a2> such that Affects* (a1, a2) with a1.stmt# = 20
+20 20
+5000
+64 - Boolean Selection
+assign a;
+Select BOOLEAN such that Calls ("firstbird", "thirdbird") pattern a ("crow", "bulbul -1 - eagle / 2")
+FALSE
+3000
+65 - Tuple Selection
+procedure p; while w;
+Select <p, w> such that Calls (p, "fourthbird") pattern w ("ibisbill", _)
+firstbird 51, firstbird 58, secondbird 51, secondbird 58
+3000
+66 - Boolean Selection
+assign a;
+Select BOOLEAN such that Calls* ("firstbird", "thirdbird") pattern a ("crow", "bulbul -1 - eagle / 2")
+TRUE
+3000
+67 - Tuple Selection
+procedure p; while w;
+Select <p, w> such that Calls* (p, "seventhbird") pattern w ("ibisbill", _)
+firstbird 51, firstbird 58, fifthbird 51, fifthbird 58, sixthbird 51, sixthbird 58
+3000
